@@ -1,0 +1,18 @@
+{
+  "name": "aqukin",
+  "version": "1.12.0",
+  "description": "Ninja Maido at your service",
+  "main": "aqukin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "DeaLoux",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/opus": "^0.1.0",
+    "discord-anti-spam": "^2.4.1",
+    "discord.js": "^12.2.0",
+    "ffmpeg-static": "^4.1.1",
+    "ytdl-core": "^2.1.1"
+  }
+}
