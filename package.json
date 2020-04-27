@@ -9,10 +9,14 @@
   "author": "DeaLoux",
   "license": "ISC",
   "dependencies": {
-    "@discordjs/opus": "^0.1.0",
-    "discord-anti-spam": "^2.4.1",
+    "@discordjs/opus": "^0.2.1",
     "discord.js": "^12.2.0",
+    "ffmpeg": "0.0.4",
     "ffmpeg-static": "^4.1.1",
-    "ytdl-core": "^2.1.1"
+    "fluent-ffmpeg": "^2.1.2",
+    "node-pre-gyp": "^0.14.0",
+    "opusscript": "0.0.7",
+    "ytdl-core": "^2.1.1",
+    "ytdl-core-discord": "^1.2.0"
   }
 }
