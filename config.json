@@ -1,4 +1,7 @@
 {
     "token": "NzAyNjIwNDU4MTMwMDc5NzUw.XqM4rQ.gmC9kb0oxm2rcuUTpPVRfb0EO60",
-    "prefix": ">"
+    "prefix": ">",
+    "host": "localost",
+    "port": "7119",
+    "password": "JudgementofZer0"
 }

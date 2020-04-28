@@ -4,19 +4,16 @@
   "description": "Ninja Maido at your service",
   "main": "aqukin.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./src/aqukin.js",
+    "lavalink": "java -jar Lavalink.jar",
+    "aqukin": "node ./src/aqukin.js"
   },
   "author": "DeaLoux",
   "license": "ISC",
   "dependencies": {
-    "@discordjs/opus": "^0.2.1",
     "discord.js": "^12.2.0",
-    "ffmpeg": "0.0.4",
-    "ffmpeg-static": "^4.1.1",
-    "fluent-ffmpeg": "^2.1.2",
-    "node-pre-gyp": "^0.14.0",
-    "opusscript": "0.0.7",
-    "ytdl-core": "^2.1.1",
-    "ytdl-core-discord": "^1.2.0"
+    "dotenv": "^8.2.0",
+    "erela.js": "^1.1.7"
   }
 }
