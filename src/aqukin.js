@@ -8,14 +8,16 @@ bot.commands = new Collection();
 
 (async ()=>{
 	await bot.login(process.env.BOT_TOKEN); // connect the bot to the Discord server
-
-	/* erela */
+	
+	// erela
 	bot.music = new ErelaClient(bot, [{
 		host: process.env.HOST,
 		port: process.env.PORT,
 		password: process.env.PASSWORD
 	}]);
-	
+	bot.music.skipCount = 0; // default to 0
+	bot.music.skippers = new Collection();
+
 	/* handlers */
 	await registerMusicEvents(bot.music, "../music_events");
 	await registerCommands(bot, "../commands");

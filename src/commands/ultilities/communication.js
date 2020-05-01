@@ -85,10 +85,15 @@ module.exports = class Communication extends BaseCommand{
                 case "lol":
                 case "kusa":
                 case "www":
+                case "草":
+                case "くさ":
                     channel.send("www");
                     break;
     
                 case "wibu":
+                case "weaboo":
+                case "weeb":
+                case "weebs":
                     channel.send("Wibu detected!");
                     break;
     
@@ -119,8 +124,8 @@ module.exports = class Communication extends BaseCommand{
                 case "oyasuminasai~":
                     channel.send(`Oyasuminasai~ ${author}-sama.`);
                     break;
-            }
-        }
-    }
-};
+            } // end of switch
+        } // end of for loop
+    } // end of run
+}; // end of module.exports
         

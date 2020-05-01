@@ -6,8 +6,5 @@ module.exports = class NodeConnectEvent extends BaseEvent {
         super("nodeConnect");
 	}
 	
-	async run (bot, node){
-		// activities
-		console.log("new node connected");
-	}
-}
+	async run (music, node){console.log("new node connected");}
+} // end of module.exports

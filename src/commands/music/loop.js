@@ -2,14 +2,13 @@
 const BaseCommand = require("../../utils/structures/BaseCommand");
 
 module.exports = class LoopCommand extends BaseCommand{
-    constructor() {super("loop",[], "CONNECT", "music", false, true, "<song> or <track> or <queue>")}
+    constructor() {super("loop",[], "CONNECT", "music", true, "<song> or <track> or <queue>")}
 
     run(para){
         // shortcut variables
         const msg = para.message;
         const author = para.message.author.username;
-        const { id } = msg.guild;
-        const player = para.bot.music.players.get(id);
+        const player = para.player;
         
         switch(para.args[0].toLowerCase()){
             // cases for song and track
@@ -34,12 +33,11 @@ module.exports = class LoopCommand extends BaseCommand{
             
             // a default case for wrong input
             default:
-                msg.channel.send(`**${author}**-sama, please use this format !loop **<song>** or **<track>** or **<queue>**`);
+                msg.channel.send(`**${author}**-sama, please use this format \`>loop <song> or <track> or <queue>\``);
                 break;
-        }
-        
-    }
-};
+        } // end of switch
+    } // end of run
+}; // end of module.exports
 
 
 

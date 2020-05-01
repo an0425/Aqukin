@@ -2,13 +2,12 @@
 const BaseCommand = require('../../utils/structures/BaseCommand');
 
 module.exports = class ClearQueueCommand extends BaseCommand {
-  constructor () {super('clear', [], "CONNECT", "music", false, false, "");}
+  constructor () {super('clear', [], "CONNECT", "music", false, "");}
 
   async run (para) {
     // shortcut variables
     const msg = para.message
-    const { id } = msg.guild;
-    const player = para.bot.music.players.get(id);
+    const player = para.player;
     
     // checks if the current queue is empty, if so return a message to inform the author
     if(player.queue.empty) return msg.channel.send(`**${author}**-sama, the audio queue is currently empty :(`);
