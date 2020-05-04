@@ -1,2 +1,2 @@
-web: java -jar Lavalink.jar $PORT
+web: npm lavalink
 worker: node ./src/aqukin.js
