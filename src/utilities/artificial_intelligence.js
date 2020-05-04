@@ -2,7 +2,7 @@
 const ms = require("ms");
 
 // This function checks for spam, very basic and will be updated
-async function spamCheck(bot, message){
+async function spamCheck(bot, message, prefix){
     if(message.member.hasPermission("ADMINISTRATOR")) return; // exclude spam check for admins
     // checks if the user has just sent a message recently, if not keep track of their message
     if(!bot.antispam.msgRecently.has(message.author.id)){ 
@@ -118,7 +118,7 @@ async function communicate(message, args){
                 break;
 
             case "help":
-                channel.send(`**${author}**-sama, if you need help with commands, try ">help" instead~`);
+                channel.send(`**${author}**-sama, if you need help with commands, try "${prefix}help" instead~`);
                 break;
     
             case "fighto":

@@ -24,7 +24,7 @@ module.exports = class MessageEvent extends BaseEvent {
             const args = message.content.trim().split(/ +/g);
             try{
                 react(message);
-                communicate(message, args);
+                communicate(message, args, prefix);
             } catch (err){console.log(err);} // try to react, communicate and catch any errors
         }
         else{ // else the message is a command
@@ -70,6 +70,7 @@ module.exports = class MessageEvent extends BaseEvent {
                         bot: bot,
                         message: message,
                         args: args,
+                        prefix: prefix,
                         ridingAqua: ridingAqua,
                         // music only parameters
                         player: player,
@@ -83,6 +84,7 @@ module.exports = class MessageEvent extends BaseEvent {
                         bot: bot,
                         message: message,
                         args: args,
+                        prefix: prefix,
                         ridingAqua: ridingAqua,
                     }
                     break; // end of default case

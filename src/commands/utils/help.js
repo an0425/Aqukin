@@ -38,11 +38,11 @@ module.exports = class HelpCommand extends BaseCommand{
             // construct the embed
             const helpEmbed = new MessageEmbed()
                 .setColor(0x1DE2FE)
-                .setTitle(`**${author}**-sama, here's the list of Aqukin's commands, the prefix is ">"`)
+                .setTitle(`**${author}**-sama, here's the list of Aqukin's commands, the prefix is "${para.prefix}"`)
                 .addFields({name: "Music commands", value: musicCmds, inline: true}, 
                            {name: "Ultility commands", value: utilsCmds, inline: true})
                 .setImage("https://media1.tenor.com/images/99bb4621f5bcd7fd358a7f4068b6f69c/tenor.gif?itemid=16936961")
-                .setFooter(`\nYou can send \`>help [command name]\` to get info on a specific command~`)
+                .setFooter(`\nYou can send \`${para.prefix}help [command name]\` to get info on a specific command~`)
             channel.send(helpEmbed); // send out the embed
         } // end of else
     } // end of run
