@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon ./src/aqukin.js",
-    "web": "java -jar Lavalink.jar",
+    "lavalink": "java -jar Lavalink.jar",
     "start": "node ./src/aqukin.js"
   },
   "author": "DeaLoux",
