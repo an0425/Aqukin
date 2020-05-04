@@ -1,2 +1,2 @@
 web: npm lavalink
-worker: node ./src/aqukin.js
+aqukin: node ./src/aqukin.js
