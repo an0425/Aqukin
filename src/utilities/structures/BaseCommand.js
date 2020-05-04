@@ -1,7 +1,8 @@
 module.exports = class BaseCommand {
-    constructor(name, aliases, permission, tag, args, usage){
+    constructor(name, aliases, description, permission, tag, args, usage){
         this.name = name;
         this.aliases = aliases;
+        this.description = description;
         this.permission = permission;
         this.tag = tag;
         this.args = args;

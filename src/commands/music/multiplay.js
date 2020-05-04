@@ -1,13 +1,13 @@
 /* This module searchs for track(s) with the given keywords, allowing the user to choose multiple tracks from the result to queue*/
 /* PROTOTYPE NOT WORKING 
 const { MessageEmbed } = require('discord.js');
-const BaseCommand = require("../../utils/structures/BaseCommand");
+const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 const selections = new Set();
 const constants = ["queueall", "stopselect"];
 
 module.exports = class MultiPlayCommand extends BaseCommand{
-    constructor() {super("multiplay",["mp"], "CONNECT", "music", true, "<keywords>")}
+    constructor() {super("multiplay", ["mp"], "Enqueue multiple tracks from a single search", "CONNECT", "music", true, "<keywords>")}
 
     async run (para) {
       const query = para.args.join(" ");

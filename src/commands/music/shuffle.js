@@ -1,8 +1,8 @@
 /* This module allows the author to shuffle the music queue */
-const BaseCommand = require('../../utils/structures/BaseCommand');
+const BaseCommand = require('../../utilities/structures/BaseCommand');
 
 module.exports = class ShuffleQueueCommand extends BaseCommand {
-  constructor () {super('shuffle', [], "CONNECT", "music", false, "");}
+  constructor () {super("shuffle", ["random"], "Shuffle the music queue", "CONNECT", "music", false, "");}
 
   async run (para) {
     // shortcut variables

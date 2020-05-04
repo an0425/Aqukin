@@ -1,6 +1,9 @@
 /* this module represents the "message" event */
 require("dotenv").config();
-const BaseEvent = require("../../utils/structures/BaseEvent");
+const { MessageAttachment } = require("discord.js")
+const ridingAqua = new MessageAttachment("./src/pictures/riding.gif");
+const BaseEvent = require("../../utilities/structures/BaseEvent");
+const {spamCheck, react, communicate} = require("../../utilities/artificial_intelligence");
 const prefix = process.env.PREFIX;
 
 module.exports = class MessageEvent extends BaseEvent {
@@ -11,11 +14,18 @@ module.exports = class MessageEvent extends BaseEvent {
     async run (bot, message){
         // exclude messages sent by bots and direct messages
         if (message.author.bot || message.channel.type === "dm") return;
+
+         // anti spam
+        spamCheck(bot, message);
+        if(bot.antispam.isSpam) return;
     
         // checks if the message is not a command
         if(!message.content.startsWith(prefix)){
             const args = message.content.trim().split(/ +/g);
-            try{bot.commands.get("communication").run(message, args);} catch (error){console.error(error);} // try executing the command then catch any errors
+            try{
+                react(message);
+                communicate(message, args);
+            } catch (err){console.log(err);} // try to react, communicate and catch any errors
         }
         else{ // else the message is a command
             const args = message.content.slice(prefix.length).trim().split(/ +/g);
@@ -43,11 +53,11 @@ module.exports = class MessageEvent extends BaseEvent {
                     const player = bot.music.players.get(id);
                     const { channel }  = message.member.voice;
                     // checks if the author is in a voice channel, if not return a message to inform them
-                    if(!channel) return message.channel.send(`**${message.author.username}**-sama, you need to be in a voice channel to use this command`);
+                    if(!channel) return message.channel.send(`**${message.author.username}**-sama, you need to be in a voice channel to use this command`, ridingAqua);
                     // checks if Aqukin in a voice channel and the author is also in that voice channel, if not return a message to inform them
-                    if (player && player.voiceChannel.id !== channel.id) { return message.channel.send(`**${message.author.username}**-sama, you need to be in the same voice channel with Aqukin to use this command`);}
+                    if (player && player.voiceChannel.id !== channel.id) { return message.channel.send(`**${message.author.username}**-sama, you need to be in the same voice channel with Aqukin to use this command`, ridingAqua);}
                     // checks if Aqukin is streaming any audio, excluding the play/multiplay commands, if not return a message to inform the author
-                    if(!player && command.name !== "play" && command.name !== "multiplay") return message.channel.send(`**${message.author.username}**-sama, Aqukin is not currently streaming any audio`); 
+                    if(!player && command.name !== "play" && command.name !== "multiplay") return message.channel.send(`**${message.author.username}**-sama, Aqukin is not currently streaming any audio`, ridingAqua); 
                     // checks if the user is trying to use the skip command
                     if (command.name === "skip"){
                         // check if the author has already voted to skip
@@ -60,6 +70,7 @@ module.exports = class MessageEvent extends BaseEvent {
                         bot: bot,
                         message: message,
                         args: args,
+                        ridingAqua: ridingAqua,
                         // music only parameters
                         player: player,
                         channel: channel,
@@ -72,6 +83,7 @@ module.exports = class MessageEvent extends BaseEvent {
                         bot: bot,
                         message: message,
                         args: args,
+                        ridingAqua: ridingAqua,
                     }
                     break; // end of default case
             } // end of switch

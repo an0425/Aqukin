@@ -1,11 +1,11 @@
 /* This module allows the author to view the current music queue */
 const { Utils } = require("erela.js");
 const { MessageEmbed } = require('discord.js');
-const BaseCommand = require('../../utils/structures/BaseCommand');
+const BaseCommand = require('../../utilities/structures/BaseCommand');
 
 module.exports = class ViewQueueCommand extends BaseCommand {
   constructor () {
-    super("viewqueue", ["view", "queue", "show"], "CONNECT", "music", false, "");
+    super("viewqueue", ["view", "queue", "show"], "View the current music queue", "CONNECT", "music", false, "");
   }
 
   async run (para) {
@@ -14,7 +14,7 @@ module.exports = class ViewQueueCommand extends BaseCommand {
     const player = para.player;
 
     // checks if the queue is empty, if so return a message to inform the author
-    if (player.queue.empty) return msg.channel.send(`**${msg.author.username}**-sama, Aqukin the queue is currently empty.`);
+    if (player.queue.empty) return msg.channel.send(`**${msg.author.username}**-sama, Aqukin the queue is currently empty~`, para.ridingAqua);
     
     let currentPage = 0; // default current page to the first page
     const embeds = generateQueueEmbed(player.queue);
@@ -65,7 +65,7 @@ function generateQueueEmbed(queue) {
     const info = next.map(track => `${++j}) [${track.title}](${track.uri}) | length \`${Utils.formatTime(track.duration, true)}\` | requested by **${track.requester.username}**-sama`).join('\n\n');
     const embed = new MessageEmbed()
       //.attachFiles(["./src/pictures/riding.gif"])
-      .setImage("https://media1.tenor.com/images/0ec5f474c43fe0f02e06c6b003c5c882/tenor.gif?itemid=16460095")
+      .setImage("https://media1.tenor.com/images/db59d6409b27b749fe7226246e73f1b2/tenor.gif?itemid=16625248")
       .setDescription(`Currently playing\n [${queue[0].title}](${queue[0].uri}) | length \`${Utils.formatTime(queue[0].duration, true)}\`| requested by **${queue[0].requester.username}**-sama\n\nNext in queue\n${info}`);
     embeds.push(embed);
   }

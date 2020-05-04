@@ -1,8 +1,8 @@
-/* This module allows the author to loop the current track Aqukin current audio streaming */
-const BaseCommand = require("../../utils/structures/BaseCommand");
+/* This module allows the author to unloop the current track/queue in Aqukin audio stream */
+const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class UnLoopCommand extends BaseCommand{
-    constructor() {super("unloop",[], "CONNECT", "music", true, "<song> or <track> or <queue>")}
+    constructor() {super("unloop", ["unrepeat"], "Unloop the current track/queue in Aqukin audio stream", "CONNECT", "music", true, "<song> or <track> or <queue>")}
 
     run(para){
         // shortcut variables
@@ -23,7 +23,7 @@ module.exports = class UnLoopCommand extends BaseCommand{
             // a case for queue
             case "queue":
                 // checks if the queue is empty, if so return a message to inform the author
-                if (player.queue.empty) return msg.channel.send(`**${author}**-sama, Aqukin the queue is currently empty.`);
+                if (player.queue.empty) return msg.channel.send(`**${author}**-sama, Aqukin the queue is currently empty~`, para.ridingAqua);
                 // checks if the track is already set to loop, if so return a message to inform the author
                 if (!player.queueRepeat) return msg.channel.send(`**${author}**-sama, this queue is not currently set to loop.`);
                 player.setTrackRepeat(false); // unloop the current audio track

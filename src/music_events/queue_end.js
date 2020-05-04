@@ -1,6 +1,6 @@
 /* this module represents the "queueEnd" event for erela.js */
 const {MessageAttachment} = require("discord.js");
-const BaseEvent = require('../utils/structures/BaseEvent');
+const BaseEvent = require('../utilities/structures/BaseEvent');
 
 module.exports = class QueueEnd extends BaseEvent {
   constructor () {

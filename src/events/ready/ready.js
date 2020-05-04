@@ -1,5 +1,5 @@
 /* this module represents the "ready" event */
-const BaseEvent = require("../../utils/structures/BaseEvent");
+const BaseEvent = require("../../utilities/structures/BaseEvent");
 
 module.exports = class ReadyEvent extends BaseEvent {
 	constructor() {

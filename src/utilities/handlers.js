@@ -4,7 +4,7 @@ const fs = require("fs").promises;
 const BaseEvent = require ("./structures/BaseEvent");
 const BaseCommand = require ("./structures/BaseCommand");
 
-/* Commands handler */
+// Commands handler
 async function registerCommands(bot, dir = ""){
     const filePath = path.join(__dirname, dir);
     //console.log(filePath)
@@ -23,7 +23,7 @@ async function registerCommands(bot, dir = ""){
     } // end of for loop
 } // end of registerCommands(...) function
 
-/* Events handler */
+// Events handler
 async function registerEvents(bot, dir = ""){
     const filePath = path.join(__dirname, dir);
     //console.log(filePath)
@@ -42,7 +42,7 @@ async function registerEvents(bot, dir = ""){
     } // end of for loop
 } // end of registerEvents(...) function
 
-/* Music Events handler */
+// Music Events handler
 async function registerMusicEvents(bot, dir = ""){
     const filePath = path.join(__dirname, dir);
     //console.log(filePath)
@@ -61,7 +61,7 @@ async function registerMusicEvents(bot, dir = ""){
     } // end of for loop
 } // end of registerMusicEvents(...) function
 
-/* This function allows you to chat as Aqukin through the terminal */ 
+// This function allows you to chat as Aqukin through the terminal  
 async function consoleChatter(bot){
     let listener = process.openStdin();
     listener.addListener("data", res =>{

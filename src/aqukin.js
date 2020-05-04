@@ -2,9 +2,14 @@
 require("dotenv").config();
 const { ErelaClient } = require("erela.js");
 const {Client, Collection} = require("discord.js");
-const {registerCommands, registerEvents, registerMusicEvents, consoleChatter} = require("./utils/register");
+const {registerCommands, registerEvents, registerMusicEvents, consoleChatter} = require("./utilities/handlers");
 const bot = new Client();
-bot.commands = new Collection();
+bot.commands = new Collection(); // bot commands
+bot.antispam = {
+	isSpam: false, // a variable to store if the message is a spam
+	msgRecently: new Set(), // a variable to store the user who have send a message within the cooldown time
+	warned: new Set() // a variable to store the user who have been warned
+};
 
 (async ()=>{
 	await bot.login(process.env.BOT_TOKEN); // connect the bot to the Discord server
@@ -16,7 +21,7 @@ bot.commands = new Collection();
 		password: process.env.PASSWORD
 	}]);
 	bot.music.skipCount = 0; // default to 0
-	bot.music.skippers = new Collection();
+	bot.music.skippers = new Collection(); // a variable to store the user who have voted to skip
 
 	/* handlers */
 	await registerMusicEvents(bot.music, "../music_events");

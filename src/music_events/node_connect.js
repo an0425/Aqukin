@@ -1,5 +1,5 @@
 /* this module represents the "nodeConnect" event for erela.js */
-const BaseEvent = require("../utils/structures/BaseEvent");
+const BaseEvent = require("../utilities/structures/BaseEvent");
 
 module.exports = class NodeConnectEvent extends BaseEvent {
 	constructor() {

@@ -1,11 +1,11 @@
-/* This module allows the author to skip an audio in Aqukin current audio streaming */
+/* This module allows the author to skip a track in Aqukin current audio streaming */
 const { MessageEmbed } = require('discord.js');
-const BaseCommand = require("../../utils/structures/BaseCommand");
+const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 let USED = false; // default the command recently used check to false
 
 module.exports = class SkipCommand extends BaseCommand{
-    constructor() {super("skip",["next", "nxt", "s", "n"], "CONNECT", "music", false, "")}
+    constructor() {super("skip", ["next", "nxt", "s", "n"], "skip a track in Aqukin current audio streaming", "CONNECT", "music", false, "")}
     
     async run (para) {
         // shortcut variables
@@ -14,7 +14,7 @@ module.exports = class SkipCommand extends BaseCommand{
         const player = para.player;
         const members = player.voiceChannel.members.filter(m => !m.user.bot);
  
-        if (members.size === 1 || message.author.hasPermmission("ADMINISTRATOR")) { // checks if there's only one member in the voice channel, except bots of course or if the author has administrative permission
+        if (members.size === 1 || message.member.hasPermission("ADMINISTRATOR")) { // checks if there's only one member in the voice channel, except bots of course or if the author has administrative permission
           player.stop();
           message.channel.send(`**${author}**-sama, Aqukin will now skip -> **${player.queue[0].title}**`);
         } 
@@ -41,9 +41,16 @@ module.exports = class SkipCommand extends BaseCommand{
               const { channel } = message.guild.members.cache.get(user.id).voice;
               if (!channel) return false;
               if (channel.id === player.voiceChannel.id) {  // checks if the voters are in the same voice channel with Aqukin
-                message.channel.send(`**${user.username}**-sama, Aqukin has acknowledge your vote to skip`);
-                para.bot.music.skippers.set(user.id, user); // the user has now voted to skip via emote reation
-                return ["👍"].includes(reaction.emoji.name); 
+                if(user.hasPermission("ADMINISTRATOR")){
+                  player.stop();
+                  message.channel.send(`**${user.username}**-sama, Aqukin will now skip -> **${player.queue[0].title}**`);
+                  return ["👍"].includes(reaction.emoji.name); 
+                }
+                else{
+                  message.channel.send(`**${user.username}**-sama, Aqukin has acknowledge your vote to skip`);
+                  para.bot.music.skippers.set(user.id, user); // the user has now voted to skip via emote reation
+                  return ["👍"].includes(reaction.emoji.name); 
+                }
               }
               return false;
             }

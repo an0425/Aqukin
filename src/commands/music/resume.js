@@ -1,8 +1,8 @@
 /* This module allows the author to resume Aqukin current audio streaming */
-const BaseCommand = require("../../utils/structures/BaseCommand");
+const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class ResumeCommand extends BaseCommand{
-    constructor() {super("resume",["continue"], "CONNECT", "music", false, "")}
+    constructor() {super("resume", ["continue"], "Resume Aqukin current audio streaming", "CONNECT", "music", false, "")}
 
     run(para){
         // shortcut variables

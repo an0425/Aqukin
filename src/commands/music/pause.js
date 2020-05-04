@@ -1,8 +1,8 @@
 /* This module allows the author to pause Aqukin current audio streaming */
-const BaseCommand = require("../../utils/structures/BaseCommand");
+const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class PauseCommand extends BaseCommand{
-    constructor() {super("pause",[], "CONNECT", "music", false, "")}
+    constructor() {super("pause", ["wait"], "Pause Aqukin current audio streaming", "CONNECT", "music", false, "")}
 
     run(para){
         // shortcut variables

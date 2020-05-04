@@ -1,10 +1,10 @@
-/* This module allows the author to queue youtube URL or keyword to Aqukin audio streaming */
+/* This module allows the author to enqueue Youtube URL/Playlist/Tracks from search results to Aqukin audio streaming */
 const { Utils } = require("erela.js");
 const { MessageEmbed } = require("discord.js");
-const BaseCommand = require("../../utils/structures/BaseCommand");
+const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class PlayCommand extends BaseCommand{
-    constructor() {super("play",["p"], "CONNECT", "music", true, "<Youtube URL or Keywords>")}
+    constructor() {super("play", ["p"], "Enqueue Youtube URL/Playlist/Tracks from search results", "CONNECT", "music", true, "<Youtube URL> or <Keywords>")}
 
     async run (para){
         // shortcut variables
@@ -60,7 +60,7 @@ module.exports = class PlayCommand extends BaseCommand{
             
                         // Checks if the author has provided an respond within 12s, if so delete the respond and continue on with the function, if not return a message to inform them
                         if (response) {await msg.channel.bulkDelete(1);} // delete the user respond
-                        else {return msg.channel.send(`**${author}**-sama, timed out, please queue again`);}
+                        else {return msg.channel.send(`**${author}**-sama, timed out, please queue again`, para.ridingAqua);}
 
                         const entry = response.first().content;
                         player = bot.music.players.get(msg.guild.id);
@@ -79,7 +79,7 @@ module.exports = class PlayCommand extends BaseCommand{
             if (!player.playing && !player.paused) player.play(); // start playing if the player 
         } catch (err) {
             console.log(err); // log the error
-            msg.channel.send(`**${author}**-sama, Aqukin can't find any tracks with the given keywords, please also note that Aqukin will not queue Youtube Audio Mix or Stream`); // inform the user the about the error
+            msg.channel.send(`**${author}**-sama, Aqukin can't find any tracks with the given keywords, please also note that Aqukin will not queue Youtube Audio Mix or Stream`, para.ridingAqua); // inform the user the about the error
         } // end of catch
     } // end of run
 }; // end of module.exports

@@ -1,9 +1,9 @@
 /* This module allows the author to move into a specified timestamp in current track of Aqukin's audio stream  */
 const { Utils } = require("erela.js");
-const BaseCommand = require("../../utils/structures/BaseCommand");
+const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class MoveToCommand extends BaseCommand{
-    constructor() {super("move",["to", "time"], "CONNECT", "music", true, "<ex: 1m12s>")}
+    constructor() {super("move", ["to", "time", "m"], "Move into a specified timestamp in the current track", "CONNECT", "music", true, "<ex: 1m12s>")}
     
     run(para){
         // shortcut variables
