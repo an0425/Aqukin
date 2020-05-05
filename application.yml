@@ -6,13 +6,13 @@ lavalink:
     password: "youshallnotpass"
     sources:
       youtube: true
-      bandcamp: false
-      soundcloud: false
-      twitch: false
-      vimeo: false
-      mixer: false
+      bandcamp: true
+      soundcloud: true
+      twitch: true
+      vimeo: true
+      mixer: true
       http: true
-      local: true
+      local: false
     bufferDurationMs: 400
     youtubePlaylistLoadLimit: 4 # Number of pages at 100 each
     youtubeSearchEnabled: true
@@ -38,8 +38,8 @@ sentry:
 
 logging:
   file:
-    max-history: 30
-    max-size: 1GB
+    max-history: 5
+    max-size: 5MB
   path: ./logs/
 
   level:
