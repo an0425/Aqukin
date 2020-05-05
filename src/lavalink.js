@@ -1,15 +1,18 @@
-const fs = require('fs')
+/* This module configures Lavalink with the necessary variables and then executes */
+const fs = require("fs");
+require("dotenv").config();
 
-let application = fs.readFileSync('./application.yml','utf8')
+
+let application = fs.readFileSync("./application.yml","utf8")
 
 if(process.env.PORT){
-	application = application.replace('DYNAMICPORT',process.env.PORT)
+	application = application.replace("DYNAMICPORT", process.env.PORT)
 }
 
-if(process.env.PASS){
-	application = application.replace('youshallnotpass',process.env.PASSWORD)
+if(process.env.PASSWORD){
+	application = application.replace("youshallnotpass", process.env.PASSWORD)
 }
-fs.writeFileSync('./application.yml', application)
+fs.writeFileSync("./application.yml", application)
 
 const spawn = require('child_process').spawn;
 const child = spawn('java', ['-jar', 'Lavalink.jar'])
