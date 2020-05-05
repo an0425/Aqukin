@@ -1,9 +1,9 @@
 server: # REST and WS server
-  port: DYNAMICPORT
+  port: 2333
   address: 0.0.0.0
 lavalink:
   server:
-    password: "youshallnotpass"
+    password: "minato"
     sources:
       youtube: true
       bandcamp: true
