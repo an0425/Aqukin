@@ -1,5 +1,5 @@
-web: java -jar Lavalink.jar
-aqukin: node ./src/aqukin.js
+web: node ./src/lavalink.js
+worker: node ./src/aqukin.js
 
 
 
