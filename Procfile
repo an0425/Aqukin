@@ -1,5 +1,5 @@
-web: node ./src/lavalink.js
-worker: node ./src/aqukin.js
+lavalink: node ./src/lavalink.js
+aqukin: node ./src/aqukin.js
 
 
 
