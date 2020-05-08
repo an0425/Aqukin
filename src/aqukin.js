@@ -7,6 +7,7 @@ const bot = new Client();
 bot.commands = new Collection(); // bot commands
 bot.antispam = {
 	isSpam: false, // a variable to store if the message is a spam
+	muted: false, // a variable to store if the author is muted
 	msgRecently: new Set(), // a variable to store the user who have send a message within the cooldown time
 	warned: new Set() // a variable to store the user who have been warned
 };
@@ -25,7 +26,7 @@ bot.antispam = {
 
 	/* handlers */
 	await registerMusicEvents(bot.music, "../music_events");
-	await registerCommands(bot, "../commands");
 	await registerEvents(bot, "../events");
+	await registerCommands(bot, "../commands");
 	await consoleChatter(bot);
 })();

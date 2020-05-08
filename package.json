@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon ./src/aqukin.js",
-    "lavalink": "node ./src/aqukin.js",
-    "start": "node ./src/aqukin.js"
+    "lavalink": "java -jar Lavalink.jar",
+    "aqukin": "node ./src/aqukin.js"
   },
   "author": "DeaLoux",
   "license": "ISC",
@@ -15,6 +15,7 @@
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
     "erela.js": "^1.1.7",
+    "googleapis": "^50.0.0",
     "ms": "^2.1.2"
   }
 }

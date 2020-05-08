@@ -1,9 +1,9 @@
 server: # REST and WS server
-  port: DYNAMICPORT
+  port: 2333
   address: 0.0.0.0
 lavalink:
   server:
-    password: "youshallnotpass"
+    password: "minato"
     sources:
       youtube: true
       bandcamp: true
@@ -38,8 +38,8 @@ sentry:
 
 logging:
   file:
-    max-history: 5
-    max-size: 5MB
+    max-history: 1
+    max-size: 3MB
   path: ./logs/
 
   level:

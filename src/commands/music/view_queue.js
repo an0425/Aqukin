@@ -64,10 +64,11 @@ function generateQueueEmbed(queue) {
     k += 7;
     const info = next.map(track => `${++j}) [${track.title}](${track.uri}) | length \`${Utils.formatTime(track.duration, true)}\` | requested by **${track.requester.username}**-sama`).join('\n\n');
     const embed = new MessageEmbed()
-      //.attachFiles(["./src/pictures/riding.gif"])
+      .setColor(0x1DE2FE)
       .setImage("https://media1.tenor.com/images/db59d6409b27b749fe7226246e73f1b2/tenor.gif?itemid=16625248")
-      .setDescription(`**Currently playing**\n [${queue[0].title}](${queue[0].uri}) | length \`${Utils.formatTime(queue[0].duration, true)}\`
-                      | requested by **${queue[0].requester.username}**-sama\n\n**Next in queue**\n${info}`);
+      .setDescription(`⬇️ **Currently playing** ⬇️\n [${queue[0].title}](${queue[0].uri}) | length \`${Utils.formatTime(queue[0].duration, true)}\`
+                      | requested by **${queue[0].requester.username}**-sama\n\n⬇️ **Next in queue** ⬇️\n${info}`)
+      .setFooter("Vive La Résistance le Hololive~");
     embeds.push(embed);
   }
   return embeds;

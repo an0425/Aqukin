@@ -27,7 +27,7 @@ module.exports = class SkipCommand extends BaseCommand{
             
             // contruct and send an embed asking the members to vote for skipping
             const embed = new MessageEmbed()
-              .setDescription(`**${author}**-sama, Aqukin require \`${votesRequired}\` more vote(s) to skip`);
+              .setDescription(`**${author}**-sama, Aqukin require \`${votesRequired}\` more vote(s) to skip~`);
             const msg = await message.channel.send(embed);
             await msg.react("👍");
             await msg.react("👎");
@@ -35,7 +35,7 @@ module.exports = class SkipCommand extends BaseCommand{
             const filter = (reaction, user) => { // members reactions filter
               if (user.bot) return false; // exclude bot
               if (para.bot.music.skippers.has(user.id)){ // checks if the user has already voted to skip
-                message.channel.send(`**${user.username}**-sama, you has voted to skip, please wait for others to vote`);
+                message.channel.send(`**${user.username}**-sama, you has voted to skip, please wait for other(s) to vote~`);
                 return false;
               }
               const { channel } = message.guild.members.cache.get(user.id).voice;
@@ -47,7 +47,7 @@ module.exports = class SkipCommand extends BaseCommand{
                   return ["👍"].includes(reaction.emoji.name); 
                 }
                 else{
-                  message.channel.send(`**${user.username}**-sama, Aqukin has acknowledge your vote to skip`);
+                  message.channel.send(`**${user.username}**-sama, Aqukin has acknowledge your vote to skip~`);
                   para.bot.music.skippers.set(user.id, user); // the user has now voted to skip via emote reation
                   return ["👍"].includes(reaction.emoji.name); 
                 }

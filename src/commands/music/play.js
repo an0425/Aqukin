@@ -23,7 +23,6 @@ module.exports = class PlayCommand extends BaseCommand{
             guild: msg.guild,
             voiceChannel: channel,
             textChannel: msg.channel,
-            skipCount: 0,
             paused: false
             });
         } // end of if
@@ -45,24 +44,25 @@ module.exports = class PlayCommand extends BaseCommand{
                         const tracksInfo = tracks.map(r => `${++i}) ${r.title}\n${r.uri} | length \`${Utils.formatTime(r.duration, true)}\``).join("\n\n"); // get the tracks info
                         // embed the result(s)
                         const embed = new MessageEmbed()
+                            .setColor(0x1DE2FE)
                             .setAuthor(bot.user.tag, bot.user.displayAvatarURL())
                             .setDescription(tracksInfo)
                             .setImage("https://media1.tenor.com/images/85e6b8577e925a9037d03a796588e7ed/tenor.gif?itemid=15925240")
-                            .setFooter(`${author}-sama, here's your music results`);
+                            .setFooter("Vive La Résistance le Hololive~");
   
                         const sentMessage = await msg.channel.send(`**${author}**-sama, please enter the track number that you would like Aqukin to queue.`, embed); // display the embed
-                        if(sentMessage) sentMessage.delete({ timeout: 12000 }); // delete the embed after 10s
+                        if(sentMessage) sentMessage.delete({ timeout: 12000 }); // delete the embed after 12s
 
-                        // Allow the author to select a track fron the search results within the allowed time of 10s
+                        // Allow the author to select a track fron the search results within the allowed time of 12s
                         const filter = m => (msg.author.id === m.author.id) && (m.content >= 1 && m.content <= tracks.length);
-                        const response = await msg.channel // await the user respond within 12s
-                            .awaitMessages(filter, { max: 1, time: 12000, errors: ['time']});
+                        let response = await msg.channel // await the user respond within 12s
+                            .awaitMessages(filter, { max: 1, time: 12000, errors: ["time"]});
             
-                        // Checks if the author has provided an respond within 12s, if so delete the respond and continue on with the function, if not return a message to inform them
-                        if (response) {await msg.channel.bulkDelete(1);} // delete the user respond
-                        else {return msg.channel.send(`**${author}**-sama, timed out, please queue again`, para.ridingAqua);}
-
+                        // Checks if the author has provided an respond within 12s, if not return a message to inform them, if so delete the respond and continue on with the function
+                        if (!response) return msg.channel.send(`**${author}**-sama, timed out, please queue again`, para.ridingAqua);
+                        
                         const entry = response.first().content;
+                        msg.channel.bulkDelete(1); // delete the user respond
                         player = bot.music.players.get(msg.guild.id);
                         player.queue.add(tracks[entry-1]); // enqueue
                         msg.channel.send(`**${author}**-sama, Aqukin has enqueued track **${tracks[entry-1].title}**`); // inform the author

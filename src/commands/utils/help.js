@@ -19,15 +19,15 @@ module.exports = class HelpCommand extends BaseCommand{
             // construct the embed      
             const cmdInfoEmbed = new MessageEmbed()
                 .setColor(0x1DE2FE)
-                .setTitle(`**${author}**-sama, here's the info of the \`${command.name}\` command`)
+                .setTitle(`[] is optional, <> is mandatory`)
                 .setDescription(`
                     **Name:** ${command.name}
                     **Aliases:** ${command.aliases.join(', ')}
                     **Usage:** >${command.name} \`${command.usage}\`
                 **Info:** ${command.description}`)
                 .setImage("https://media1.tenor.com/images/d73ea483fd6426c4b1981e486e520070/tenor.gif?itemid=16874709")
-                .setFooter(`\n[] is optional, <> is mandatory`)
-            channel.send(cmdInfoEmbed); // send out the embed
+                .setFooter("Vive La Résistance le Hololive~");
+            channel.send(`**${author}**-sama, here's the info of the \`${command.name}\` command`, cmdInfoEmbed); // send out the embed
         } // end of if
         
         else { // else the author just need general help
@@ -38,12 +38,12 @@ module.exports = class HelpCommand extends BaseCommand{
             // construct the embed
             const helpEmbed = new MessageEmbed()
                 .setColor(0x1DE2FE)
-                .setTitle(`**${author}**-sama, here's the list of Aqukin's commands, the prefix is "${para.prefix}"`)
+                .setTitle(`\nYou can send \`${para.prefix}help [command name]\` to get info on a specific command~`)
                 .addFields({name: "Music commands", value: musicCmds, inline: true}, 
                            {name: "Ultility commands", value: utilsCmds, inline: true})
                 .setImage("https://media1.tenor.com/images/99bb4621f5bcd7fd358a7f4068b6f69c/tenor.gif?itemid=16936961")
-                .setFooter(`\nYou can send \`${para.prefix}help [command name]\` to get info on a specific command~`)
-            channel.send(helpEmbed); // send out the embed
+                .setFooter("Vive La Résistance le Hololive~");
+            channel.send(`**${author}**-sama, here's the list of Aqukin's commands, the prefix is "${para.prefix}"`, helpEmbed); // send out the embed
         } // end of else
     } // end of run
 }; // end of module.exports
