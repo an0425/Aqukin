@@ -1,18 +1,13 @@
-/* this module represents the "trackStart" event for erela.js */
+/* this module represents the "trackStart" event for erela.js, emitted when a track starts */
 const { Utils } = require("erela.js");
 const {MessageEmbed} = require("discord.js");
 const BaseEvent = require('../utilities/structures/BaseEvent');
 
 module.exports = class TrackStartEvent extends BaseEvent {
-  constructor () {
-    super("trackStart");
-  }
+  constructor () {super("trackStart");}
 
   async run (music, player, track) {
-    // reset the variables and set the EQ
-    if (player.sentMessage) await player.sentMessage.delete().catch((err) => console.log("The message has already been manually deleted\n",err)); // try catch in case the message got deleted manually
-    music.skipCount = 0;
-    music.skippers.clear();
+    // set the EQ
     player.setEQ([
       { band: 0, gain: 0.15 },
       { band: 1, gain: 0.15 },

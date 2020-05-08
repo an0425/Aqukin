@@ -9,8 +9,7 @@ module.exports = class StopCommand extends BaseCommand{
       const members = para.player.voiceChannel.members.filter(m => !m.user.bot);
       // checks if the author is alone with the bot or has administrative permission, if not return a message to inform them
       if(members.size > 1 && !msg.member.hasPermission("ADMINISTRATOR")) {return msg.channel.send(`**${msg.author.username}**-sama, you neeed to either be **alone** with Aqukin or has **Administrative** permission to use this command!`, para.ridingAqua)}
-      const { id } = para.message.guild;
-      para.bot.music.players.destroy(id);
+      para.bot.music.players.destroy(para.message.guild.id);
     } // end of run
 }; // end of module.exports
 

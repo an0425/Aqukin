@@ -7,7 +7,7 @@ async function typeCheck(message, prefix){
     // checks if the message is not a command
     if(!message.content.startsWith(prefix)){return false;} // return false
     else return true;
-} // end of
+} // end of typeCheck(...) function
 
 // this function handles the all the checks for the commands
 async function commandCheck(bot, message, command, args, prefix){
@@ -18,11 +18,15 @@ async function commandCheck(bot, message, command, args, prefix){
         let reply = `**${message.author.username}**-sama, please provide an argument for this command.`; // default reply without usage
         // checks if there's a correct usage for the command
         if(command.usage) { reply += `\nThe proper usage would be \`${prefix}${command.name} ${command.usage}\``;} // add the usage to the reply
-        return message.channel.send(reply); // return the reply to inform the author
+        message.channel.send(reply); // return the reply to inform the author
+        return;
     }
 
     // checks if the author has the permission to use the command, if not return a message to inform them
-    if (!message.member.hasPermission(command.permission)) return message.channel.send(`I'm sorry **${message.author.username}**-sama, but it seems like you don't have the permission to use this command :(`);
+    if (!message.member.hasPermission(command.permission)) {
+        message.channel.send(`I'm sorry **${message.author.username}**-sama, but it seems like you don't have the permission to use this command`, ridingAqua);
+        return;
+    }
 
     let para;
     switch(command.tag){
@@ -32,15 +36,27 @@ async function commandCheck(bot, message, command, args, prefix){
             const player = bot.music.players.get(id);
             const { channel }  = message.member.voice;
             // checks if the author is in a voice channel, if not return a message to inform them
-            if(!channel) return message.channel.send(`**${message.author.username}**-sama, you need to be in a voice channel to use this command`, ridingAqua);
+            if(!channel) { 
+                message.channel.send(`**${message.author.username}**-sama, you need to be in a voice channel to use this command`, ridingAqua);
+                return; 
+            }
             // checks if Aqukin in a voice channel and the author is also in that voice channel, if not return a message to inform them
-            if (player && player.voiceChannel.id !== channel.id) { return message.channel.send(`**${message.author.username}**-sama, you need to be in the same voice channel with Aqukin to use this command`, ridingAqua);}
+            if (player && player.voiceChannel.id !== channel.id) { 
+                message.channel.send(`**${message.author.username}**-sama, you need to be in the same voice channel with Aqukin to use this command`, ridingAqua);
+                return;
+            }
             // checks if Aqukin is streaming any audio, excluding the play/multiplay commands, if not return a message to inform the author
-            if(!player && command.name !== "play" && command.name !== "multiplay") return message.channel.send(`**${message.author.username}**-sama, Aqukin is not currently streaming any audio`, ridingAqua); 
+            if(!player && command.name !== "play" && command.name !== "multiplay") { 
+                message.channel.send(`**${message.author.username}**-sama, Aqukin is not currently streaming any audio`, ridingAqua)
+                return;
+            }; 
             // checks if the user is trying to use the skip command
             if (command.name === "skip"){
                 // check if the author has already voted to skip
-                if(bot.music.skippers.has(message.author.id)) {return message.channel.send(`**${message.author.username}**-sama, you has voted to skip, please wait for others to vote`);}
+                if(bot.music.skippers.has(message.author.id)) {
+                    message.channel.send(`**${message.author.username}**-sama, you has voted to skip, please wait for others to vote`);
+                    return;
+                }
                 // check if the track has already been voted to skip
                 if(bot.music.skipCount >= 1) {message.channel.send(`**${message.author.username}**-sama, Aqukin has acknowledged your vote to skip`);}
             } // end of if user called the skip command                  

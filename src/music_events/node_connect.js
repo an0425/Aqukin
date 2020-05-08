@@ -1,10 +1,8 @@
-/* this module represents the "nodeConnect" event for erela.js */
+/* this module represents the "nodeConnect" event for erela.js, emitted when a node connected to the Lavalink server */
 const BaseEvent = require("../utilities/structures/BaseEvent");
 
 module.exports = class NodeConnectEvent extends BaseEvent {
-	constructor() {
-        super("nodeConnect");
-	}
+	constructor() {super("nodeConnect");}
 	
 	async run (music, node){console.log("new node connected");}
 } // end of module.exports

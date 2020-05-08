@@ -1,8 +1,9 @@
 /* this module represents the "message" event */
 require("dotenv").config();
+const {Message} = require("discord.js");
 const BaseEvent = require("../../utilities/structures/BaseEvent");
-const {antiSpam} = require("../../utilities/artificial_intelligence/antiSpam");
 const {typeCheck, commandCheck} = require("../../events/messages/checks.js");
+const {antiSpam} = require("../../utilities/artificial_intelligence/antiSpam");
 const {react, reply} = require("../../utilities/artificial_intelligence/communication");
 const prefix = process.env.PREFIX;
 
@@ -27,7 +28,7 @@ module.exports = class MessageEvent extends BaseEvent {
             const commandName = args.shift().toLowerCase();
             const command = bot.commands.get(commandName) || bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
             var para = await commandCheck(bot, message, command, args, prefix);
-            
+
             if(!para) return; // checks if the parameters is returned, if not do nothing
 
             // try executing the command and catch any errors
