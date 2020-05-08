@@ -15,7 +15,7 @@ module.exports = class MoveToCommand extends BaseCommand{
         // checks if the author has provided the correct format for the timestamp
         if(!timestamp) return msg.channel.send(`**${author}**-sama, please specify the timestamp in the correct format, ex \`>move <1m12s>\``);
         player.seek(timestamp); // move to the timestamp
-        msg.channel.send(`**${author}**-sama, Aqukin has moved the current track to **${para.args[0]}**`);
+        msg.channel.send(`**${author}**-sama, Aqukin has moved the current track to position **${Utils.formatTime(player.position, true)}**`);
     } // end of run
 }; // end of module.exports
 
