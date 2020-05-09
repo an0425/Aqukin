@@ -25,8 +25,8 @@ bot.antispam = {
 	bot.music.skippers = new Collection(); // a variable to store the user who have voted to skip
 
 	/* handlers */
-	registerMusicEvents(bot.music, "../music_events");
-	registerEvents(bot, "../events");
+	await registerMusicEvents(bot.music, "../music_events");
+	await registerEvents(bot, "../events");
 	await registerCommands(bot, "../commands");
 	consoleChatter(bot);
 })();

@@ -11,7 +11,11 @@ async function typeCheck(message, prefix){
 
 // this function handles the all the checks for the commands
 async function commandCheck(bot, message, command, args, prefix){
-    if (!command) return; // checks if the command is valid, if not return
+    // checks if the command is valid
+    if (!command) {
+        message.channel.send(`**${message.author.username}**-sama, Aqukin can't find any command with that name, try \`>help\` if you need help with commands~`, ridingAqua);
+        return; 
+    }
 
     // checks if the command require and argument and whether the user has provided it
     if(command.args && !args.length){
