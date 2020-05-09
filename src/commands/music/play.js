@@ -49,23 +49,24 @@ module.exports = class PlayCommand extends BaseCommand{
                 // embed the result(s)
                 const embed = new MessageEmbed()
                     .setColor(0x1DE2FE)
-                    .setAuthor(bot.user.tag, bot.user.displayAvatarURL())
+                    .setTitle("Automatically times out in 12 seconds")
                     .setDescription(tracksInfo)
                     .setImage("https://media1.tenor.com/images/85e6b8577e925a9037d03a796588e7ed/tenor.gif?itemid=15925240")
                     .setFooter("Vive La Résistance le Hololive~");
   
                 const sentMessage = await msg.channel.send(`**${author}**-sama, please enter the track number that you would like Aqukin to queue.`, embed); // display the embed
-                if(sentMessage) sentMessage.delete({ timeout: 12000 }); // delete the embed after 12s
+                try{ sentMessage.delete({ timeout: 12000 }); } catch(err) {console.log(err);} // delete the embed after 12s
 
                 // Allow the author to select a track fron the search results within the allowed time of 12s
                 const filter = m => (msg.author.id === m.author.id) && (m.content >= 1 && m.content <= tracks.length);
-                let response = await msg.channel.awaitMessages(filter, { max: 1, time: 12000, errors: ["time"]}) // await the user respond within 12s                        
-                // continue with the code if the author has responded, if not the method will throw an error and terminated here
-                const entry = response.first().content;
-                player = bot.music.players.get(msg.guild.id);
-                await player.queue.add(tracks[entry-1]); // enqueue
-                response.first().delete(); // delete the user respond
-                msg.channel.send(`**${author}**-sama, Aqukin has enqueued track **${tracks[entry-1].title}**`); // inform the author
+                try{
+                    let response = await msg.channel.awaitMessages(filter, { max: 1, time: 12000, errors: ["time"]}) // await the user respond within 12s
+                    const entry = response.first().content;
+                    player = bot.music.players.get(msg.guild.id);
+                    await player.queue.add(tracks[entry-1]); // enqueue
+                    response.first().delete(); // delete the user respond
+                    msg.channel.send(`**${author}**-sama, Aqukin has enqueued track **${tracks[entry-1].title}**`); // inform the author
+                } catch(err) { return console.log(err)}
                 break;
                     
             // a case for playlist
