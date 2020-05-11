@@ -63,16 +63,16 @@ async function commandCheck(bot, message, command, args, prefix){
                     return;
                 }
                 // check if the track has already been voted to skip
-                if(bot.music.skipCount >= 1) {message.channel.send(`**${message.author.username}**-sama, Aqukin has acknowledged your vote to \`${command.name}\``);}
+                if(bot.music.voteCount >= 1) {message.channel.send(`**${message.author.username}**-sama, Aqukin has acknowledged your vote to \`${command.name}\``);}
 
                 const members = player.voiceChannel.members.filter(m => !m.user.bot);
                  // checks if there's only one member in the voice channel, except bots of course or if the author has administrative permission
                 if (members.size === 1 || message.member.hasPermission("ADMINISTRATOR")) {voteReached = true;} 
                 // else there's at least two or more members in the voice channel
                 else { 
-                    ++bot.music.skipCount; // increase the skip count
-                    bot.music.skippers.set(message.author.id, message.author) // the author has now voted to skip via command
-                    const votesRequired = Math.ceil(members.size * .6) - bot.music.skipCount;
+                    ++bot.music.voteCount; // increase the skip count
+                    bot.music.voters.set(message.author.id, message.author) // the author has now voted to skip via command
+                    const votesRequired = Math.ceil(members.size * .6) - bot.music.voteCount;
                     let reactionVotes = 0;
                     if(votesRequired > 0){  
                         // contruct and send an embed asking the members to vote for skipping
@@ -85,7 +85,7 @@ async function commandCheck(bot, message, command, args, prefix){
 
                         const filter = (reaction, user) => { // members reactions filter
                             if (user.bot) return false; // exclude bot
-                            if (bot.music.skippers.has(user.id)){ // checks if the user has already voted to skip
+                            if (bot.music.voters.has(user.id)){ // checks if the user has already voted to skip
                                 message.channel.send(`**${user.username}**-sama, you has voted to skip, please wait for other(s) to vote~`);
                                 return false;
                             }
@@ -99,7 +99,7 @@ async function commandCheck(bot, message, command, args, prefix){
                                 }
                                 else{
                                     message.channel.send(`**${user.username}**-sama, Aqukin has acknowledge your vote to skip~`);
-                                    bot.music.skippers.set(user.id, user); // the user has now voted to skip via emote reation
+                                    bot.music.voters.set(user.id, user); // the user has now voted to skip via emote reation
                                     return ["👍"].includes(reaction.emoji.name); 
                                 }
                             }
@@ -109,7 +109,7 @@ async function commandCheck(bot, message, command, args, prefix){
                         const reactions = await msg.awaitReactions(filter, { max: votesRequired, time: 12000, errors: ["time"] })
                             .catch((err) => {console.log(err)});
                         reactionVotes = reactions.get("👍").users.cache.filter(u => !u.bot);
-                        bot.music.skipCount += reactionVotes; // register the reactions count into the skip count
+                        bot.music.voteCount += reactionVotes; // register the reactions count into the skip count
                         //msg.delete(); 
                     } // end of if voteRequire is > 0
                     else {voteReached = true;}
