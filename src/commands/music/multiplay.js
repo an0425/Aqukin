@@ -7,7 +7,7 @@ const selections = new Set();
 const constants = ["queueall", "stopselect"];
 
 module.exports = class MultiPlayCommand extends BaseCommand{
-    constructor() {super("multiplay", ["mp"], "Enqueue multiple tracks from a single search", "CONNECT", "music", true, "<keywords>")}
+    constructor() {super("multiplay", ["mp"], "Enqueue multiple tracks from a single search", "CONNECT", "music", true, false, "<keywords>")}
 
     async run (para) {
       const query = para.args.join(" ");

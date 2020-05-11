@@ -5,9 +5,9 @@ const { MessageEmbed } = require("discord.js");
 
 async function ytNotify(para){
     // shortcut variables
-    const message = para.message;
-    const author = para.message.author.username;
-    var title;    
+    const {message} = para;
+    const author = message.author.username;
+    let title;    
 
     const chSearchR = await channelSearch(para); // search for the channel
     console.log(chSearchR);

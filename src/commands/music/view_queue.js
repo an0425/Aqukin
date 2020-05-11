@@ -5,25 +5,24 @@ const BaseCommand = require('../../utilities/structures/BaseCommand');
 
 module.exports = class ViewQueueCommand extends BaseCommand {
   constructor () {
-    super("viewqueue", ["view", "queue", "show"], "View the current music queue", "CONNECT", "music", false, "");
+    super("viewqueue", ["view", "queue", "show"], "View the current music queue", "CONNECT", "music", false, false, "");
   }
 
   async run (para) {
     // shortcut variables
-    const msg = para.message;
-    const player = para.player;
+    const {message, player} = para;
 
     // checks if the queue is empty, if so return a message to inform the author
-    if (player.queue.empty) return msg.channel.send(`**${msg.author.username}**-sama, Aqukin the queue is currently empty~`, para.ridingAqua);
+    if (player.queue.empty) return message.channel.send(`**${message.author.username}**-sama, Aqukin the queue is currently empty~`, para.ridingAqua);
     
     let currentPage = 0; // default current page to the first page
     const embeds = generateQueueEmbed(player.queue);
-    const queueEmbed = await msg.channel.send(`Current Page -> ${currentPage+1}/${embeds.length}`, embeds[currentPage]);
+    const queueEmbed = await message.channel.send(`Current Page -> ${currentPage+1}/${embeds.length}`, embeds[currentPage]);
     await queueEmbed.react('⬅️');
     await queueEmbed.react('➡️');
     await queueEmbed.react('❌');
 
-    const filter = (reaction, user) => ['⬅️', '➡️', '❌'].includes(reaction.emoji.name) && (msg.author.id === user.id); // author's reactions filter
+    const filter = (reaction, user) => ['⬅️', '➡️', '❌'].includes(reaction.emoji.name) && (message.author.id === user.id); // author's reactions filter
     const collector = queueEmbed.createReactionCollector(filter); // a collector for collecting the author's reactions
 
     collector.on("collect", async (reaction, user) => {

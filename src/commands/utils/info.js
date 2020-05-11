@@ -22,7 +22,7 @@ module.exports = class InfoCommand extends BaseCommand{
                 .setTitle(`${user.username} information`)
                 .addFields({name: "Nickname", value: "Baqua", inline: true},
                            {name: "Version", value: `${process.env.VER}`, inline: true},
-                           {name: "Role", value: "Dai Tenshi\nSeigi no Mikata\nNinja Combat Maid\nLeader of the Hololive Resistance"},
+                           {name: "Role", value: "Dai Tenshi\nSeigi no Mikata\nDiamond Ninja Combat Maid\nLeader of the Hololive Resistance"},
                            {name: "Description", value: "I am a bot that was created based on a Virtual Youtuber known as **Minato Aqua**"},
                            {name: "Minato Aqua Channel", value: `[Aqua Ch. 湊あくあ](${aquaCh})`, inline: true},
                            {name: "Author", value: `**${creator.username}**-sama`, inline: true},

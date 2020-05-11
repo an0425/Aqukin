@@ -6,11 +6,10 @@ const { MessageAttachment } = require("discord.js");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class SendCommand extends BaseCommand{
-    constructor() {super("google", ["find", "search", "send"], "Search google for a random image based on the given keywords", "SEND_MESSAGES", "ultility", true, "<keywords>")}
+    constructor() {super("google", ["find", "search", "send"], "Search google for a random image based on the given keywords", "SEND_MESSAGES", "ultility", true, false, "<keywords>")}
 
     async run(para) {
-        const author = para.message.author.username; // message's author username
-        const channel = para.message.channel; // para.message.channel for short
+        const {message} = para;
         const query = para.args.join(" ");
 
         // search for the image
@@ -22,7 +21,6 @@ module.exports = class SendCommand extends BaseCommand{
             num: 1
         });
         const imageUrl = response.data.items[0].link;
-        const image = new MessageAttachment(imageUrl);
-        channel.send(`**${author}**-sama, here's your image result`, image);      
+        message.channel.send(`**${message.author.username}**-sama, here's your image result`, new MessageAttachment(imageUrl));      
     } // end of run
 }; // end of module.exports

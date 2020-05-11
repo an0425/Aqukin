@@ -1,5 +1,5 @@
 /* this module handles all the checking for the "message" event */
-const { MessageAttachment } = require("discord.js")
+const { MessageAttachment, MessageEmbed} = require("discord.js")
 const ridingAqua = new MessageAttachment("./src/pictures/riding.gif");
 
 // this function checks for message type, return true if it's a command, return false if it's not
@@ -54,16 +54,67 @@ async function commandCheck(bot, message, command, args, prefix){
                 message.channel.send(`**${message.author.username}**-sama, Aqukin is not currently streaming any audio`, ridingAqua)
                 return;
             }; 
-            // checks if the user is trying to use the skip command
-            if (command.name === "skip"){
+            // checks if the command require voting
+            let voteReached = false;
+            if(command.votable) {
                 // check if the author has already voted to skip
                 if(bot.music.skippers.has(message.author.id)) {
-                    message.channel.send(`**${message.author.username}**-sama, you has voted to skip, please wait for others to vote`);
+                    message.channel.send(`**${message.author.username}**-sama, you has voted to \`${command.name}\`, please wait for others to vote`);
                     return;
                 }
                 // check if the track has already been voted to skip
-                if(bot.music.skipCount >= 1) {message.channel.send(`**${message.author.username}**-sama, Aqukin has acknowledged your vote to skip`);}
-            } // end of if user called the skip command                  
+                if(bot.music.skipCount >= 1) {message.channel.send(`**${message.author.username}**-sama, Aqukin has acknowledged your vote to \`${command.name}\``);}
+
+                const members = player.voiceChannel.members.filter(m => !m.user.bot);
+                 // checks if there's only one member in the voice channel, except bots of course or if the author has administrative permission
+                if (members.size === 1 || message.member.hasPermission("ADMINISTRATOR")) {voteReached = true;} 
+                // else there's at least two or more members in the voice channel
+                else { 
+                    ++bot.music.skipCount; // increase the skip count
+                    bot.music.skippers.set(message.author.id, message.author) // the author has now voted to skip via command
+                    const votesRequired = Math.ceil(members.size * .6) - bot.music.skipCount;
+                    let reactionVotes = 0;
+                    if(votesRequired > 0){  
+                        // contruct and send an embed asking the members to vote for skipping
+                        const embed = new MessageEmbed()
+                            .setDescription(`**${message.author}**-sama, Aqukin require \`${votesRequired}\` more vote(s) to \`${command.name}\`~`)
+                            .setFooter("Vive La Résistance le Hololive~");
+                        const msg = await message.channel.send(embed);
+                        await msg.react("👍");
+                        await msg.react("👎");
+
+                        const filter = (reaction, user) => { // members reactions filter
+                            if (user.bot) return false; // exclude bot
+                            if (bot.music.skippers.has(user.id)){ // checks if the user has already voted to skip
+                                message.channel.send(`**${user.username}**-sama, you has voted to skip, please wait for other(s) to vote~`);
+                                return false;
+                            }
+                            const memPermissionCheck = message.guild.members.cache.get(user.id);
+                            const { channel } = message.guild.members.cache.get(user.id).voice;
+                            if (!channel) return false;
+                            if (channel.id === player.voiceChannel.id) {  // checks if the voters are in the same voice channel with Aqukin
+                                if(memPermissionCheck.hasPermission("ADMINISTRATOR")){
+                                    voteReached = true;
+                                    return ["👍"].includes(reaction.emoji.name); 
+                                }
+                                else{
+                                    message.channel.send(`**${user.username}**-sama, Aqukin has acknowledge your vote to skip~`);
+                                    bot.music.skippers.set(user.id, user); // the user has now voted to skip via emote reation
+                                    return ["👍"].includes(reaction.emoji.name); 
+                                }
+                            }
+                            return false;
+                        } // end of reaction filter
+                        // allow 12s for skip command reaction
+                        const reactions = await msg.awaitReactions(filter, { max: votesRequired, time: 12000, errors: ["time"] })
+                            .catch((err) => {console.log(err)});
+                        reactionVotes = reactions.get("👍").users.cache.filter(u => !u.bot);
+                        bot.music.skipCount += reactionVotes; // register the reactions count into the skip count
+                        //msg.delete(); 
+                    } // end of if voteRequire is > 0
+                    else {voteReached = true;}
+                } // end of else there's at least two or more members in the voice channel
+            } // end of if the command require voting                  
             // construct a collection of all parameters to pass to a function to eliminate unused parameters
             para = {
                 bot: bot,
@@ -74,6 +125,7 @@ async function commandCheck(bot, message, command, args, prefix){
                 // music only parameters
                 player: player,
                 channel: channel,
+                voteReached: voteReached
             }
             break; // end of music case
 
@@ -84,7 +136,7 @@ async function commandCheck(bot, message, command, args, prefix){
                 message: message,
                 args: args,
                 prefix: prefix,
-                ridingAqua: ridingAqua,
+                ridingAqua: ridingAqua
             }
             break; // end of default case
     } // end of switch

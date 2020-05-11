@@ -2,14 +2,14 @@
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class StopCommand extends BaseCommand{
-    constructor() {super("stop", ["disconnect", "dc", "leave"], "Stop/Disconnect Aqukin audio stream", "CONNECT", "music", false, "")}
+    constructor() {super("stop", ["disconnect", "dc", "leave"], "Stop/Disconnect Aqukin audio stream", "CONNECT", "music", false, true, "")}
 
     async run (para) {
-      const msg = para.message;
-      const members = para.player.voiceChannel.members.filter(m => !m.user.bot);
-      // checks if the author is alone with the bot or has administrative permission, if not return a message to inform them
-      if(members.size > 1 && !msg.member.hasPermission("ADMINISTRATOR")) {return msg.channel.send(`**${msg.author.username}**-sama, you neeed to either be **alone** with Aqukin or has **Administrative** permission to use this command!`, para.ridingAqua)}
-      para.bot.music.players.destroy(para.message.guild.id);
+      // shortcut variables
+      const {bot, message, voteReached} = para;
+      if(!voteReached) return;
+      
+      bot.music.players.destroy(message.guild.id);
     } // end of run
 }; // end of module.exports
 
