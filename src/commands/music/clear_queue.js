@@ -14,5 +14,5 @@ module.exports = class ClearQueueCommand extends BaseCommand {
     if(player.queue.empty) return message.channel.send(`**${author}**-sama, the audio queue is currently empty~`, para.ridingAqua);
     player.queue.clear();
     message.channel.send(`**${author}**-sama, Aqukin has cleared the queue`);
-  }
-}
+  } // end of run
+} // end of module.exports
