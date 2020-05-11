@@ -58,23 +58,24 @@ function generateQueueEmbed(queue) {
   const embeds = [];
   let k = 8;
   let info;
-  for(let i = 0; i < queue.length; i += 7) {
+  for(let i = 0; i < queue.length; i += 7) { // for loop going through all the tracks in the queue
     const next = queue.slice(i+1, k)
     // checks if there's anything next in queue
     if (!next.empty){
       let j = i;
       k += 7;
       info = next.map(track => `${++j}) [${track.title}](${track.uri}) | length \`${Utils.formatTime(track.duration, true)}\` | requested by **${track.requester.username}**-sama`).join('\n\n');
-    }
+    } // end of if
     else {info = "Currently no track is next in queue~~~";} // else next in queue is empty
     
+    // construct the embed(s)
     const embed = new MessageEmbed()
       .setColor(0x1DE2FE)
       .addFields({name: "⬇️ Currently playing ⬇️", value: `[${queue[0].title}](${queue[0].uri}) | length \`${Utils.formatTime(queue[0].duration, true)}\` | requested by **${queue[0].requester.username}**-sama`},
                  {name: "⬇️ Next in queue ⬇️", value: info})
       .setImage("https://media1.tenor.com/images/db59d6409b27b749fe7226246e73f1b2/tenor.gif?itemid=16625248")
       .setFooter("Vive La Résistance le Hololive~");
-    embeds.push(embed);
-  }
+    embeds.push(embed); // pushing embeds (for transition between pages)
+  } // end of for loop
   return embeds;
 } // end of gerenateQueueEmbed(queue) function
