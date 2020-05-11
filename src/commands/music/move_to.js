@@ -9,7 +9,7 @@ module.exports = class MoveToCommand extends BaseCommand{
         // shortcut variables
         const {message, player} = para;
         const author = message.author.username;
-        const timestamp = await Utils.parseTime(para.args[0])
+        const timestamp = await Utils.parseTime(para.args[0]);
         
         // checks if the author has provided the correct format for the timestamp
         if(!timestamp) return message.channel.send(`**${author}**-sama, please specify the timestamp in the correct format, ex \`>move <1m12s>\``);

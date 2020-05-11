@@ -7,13 +7,6 @@ module.exports = class TrackStartEvent extends BaseEvent {
   constructor () {super("trackStart");}
 
   async run (music, player, track) {
-    // set the EQ
-    player.setEQ([
-      { band: 0, gain: 0.15 },
-      { band: 1, gain: 0.15 },
-      { band: 2, gain: 0.15 }
-    ]);
-
     // construct the embed
     const embed = new MessageEmbed()
       .setColor(0x1DE2FE)
