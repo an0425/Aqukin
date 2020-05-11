@@ -5,7 +5,7 @@ const BaseCommand = require('../../utilities/structures/BaseCommand');
 
 module.exports = class ViewQueueCommand extends BaseCommand {
   constructor () {
-    super("viewqueue", ["view", "queue", "show"], "View the current music queue", "CONNECT", "music", false, false, "");
+    super("queue", ["view", "show", "viewqueue"], "View the current music queue", "CONNECT", "music", false, false, "");
   }
 
   async run (para) {
@@ -18,11 +18,11 @@ module.exports = class ViewQueueCommand extends BaseCommand {
     let currentPage = 0; // default current page to the first page
     const embeds = generateQueueEmbed(player.queue);
     const queueEmbed = await message.channel.send(`Current Page -> ${currentPage+1}/${embeds.length}`, embeds[currentPage]);
-    await queueEmbed.react('⬅️');
-    await queueEmbed.react('➡️');
+    await queueEmbed.react("⬅️");
+    await queueEmbed.react("➡️");
     await queueEmbed.react('❌');
 
-    const filter = (reaction, user) => ['⬅️', '➡️', '❌'].includes(reaction.emoji.name) && (message.author.id === user.id); // author's reactions filter
+    const filter = (reaction, user) => ["⬅️", "➡️", "❌"].includes(reaction.emoji.name) && (message.author.id === user.id); // author's reactions filter
     const collector = queueEmbed.createReactionCollector(filter); // a collector for collecting the author's reactions
 
     collector.on("collect", async (reaction, user) => {
@@ -64,9 +64,9 @@ function generateQueueEmbed(queue) {
     const info = next.map(track => `${++j}) [${track.title}](${track.uri}) | length \`${Utils.formatTime(track.duration, true)}\` | requested by **${track.requester.username}**-sama`).join('\n\n');
     const embed = new MessageEmbed()
       .setColor(0x1DE2FE)
+      .addFields({name: "⬇️ Currently playing ⬇️", value: `[${queue[0].title}](${queue[0].uri}) | length \`${Utils.formatTime(queue[0].duration, true)}\` | requested by **${queue[0].requester.username}**-sama`},
+                 {name: "⬇️ Next in queue ⬇️", value: info})
       .setImage("https://media1.tenor.com/images/db59d6409b27b749fe7226246e73f1b2/tenor.gif?itemid=16625248")
-      .setDescription(`⬇️ **Currently playing** ⬇️\n [${queue[0].title}](${queue[0].uri}) | length \`${Utils.formatTime(queue[0].duration, true)}\`
-                      | requested by **${queue[0].requester.username}**-sama\n\n⬇️ **Next in queue** ⬇️\n${info}`)
       .setFooter("Vive La Résistance le Hololive~");
     embeds.push(embed);
   }

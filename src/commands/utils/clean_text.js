@@ -3,7 +3,7 @@ const {MessageAttachment} = require("discord.js");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class CleanCommand extends BaseCommand{
-    constructor() {super("clean", ["delete", "del"], "Clean up a specified number of messages (max 99, requires Administrative permission)", "ADMINISTRATOR", "ultility", true, false, "<an integer less than or equals to 99>")}
+    constructor() {super("clean", ["del", "delete"], "Clean up a specified number of messages (max 99, requires Administrative permission)", "ADMINISTRATOR", "ultility", true, false, "<a positive integer greater than 1 and less than or equals to 99>")}
     
     async run(para){
         const {message} = para;
@@ -14,6 +14,8 @@ module.exports = class CleanCommand extends BaseCommand{
         if (isNaN(num)) return channel.send(`**${author.username}**-sama, that's not a valid number~`, para.ridingAqua);
         // checks if the input is more than 99
         if(num>99) return channel.send(`**${author.username}**-sama, Aqukin can only delete a maximum of \`99\` messages only~`, para.ridingAqua);
+        // else checks if the input is less than 1
+        if(num<1) return channel.send(`**${author.username}**-sama, Aqukin can't clean a negative number of messages~`, para.ridingAqua);
         // interaction
         const sentMessage = await channel.send(`Cleaning \`${num}\` messages`, new MessageAttachment("./src/pictures/melon.gif"));
         await sentMessage.delete({ timeout: 3000 });

@@ -19,12 +19,12 @@ module.exports = class HelpCommand extends BaseCommand{
             // construct the embed      
             const cmdInfoEmbed = new MessageEmbed()
                 .setColor(0x1DE2FE)
+                .setThumbnail("https://media1.tenor.com/images/ac9d7126feac5020b76a62843506e906/tenor.gif?itemid=16671718")
                 .setTitle(`[] is optional, <> is mandatory`)
-                .setDescription(`
-                    **Name:** ${command.name}
-                    **Aliases:** ${command.aliases.join(', ')}
-                    **Usage:** >${command.name} \`${command.usage}\`
-                **Info:** ${command.description}`)
+                .addFields({name: "Command name", value: command.name, inline: true},
+                           {name: "Aliases", value: command.aliases.join('\n'), inline: true},
+                           {name: "Usage", value: `>${command.name} ${command.usage}`},
+                           {name: "Description", value: command.description},)
                 .setImage("https://media1.tenor.com/images/d73ea483fd6426c4b1981e486e520070/tenor.gif?itemid=16874709")
                 .setFooter("Vive La Résistance le Hololive~");
             channel.send(`**${author.username}**-sama, here's the info of the \`${command.name}\` command`, cmdInfoEmbed); // send out the embed
@@ -38,6 +38,7 @@ module.exports = class HelpCommand extends BaseCommand{
             // construct the embed
             const helpEmbed = new MessageEmbed()
                 .setColor(0x1DE2FE)
+                .setThumbnail("https://media1.tenor.com/images/3109b3f144510b5abe27eddac0c305a4/tenor.gif?itemid=16580815")
                 .setTitle(`\nYou can send \`${para.prefix}help [command name]\` to get info on a specific command~`)
                 .addFields({name: "Music commands", value: musicCmds, inline: true}, 
                            {name: "Ultility commands", value: utilsCmds, inline: true})

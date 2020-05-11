@@ -58,7 +58,7 @@ async function commandCheck(bot, message, command, args, prefix){
             let voteReached = false;
             if(command.votable) {
                 // check if the author has already voted to skip
-                if(bot.music.skippers.has(message.author.id)) {
+                if(bot.music.voters.has(message.author.id)) {
                     message.channel.send(`**${message.author.username}**-sama, you has voted to \`${command.name}\`, please wait for others to vote`);
                     return;
                 }

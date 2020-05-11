@@ -2,7 +2,7 @@
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class PauseCommand extends BaseCommand{
-    constructor() {super("pause", ["wait"], "Pause Aqukin current audio streaming", "CONNECT", "music", false, true, "")}
+    constructor() {super("pause", ["wait", "stop"], "Pause Aqukin current audio streaming", "CONNECT", "music", false, true, "")}
 
     run(para){
         // shortcut variables

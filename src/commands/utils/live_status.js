@@ -2,8 +2,8 @@
 const {ytNotify} = require("../../utilities/artificial_intelligence/youtube_notification");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
-module.exports = class YtSearchCommand extends BaseCommand{
-    constructor() {super("live", ["streaming"], "Check the live status of a youtube channel", "SEND_MESSAGES", "ultility", true, false, "<channel name> or <channel URL>")}
+module.exports = class LiveStatusCommand extends BaseCommand{
+    constructor() {super("livestatus", ["live", "streaming"], "Check the live status of a youtube channel", "SEND_MESSAGES", "ultility", true, false, "<channel name> or <channel URL>")}
 
     async run(para) {
         ytNotify(para);
