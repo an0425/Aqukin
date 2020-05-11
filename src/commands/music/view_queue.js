@@ -57,11 +57,17 @@ module.exports = class ViewQueueCommand extends BaseCommand {
 function generateQueueEmbed(queue) {
   const embeds = [];
   let k = 8;
+  let info;
   for(let i = 0; i < queue.length; i += 7) {
     const next = queue.slice(i+1, k)
-    let j = i;
-    k += 7;
-    const info = next.map(track => `${++j}) [${track.title}](${track.uri}) | length \`${Utils.formatTime(track.duration, true)}\` | requested by **${track.requester.username}**-sama`).join('\n\n');
+    // checks if there's anything next in queue
+    if (!next.empty){
+      let j = i;
+      k += 7;
+      info = next.map(track => `${++j}) [${track.title}](${track.uri}) | length \`${Utils.formatTime(track.duration, true)}\` | requested by **${track.requester.username}**-sama`).join('\n\n');
+    }
+    else {info = "Currently no track is next in queue~~~";} // else next in queue is empty
+    
     const embed = new MessageEmbed()
       .setColor(0x1DE2FE)
       .addFields({name: "⬇️ Currently playing ⬇️", value: `[${queue[0].title}](${queue[0].uri}) | length \`${Utils.formatTime(queue[0].duration, true)}\` | requested by **${queue[0].requester.username}**-sama`},
