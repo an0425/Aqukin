@@ -1,7 +1,7 @@
 {
   "name": "aqukin",
   "version": "1.12.0",
-  "description": "Ninja Maido at your service",
+  "description": "Diamond Ninja Combat Maid at your service",
   "main": "aqukin.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
