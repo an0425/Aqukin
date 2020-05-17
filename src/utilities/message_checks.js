@@ -80,13 +80,12 @@ async function commandCheck(bot, message, command, args, prefix){
                             .setDescription(`**${message.author}**-sama, Aqukin require \`${votesRequired}\` more vote(s) to \`${command.name}\`~`)
                             .setFooter("Vive La Résistance le Hololive~");
                         const msg = await message.channel.send(embed);
-                        await msg.react("👍");
-                        await msg.react("👎");
+                        await msg.react("🆗");
 
                         const filter = (reaction, user) => { // members reactions filter
                             if (user.bot) return false; // exclude bot
                             if (bot.music.voters.has(user.id)){ // checks if the user has already voted to skip
-                                message.channel.send(`**${user.username}**-sama, you has voted to skip, please wait for other(s) to vote~`);
+                                message.channel.send(`**${user.username}**-sama, you has voted to \`${command.name}\`, please wait for other(s) to vote~`);
                                 return false;
                             }
                             const memPermissionCheck = message.guild.members.cache.get(user.id);
@@ -95,24 +94,34 @@ async function commandCheck(bot, message, command, args, prefix){
                             if (channel.id === player.voiceChannel.id) {  // checks if the voters are in the same voice channel with Aqukin
                                 if(memPermissionCheck.hasPermission("ADMINISTRATOR")){
                                     voteReached = true;
-                                    return ["👍"].includes(reaction.emoji.name); 
+                                    return ["🆗"].includes(reaction.emoji.name); 
                                 }
                                 else{
                                     message.channel.send(`**${user.username}**-sama, Aqukin has acknowledge your vote to skip~`);
                                     bot.music.voters.set(user.id, user); // the user has now voted to skip via emote reation
-                                    return ["👍"].includes(reaction.emoji.name); 
+                                    return ["🆗"].includes(reaction.emoji.name); 
                                 }
                             }
                             return false;
                         } // end of reaction filter
                         // allow 12s for skip command reaction
-                        const reactions = await msg.awaitReactions(filter, { max: votesRequired, time: 12000, errors: ["time"] })
-                            .catch((err) => {console.log(err)});
-                        reactionVotes = reactions.get("👍").users.cache.filter(u => !u.bot);
-                        bot.music.voteCount += reactionVotes; // register the reactions count into the skip count
-                        //msg.delete(); 
+                        try{
+                            const reactions = await msg.awaitReactions(filter, { max: votesRequired, time: 12000, errors: ["time"] })
+                            reactionVotes = reactions.get("🆗").users.cache.filter(u => !u.bot);
+                            bot.music.voteCount += reactionVotes; // register the reactions count into the skip count
+                        } catch(err) {console.log(err);}
+                        
+                        if(voteReached = true){
+                            bot.music.voteCount = 0;
+                            bot.music.voters.clear();
+                        }
+                        msg.delete(); 
                     } // end of if voteRequire is > 0
-                    else {voteReached = true;}
+                    else {
+                        voteReached = true;
+                        bot.music.voteCount = 0;
+                        bot.music.voters.clear();
+                    }
                 } // end of else there's at least two or more members in the voice channel
             } // end of if the command require voting                  
             // construct a collection of all parameters to pass to a function to eliminate unused parameters

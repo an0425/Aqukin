@@ -19,13 +19,13 @@ module.exports = class HelpCommand extends BaseCommand{
             // construct the embed      
             const cmdInfoEmbed = new MessageEmbed()
                 .setColor(0x1DE2FE)
-                .setThumbnail("https://media1.tenor.com/images/ac9d7126feac5020b76a62843506e906/tenor.gif?itemid=16671718")
+                .setThumbnail("https://media1.tenor.com/images/32618947eafb05a4e09dc819a3872440/tenor.gif?itemid=17189882")
                 .setTitle(`[] is optional, <> is mandatory`)
                 .addFields({name: "Command name", value: command.name, inline: true},
                            {name: "Aliases", value: command.aliases.join('\n'), inline: true},
                            {name: "Usage", value: `>${command.name} ${command.usage}`},
                            {name: "Description", value: command.description},)
-                .setImage("https://media1.tenor.com/images/d73ea483fd6426c4b1981e486e520070/tenor.gif?itemid=16874709")
+                .setImage("https://media1.tenor.com/images/b7254b1f7083b0d8088905de997ef5bb/tenor.gif?itemid=17177480")
                 .setFooter("Vive La Résistance le Hololive~");
             channel.send(`**${author.username}**-sama, here's the info of the \`${command.name}\` command`, cmdInfoEmbed); // send out the embed
         } // end of if
@@ -38,11 +38,13 @@ module.exports = class HelpCommand extends BaseCommand{
             // construct the embed
             const helpEmbed = new MessageEmbed()
                 .setColor(0x1DE2FE)
-                .setThumbnail("https://media1.tenor.com/images/3109b3f144510b5abe27eddac0c305a4/tenor.gif?itemid=16580815")
+                //.setThumbnail("https://media1.tenor.com/images/3109b3f144510b5abe27eddac0c305a4/tenor.gif?itemid=16580815")
+                .setThumbnail("https://media1.tenor.com/images/e4d23a9fb9a1dab0b47c84029883dfb7/tenor.gif?itemid=17189878")
                 .setTitle(`\nYou can send \`${para.prefix}help [command name]\` to get info on a specific command~`)
                 .addFields({name: "Music commands", value: musicCmds, inline: true}, 
                            {name: "Ultility commands", value: utilsCmds, inline: true})
-                .setImage("https://media1.tenor.com/images/99bb4621f5bcd7fd358a7f4068b6f69c/tenor.gif?itemid=16936961")
+                //.setImage("https://media1.tenor.com/images/99bb4621f5bcd7fd358a7f4068b6f69c/tenor.gif?itemid=16936961")
+                .setImage("https://media1.tenor.com/images/cdd5329801ad282290ad6bb0f65896ec/tenor.gif?itemid=16527235")
                 .setFooter("Vive La Résistance le Hololive~");
             channel.send(`**${author.username}**-sama, here's the list of Aqukin's commands, the prefix is "${para.prefix}"`, helpEmbed); // send out the embed
         } // end of else

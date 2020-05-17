@@ -18,7 +18,8 @@ module.exports = class InfoCommand extends BaseCommand{
             const embed = new MessageEmbed()
                 .setColor(0x1DE2FE)
                 //.setThumbnail(`${user.displayAvatarURL()}`)
-                .setThumbnail("https://media1.tenor.com/images/6ea2ecbe506ba7a51bc4a83bd5f16ae7/tenor.gif?itemid=17126194")
+                //.setThumbnail("https://media1.tenor.com/images/6ea2ecbe506ba7a51bc4a83bd5f16ae7/tenor.gif?itemid=17126194")
+                .setThumbnail("https://media1.tenor.com/images/61eb394cd2c8f2effd2c0347b58545b9/tenor.gif?itemid=16289275")
                 .setTitle(`${user.username} information`)
                 .addFields({name: "Nickname", value: "Baqua", inline: true},
                            {name: "Version", value: `${process.env.VER}`, inline: true},

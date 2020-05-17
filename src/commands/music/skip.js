@@ -13,7 +13,7 @@ module.exports = class SkipCommand extends BaseCommand{
         if(!voteReached) return;
 
         player.stop();
-        message.channel.send(`**${message.author.username}**-sama, Aqukin has skipped -> **${player.queue[0].title}**`);
+        message.channel.send(`**${message.author.username}**-sama, Aqukin has skipped track **${player.queue[0].title}**`);
     } // end of run
 }; // end of module.exports
 

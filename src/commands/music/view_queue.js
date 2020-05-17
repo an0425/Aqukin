@@ -71,9 +71,11 @@ function generateQueueEmbed(queue) {
     // construct the embed(s)
     const embed = new MessageEmbed()
       .setColor(0x1DE2FE)
-      .addFields({name: "⬇️ Currently playing ⬇️", value: `[${queue[0].title}](${queue[0].uri}) | length \`${Utils.formatTime(queue[0].duration, true)}\` | requested by **${queue[0].requester.username}**-sama`},
-                 {name: "⬇️ Next in queue ⬇️", value: info})
-      .setImage("https://media1.tenor.com/images/db59d6409b27b749fe7226246e73f1b2/tenor.gif?itemid=16625248")
+      .setThumbnail("https://media1.tenor.com/images/9066bf6cdc3f301a2baaa2dc3fc3da2b/tenor.gif?itemid=16215896")
+      .setDescription(`⬇️ Currently playing ⬇️\n [${queue[0].title}](${queue[0].uri}) | length \`${Utils.formatTime(queue[0].duration, true)}\` 
+                      | requested by **${queue[0].requester.username}**-sama\n\n⬇️ Next in queue ⬇️\n${info}`)
+      //.setImage("https://media1.tenor.com/images/db59d6409b27b749fe7226246e73f1b2/tenor.gif?itemid=16625248")
+      .setImage("https://media1.tenor.com/images/b8295db81d621037cc67797b6692279e/tenor.gif?itemid=16802911")
       .setFooter("Vive La Résistance le Hololive~");
     embeds.push(embed); // pushing embeds (for transition between pages)
   } // end of for loop
