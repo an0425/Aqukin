@@ -7,6 +7,7 @@ module.exports = class DogezaCommand extends BaseCommand{
     constructor() {super("dogeza", [], "Display randomly one of the two Aqua dogeza pictures", "SEND_MESSAGES", "ultility", false, false, "")}
 
     run(para) {
-        para.message.channel.send("Oose no mama ni! (As you will, sir!)", attachments[Math.floor(Math.random() * Math.floor(attachments.length))]);
+        const {channel, author} = para.message;
+        channel.send(`Oose no mama ni (As you will), **${author.username}**-sama!`, attachments[Math.floor(Math.random() * Math.floor(attachments.length))]);
     } // end of run
 }; // end of module.exports

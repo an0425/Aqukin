@@ -2,7 +2,7 @@
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class UnLoopCommand extends BaseCommand{
-    constructor() {super("unloop", ["unrepeat"], "Unloop the current track/queue in Aqukin audio stream", "CONNECT", "music", true, true, "<song> or <track> or <queue>")}
+    constructor() {super("unloop", ["unrepeat"], "Unloop the current track/queue in Aqukin audio stream", "CONNECT", "music", true, true, "<song/track> or <queue>")}
 
     run(para){
         // shortcut variables

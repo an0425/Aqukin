@@ -2,7 +2,7 @@
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class LoopCommand extends BaseCommand{
-    constructor() {super("loop", ["repeat"], "Loop the current track/queue", "CONNECT", "music", true, true, "<song> or <track> or <queue>")}
+    constructor() {super("loop", ["repeat"], "Loop the current track/queue", "CONNECT", "music", true, true, "<song/track> or <queue>")}
 
     run(para){
         // shortcut variables

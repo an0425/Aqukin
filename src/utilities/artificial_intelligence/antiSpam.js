@@ -23,6 +23,7 @@ async function antiSpam(bot, message){
             antispam.warned.add(message.author.id); // keep a record that they had been warned
             setTimeout(() => {
                 antispam.warned.delete(message.author.id);
+                antispam.isSpam = false;
                 msgCount = 0;
             }, 30000); // the warning is effective for half a minute
             return message.channel.send(`**${mutedMember.user.username}**-sama, please don't spam, it won't make you a better person`); // warn them
