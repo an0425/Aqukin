@@ -23,8 +23,8 @@ module.exports = class MessageEvent extends BaseEvent {
         if(!iscmd){ // checks if the message is not a command
             const args = message.content.trim().split(/ +/g);
             try{
-                react(message);
-                reply(message, args, prefix);
+                await react(message);
+                await reply(message, args, prefix);
             } catch (err){console.log(err);} // try to react, communicate and catch any errors
             return;
         } // end of if the message is not a command
@@ -38,6 +38,6 @@ module.exports = class MessageEvent extends BaseEvent {
         if(!para) return; // checks if the parameters is returned, if not do nothing
 
         // try executing the command and catch any errors
-        try{command.run(para)} catch (err){console.log(err);}
+        try{await command.run(para)} catch (err){console.log(err);}
     } // end of run
 }// end of module.exports

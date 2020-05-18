@@ -1,5 +1,6 @@
 /* this module handles all the checking for the "message" event */
 const { MessageAttachment, MessageEmbed} = require("discord.js")
+const {Collection} = require("discord.js");
 const ridingAqua = new MessageAttachment("./src/pictures/riding.gif");
 
 // this function checks for message type, return true if it's a command, return false if it's not
@@ -57,34 +58,44 @@ async function commandCheck(bot, message, command, args, prefix){
             // checks if the command require voting
             let voteReached = false;
             if(command.votable) {
+                if(!bot.music.votingSystem.has(command.name)){
+                    bot.music.votingSystem.set(command.name, {
+                        voteCount: 0,
+                        voters: new Collection(),
+                        votesRequired: 0,
+                    });
+                }
+                let votingSysVar = bot.music.votingSystem.get(command.name); 
+                const members = player.voiceChannel.members.filter(m => !m.user.bot);
+
                 // check if the author has already voted to skip
-                if(bot.music.voters.has(message.author.id)) {
-                    message.channel.send(`**${message.author.username}**-sama, you has voted to \`${command.name}\`, please wait for others to vote`);
+                if(votingSysVar.voters.has(message.author.id)) {
+                    message.channel.send(`**${message.author.username}**-sama, you has voted to \`${command.name}\`, please wait for other(s) to vote`);
                     return;
                 }
-                // check if the track has already been voted to skip
-                if(bot.music.voteCount >= 1) {message.channel.send(`**${message.author.username}**-sama, Aqukin has acknowledged your vote to \`${command.name}\``);}
 
-                const members = player.voiceChannel.members.filter(m => !m.user.bot);
-                 // checks if there's only one member in the voice channel, except bots of course or if the author has administrative permission
-                if (members.size === 1 || message.member.hasPermission("ADMINISTRATOR")) {voteReached = true;} 
+                // checks if there's only one member in the voice channel, except bots of course or if the author has administrative permission
+                if (members.size === 1 || message.member.hasPermission("ADMINISTRATOR")) {
+                    voteReached = true;
+                    bot.music.votingSystem.delete(command.name);
+                } 
                 // else there's at least two or more members in the voice channel
-                else { 
-                    ++bot.music.voteCount; // increase the skip count
-                    bot.music.voters.set(message.author.id, message.author) // the author has now voted to skip via command
-                    const votesRequired = Math.ceil(members.size * .6) - bot.music.voteCount;
-                    let reactionVotes = 0;
-                    if(votesRequired > 0){  
+                else {
+                    ++votingSysVar.voteCount; // increase the vote count
+                    votingSysVar.voters.set(message.author.id, message.author) // the author has now voted to skip via command
+                    votingSysVar.votesRequired = Math.ceil(members.size * .6) - votingSysVar.voteCount;
+                    if(votingSysVar.votesRequired > 0){  
                         // contruct and send an embed asking the members to vote for skipping
                         const embed = new MessageEmbed()
-                            .setDescription(`**${message.author}**-sama, Aqukin require \`${votesRequired}\` more vote(s) to \`${command.name}\`~`)
+                            .setTitle(`Please react if you would also like to \`${command.name}\``)
+                            .setDescription(`**${message.author}**-sama, Aqukin require \`${votingSysVar.votesRequired}\` more vote(s) to \`${command.name}\`~`)
                             .setFooter("Vive La Résistance le Hololive~");
                         const msg = await message.channel.send(embed);
                         await msg.react("🆗");
 
                         const filter = (reaction, user) => { // members reactions filter
                             if (user.bot) return false; // exclude bot
-                            if (bot.music.voters.has(user.id)){ // checks if the user has already voted to skip
+                            if (votingSysVar.voters.has(user.id)){ // checks if the user has already voted to skip
                                 message.channel.send(`**${user.username}**-sama, you has voted to \`${command.name}\`, please wait for other(s) to vote~`);
                                 return false;
                             }
@@ -98,7 +109,7 @@ async function commandCheck(bot, message, command, args, prefix){
                                 }
                                 else{
                                     message.channel.send(`**${user.username}**-sama, Aqukin has acknowledge your vote to skip~`);
-                                    bot.music.voters.set(user.id, user); // the user has now voted to skip via emote reation
+                                    votingSysVar.voters.set(user.id, user); // the user has now voted to skip via emote reation
                                     return ["🆗"].includes(reaction.emoji.name); 
                                 }
                             }
@@ -106,21 +117,22 @@ async function commandCheck(bot, message, command, args, prefix){
                         } // end of reaction filter
                         // allow 12s for skip command reaction
                         try{
-                            const reactions = await msg.awaitReactions(filter, { max: votesRequired, time: 12000, errors: ["time"] })
-                            reactionVotes = reactions.get("🆗").users.cache.filter(u => !u.bot);
-                            bot.music.voteCount += reactionVotes; // register the reactions count into the skip count
-                        } catch(err) {console.log(err);}
-                        
-                        if(voteReached = true){
-                            bot.music.voteCount = 0;
-                            bot.music.voters.clear();
-                        }
-                        msg.delete(); 
+                            const reactions = await msg.awaitReactions(filter, { max: votingSysVar.votesRequired, time: 12000, errors: ["time"] })
+                            if(reactions){
+                                const reactionVotes = reactions.get("🆗").users.cache.filter(u => !u.bot);
+                                votingSysVar.voteCount += reactionVotes.size; // register the reactions count into the skip count
+                            
+                                if(votingSysVar.votesRequired > 0){ // check after the reaction vote
+                                    voteReached = true;
+                                    bot.music.votingSystem.delete(command.name);
+                                }
+                            }
+                        } catch(err) {console.log(err);} 
+                        msg.delete({ timeout: 12000 });
                     } // end of if voteRequire is > 0
                     else {
                         voteReached = true;
-                        bot.music.voteCount = 0;
-                        bot.music.voters.clear();
+                        bot.music.votingSystem.delete(command.name);
                     }
                 } // end of else there's at least two or more members in the voice channel
             } // end of if the command require voting                  

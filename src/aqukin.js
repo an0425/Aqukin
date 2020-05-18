@@ -22,8 +22,7 @@ bot.antispam = {
 		port: process.env.PORT,
 		password: process.env.PASSWORD
 	}]);
-	bot.music.voteCount = 0; // default to 0
-	bot.music.voters = new Collection(); // a variable to store the user who have voted to skip
+	bot.music.votingSystem = new Collection(); // a collection for voting
 
 	/* handlers */
 	await registerMusicEvents(bot.music, "../music_events");
