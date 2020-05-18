@@ -14,9 +14,9 @@ module.exports = class MessageEvent extends BaseEvent {
         if (message.author.bot || message.channel.type === "dm") return;
 
         // anti spam
-        if(bot.antispam.muted) return;
+        if(bot.antispam.muted.has(message.author.id)) return;
         await antiSpam(bot, message);
-        if(bot.antispam.isSpam) return;
+        if(bot.antispam.warned.has(message.author.id)) return;
         
         // checks for command
         var iscmd = await typeCheck(message, prefix);
