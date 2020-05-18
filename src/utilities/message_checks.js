@@ -88,7 +88,7 @@ async function commandCheck(bot, message, command, args, prefix){
                         // contruct and send an embed asking the members to vote for skipping
                         const embed = new MessageEmbed()
                             .setTitle(`Please react if you would also like to \`${command.name}\``)
-                            .setDescription(`**${message.author}**-sama, Aqukin require \`${votingSysVar.votesRequired}\` more vote(s) to \`${command.name}\`~`)
+                            .setDescription(`**${message.author.username}**-sama, Aqukin require \`${votingSysVar.votesRequired}\` more vote(s) to \`${command.name}\`~`)
                             .setFooter("Vive La Résistance le Hololive~");
                         const msg = await message.channel.send(embed);
                         await msg.react("🆗");
