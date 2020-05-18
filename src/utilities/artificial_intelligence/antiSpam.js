@@ -6,7 +6,7 @@ const {MessageAttachment} = require("discord.js");
 async function antiSpam(bot, message){
     const {antispam} = bot;
     const msgThreshhold = 3;
-    //if(message.member.hasPermission("ADMINISTRATOR")) return; // exclude spam check for admins
+    if(message.member.hasPermission("ADMINISTRATOR")) return; // exclude spam check for admins
     // checks if the user has just sent a message recently, if not keep track of their message
     if(!antispam.msgRecently.has(message.author.id)){ 
         antispam.msgRecently.add(message.author.id) // their message will now be recorded as recently sent
