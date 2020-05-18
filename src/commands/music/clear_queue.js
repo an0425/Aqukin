@@ -2,7 +2,7 @@
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class ClearQueueCommand extends BaseCommand {
-  constructor () {super("clear", [], "Clear the music queue", "CONNECT", "music", false, true, "");}
+  constructor () {super("clearqueue", ["clr", "clear"], "Clear the music queue", "CONNECT", "music", false, true, "");}
 
   async run (para) {
     // shortcut variables

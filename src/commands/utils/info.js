@@ -4,7 +4,7 @@ const {MessageEmbed} = require("discord.js");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class InfoCommand extends BaseCommand{
-    constructor() {super("info", ["ui", "user", "userinfo"], "Provide info about the tagged user", "SEND_MESSAGES", "ultility", true, "<mentioned user>")}
+    constructor() {super("userinfo", ["ui", "user", "info"], "Provide info about the tagged user", "SEND_MESSAGES", "ultility", true, "<mentioned user>")}
     
     async run(para) {
         const user = para.message.mentions.users.first(); // get the mentioned user

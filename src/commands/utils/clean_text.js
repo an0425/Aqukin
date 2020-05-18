@@ -3,7 +3,7 @@ const {MessageAttachment} = require("discord.js");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class CleanCommand extends BaseCommand{
-    constructor() {super("clean", ["del", "delete"], "Clean up a specified number of messages (max 99, requires Administrative permission)", "ADMINISTRATOR", "ultility", true, false, "<a positive integer greater than 1 and less than or equals to 99>")}
+    constructor() {super("cleantext", ["del", "clean", "delete"], "Clean up a specified number of messages (max 99, requires Administrative permission)", "ADMINISTRATOR", "ultility", true, false, "<a positive integer greater than 1 and less than or equals to 99>")}
     
     async run(para){
         const {message} = para;

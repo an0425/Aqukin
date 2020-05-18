@@ -5,7 +5,7 @@ const BaseCommand = require('../../utilities/structures/BaseCommand');
 
 module.exports = class ViewQueueCommand extends BaseCommand {
   constructor () {
-    super("queue", ["view", "show", "viewqueue"], "View the current music queue", "CONNECT", "music", false, false, "");
+    super("viewqueue", ["view", "show", "queue"], "View the current music queue", "CONNECT", "music", false, false, "");
   }
 
   async run (para) {

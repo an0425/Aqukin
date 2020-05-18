@@ -2,7 +2,7 @@
 const BaseCommand = require('../../utilities/structures/BaseCommand');
 
 module.exports = class ShuffleQueueCommand extends BaseCommand {
-  constructor () {super("shuffle", ["random"], "Shuffle the music queue", "CONNECT", "music", false, false, "");}
+  constructor () {super("shufflequeue", ["shuffle"], "Shuffle the music queue", "CONNECT", "music", false, false, "");}
 
   async run (para) {
     // shortcut variables

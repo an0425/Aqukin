@@ -3,7 +3,7 @@ const { Utils } = require("erela.js");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class MoveToCommand extends BaseCommand{
-    constructor() {super("move", ["m", "to", "time"], "Move into a specified timestamp in the current track", "CONNECT", "music", true, false, "<ex: 1m12s>")}
+    constructor() {super("moveto", ["m", "to", "time", "move"], "Move into a specified timestamp in the current track", "CONNECT", "music", true, false, "<ex: 1m12s>")}
     
     async run(para){
         // shortcut variables
