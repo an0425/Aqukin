@@ -1,6 +1,5 @@
 /* This module handles Aqukin's ability to prevent message spamming (PROTOTYPE) */
 const ms = require("ms");
-const {MessageAttachment} = require("discord.js");
 
 // This function checks for spam, very basic and will be updated
 async function antiSpam(bot, message){
@@ -35,11 +34,10 @@ async function antiSpam(bot, message){
         // checks if there exists a mute role in this guild, if not inform the author
         if (!mutedRole) return message.channel.send(`${message.author.username}-sama, please inform the guild admins prepare a role called \`Muted\` before using any of the commands`);
             
-        const attachment = new MessageAttachment("./src/pictures/SLAP.gif");
         antispam.muted.add(message.author.id);
         mutedMember.roles.remove(currentRoles).then(console.log).catch(console.error); // remove all current roles
         mutedMember.roles.add(mutedRole.id);
-        message.channel.send(`${mutedMember.user.tag} have been muted for \`${ms(muteTime)}\``, attachment);
+        message.channel.send(`${mutedMember.user.tag} have been muted for \`${ms(muteTime)}\``, {files: ["https://media1.tenor.com/images/9d81ec7c2abd005d8da208d2f56e89df/tenor.gif?itemid=17267165"]});
 
         setTimeout(function(){ // after the mute
             antispam.muted.delete(message.author.id);

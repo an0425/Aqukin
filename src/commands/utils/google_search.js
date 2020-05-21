@@ -22,7 +22,7 @@ module.exports = class SendCommand extends BaseCommand{
                 searchType: "image",
                 num: 5
             });
-            if(!results) message.channel.send(`nihao, stop searching for porn pls`);
+            if(!results) message.channel.send(`Nihao **${message.author.username}**, stop searching for porn pls`);
             const imageUrl = results.data.items[Math.floor(Math.random() * (results.data.items.length))].link;
             message.channel.send(`**${message.author.username}**-sama, here's your search result`, new MessageAttachment(imageUrl));      
         } catch (err) {console.log(err);}

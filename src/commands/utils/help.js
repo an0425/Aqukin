@@ -38,7 +38,6 @@ module.exports = class HelpCommand extends BaseCommand{
             // construct the embed
             const helpEmbed = new MessageEmbed()
                 .setColor(0x1DE2FE)
-                //.setThumbnail("https://media1.tenor.com/images/3109b3f144510b5abe27eddac0c305a4/tenor.gif?itemid=16580815")
                 .setThumbnail("https://media1.tenor.com/images/e4d23a9fb9a1dab0b47c84029883dfb7/tenor.gif?itemid=17189878")
                 .setTitle(`\nYou can send \`${para.prefix}help [command name]\` to get info on a specific command~`)
                 .addFields({name: "Music commands", value: musicCmds, inline: true}, 

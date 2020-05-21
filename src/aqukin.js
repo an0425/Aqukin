@@ -21,7 +21,6 @@ bot.antispam = {
 		port: process.env.PORT,
 		password: process.env.PASSWORD
 	}]);
-	bot.music.votingSystem = new Collection(); // a collection for voting
 
 	/* handlers */
 	await registerMusicEvents(bot.music, "../music_events");

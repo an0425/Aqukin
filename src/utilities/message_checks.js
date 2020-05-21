@@ -1,7 +1,8 @@
 /* this module handles all the checking for the "message" event */
 const { MessageAttachment, MessageEmbed} = require("discord.js")
 const {Collection} = require("discord.js");
-const ridingAqua = new MessageAttachment("./src/pictures/riding.gif");
+//const ridingAqua = new MessageAttachment("./src/pictures/riding.gif");
+const ridingAqua = {files: ["https://media1.tenor.com/images/e6578328df71dbd6b44318553e06eda8/tenor.gif?itemid=17267168"]};
 
 // this function checks for message type, return true if it's a command, return false if it's not
 async function typeCheck(message, prefix){
@@ -70,7 +71,7 @@ async function commandCheck(bot, message, command, args, prefix){
 
                 // check if the author has already voted to skip
                 if(votingSysVar.voters.has(message.author.id)) {
-                    message.channel.send(`**${message.author.username}**-sama, you has voted to \`${command.name}\`, please wait for other(s) to vote`);
+                    message.channel.send(`**${message.author.username}**-sama, Aqukin has already acknowledged your vote to \`${command.name}\`, please wait for other(s) to vote~`);
                     return;
                 }
 
@@ -88,15 +89,15 @@ async function commandCheck(bot, message, command, args, prefix){
                         // contruct and send an embed asking the members to vote for skipping
                         const embed = new MessageEmbed()
                             .setTitle(`Please react if you would also like to \`${command.name}\``)
-                            .setDescription(`**${message.author.username}**-sama, Aqukin require \`${votingSysVar.votesRequired}\` more vote(s) to \`${command.name}\`~`)
+                            .setDescription(`Aqukin require \`${votingSysVar.votesRequired}\` more vote(s) to \`${command.name}\`~`)
                             .setFooter("Vive La Résistance le Hololive~");
-                        const msg = await message.channel.send(embed);
+                        const msg = await message.channel.send(`**${message.author.username}**-sama, Aqukin has acknowledged your vote to \`${command.name}\`, please wait for other(s) to vote~`, embed);
                         await msg.react("🆗");
 
                         const filter = (reaction, user) => { // members reactions filter
                             if (user.bot) return false; // exclude bot
                             if (votingSysVar.voters.has(user.id)){ // checks if the user has already voted to skip
-                                message.channel.send(`**${user.username}**-sama, you has voted to \`${command.name}\`, please wait for other(s) to vote~`);
+                                message.channel.send(`**${user.username}**-sama, Aqukin has already acknowledged your vote to \`${command.name}\`, please wait for other(s) to vote~`);
                                 return false;
                             }
                             const memPermissionCheck = message.guild.members.cache.get(user.id);

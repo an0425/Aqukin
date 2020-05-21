@@ -24,7 +24,7 @@ module.exports = class LoopCommand extends BaseCommand{
             // a case for queue
             case "queue":
                 // checks if the queue is empty, if so return a message to inform the author
-                if (player.queue.empty) return message.channel.send(`**${author}**-sama, Aqukin the queue is currently empty~`, para.ridingAqua);
+                if (player.queue.empty) return message.channel.send(`**${author}**-sama, the queue is currently empty~`, para.ridingAqua);
                 // checks if the queue is already set to loop, if so return a message to inform the author
                 if (player.queueRepeat) return message.channel.send(`**${author}**-sama, Aqukin has already set this queue to loop.`);
                 // checks if the queue has already been set to loop

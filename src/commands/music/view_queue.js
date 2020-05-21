@@ -16,7 +16,7 @@ module.exports = class ViewQueueCommand extends BaseCommand {
     if (player.queue.empty) return message.channel.send(`**${message.author.username}**-sama, Aqukin the queue is currently empty~`, para.ridingAqua);
     
     let currentPage = 0; // default current page to the first page
-    const embeds = generateQueueEmbed(player.queue);
+    const embeds = generateQueueEmbed(player.queue, para.bot.music.thumbnails);
     const queueEmbed = await message.channel.send(`Current Page -> ${currentPage+1}/${embeds.length}`, embeds[currentPage]);
     await queueEmbed.react("⬅️");
     await queueEmbed.react("➡️");
@@ -54,7 +54,7 @@ module.exports = class ViewQueueCommand extends BaseCommand {
 } // end of module.exports
 
 /* This function is for generating an embed with the queue information */
-function generateQueueEmbed(queue) {
+function generateQueueEmbed(queue, thumbnails) {
   const embeds = [];
   let k = 8;
   let info;
@@ -71,7 +71,7 @@ function generateQueueEmbed(queue) {
     // construct the embed(s)
     const embed = new MessageEmbed()
       .setColor(0x1DE2FE)
-      .setThumbnail("https://media1.tenor.com/images/9066bf6cdc3f301a2baaa2dc3fc3da2b/tenor.gif?itemid=16215896")
+      .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
       .setDescription(`⬇️ Currently playing ⬇️\n [${queue[0].title}](${queue[0].uri}) | length \`${Utils.formatTime(queue[0].duration, true)}\` 
                       | requested by **${queue[0].requester.username}**-sama\n\n⬇️ Next in queue ⬇️\n${info}`)
       //.setImage("https://media1.tenor.com/images/db59d6409b27b749fe7226246e73f1b2/tenor.gif?itemid=16625248")
