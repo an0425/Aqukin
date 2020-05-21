@@ -49,6 +49,7 @@ async function ytNotify(para){
     
     // This function searches for the currently live or upcoming live video, embeds it info and send it
     async function livestatus(chSearchR){
+        //const date = new Date(Date.now() - 604800000).toISOString();
         var videoEmbed;
         google.youtube("v3").search.list({
             key: process.env.YOUTUBE_TOKEN,
@@ -58,8 +59,14 @@ async function ytNotify(para){
             maxResults: 1,
             channelId: chSearchR.snippet.channelId,
             eventType: chSearchR.snippet.liveBroadcastContent,
+            //publishedAfter: date,
         }).then((response) => {
             const {data} = response;
+            
+            if(data.items.length === 0){
+                return message.channel.send(`**${author}**-sama, **${chSearchR.snippet.title}** is not live nor having any upcoming stream right now~`);
+            }
+            
             data.items.forEach((video) => {
                 console.log(video);
                 // construct the embed

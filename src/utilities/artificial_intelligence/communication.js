@@ -2,7 +2,7 @@
 
 // This function handles Aqukin's random reacting ability
 async function react(message){
-    var emojiList = Array.from(message.guild.emojis.cache.map(e => e.id.toString())); // an array contains all the custom emojis id of the server
+    const emojiList = Array.from(message.guild.emojis.cache.map(e => e.id.toString())); // an array contains all the custom emojis id of the server
     if(Math.random() <= 0.3) message.react(emojiList[Math.floor(Math.random() * Math.floor(emojiList.length))]); 
 } // end of react(...) function
 

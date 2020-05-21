@@ -4,12 +4,12 @@ const {MessageEmbed} = require("discord.js");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class InfoCommand extends BaseCommand{
-    constructor() {super("userinfo", ["ui", "user", "info"], "Provide info about the tagged user", "SEND_MESSAGES", "ultility", true, "<mentioned user>")}
+    constructor() {super("userinfo", ["ui", "user", "info"], "Provide info about the tagged user", "SEND_MESSAGES", "ultility", true, false, "<mentioned user>")}
     
     async run(para) {
         const user = para.message.mentions.users.first(); // get the mentioned user
         // checks if the author has mentioned anyone, if not return a message to inform the author
-        if (!user) { return para.message.channel.send(`**${para.message.author.user}**-sama, it looks like you haven't mentioned anyone~, please ensure that you are using the right syntax`, para.ridingAqua);}
+        if (!user) { return para.message.channel.send(`**${para.message.author.username}**-sama, it looks like you haven't mentioned anyone~, please ensure that you are using the right syntax`, para.ridingAqua);}
         
         // checks if the user has tagged Aqukin
         if(user.id === "702620458130079750"){
