@@ -64,7 +64,7 @@ function generateQueueEmbed(queue, thumbnails) {
     if (!next.empty){
       let j = i;
       k += 7;
-      info = next.map(track => `${++j}) [${track.title}](${track.uri}) | length \`${Utils.formatTime(track.duration, true)}\` | requested by **${track.requester.username}**-sama`).join('\n\n');
+      info = next.map(track => `${++j}) [${track.title}](${track.uri}) | length \`${Utils.formatTime(track.duration, true)}s\` | requested by **${track.requester.username}**-sama`).join('\n\n');
     } // end of if
     else {info = "Currently no track is next in queue~~~";} // else next in queue is empty
     
@@ -72,7 +72,7 @@ function generateQueueEmbed(queue, thumbnails) {
     const embed = new MessageEmbed()
       .setColor(0x1DE2FE)
       .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
-      .setDescription(`⬇️ Currently playing ⬇️\n [${queue[0].title}](${queue[0].uri}) | length \`${Utils.formatTime(queue[0].duration, true)}\` 
+      .setDescription(`⬇️ Currently playing ⬇️\n [${queue[0].title}](${queue[0].uri}) | length \`${Utils.formatTime(queue[0].duration, true)}s\` 
                       | requested by **${queue[0].requester.username}**-sama\n\n⬇️ Next in queue ⬇️\n${info}`)
       //.setImage("https://media1.tenor.com/images/db59d6409b27b749fe7226246e73f1b2/tenor.gif?itemid=16625248")
       .setImage("https://media1.tenor.com/images/b8295db81d621037cc67797b6692279e/tenor.gif?itemid=16802911")

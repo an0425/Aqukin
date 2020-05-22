@@ -5,6 +5,13 @@ module.exports = class ReadyEvent extends BaseEvent {
 	constructor() {super("ready");}
 	
 	async run (bot){
+		bot.antispam = {
+			msgCount: 0, // a variable to store the number of (potential spam messages)
+			muted: new Set(), // a variable to store if the user who have been muted
+			msgRecently: new Set(), // a variable to store the user who have send a message within the cooldown time
+			warned: new Set() // a variable to store the user who have been warned
+		};
+
 		// activities
 		const activities = ["Apex Legends", "Minecraft", "Sekiro: Shadows Die Twice", "Super Smash Bros. Ultimate", "Dark Souls III", "Super Mario Bros. 2", "Ring Fit Adventure"];
 		setInterval(() => {

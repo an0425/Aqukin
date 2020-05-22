@@ -1,5 +1,5 @@
 /* this module handles all the checking for the "message" event */
-const { MessageAttachment, MessageEmbed} = require("discord.js")
+const {MessageEmbed} = require("discord.js")
 const {Collection} = require("discord.js");
 //const ridingAqua = new MessageAttachment("./src/pictures/riding.gif");
 const ridingAqua = {files: ["https://media1.tenor.com/images/e6578328df71dbd6b44318553e06eda8/tenor.gif?itemid=17267168"]};

@@ -16,10 +16,9 @@ module.exports = class PlayCommand extends BaseCommand{
         if(!player){
             const { channel } = message.member.voice
             player = bot.music.players.spawn({
-            guild: message.guild,
-            voiceChannel: channel,
-            textChannel: message.channel,
-            paused: false
+                guild: message.guild,
+                voiceChannel: channel,
+                textChannel: message.channel,
             });
         } // end of if there's not exist an player
         
@@ -44,7 +43,7 @@ module.exports = class PlayCommand extends BaseCommand{
             case "SEARCH_RESULT":
                 let i = 0;
                 const tracks = searchResults.tracks.slice(0, 10);
-                const tracksInfo = tracks.map(r => `${++i}) ${r.title}\n${r.uri} | length \`${Utils.formatTime(r.duration, true)}\``).join("\n\n"); // get the tracks info
+                const tracksInfo = tracks.map(r => `${++i}) ${r.title}\n${r.uri} | length \`${Utils.formatTime(r.duration, true)}s\``).join("\n\n"); // get the tracks info
                 // embed the result(s)
                 const embed = new MessageEmbed()
                     .setColor(0x1DE2FE)
@@ -72,7 +71,7 @@ module.exports = class PlayCommand extends BaseCommand{
             case "PLAYLIST_LOADED":
                 searchResults.playlist.tracks.forEach(track => player.queue.add(track));
                 const duration = Utils.formatTime(searchResults.playlist.tracks.reduce((acc, cur) => ({duration: acc.duration + cur.duration})).duration, true);
-                message.channel.send(`**${author}**-sama, Aqukin has enqueued \`${searchResults.playlist.tracks.length}\` tracks from the playlist \`${searchResults.playlist.info.name}\`| total length \`${duration}\``);
+                message.channel.send(`**${author}**-sama, Aqukin has enqueued \`${searchResults.playlist.tracks.length}\` tracks from the playlist \`${searchResults.playlist.info.name}\`| total length \`${duration}s\``);
                 break;
         } // end of switch
         if (!player.playing && !player.paused) player.play(); // start playing if the player 

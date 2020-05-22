@@ -7,6 +7,6 @@ module.exports = class TrackEndEvent extends BaseEvent {
   async run (music, player, track) {
     // reset the variables
     if (player.sentMessage) await player.sentMessage.delete().catch((err) => console.log("The message has already been manually deleted\n",err)); // try catch in case the message got deleted manually
-    music.votingSystem.clear();
+    await music.votingSystem.clear();
   } // end of run
 } // end of module.exports
