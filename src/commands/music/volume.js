@@ -1,4 +1,5 @@
 /* This module allows the author to configure the volume of Aqukin's audio stream  */
+const {musicEmbed} = require("../../utilities/music_embed");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class VolumeCommand extends BaseCommand{
@@ -17,8 +18,12 @@ module.exports = class VolumeCommand extends BaseCommand{
         // else checks if the author is trying to input a negative number
         else if (num < 0) return channel.send(`**${author.username}**-sama, Aqukin can't set the volume with a negative value`);           
         // set the volume
-        player.setVolume(num);
+        await player.setVolume(num);
         channel.send(`**${author.username}**-sama, Aqukin has set the volume to \`${player.volume}\``); // inform the author
+        
+        // Update the currently playing embed
+        const embed = await musicEmbed(para.bot.music, player, player.queue[0])
+        await player.sentMessage.edit(embed); // send the embed to inform about the now playing track
     } // end of run
 }; // end of module.exports
 

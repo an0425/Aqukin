@@ -14,7 +14,7 @@ module.exports = class PauseCommand extends BaseCommand{
         // checks if the player is already paused, if so return a message to inform the author
         if (player.paused) return message.channel.send(`**${author}**-sama, Aqukin is already paused.`);
         player.paused = true;
-        player.pause(true); // pauses streaming audio
+        await player.pause(true); // pauses streaming audio
         message.channel.send(`**${author}**-sama, Aqukin has paused audio streaming~`);
         
         // Update the currently playing embed

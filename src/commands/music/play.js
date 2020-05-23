@@ -1,6 +1,7 @@
 /* This module allows the author to enqueue Youtube URL/Playlist/Tracks from search results to Aqukin audio streaming */
 const { Utils } = require("erela.js");
 const { MessageEmbed } = require("discord.js");
+const {musicEmbed} = require("../../utilities/music_embed");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class PlayCommand extends BaseCommand{
@@ -75,6 +76,12 @@ module.exports = class PlayCommand extends BaseCommand{
                 break;
         } // end of switch
         if (!player.playing && !player.paused) player.play(); // start playing if the player 
+
+        if(player.sentMessage){
+            // Update the currently playing embed
+            const embed = await musicEmbed(para.bot.music, player, player.queue[0])
+            await player.sentMessage.edit(embed); // send the embed to inform about the now playing track
+        }
     } // end of run
 }; // end of module.exports
     

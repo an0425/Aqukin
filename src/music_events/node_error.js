@@ -5,7 +5,6 @@ module.exports = class NodeErrorEvent extends BaseEvent {
   constructor () {super("nodeError");}
 
   async run (music, node, error) {
-    console.log("An error has occured");
-    console.log(error.message, node);
+    console.log("An error has occured", error.message, node);
   } // end of run
 } // end of module.exports

@@ -17,7 +17,7 @@ module.exports = class LoopCommand extends BaseCommand{
             case "track":
                 // checks if the track is already set to loop, if so return a message to inform the author
                 if (player.trackRepeat) return message.channel.send(`**${author}**-sama, Aqukin has already set this audio track to loop.`);
-                player.setTrackRepeat(true); // loop the current audio track
+                await player.setTrackRepeat(true); // loop the current audio track
                 message.channel.send(`**${author}**-sama, Aqukin has set the current track to loop~`);
                 break;
             
@@ -27,7 +27,7 @@ module.exports = class LoopCommand extends BaseCommand{
                 if (player.queue.empty) return message.channel.send(`**${author}**-sama, the queue is currently empty~`, para.ridingAqua);
                 // checks if the queue is already set to loop, if so return a message to inform the author
                 if (player.queueRepeat) return message.channel.send(`**${author}**-sama, Aqukin has already set this queue to loop.`);
-                player.setQueueRepeat(true); // loop the current queue
+                await player.setQueueRepeat(true); // loop the current queue
                 message.channel.send(`**${author}**-sama, Aqukin has set the current queue to loop~`);
                 break;
             

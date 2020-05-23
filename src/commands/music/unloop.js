@@ -17,7 +17,7 @@ module.exports = class UnLoopCommand extends BaseCommand{
             case "track":
                 // checks if the track is already set to loop, if so return a message to inform the author
                 if (!player.trackRepeat) return message.channel.send(`**${author}**-sama, this track is not currently set to loop.`);
-                player.setTrackRepeat(false); // unloop the current track
+                await player.setTrackRepeat(false); // unloop the current track
                 message.channel.send(`**${author}**-sama, Aqukin has cancelled the current track loop~`);
                 break;
             
@@ -27,7 +27,7 @@ module.exports = class UnLoopCommand extends BaseCommand{
                 if (player.queue.empty) return message.channel.send(`**${author}**-sama, the queue is currently empty~`, para.ridingAqua);
                 // checks if the track is already set to loop, if so return a message to inform the author
                 if (!player.queueRepeat) return message.channel.send(`**${author}**-sama, this queue is not currently set to loop.`);
-                player.setQueueRepeat(false); // unloop the current queue
+                await player.setQueueRepeat(false); // unloop the current queue
                 message.channel.send(`**${author}**-sama, Aqukin has cancelled the current queue loop~`);
                 break;
             
