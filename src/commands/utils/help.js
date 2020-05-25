@@ -32,18 +32,23 @@ module.exports = class HelpCommand extends BaseCommand{
         
         else { // else the author just need general help
             // get the command names
-            const [music, utility] = para.bot.commands.partition(cmd => cmd.tag === "music"); // partitioning the collection by the "music" tag
-            let musicCmds = music.map(cmd => cmd.name.toString()).join("\n");
-            let utilsCmds = utility.map(cmd => cmd.name.toString()).join("\n");
+            const [music, others] = para.bot.commands.partition(cmd => cmd.tag === "music"); // partitioning the collection by the "music" tag
+            const [economy, utility] = others.partition(cmd => cmd.tag === "economy");
+            const musicCmds = music.map(cmd => cmd.name.toString()).join("\n");
+            const econCmds = economy.map(cmd => cmd.name.toString()).join("\n");
+            const utilsCmds = utility.map(cmd => cmd.name.toString()).join("\n");
+            const images = ["https://media1.tenor.com/images/99bb4621f5bcd7fd358a7f4068b6f69c/tenor.gif?itemid=16936961", 
+                            "https://media1.tenor.com/images/cdd5329801ad282290ad6bb0f65896ec/tenor.gif?itemid=16527235"];
+
             // construct the embed
             const helpEmbed = new MessageEmbed()
                 .setColor(0x1DE2FE)
                 .setThumbnail("https://media1.tenor.com/images/e4d23a9fb9a1dab0b47c84029883dfb7/tenor.gif?itemid=17189878")
-                .setTitle(`\nYou can send \`${para.prefix}help [command name]\` to get info on a specific command~`)
+                .setTitle(`You can send \`${para.prefix}help [command name]\` to get info on a specific command~`)
                 .addFields({name: "Music commands", value: musicCmds, inline: true}, 
-                           {name: "Ultility commands", value: utilsCmds, inline: true})
-                //.setImage("https://media1.tenor.com/images/99bb4621f5bcd7fd358a7f4068b6f69c/tenor.gif?itemid=16936961")
-                .setImage("https://media1.tenor.com/images/cdd5329801ad282290ad6bb0f65896ec/tenor.gif?itemid=16527235")
+                           {name: "Ultility commands", value: utilsCmds, inline: true},
+                           {name: "Economy commands", value: econCmds, inline: true},)
+                .setImage(images[Math.floor(Math.random() * Math.floor(images.length))])
                 .setFooter("Vive La Résistance le Hololive~");
             channel.send(`**${author.username}**-sama, here's the list of Aqukin's commands, the prefix is "${para.prefix}"`, helpEmbed); // send out the embed
         } // end of else

@@ -11,13 +11,10 @@ async function musicEmbed(music, player, track){
         let timestamp;
         try{
             timestamp = Utils.formatTime(player.position, true);
-        } catch(err) {console.log(err);}
-
-        if(timestamp){
-            pauseStatus = `At ${timestamp}s`;
-        }
-        else{
-            pauseStatus = `At <1s`;
+            pauseStatus = `Yes (at ${timestamp}s)`;
+        } catch(err) {
+            console.log(err);
+            pauseStatus = `Yes (at around 1s)`;
         }
     }
     if(player.trackRepeat)  {loopStatus = "Yes"}

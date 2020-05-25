@@ -1,10 +1,16 @@
 /* this module represents the "ready" event */
+const { Users } = require('../dbObjects');
 const BaseEvent = require("../utilities/structures/BaseEvent");
 
 module.exports = class ReadyEvent extends BaseEvent {
 	constructor() {super("ready");}
 	
 	async run (bot){
+		// Database variables
+		const storedBalances = await Users.findAll();
+		storedBalances.forEach(b => bot.currency.set(b.user_id, b));
+
+		// Antispam variables
 		bot.antispam = {
 			msgCount: 0, // a variable to store the number of (potential spam messages)
 			muted: new Set(), // a variable to store if the user who have been muted
@@ -12,7 +18,7 @@ module.exports = class ReadyEvent extends BaseEvent {
 			warned: new Set() // a variable to store the user who have been warned
 		};
 
-		// activities
+		// Activities
 		const activities = ["Apex Legends", "Minecraft", "Sekiro: Shadows Die Twice", "Super Smash Bros. Ultimate", "Dark Souls III", "Super Mario Bros. 2", "Ring Fit Adventure"];
 		setInterval(() => {
 			bot.user.setActivity(activities[Math.floor(Math.random() * Math.floor(activities.length))], { type: "PLAYING" });}, 7200000);

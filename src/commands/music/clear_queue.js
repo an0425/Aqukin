@@ -3,7 +3,7 @@ const {musicEmbed} = require("../../utilities/music_embed");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class ClearQueueCommand extends BaseCommand {
-  constructor () {super("clearqueue", ["clr", "clear"], "Clear the music queue", "CONNECT", "music", false, true, "");}
+  constructor () {super("clearqueue", ["cq", "clrq", "clear"], "Clear the music queue", "CONNECT", "music", false, true, "");}
 
   async run (para) {
     // shortcut variables
@@ -20,6 +20,11 @@ module.exports = class ClearQueueCommand extends BaseCommand {
 
     // Update the currently playing embed
     const embed = await musicEmbed(para.bot.music, player, player.queue[0])
-    await player.sentMessage.edit(embed); // send the embed to inform about the now playing track
+    try{
+      await player.sentMessage.edit(embed); // send the embed to inform about the now playing track
+    } catch(err) {
+      console.log("Recreating the deleted music embed", err);
+      player.sentMessage = await player.textChannel.send(embed);
+    }
   } // end of run
 } // end of module.exports

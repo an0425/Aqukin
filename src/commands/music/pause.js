@@ -19,7 +19,12 @@ module.exports = class PauseCommand extends BaseCommand{
         
         // Update the currently playing embed
         const embed = await musicEmbed(para.bot.music, player, player.queue[0])
-        await player.sentMessage.edit(embed); // send the embed to inform about the now playing track
+        try{
+            await player.sentMessage.edit(embed); // send the embed to inform about the now playing track
+        } catch(err) {
+            console.log("Recreating the deleted music embed", err);
+            player.sentMessage = await player.textChannel.send(embed);
+        }
     } // end of run
 }; // end of module.exports
 

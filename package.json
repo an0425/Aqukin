@@ -1,13 +1,14 @@
 {
   "name": "aqukin",
   "version": "1.12.0",
-  "description": "Diamond Ninja Combat Maid at your service",
+  "description": "I am a bot that was created based on a Virtual Youtuber known as **Minato Aqua**",
   "main": "aqukin.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon ./src/aqukin.js",
     "lavalink": "java -jar Lavalink.jar",
-    "aqukin": "node ./src/aqukin.js"
+    "aqukin": "node ./src/aqukin.js",
+    "economy": "node ./src/dbInit.js"
   },
   "author": "DeaLoux",
   "license": "ISC",
@@ -16,6 +17,8 @@
     "dotenv": "^8.2.0",
     "erela.js": "^1.1.7",
     "googleapis": "^50.0.0",
-    "ms": "^2.1.2"
+    "ms": "^2.1.2",
+    "sequelize": "^5.21.10",
+    "sqlite3": "^4.2.0"
   }
 }
