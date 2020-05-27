@@ -10,7 +10,8 @@ module.exports = class ReadyEvent extends BaseEvent {
 		const storedBalances = await Users.findAll();
 		storedBalances.forEach(b => bot.currency.set(b.user_id, b));
 
-		// Antispam variables
+		// Bot variables
+		bot.tagged = false;
 		bot.antispam = {
 			msgCount: 0, // a variable to store the number of (potential spam messages)
 			muted: new Set(), // a variable to store if the user who have been muted

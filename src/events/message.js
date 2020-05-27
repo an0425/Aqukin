@@ -5,6 +5,7 @@ const {typeCheck, commandCheck} = require("../utilities/message_checks");
 const {antiSpam} = require("../utilities/artificial_intelligence/antiSpam");
 const {react, reply} = require("../utilities/artificial_intelligence/communication");
 const prefix = process.env.PREFIX;
+const tag = process.env.TAG;
 
 module.exports = class MessageEvent extends BaseEvent {
     constructor() {super("message");}
@@ -19,7 +20,7 @@ module.exports = class MessageEvent extends BaseEvent {
         if(bot.antispam.warned.has(message.author.id)) return;
         
         // checks for command
-        var iscmd = await typeCheck(message, prefix);
+        const iscmd = await typeCheck(bot, message, prefix, tag);
         if(!iscmd){ // checks if the message is not a command
             const args = message.content.trim().split(/ +/g);
             try{
@@ -30,14 +31,23 @@ module.exports = class MessageEvent extends BaseEvent {
         } // end of if the message is not a command
        
         // else continue with the code
-        const args = message.content.slice(prefix.length).trim().split(/ +/g);
+        let args;
+        if(bot.tagged){
+            args = message.content.slice(tag.length).trim().split(/ +/g);
+        }
+        else
+            args = message.content.slice(prefix.length).trim().split(/ +/g);
+        if(!args) return;
         const commandName = args.shift().toLowerCase();
         const command = bot.commands.get(commandName) || bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
-        var para = await commandCheck(bot, message, command, args, prefix);
+        let para = await commandCheck(bot, message, command, args, prefix);
 
         if(!para) return; // checks if the parameters is returned, if not do nothing
 
         // try executing the command and catch any errors
-        try{await command.run(para)} catch (err){console.log(err);}
+        try{
+            await command.run(para);
+            bot.tagged = false;
+        } catch (err){console.log(err);}
     } // end of run
 }// end of module.exports

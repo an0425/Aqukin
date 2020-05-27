@@ -1,14 +1,20 @@
 /* this module handles all the checking for the "message" event */
-const {MessageEmbed} = require("discord.js")
+const {MessageEmbed} = require("discord.js");
 const {Collection} = require("discord.js");
 //const ridingAqua = new MessageAttachment("./src/pictures/riding.gif");
 const ridingAqua = {files: ["https://media1.tenor.com/images/e6578328df71dbd6b44318553e06eda8/tenor.gif?itemid=17267168"]};
 
 // this function checks for message type, return true if it's a command, return false if it's not
-async function typeCheck(message, prefix){
-    // checks if the message is not a command
-    if(!message.content.startsWith(prefix)){return false;} // return false
-    else return true;
+async function typeCheck(bot, message, prefix, tag){
+    // checks if the message is a command type
+    if(message.content.startsWith(prefix))  
+        return true; 
+    else if(message.content.startsWith(tag)){
+        bot.tagged = true;
+        return true;
+    }
+    else 
+        return false; // return false
 } // end of typeCheck(...) function
 
 // this function handles the all the checks for the commands
@@ -73,7 +79,7 @@ async function commandCheck(bot, message, command, args, prefix){
 
                 // check if the author has already voted
                 if(votingSysVar.voters.has(message.author.id)) {
-                    message.channel.send(`**${message.author.username}**-sama, Aqukin has already acknowledged your vote to \`${commandName}\`, please wait for other(s) to vote~`);
+                    message.channel.send(`**${message.author.username}**-sama, Aqukin has already acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote~`);
                     return;
                 }
 
@@ -90,16 +96,16 @@ async function commandCheck(bot, message, command, args, prefix){
                     if(votingSysVar.votesRequired > 0){  
                         // contruct and send an embed asking the members to vote
                         const embed = new MessageEmbed()
-                            .setTitle(`Please react if you would also like to \`${commandName}\``)
-                            .setDescription(`Aqukin require \`${votingSysVar.votesRequired}\` more vote(s) to \`${commandName}\`~`)
+                            .setTitle(`Please react if you would also like to \`${command.description}\``)
+                            .setDescription(`Aqukin require \`${votingSysVar.votesRequired}\` more vote(s) to \`${command.description}\`~`)
                             .setFooter("Vive La Résistance le Hololive~");
-                        const msg = await message.channel.send(`**${message.author.username}**-sama, Aqukin has acknowledged your vote to \`${commandName}\`, please wait for other(s) to vote~`, embed);
+                        const msg = await message.channel.send(`**${message.author.username}**-sama, Aqukin has acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote~`, embed);
                         await msg.react("🆗");
 
                         const filter = (reaction, user) => { // members reactions filter
                             if (user.bot) return false; // exclude bot
                             if (votingSysVar.voters.has(user.id)){ // checks if the user has already voted
-                                message.channel.send(`**${user.username}**-sama, Aqukin has already acknowledged your vote to \`${commandName}\`, please wait for other(s) to vote~`);
+                                message.channel.send(`**${user.username}**-sama, Aqukin has already acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote~`);
                                 return false;
                             }
                             const memPermissionCheck = message.guild.members.cache.get(user.id);
@@ -111,7 +117,7 @@ async function commandCheck(bot, message, command, args, prefix){
                                     return ["🆗"].includes(reaction.emoji.name); 
                                 }
                                 else{
-                                    message.channel.send(`**${user.username}**-sama, Aqukin has acknowledge your vote to \`${commandName}\`~`);
+                                    message.channel.send(`**${user.username}**-sama, Aqukin has acknowledge your vote to \`${command.description}\`~`);
                                     votingSysVar.voters.set(user.id, user); // the user has now voted via emote reation
                                     return ["🆗"].includes(reaction.emoji.name); 
                                 }

@@ -3,7 +3,7 @@ const {musicEmbed} = require("../../utilities/music_embed");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class ResumeCommand extends BaseCommand{
-    constructor() {super("resume", ["continue"], "Resume Aqukin current audio streaming", "CONNECT", "music", false, true, "")}
+    constructor() {super("resume", ["continue"], "Resume the audio player", "CONNECT", "music", false, true, "")}
 
     async run(para){
         // shortcut variables

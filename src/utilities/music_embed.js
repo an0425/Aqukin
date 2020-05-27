@@ -17,8 +17,8 @@ async function musicEmbed(music, player, track){
             pauseStatus = `Yes (at around 1s)`;
         }
     }
-    if(player.trackRepeat)  {loopStatus = "Yes"}
-    if(player.queueRepeat)  {qloopStatus = "Yes"}
+    if(player.trackRepeat)  {loopStatus = "Yes";}
+    if(player.queueRepeat)  {qloopStatus = "Yes";}
     
     // construct the embeds
     const embed = new MessageEmbed()

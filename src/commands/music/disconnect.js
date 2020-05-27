@@ -2,7 +2,7 @@
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class DisconnectCommand extends BaseCommand{
-    constructor() {super("disconnect", ["dc", "leave"], "Stop/Disconnect Aqukin audio stream", "CONNECT", "music", false, true, "")}
+    constructor() {super("disconnect", ["dc", "leave"], "Disconnect Aqukin from the voice channel", "CONNECT", "music", false, true, "")}
 
     async run (para) {
       // shortcut variables

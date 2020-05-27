@@ -4,20 +4,27 @@ const {MessageEmbed} = require("discord.js");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class InfoCommand extends BaseCommand{
-    constructor() {super("userinfo", ["ui", "user", "info"], "Provide info about the tagged user", "SEND_MESSAGES", "ultility", true, false, "<mentioned user>")}
+    constructor() {super("userinfo", ["ui", "user", "info"], "Provide info about the tagged user", "SEND_MESSAGES", "ultility", false, false, "<mentioned user> or <none>")}
     
     async run(para) {
-        const user = para.message.mentions.users.first(); // get the mentioned user
-        // checks if the author has mentioned anyone, if not return a message to inform the author
-        if (!user) { return para.message.channel.send(`**${para.message.author.username}**-sama, it looks like you haven't mentioned anyone~, please ensure that you are using the right syntax`, para.ridingAqua);}
-        
+        // get the mentioned user
+        const {message, bot} = para;
+        let user;
+        if(para.bot.tagged && message.mentions.users.size>1) {
+            const users = message.mentions.users.first([2]);
+            user = users[1] || message.author; // get the tagged user
+        }
+        else{ // tagged Aqukin or no one is tagged (get the author themselve)
+            user = message.mentions.users.first();
+        }
+
         // checks if the user has tagged Aqukin
         if(user.id === "702620458130079750"){
             const aquaCh = "https://www.youtube.com/channel/UC1opHUrw8rvnsadT-iGp7Cg";
             const aquaTw = "https://twitter.com/minatoaqua";
             const aThumbnails = ["https://media1.tenor.com/images/6ea2ecbe506ba7a51bc4a83bd5f16ae7/tenor.gif?itemid=17126194", 
-                                 "https://media1.tenor.com/images/61eb394cd2c8f2effd2c0347b58545b9/tenor.gif?itemid=16289275"]
-            const creator = await para.bot.users.fetch("422435290054000640");
+                                 "https://media1.tenor.com/images/61eb394cd2c8f2effd2c0347b58545b9/tenor.gif?itemid=16289275"];
+            const creator = await bot.users.fetch("422435290054000640");
             const embed = new MessageEmbed()
                 .setColor(0x1DE2FE)
                 .setThumbnail(aThumbnails[Math.floor(Math.random() * Math.floor(aThumbnails.length))])
@@ -32,25 +39,25 @@ module.exports = class InfoCommand extends BaseCommand{
                            {name: "Author", value: `${creator.tag}`, inline: true})
                 .setImage("https://media1.tenor.com/images/8bb13d9fa4311f314a2d419c9d2d6c37/tenor.gif?itemid=16917426")
                 .setFooter("Vive La Résistance le Hololive~");
-            return para.message.channel.send(`**${para.message.author.username}**-sama, this is`, embed); // send the embed
+            return message.channel.send(`**${message.author.username}**-sama, this is`, embed); // send the embed
         } // end of if the author has tagged Aqukin
         
         // if not continue with the code
-        const member = para.message.guild.member(user); // get the mention user via the guild member list
+        const member = message.guild.member(user); // get the mention user via the guild member list
         // checks if the member is in the guild, if not return a message to inform the author
-        if (!member) { return para.message.channel.send(`**${para.message.author.username}**-sama, it looks like the person you mentioned isn't in this guild~`, para.ridingAqua);}
+        if (!member) { return message.channel.send(`**${message.author.username}**-sama, it looks like the person you mentioned isn't in this guild~`, para.ridingAqua);}
         
         const memberRoles = member.roles.cache.map(role => role.name).join("\n") // get the mention user role(s) in the guild
         let title;
         // checks if the author has tagged themselve
-        if(member.id === para.message.author.id) title = "Your";
+        if(member.id === message.author.id) title = "Your";
         else title = `**${member.displayName}**-sama`;
         // checks if the tagged user has a nickname
         let nickname;
         if(member.nickname) nickname = member.nickname;
         else nickname = "None"; // if not display "None" instead of "null"
         
-        const {thumbnails} = para.bot.music;
+        const {thumbnails} = bot.music;
         const embed = new MessageEmbed()
             .setColor(0x1DE2FE)
             .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
@@ -61,7 +68,7 @@ module.exports = class InfoCommand extends BaseCommand{
                         {name: "Role(s)", value: memberRoles})
             .setImage(member.user.displayAvatarURL({format: "png", dynamic: true, size: 2048}))
             .setFooter("Vive La Résistance le Hololive~");
-        para.message.channel.send(`**${para.message.author.username}**-sama, this is`, embed)
+        message.channel.send(`**${message.author.username}**-sama, this is`, embed)
         
     } // end of run
 }; // end of module.exports

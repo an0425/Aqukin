@@ -3,7 +3,7 @@ const {musicEmbed} = require("../../utilities/music_embed");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class VolumeCommand extends BaseCommand{
-    constructor() {super("setvolume", ["v", "volume"], "Set the volume of the audio stream", "ADMINISTRATOR", "music", true, false, "<a positive integer less than or equals to 200>")}
+    constructor() {super("setvolume", ["v", "volume"], "Set the audio player's volume", "ADMINISTRATOR", "music", true, false, "<a positive integer less than or equals to 200>")}
     
     async run(para){
         // shortcut variables

@@ -3,7 +3,7 @@ const {musicEmbed} = require("../../utilities/music_embed");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class ClearQueueCommand extends BaseCommand {
-  constructor () {super("clearqueue", ["cq", "clrq", "clear"], "Clear the music queue", "CONNECT", "music", false, true, "");}
+  constructor () {super("clearqueue", ["cq", "clrq", "clear"], "Clear the audio player's queue", "CONNECT", "music", false, true, "");}
 
   async run (para) {
     // shortcut variables

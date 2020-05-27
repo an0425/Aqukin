@@ -7,7 +7,17 @@ module.exports = class InventoryCommand extends BaseCommand{
     
     async run(para){
         const {message} = para;
-        const target = message.mentions.users.first() || message.author;
+        let target;
+        if(para.bot.tagged && message.mentions.users.size>1) {
+            const users = message.mentions.users.first([2]);
+            target = users[1] || message.author; // get the tagged user
+        }
+        else{ // tagged Aqukin or no one is tagged (get the author themselve)
+            target = message.author;
+        }
+
+        if(target.bot) return;
+
         const member = message.guild.member(target); // get the mention user via the guild member list
         // checks if the member is in the guild, if not return a message to inform the author
         if (!member) { return message.channel.send(`**${message.author.username}**-sama, it looks like the person you mentioned isn't in this guild~`, para.ridingAqua);}

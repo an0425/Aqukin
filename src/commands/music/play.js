@@ -54,14 +54,15 @@ module.exports = class PlayCommand extends BaseCommand{
                     .setFooter("Vive La Résistance le Hololive~");
   
                 const sentMessage = await message.channel.send(`**${author}**-sama, please enter the track number that you would like Aqukin to queue.`, embed); // display the embed
-                try{ sentMessage.delete({ timeout: 12000 }); } catch(err) {console.log(err);} // delete the embed after 12s
+                //try{ sentMessage.delete({ timeout: 12000 }); } catch(err) {console.log(err);} // delete the embed after 12s
 
                 // Allow the author to select a track fron the search results within the allowed time of 12s
                 const filter = m => (message.author.id === m.author.id) && (m.content >= 1 && m.content <= tracks.length);
                 try{
-                    let response = await message.channel.awaitMessages(filter, { max: 1, time: 12000, errors: ["time"]}) // await the user respond within 12s
-                    const entry = response.first().content;
-                    player = bot.music.players.get(message.guild.id);
+                    sentMessage.delete({ timeout: 12000 });
+                    const response = await message.channel.awaitMessages(filter, { max: 1, time: 12000, errors: ["time"]}) // await the user respond within 12s
+                    const entry = await response.first().content;
+                    player = await bot.music.players.get(message.guild.id);
                     await player.queue.add(tracks[entry-1]); // enqueue
                     response.first().delete(); // delete the user respond
                     message.channel.send(`**${author}**-sama, Aqukin has enqueued track **${tracks[entry-1].title}**`); // inform the author
