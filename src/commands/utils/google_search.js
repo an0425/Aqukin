@@ -6,7 +6,7 @@ const { MessageAttachment } = require("discord.js");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class SendCommand extends BaseCommand{
-    constructor() {super("google", ["gg", "find", "send", "search"], "Search google for a random image based on the given keywords", "SEND_MESSAGES", "ultility", true, false, "<keywords>")}
+    constructor() {super("google", ["gg", "find", "send", "search"], "Search google for a random image based on the given keywords", "SEND_MESSAGES", "utility", true, false, "<keywords>")}
 
     async run(para) {
         const {message} = para;

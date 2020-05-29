@@ -32,7 +32,7 @@ module.exports = class MessageEvent extends BaseEvent {
        
         // else continue with the code
         let args;
-        if(bot.tagged){
+        if(bot.mentioned){
             args = message.content.slice(tag.length).trim().split(/ +/g);
         }
         else
@@ -47,7 +47,7 @@ module.exports = class MessageEvent extends BaseEvent {
         // try executing the command and catch any errors
         try{
             await command.run(para);
-            bot.tagged = false;
+            bot.mentioned = false;
         } catch (err){console.log(err);}
     } // end of run
 }// end of module.exports

@@ -9,29 +9,27 @@ const sequelize = new Sequelize("database", "username", "password", {
 });
 
 const Users = sequelize.import("./models/users");
-const CurrencyShop = sequelize.import("./models/currency_shop");
-const UserItems = sequelize.import("./models/user_items");
+const StockMarket = sequelize.import("./models/stock_market");
+const UserStocks = sequelize.import("./models/user_stocks");
 
-UserItems.belongsTo(CurrencyShop, { foreignKey: "item_id", as: "item" });
+UserStocks.belongsTo(StockMarket, { foreignKey: "stock_id", as: "stock" });
 
-Users.prototype.addItem = async function(item) {
-	const userItem = await UserItems.findOne({
-		where: { user_id: this.user_id, item_id: item.id },
+Users.prototype.addItem = async function(stock) {
+	const userStock = await UserStocks.findOne({
+		where: { user_id: this.user_id, stock_id: stock.id },
 	});
-
-	if (userItem) {
-		userItem.amount += 1;
-		return userItem.save();
+	if (userStock) {
+		userStock.user_share += 1;
+		return userStock.save();
 	}
-
-	return UserItems.create({ user_id: this.user_id, item_id: item.id, amount: 1 });
+	return UserStocks.create({ user_id: this.user_id, stock_id: stock.id, user_share: 1 });
 };
 
 Users.prototype.getItems = function() {
-	return UserItems.findAll({
+	return UserStocks.findAll({
 		where: { user_id: this.user_id },
-		include: ["item"],
+		include: ["stock"],
 	});
 };
 
-module.exports = { Users, CurrencyShop, UserItems };
+module.exports = { Users, StockMarket, UserStocks };

@@ -1,5 +1,5 @@
 /* this module represents the "ready" event */
-const { Users } = require('../dbObjects');
+const { Users } = require("../dbObjects");
 const BaseEvent = require("../utilities/structures/BaseEvent");
 
 module.exports = class ReadyEvent extends BaseEvent {
@@ -11,7 +11,7 @@ module.exports = class ReadyEvent extends BaseEvent {
 		storedBalances.forEach(b => bot.currency.set(b.user_id, b));
 
 		// Bot variables
-		bot.tagged = false;
+		bot.mentioned = false;
 		bot.antispam = {
 			msgCount: 0, // a variable to store the number of (potential spam messages)
 			muted: new Set(), // a variable to store if the user who have been muted

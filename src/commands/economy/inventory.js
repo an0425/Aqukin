@@ -1,20 +1,21 @@
-/* This module displays the total balance of the author or the mentioned user */
+/* This module displays the investments of the author/mentioned user */
 const { Users } = require("../../dbObjects");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
-module.exports = class InventoryCommand extends BaseCommand{
-    constructor() {super("inventory", ["items", "stocks"], "Displays the inventory of the author/mentioned user", "SEND_MESSAGES", "economy", false, false, "<none> or <mentioned user>")}
+module.exports = class InvestmentCommand extends BaseCommand{
+    constructor() {super("investment", ["i", "stock"], "Display all the investments of the mentioned user/yourself", "SEND_MESSAGES", "economy", false, false, "[mentioned user]")}
     
     async run(para){
         const {message} = para;
         let target;
-        if(para.bot.tagged && message.mentions.users.size>1) {
-            const users = message.mentions.users.first([2]);
-            target = users[1] || message.author; // get the tagged user
+        if(para.bot.mentioned) { // if Aqukin is mentioned
+            if(message.mentions.users.size>1){ // a user is also mentioned
+                const users = message.mentions.users.first([2]);
+                target = users[1]; // get the mentioned user
+            }
+            else {target = message.author;}
         }
-        else{ // tagged Aqukin or no one is tagged (get the author themselve)
-            target = message.author;
-        }
+        else{ target = message.mentions.users.first() || message.author;} // used prefix instead of mentioning Aqukin
 
         if(target.bot) return;
 
@@ -23,16 +24,18 @@ module.exports = class InventoryCommand extends BaseCommand{
         if (!member) { return message.channel.send(`**${message.author.username}**-sama, it looks like the person you mentioned isn't in this guild~`, para.ridingAqua);}
         
         const user = await Users.findOne({ where: { user_id: target.id } });
-        const items = await user.getItems();
 
         let reply;
         // checks if the author has tagged themselve
-        if(target.id === message.author.id) reply = "Your Inventory";
-        else reply = `**${target.username}**-sama Inventory`;
+        if(target.id === message.author.id) reply = "you are currently";
+        else reply = `**${target.username}**-sama is currently`;
 
+        if(!user) {return message.channel.send(`**${message.author.username}**-sama, ${reply} not participating in the economy game~`);}
+        
+        const stocks = await user.getItems();
         // checks if the target inventory is empty or not
-        if(!items.lenght) reply += " is empty~";
-        else reply += ` includes ${items.map(i => `${i.amount} ${i.item.name}`).join(', ')}`;
+        if(!stocks.lenght) reply += " not investing in any establishment~";
+        else reply += ` holding ${stocks.map(i => `${i.user_share} shares of the ${i.stock.name}`).join(', ')}`;
         message.channel.send(`**${message.author.username}**-sama, ${reply}`);
     } // end of run
 }; // end of module.exports

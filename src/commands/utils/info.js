@@ -4,19 +4,17 @@ const {MessageEmbed} = require("discord.js");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class InfoCommand extends BaseCommand{
-    constructor() {super("userinfo", ["ui", "user", "info"], "Provide info about the tagged user", "SEND_MESSAGES", "ultility", false, false, "<mentioned user> or <none>")}
+    constructor() {super("userinfo", ["ui", "user", "info"], "Provide info about the mentioned user/Aqukin/yourself", "SEND_MESSAGES", "utility", false, false, "[mentioned user]")}
     
     async run(para) {
         // get the mentioned user
         const {message, bot} = para;
         let user;
-        if(para.bot.tagged && message.mentions.users.size>1) {
+        if(bot.mentioned && message.mentions.users.size>1) { // if Aqukin is mentioned and a user is also mentioned
             const users = message.mentions.users.first([2]);
-            user = users[1] || message.author; // get the tagged user
+            user = users[1]; // get the mentioned user
         }
-        else{ // tagged Aqukin or no one is tagged (get the author themselve)
-            user = message.mentions.users.first();
-        }
+        else{user = message.mentions.users.first() || message.author;} 
 
         // checks if the user has tagged Aqukin
         if(user.id === "702620458130079750"){
@@ -62,13 +60,12 @@ module.exports = class InfoCommand extends BaseCommand{
             .setColor(0x1DE2FE)
             .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
             .setTitle(`${title} information`)
-            .addFields({name: "Nickname", value: nickname, inline: true},
-                        {name: "Tag", value: member.user.tag, inline: true},
-                        {name: "Date Joined", value: member.joinedAt.toLocaleDateString()},
-                        {name: "Role(s)", value: memberRoles})
+            .addFields({name: "Tag", value: member.user.tag},
+                        {name: "Nickname", value: nickname},
+                        {name: "Role(s)", value: memberRoles},
+                        {name: "Date Joined", value: member.joinedAt.toLocaleDateString()})
             .setImage(member.user.displayAvatarURL({format: "png", dynamic: true, size: 2048}))
             .setFooter("Vive La Résistance le Hololive~");
         message.channel.send(`**${message.author.username}**-sama, this is`, embed)
-        
     } // end of run
 }; // end of module.exports

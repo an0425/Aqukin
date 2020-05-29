@@ -2,18 +2,19 @@
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class BalanceCommand extends BaseCommand{
-    constructor() {super("balance", ["cash", "money"], "Displays the total balance of the author/mentioned user", "SEND_MESSAGES", "economy", false, false, "<none> or <mentioned user>")}
+    constructor() {super("balance", ["cash", "money"], "Display the total balance of the mentioned user/yourself", "SEND_MESSAGES", "economy", false, false, "[mentioned user]")}
     
     async run(para){
         const {message, bot} = para;
         let target;
-        if(para.bot.tagged && message.mentions.users.size>1) {
-            const users = message.mentions.users.first([2]);
-            target = users[1] || message.author; // get the tagged user
+        if(bot.mentioned) { // if Aqukin is mentioned
+            if(message.mentions.users.size>1){ // a user is also mentioned
+                const users = message.mentions.users.first([2]);
+                target = users[1]; // get the mentioned user
+            }
+            else {target = message.author;}
         }
-        else{ // tagged Aqukin or no one is tagged (get the author themselve)
-            target = message.author;
-        }
+        else{ target = message.mentions.users.first() || message.author;} // used prefix instead of mentioning Aqukin
 
         if(target.bot) return;
 

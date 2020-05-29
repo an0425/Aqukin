@@ -10,7 +10,7 @@ async function typeCheck(bot, message, prefix, tag){
     if(message.content.startsWith(prefix))  
         return true; 
     else if(message.content.startsWith(tag)){
-        bot.tagged = true;
+        bot.mentioned = true;
         return true;
     }
     else 
