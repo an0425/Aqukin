@@ -1,14 +1,14 @@
 /* This module allow the author to buy */
-const {marketEmbed} = require("../../utilities/embed_constructor");
-const { Users, StockMarket } = require("../../database/dbObjects");
+const { marketEmbed } = require("../../utilities/embed_constructor");
+const { StockMarket } = require("../../database/dbObjects");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class DisplayStockMarketCommand extends BaseCommand{
-    constructor() {super("showmarket", ["sm", "market", "stockmarket"], "Display all the firms and theirs available market shares", "SEND_MESSAGES", "economy", false, false, "")}
+    constructor() {super("stockmarket", ["sm", "market", "showmarket"], "Display all the firms and theirs available market shares", "SEND_MESSAGES", "economy", false, false, "")}
     
     async run(para){
         // shorcut variables
-        const {message, bot} = para;
+        const { message, bot } = para;
 
         const stocks = await StockMarket.findAll();
         // checks if the shop inventory is not empty

@@ -13,45 +13,9 @@ module.exports = (sequelize, DataTypes) => {
 			allowNull: false,
 		},
 		
-		// CEO related variables
-		ceo_bank: {
-			type: DataTypes.BOOLEAN,
-			defaultValue: 0,
-			allowNull: false,
-		},
-		ceo_casino: {
-			type: DataTypes.BOOLEAN,
-			defaultValue: 0,
-			allowNull: false,
-		},
-		ceo_lawfirm: {
-			type: DataTypes.BOOLEAN,
-			defaultValue: 0,
-			allowNull: false,
-		},
-
-		// Court related variables
-		supreme_judge: {
-			type: DataTypes.BOOLEAN,
-			defaultValue: 0,
-			allowNull: false,
-		},
-		court_consular: {
-			type: DataTypes.BOOLEAN,
-			defaultValue: 0,
-			allowNull: false,
-		},
-
-		// Court related variables
-		president: {
-			type: DataTypes.BOOLEAN,
-			defaultValue: 0,
-			allowNull: false,
-		},
-		parliamentarian: {
-			type: DataTypes.BOOLEAN,
-			defaultValue: 0,
-			allowNull: false,
+		econrole: {
+			type: DataTypes.STRING,
+			defaultValue: "Investor",
 		},
 	}, {
 		timestamps: false,

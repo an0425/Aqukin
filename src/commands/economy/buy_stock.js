@@ -1,7 +1,7 @@
 /* This module allow the author to buy */
 const { Op } = require('sequelize');
-const {checkNum} = require("../../utilities/functions");
-const {marketEmbed} = require("../../utilities/embed_constructor");
+const { checkNum } = require("../../utilities/functions");
+const { marketEmbed } = require("../../utilities/embed_constructor");
 const { Users, StockMarket } = require("../../database/dbObjects");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 

@@ -1,6 +1,6 @@
 /* This module embeds the mentioned user into an embed then display it */
 require("dotenv").config();
-const {MessageEmbed} = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class InfoCommand extends BaseCommand{
@@ -8,13 +8,13 @@ module.exports = class InfoCommand extends BaseCommand{
     
     async run(para) {
         // get the mentioned user
-        const {message, bot} = para;
+        const { message, bot } = para;
         let user;
         if(bot.mentioned && message.mentions.users.size>1) { // if Aqukin is mentioned and a user is also mentioned
             const users = message.mentions.users.first([2]);
             user = users[1]; // get the mentioned user
         }
-        else{user = message.mentions.users.first() || message.author;} 
+        else{ user = message.mentions.users.first() || message.author; } 
 
         // checks if the user has tagged Aqukin
         if(user.id === "702620458130079750"){
@@ -27,14 +27,14 @@ module.exports = class InfoCommand extends BaseCommand{
                 .setColor(0x1DE2FE)
                 .setThumbnail(aThumbnails[Math.floor(Math.random() * Math.floor(aThumbnails.length))])
                 .setTitle(`${user.username} information`)
-                .addFields({name: "Nickname", value: "Baqua\nOnion\nIQ-3", inline: true},
-                           {name: "Minato Aqua Channel", value: `[Aqua Ch. 湊あくあ](${aquaCh})`, inline: true},
-                           {name: "Minato Aqua Twitter", value: `[@minatoaqua](${aquaTw})`, inline: true},
-                           {name: "Aliases", value: "Go-Sai\nDai Tenshi\nSeigi no Mikata\nDiamond Ninja Combat Maid\nLeader of the Hololive Resistance"},
-                           {name: "Description", value: `${process.env.DESC}`},
-                           {name: "Version", value: `${process.env.VER}`, inline: true},
-                           {name: "Date Created", value: user.createdAt.toLocaleDateString(), inline: true},
-                           {name: "Author", value: `${creator.tag}`, inline: true})
+                .addFields({ name: "Nickname", value: "Baqua\nOnion\nIQ-3", inline: true },
+                           { name: "Minato Aqua Channel", value: `[Aqua Ch. 湊あくあ](${aquaCh})`, inline: true },
+                           { name: "Minato Aqua Twitter", value: `[@minatoaqua](${aquaTw})`, inline: true },
+                           { name: "Aliases", value: "Go-Sai\nDai Tenshi\nSeigi no Mikata\nDiamond Ninja Combat Maid\nLeader of the Hololive Resistance" },
+                           { name: "Description", value: `${process.env.DESC}` },
+                           { name: "Version", value: `${process.env.VER}`, inline: true },
+                           { name: "Date Created", value: user.createdAt.toLocaleDateString(), inline: true },
+                           { name: "Author", value: `${creator.tag}`, inline: true })
                 .setImage("https://media1.tenor.com/images/8bb13d9fa4311f314a2d419c9d2d6c37/tenor.gif?itemid=16917426")
                 .setFooter("Vive La Résistance le Hololive~");
             return message.channel.send(`**${message.author.username}**-sama, this is`, embed); // send the embed
@@ -60,10 +60,10 @@ module.exports = class InfoCommand extends BaseCommand{
             .setColor(0x1DE2FE)
             .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
             .setTitle(`${title} information`)
-            .addFields({name: "Tag", value: member.user.tag},
-                        {name: "Nickname", value: nickname},
-                        {name: "Role(s)", value: memberRoles},
-                        {name: "Date Joined", value: member.joinedAt.toLocaleDateString()})
+            .addFields({ name: "Tag", value: member.user.tag },
+                       { name: "Nickname", value: nickname },
+                       { name: "Role(s)", value: memberRoles },
+                       { name: "Date Joined", value: member.joinedAt.toLocaleDateString() })
             .setImage(member.user.displayAvatarURL({format: "png", dynamic: true, size: 2048}))
             .setFooter("Vive La Résistance le Hololive~");
         message.channel.send(`**${message.author.username}**-sama, this is`, embed)

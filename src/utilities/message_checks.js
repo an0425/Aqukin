@@ -159,6 +159,21 @@ async function commandCheck(bot, message, command, args, prefix){
             }
             break; // end of music case
 
+        // a case for other economy commands
+        case "economy":
+            if(!bot.currency.has(message.author.id)) {
+                message.channel.send(`**${message.author.username}**-sama, you need to be an investor to use this command~`);
+                return;
+            }
+            para = { // same collection but in this case only needed parameters
+                bot: bot,
+                message: message,
+                args: args,
+                prefix: prefix,
+                ridingAqua: ridingAqua
+            }
+            break; // end of economy case
+
         // a default case for other type of commands
         default:
             para = { // same collection but in this case only needed parameters

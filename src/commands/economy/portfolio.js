@@ -1,14 +1,13 @@
 /* This module displays the investment portfolio of the author/mentioned user */
-const {MessageEmbed} = require("discord.js");
-const {convertTF} = require("../../utilities/functions");
-const { Users, UserStocks } = require("../../database/dbObjects");
+const { MessageEmbed } = require("discord.js");
+const { Users } = require("../../database/dbObjects");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class InvestmentPortfolioCommand extends BaseCommand{
-    constructor() {super("investmentportfolio", ["ip", "portfolio", "investment"], "Display the investment portfolio of the mentioned user/yourself", "SEND_MESSAGES", "economy", false, false, "[mentioned user]")}
+    constructor() {super("investmentportfolio", ["ip", "balance", "portfolio", "investment"], "Display the investment portfolio of the mentioned user/yourself", "SEND_MESSAGES", "economy", false, false, "[mentioned user]")}
     
     async run(para){
-        const {message} = para;
+        const { message } = para;
         let target;
         if(para.bot.mentioned) { // if Aqukin is mentioned
             if(message.mentions.users.size>1){ // a user is also mentioned
@@ -32,7 +31,7 @@ module.exports = class InvestmentPortfolioCommand extends BaseCommand{
         if(target.id === message.author.id) title = "Your";
         else title = `**${target.username}**-sama`;
 
-        if(!user) {return message.channel.send(`**${message.author.username}**-sama, ${title} need to be an investor first~`);}
+        if(!user) { return message.channel.send(`**${message.author.username}**-sama, ${title} need to be an investor first~`); }
         
         let description = "";
         const stocks = await user.getStocks();
@@ -43,36 +42,6 @@ module.exports = class InvestmentPortfolioCommand extends BaseCommand{
             // reply += ` holding ${stocks.rows.map(i => `${i.user_share} shares of the ${i.stock.name}`).join(', ')}`;
             stocks.rows.forEach(async us => {
                 description += `\nThe **${us.stock.name}**\n \`Held Share(s)\` -- ${us.user_share} \n`;
-                let value;
-                let value1;
-                switch(us.stock.name.toLowerCase()){
-                    case "casino":
-                        value = await convertTF(user.ceo_casino);
-                        description += `\`Is CEO\` -- ${value}\n`;
-                        break;
-                    
-                    case "bank":
-                        value = await convertTF(user.ceo_bank);
-                        description += `\`Is CEO\` -- ${value}\n`;
-                        break;
-                    
-                    case "lawfirm":
-                        value = await convertTF(user.ceo_lawfirm);
-                        description += `\`Is CEO\` -- ${value}\n`;
-                        break;
-
-                    case "court":
-                        value = await convertTF(user.supreme_judge);
-                        value1 = await convertTF(user.court_consular);
-                        description += `\`Is Supreme Judge\` -- ${value}\n \`Is Court Consular\` -- ${value1}\n`;
-                        break;
-
-                    case "government":
-                        value = await convertTF(user.president);
-                        value1 = await convertTF(user.parliamentarian);
-                        description += `\`Is President\` -- ${value}\n \`Is Parliamentarian\` -- ${value1}\n`;
-                        break;
-                } // end of switch case
             }); // end of for each
         }
         // construct the embed
@@ -81,7 +50,9 @@ module.exports = class InvestmentPortfolioCommand extends BaseCommand{
             .setColor(0x1DE2FE)
             .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
             .setTitle(`${title} portfolio`)
-            .setDescription(description)
+            .addFields({ name: "Your Balance", value: `$${para.bot.currency.getBalance(target.id)}`, inline: true },
+                       { name: "Economy Role", value: `${user.econrole}`, inline: true },
+                       { name: "Investment(s)", value: `${description}` })
             .setImage("https://media1.tenor.com/images/c0e9bb7fbe7ae685ca2c7aa214e82cdc/tenor.gif?itemid=17166292")
             .setFooter("Vive La Résistance le Hololive~");
         message.channel.send(`**${message.author.username}**-sama, this is`, embed);
