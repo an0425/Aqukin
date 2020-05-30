@@ -14,7 +14,7 @@ module.exports = class InfoCommand extends BaseCommand{
             const users = message.mentions.users.first([2]);
             user = users[1]; // get the mentioned user
         }
-        else{ user = message.mentions.users.first() || message.author; } 
+        else { user = message.mentions.users.first() || message.author; } 
 
         // checks if the user has tagged Aqukin
         if(user.id === "702620458130079750"){
@@ -48,12 +48,12 @@ module.exports = class InfoCommand extends BaseCommand{
         const memberRoles = member.roles.cache.map(role => role.name).join("\n") // get the mention user role(s) in the guild
         let title;
         // checks if the author has tagged themselve
-        if(member.id === message.author.id) title = "Your";
-        else title = `**${member.displayName}**-sama`;
+        if(member.id === message.author.id) { title = "Your"; }
+        else { title = `**${member.displayName}**-sama`; }
         // checks if the tagged user has a nickname
         let nickname;
-        if(member.nickname) nickname = member.nickname;
-        else nickname = "None"; // if not display "None" instead of "null"
+        if(member.nickname) { nickname = member.nickname; }
+        else { nickname = "None"; } // if not display "None" instead of "null"
         
         const {thumbnails} = bot.music;
         const embed = new MessageEmbed()

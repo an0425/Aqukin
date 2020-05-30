@@ -6,8 +6,8 @@ module.exports = class DisconnectCommand extends BaseCommand{
 
     async run (para) {
       // shortcut variables
-      const {bot, message, voteReached} = para;
-      if(!voteReached) return;
+      const { bot, message, voteReached } = para;
+      if(!voteReached) { return; }
       
       bot.music.players.destroy(message.guild.id);
     } // end of run

@@ -1,5 +1,5 @@
 /* This module add the mentioned user to the economy game */
-const {MessageEmbed} = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class AddPlayerCommand extends BaseCommand{
@@ -17,7 +17,7 @@ module.exports = class AddPlayerCommand extends BaseCommand{
         }
         else{ target = message.mentions.users.first() || message.author;} // used prefix instead of mentioning Aqukin
 
-        if(target.bot) return;
+        if(target.bot) { return; }
 
         const member = message.guild.member(target); // get the mention user via the guild member list
         // checks if the member is in the guild, if not return a message to inform the author

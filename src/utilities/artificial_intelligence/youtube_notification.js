@@ -1,11 +1,11 @@
 /* This module notify each time the given channel has uploaded a new video or live */
 require("dotenv").config();
-const {google} = require("googleapis");
+const { google } = require("googleapis");
 const { MessageEmbed } = require("discord.js");
 
 async function ytNotify(para){
     // shortcut variables
-    const {message} = para;
+    const { message } = para;
     const author = message.author.username;
     let title;    
 
@@ -61,7 +61,7 @@ async function ytNotify(para){
             eventType: chSearchR.snippet.liveBroadcastContent,
             //publishedAfter: date,
         }).then((response) => {
-            const {data} = response;
+            const { data } = response;
             
             if(data.items.length === 0){
                 return message.channel.send(`**${author}**-sama, **${chSearchR.snippet.title}** is not live nor having any upcoming stream right now~`);
@@ -84,4 +84,4 @@ async function ytNotify(para){
     } // end of livestatus(...) function
 } // end of ytNotify(...) function
 
-module.exports = {ytNotify};
+module.exports = { ytNotify };

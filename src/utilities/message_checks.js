@@ -1,6 +1,6 @@
 /* this module handles all the checking for the "message" event */
-const {MessageEmbed} = require("discord.js");
-const {Collection} = require("discord.js");
+const { MessageEmbed } = require("discord.js");
+const { Collection } = require("discord.js");
 //const ridingAqua = new MessageAttachment("./src/pictures/riding.gif");
 const ridingAqua = {files: ["https://media1.tenor.com/images/e6578328df71dbd6b44318553e06eda8/tenor.gif?itemid=17267168"]};
 
@@ -103,14 +103,14 @@ async function commandCheck(bot, message, command, args, prefix){
                         await msg.react("🆗");
 
                         const filter = (reaction, user) => { // members reactions filter
-                            if (user.bot) return false; // exclude bot
+                            if (user.bot) { return false; } // exclude bot
                             if (votingSysVar.voters.has(user.id)){ // checks if the user has already voted
                                 message.channel.send(`**${user.username}**-sama, Aqukin has already acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote~`);
                                 return false;
                             }
                             const memPermissionCheck = message.guild.members.cache.get(user.id);
                             const { channel } = message.guild.members.cache.get(user.id).voice;
-                            if (!channel) return false;
+                            if (!channel) { return false; }
                             if (channel.id === player.voiceChannel.id) {  // checks if the voters are in the same voice channel with Aqukin
                                 if(memPermissionCheck.hasPermission("ADMINISTRATOR")){
                                     voteReached = true;
@@ -188,4 +188,4 @@ async function commandCheck(bot, message, command, args, prefix){
     return para;
 } // end of commandCheck(...) function
 
-module.exports = {typeCheck, commandCheck};
+module.exports = { typeCheck, commandCheck };

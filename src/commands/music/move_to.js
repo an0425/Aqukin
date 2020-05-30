@@ -1,6 +1,6 @@
 /* This module allows the author to move into a specified timestamp in current track of Aqukin's audio stream  */
 const { Utils } = require("erela.js");
-const {musicEmbed} = require("../../utilities/embed_constructor");
+const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class MoveToCommand extends BaseCommand{
@@ -8,7 +8,7 @@ module.exports = class MoveToCommand extends BaseCommand{
     
     async run(para){
         // shortcut variables
-        const {message, player} = para;
+        const { message, player } = para;
         const author = message.author.username;
         const timestamp = await Utils.parseTime(para.args[0]);
         
@@ -21,7 +21,7 @@ module.exports = class MoveToCommand extends BaseCommand{
             message.channel.send(`**${author}**-sama, Aqukin has moved the current track to position \`${Utils.formatTime(player.position, true)}s\``);
 
             // Update the currently playing embed
-            if(!player.paused) return;
+            if(!player.paused) { return; }
             const embed = await musicEmbed(para.bot.music, player, player.queue[0])
             if(!player.sentMessage) {
                 player.sentMessage = await player.textChannel.send(embed);

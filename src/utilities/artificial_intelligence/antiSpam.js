@@ -3,7 +3,7 @@ const ms = require("ms");
 
 // This function checks for spam, very basic and will be updated
 async function antiSpam(bot, message){
-    const {antispam} = bot;
+    const { antispam } = bot;
     const msgThreshhold = 3;
     if(message.member.hasPermission("ADMINISTRATOR")) return; // exclude spam check for admins
     // checks if the user has just sent a message recently, if not keep track of their message
@@ -32,7 +32,7 @@ async function antiSpam(bot, message){
         currentRoles = message.member.roles.cache;
         const mutedRole = message.guild.roles.cache.find(role => role.name === "Muted");
         // checks if there exists a mute role in this guild, if not inform the author
-        if (!mutedRole) return message.channel.send(`${message.author.username}-sama, please inform the guild admins prepare a role called \`Muted\` before using any of the commands`);
+        if (!mutedRole) { return message.channel.send(`${message.author.username}-sama, please inform the guild admins prepare a role called \`Muted\` before using any of the commands`); }
             
         antispam.muted.add(message.author.id);
         mutedMember.roles.remove(currentRoles).then(console.log).catch(console.error); // remove all current roles
@@ -48,4 +48,4 @@ async function antiSpam(bot, message){
     } // end of else msgRecently
 } // end of spamCheck(...) function
 
-module.exports = {antiSpam};
+module.exports = { antiSpam };

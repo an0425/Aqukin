@@ -70,4 +70,4 @@ async function consoleChatter(bot){
     }) // end of listener.addListener
 } // end of consoleChatter(bot) function
 
-module.exports = {registerCommands, registerEvents, registerMusicEvents, consoleChatter};
+module.exports = { registerCommands, registerEvents, registerMusicEvents, consoleChatter };

@@ -1,7 +1,7 @@
 /* This module allows the author to enqueue Youtube URL/Playlist/Tracks from search results to Aqukin audio streaming */
 const { Utils } = require("erela.js");
 const { MessageEmbed } = require("discord.js");
-const {musicEmbed} = require("../../utilities/embed_constructor");
+const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class PlayCommand extends BaseCommand{
@@ -9,7 +9,7 @@ module.exports = class PlayCommand extends BaseCommand{
 
     async run (para){
         // shortcut variables
-        const {bot, message} = para;
+        const { bot, message } = para;
         const author = message.author.username;
         let player = para.player;
         
@@ -31,7 +31,7 @@ module.exports = class PlayCommand extends BaseCommand{
             .catch((err) => {console.log(err)});
         
         // checks if there any search result(s), if not return a message to inform the author
-        if(!searchResults) return message.channel.send(`**${author}**-sama, Aqukin can't find any tracks with the given keywords, please also note that Aqukin will not queue Youtube Audio Mix or Stream`, para.ridingAqua);;
+        if(!searchResults) { return message.channel.send(`**${author}**-sama, Aqukin can't find any tracks with the given keywords, please also note that Aqukin will not queue Youtube Audio Mix or Stream`, para.ridingAqua); }
 
         switch(searchResults.loadType){
             // a case for single link song
@@ -76,7 +76,7 @@ module.exports = class PlayCommand extends BaseCommand{
                 message.channel.send(`**${author}**-sama, Aqukin has enqueued \`${searchResults.playlist.tracks.length}\` tracks from the playlist \`${searchResults.playlist.info.name}\`| total length \`${duration}s\``);
                 break;
         } // end of switch
-        if (!player.playing && !player.paused) player.play(); // start playing if the player 
+        if (!player.playing && !player.paused) { player.play(); } // start playing if the player 
 
         if(player.sentMessage){
             // Update the currently playing embed

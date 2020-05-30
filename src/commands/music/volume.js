@@ -1,5 +1,5 @@
 /* This module allows the author to configure the volume of Aqukin's audio stream  */
-const {musicEmbed} = require("../../utilities/embed_constructor");
+const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class VolumeCommand extends BaseCommand{
@@ -7,16 +7,16 @@ module.exports = class VolumeCommand extends BaseCommand{
     
     async run(para){
         // shortcut variables
-        const {message, player} = para;
-        const {author, channel} = message;
+        const { message, player } = para;
+        const { author, channel } = message;
         const num = Math.floor(para.args[0]);
 
         // checks if the input is a valid number or not
-        if (isNaN(num)) return channel.send(`**${author.username}**-sama, that's not a valid number~`, para.ridingAqua);
+        if (isNaN(num)) { return channel.send(`**${author.username}**-sama, that's not a valid number~`, para.ridingAqua); }
         // checks if the author is trying to raise the volume above 400
-        if (num > 400) return channel.send(`**${author.username}**-sama, please keep the volume at 400 or below as Aqukin is concerning about your health~`);
+        if (num > 400) { return channel.send(`**${author.username}**-sama, please keep the volume at 400 or below as Aqukin is concerning about your health~`); }
         // else checks if the author is trying to input a negative number
-        else if (num < 0) return channel.send(`**${author.username}**-sama, Aqukin can't set the volume with a negative value`);           
+        else if (num < 0) { return channel.send(`**${author.username}**-sama, Aqukin can't set the volume with a negative value`); }           
         // set the volume
         await player.setVolume(num);
         channel.send(`**${author.username}**-sama, Aqukin has set the volume to \`${player.volume}\``); // inform the author

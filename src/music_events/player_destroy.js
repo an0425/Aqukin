@@ -6,8 +6,8 @@ module.exports = class PlayerDestroyEvent extends BaseEvent {
   
   async run (music, player) {
     // deletes the now playing message and reset all variables
-    try{await player.sentMessage.delete();}
-    catch(err) {console.log("The message has already been manually deleted\n", err)}; // try catch in case the message got deleted manually
+    try{ await player.sentMessage.delete(); }
+    catch(err) { console.log("The message has already been manually deleted\n", err) }; // try catch in case the message got deleted manually
     music.votingSystem.clear();
   } // end of run
 } // end of module.exports

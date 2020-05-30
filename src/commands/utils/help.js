@@ -7,14 +7,14 @@ module.exports = class HelpCommand extends BaseCommand{
     
     async run(para) {
         // shortcut variables
-        const {message, bot} = para;
-        const {author, channel} = message;
+        const { message, bot } = para;
+        const { author, channel } = message;
         
         if(para.args.length){ // if the author has asked for help with a specific command
             const commandName = para.args[0].toLowerCase();
             const command = bot.commands.get(commandName) || bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
             // checks if there's a command with the given argurment, if not return a message to inform the author
-            if(!command) return channel.send(`**${author.username}**-sama, Aqukin can't find any command with that name~`, para.ridingAqua);
+            if(!command) { return channel.send(`**${author.username}**-sama, Aqukin can't find any command with that name~`, para.ridingAqua); }
 
             // construct the embed
             const images = ["https://media1.tenor.com/images/224db5f05470946e4c60ca9afea7597f/tenor.gif?itemid=17308034", 
@@ -34,10 +34,6 @@ module.exports = class HelpCommand extends BaseCommand{
         
         else { // else the author just need general help
             // get the command names
-            /*
-            const [music, others] = para.bot.commands.partition(cmd => cmd.tag === "music"); // partitioning the collection by the "music" tag
-            const [economy, utility] = others.partition(cmd => cmd.tag === "economy");
-            */
             const musicCmd = await bot.commands.filter(cmd => cmd.tag === "music");
             const econCmd = await bot.commands.filter(cmd => cmd.tag === "economy");
             const utilsCmd = await bot.commands.filter(cmd => cmd.tag === "utility");
@@ -52,9 +48,9 @@ module.exports = class HelpCommand extends BaseCommand{
                 .setColor(0x1DE2FE)
                 .setThumbnail("https://media1.tenor.com/images/e4d23a9fb9a1dab0b47c84029883dfb7/tenor.gif?itemid=17189878")
                 .setTitle(`You can send \`${para.prefix}help [command name]\` to get info on a specific command~`)
-                .addFields({name: "Music commands", value: musicCmdNames, inline: true}, 
-                           {name: "Ultility commands", value: utilsCmdNames, inline: true},
-                           {name: "Economy commands", value: econCmdNames, inline: true},)
+                .addFields({ name: "Music commands", value: musicCmdNames, inline: true }, 
+                           { name: "Ultility commands", value: utilsCmdNames, inline: true },
+                           { name: "Economy commands", value: econCmdNames, inline: true },)
                 .setImage(images[Math.floor(Math.random() * Math.floor(images.length))])
                 .setFooter("Vive La Résistance le Hololive~");
             channel.send(`**${author.username}**-sama, here's the list of Aqukin's commands, the prefix is "${para.prefix}"`, helpEmbed); // send out the embed

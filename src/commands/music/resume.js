@@ -1,5 +1,5 @@
 /* This module allows the author to resume Aqukin current audio streaming */
-const {musicEmbed} = require("../../utilities/embed_constructor");
+const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class ResumeCommand extends BaseCommand{
@@ -7,12 +7,12 @@ module.exports = class ResumeCommand extends BaseCommand{
 
     async run(para){
         // shortcut variables
-        const {message, player, voteReached} = para;
-        if(!voteReached) return;
+        const { message, player, voteReached } = para;
+        if(!voteReached) { return; }
         const author = message.author.username;
         
         // checks if the player is already paused, if so return a message to inform the author
-        if (!player.paused) return message.channel.send(`**${author}**-sama, Aqukin audio stream is not paused.`);
+        if (!player.paused) { return message.channel.send(`**${author}**-sama, Aqukin audio stream is not paused.`); }
         player.paused = false;
         await player.pause(false); // pauses streaming audio
         message.channel.send(`**${author}**-sama, Aqukin has resumed audio streaming~`);

@@ -12,7 +12,7 @@ module.exports = class DisplayStockMarketCommand extends BaseCommand{
 
         const stocks = await StockMarket.findAll();
         // checks if the shop inventory is not empty
-        if(!stocks){ return message.channel.send(`**${message.author.username}**-sama, there are no firm needing investment right now~`); }
+        if(!stocks) { return message.channel.send(`**${message.author.username}**-sama, there are no firm needing investment right now~`); }
 
         // construct the embed
         const embed = await marketEmbed(bot, message, stocks);

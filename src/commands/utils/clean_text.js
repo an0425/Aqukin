@@ -1,5 +1,5 @@
 /* This module cleans up a specified number of messages (max 99) */
-const {checkNum} = require("../../utilities/functions");
+const { checkNum } = require("../../utilities/functions");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class CleanCommand extends BaseCommand{
