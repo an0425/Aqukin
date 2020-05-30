@@ -29,7 +29,7 @@ module.exports = class AddPlayerCommand extends BaseCommand{
         if(target.id === message.author.id) reply = "you";
         else reply = `**${target.username}**-sama`;
         
-        if(user) {return message.channel.send(`**${message.author.username}**-sama, ${reply} has already participated in the economy game`);}
+        if(user) {return message.channel.send(`**${message.author.username}**-sama, ${reply} has already participated in the economy~`);}
 
         // add the target to the game
         await bot.currency.add(target.id, 1000);
@@ -42,8 +42,8 @@ module.exports = class AddPlayerCommand extends BaseCommand{
         const embed = new MessageEmbed()
             .setColor(0x1DE2FE)
             .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
-            .setTitle(`Welcome ${target.username}-sama to the economy game`)
-            .addFields({name: "Your Balance", value: bot.currency.getBalance(target.id)},
+            .setTitle(`Welcome ${target.username}-sama to the economy~`)
+            .addFields({name: "Your Balance", value: `$${bot.currency.getBalance(target.id)}`},
                        {name: `Command list, <> is mandatory [] is optional`, value: description})
             .setImage("https://media1.tenor.com/images/efe08c14a1ac2fb7d1d1773126f9b969/tenor.gif?itemid=16404461")
             .setFooter("Vive La Résistance le Hololive~");

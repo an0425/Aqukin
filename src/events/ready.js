@@ -1,5 +1,5 @@
 /* this module represents the "ready" event */
-const { Users } = require("../dbObjects");
+const { Users } = require("../database/dbObjects");
 const BaseEvent = require("../utilities/structures/BaseEvent");
 
 module.exports = class ReadyEvent extends BaseEvent {

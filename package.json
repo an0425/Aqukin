@@ -8,7 +8,7 @@
     "dev": "nodemon ./src/aqukin.js",
     "lavalink": "java -jar Lavalink.jar",
     "aqukin": "node ./src/aqukin.js",
-    "economy": "node ./src/dbInit.js"
+    "economy": "node ./src/database/dbInit.js"
   },
   "author": "DeaLoux",
   "license": "ISC",

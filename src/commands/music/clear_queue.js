@@ -1,5 +1,5 @@
 /* This module allows the author to clear the music queue */
-const {musicEmbed} = require("../../utilities/music_embed");
+const {musicEmbed} = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class ClearQueueCommand extends BaseCommand {

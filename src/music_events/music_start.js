@@ -1,5 +1,5 @@
 /* this module represents the "trackStart" event for erela.js, emitted when a track starts */
-const {musicEmbed} = require("../utilities/music_embed");
+const {musicEmbed} = require("../utilities/embed_constructor");
 const BaseEvent = require('../utilities/structures/BaseEvent');
 
 module.exports = class TrackStartEvent extends BaseEvent {

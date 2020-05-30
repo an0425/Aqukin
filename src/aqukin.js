@@ -2,11 +2,12 @@
 require("dotenv").config();
 const { ErelaClient } = require("erela.js");
 const {Client, Collection} = require("discord.js");
-const { Users } = require("./dbObjects");
+const { Users } = require("./database/dbObjects");
 const {registerCommands, registerEvents, registerMusicEvents, consoleChatter} = require("./utilities/handlers");
 const bot = new Client();
 bot.commands = new Collection(); // bot commands
 bot.currency = new Collection(); // currency
+bot.sentMarket = new Collection(); // market message
 
 Reflect.defineProperty(bot.currency, "add", {
 	value: async function add(id, amount) {

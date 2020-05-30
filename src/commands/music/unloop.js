@@ -1,5 +1,5 @@
 /* This module allows the author to unloop the current track/queue in Aqukin audio stream */
-const {musicEmbed} = require("../../utilities/music_embed");
+const {musicEmbed} = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class UnLoopCommand extends BaseCommand{

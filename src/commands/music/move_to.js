@@ -1,6 +1,6 @@
 /* This module allows the author to move into a specified timestamp in current track of Aqukin's audio stream  */
 const { Utils } = require("erela.js");
-const {musicEmbed} = require("../../utilities/music_embed");
+const {musicEmbed} = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class MoveToCommand extends BaseCommand{

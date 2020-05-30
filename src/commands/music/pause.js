@@ -1,5 +1,5 @@
 /* This module allows the author to pause Aqukin current audio streaming */
-const {musicEmbed} = require("../../utilities/music_embed");
+const {musicEmbed} = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class PauseCommand extends BaseCommand{
