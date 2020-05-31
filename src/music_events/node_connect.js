@@ -22,6 +22,7 @@ module.exports = class NodeConnectEvent extends BaseEvent {
 				  "https://media1.tenor.com/images/793c6b50391d60623ba3d8316195eb2d/tenor.gif?itemid=17068399",
 				  "https://media1.tenor.com/images/bd16983aeafcd0446662a267791ee55f/tenor.gif?itemid=16598932",
 				  "https://media1.tenor.com/images/6a731a5f4651141c4eff13c467e45f38/tenor.gif?itemid=16460094",
+				  "https://media1.tenor.com/images/25d8ea73a241cce87c7aad65acd78ed7/tenor.gif?itemid=17267164",
 				  "https://media1.tenor.com/images/cc14493a42cd23e7db5a45675089b87e/tenor.gif?itemid=17042819",
 				  "https://media1.tenor.com/images/406ceaf8b409a4f3e1bacef2cd084592/tenor.gif?itemid=17045844",
 				  "https://media1.tenor.com/images/b4765f9afdbbce895c60f504810ebe90/tenor.gif?itemid=16695128",

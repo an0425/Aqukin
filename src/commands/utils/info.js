@@ -14,7 +14,7 @@ module.exports = class InfoCommand extends BaseCommand{
             const users = message.mentions.users.first([2]);
             user = users[1]; // get the mentioned user
         }
-        else { user = message.mentions.users.first() || message.author; } 
+        else{ user = message.mentions.users.first() || message.author; } 
 
         // checks if the user has tagged Aqukin
         if(user.id === "702620458130079750"){

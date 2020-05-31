@@ -1,9 +1,9 @@
-/* This module add the mentioned user to the economy game */
+/* This module add the mentioned user as a new investor to the economy */
 const { MessageEmbed } = require("discord.js");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
-module.exports = class AddPlayerCommand extends BaseCommand{
-    constructor() {super("addplayer", ["ap", "add"], "Add the mentioned user to the economy game (requires Administrative rights)", "ADMINISTRATION", "economy", false, false, "[mentioned user]")}
+module.exports = class AddInvestorCommand extends BaseCommand{
+    constructor() {super("addinvestor", ["ai", "add"], "Add the mentioned user/yourself as a new investor to the economy (requires Administrative rights)", "ADMINISTRATION", "economy", false, false, "[mentioned user]")}
     
     async run(para){
         const { message, bot } = para;
