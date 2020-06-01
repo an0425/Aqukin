@@ -4,7 +4,7 @@ const { Users } = require("../../database/dbObjects");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class InvestmentPortfolioCommand extends BaseCommand{
-    constructor() {super("investmentportfolio", ["ip", "balance", "portfolio", "investment"], "Display the investment portfolio of the mentioned user/yourself", "SEND_MESSAGES", "economy", false, false, "[mentioned user]")}
+    constructor() {super("portfolio", ["po", "balance", "investment"], "Display the investment portfolio of the mentioned user/yourself", "SEND_MESSAGES", "economy", false, false, "[mentioned user]")}
     
     async run(para){
         const { message } = para;
@@ -16,7 +16,7 @@ module.exports = class InvestmentPortfolioCommand extends BaseCommand{
             }
             else { target = message.author; }
         }
-        else{ target = message.mentions.users.first() || message.author;} // used prefix instead of mentioning Aqukin
+        else{ target = message.mentions.users.first() || message.author; } // used prefix instead of mentioning Aqukin
 
         if(target.bot) { return; }
 
@@ -28,8 +28,8 @@ module.exports = class InvestmentPortfolioCommand extends BaseCommand{
 
         let title;
         // checks if the author has tagged themselve
-        if(target.id === message.author.id) title = "Your";
-        else title = `**${target.username}**-sama`;
+        if(target.id === message.author.id) { title = "Your"; }
+        else { title = `**${target.username}**-sama`; }
 
         if(!user) { return message.channel.send(`**${message.author.username}**-sama, ${title} need to be an investor first~`); }
         
@@ -39,7 +39,6 @@ module.exports = class InvestmentPortfolioCommand extends BaseCommand{
         // checks if the target inventory is empty or not
         if(stocks.count === 0) { description += `**${target.username}-sama** has not invested in any establishment~`; }
         else{
-            // reply += ` holding ${stocks.rows.map(i => `${i.user_share} shares of the ${i.stock.name}`).join(', ')}`;
             stocks.rows.forEach(async us => {
                 description += `\nThe **${us.stock.name}**\n \`Held Share(s)\` -- ${us.user_share} \n`;
             }); // end of for each

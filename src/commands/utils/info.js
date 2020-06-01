@@ -45,7 +45,10 @@ module.exports = class InfoCommand extends BaseCommand{
         // checks if the member is in the guild, if not return a message to inform the author
         if (!member) { return message.channel.send(`**${message.author.username}**-sama, it looks like the person you mentioned isn't in this guild~`, para.ridingAqua);}
         
-        const memberRoles = member.roles.cache.map(role => role.name).join("\n") // get the mention user role(s) in the guild
+        // get the mention user role(s) in the guild
+        const memberRoles = member.roles.cache
+            .filter(role => role.name !== "@everyone")
+            .map(role => `\`${role.name}\``).join(" "); 
         let title;
         // checks if the author has tagged themselve
         if(member.id === message.author.id) { title = "Your"; }
@@ -55,16 +58,17 @@ module.exports = class InfoCommand extends BaseCommand{
         if(member.nickname) { nickname = member.nickname; }
         else { nickname = "None"; } // if not display "None" instead of "null"
         
-        const {thumbnails} = bot.music;
+        //const {thumbnails} = bot.music;
         const embed = new MessageEmbed()
             .setColor(0x1DE2FE)
-            .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
+            //.setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
+            .setThumbnail(member.user.displayAvatarURL({format: "png", dynamic: true, size: 2048}))
             .setTitle(`${title} information`)
-            .addFields({ name: "Tag", value: member.user.tag },
-                       { name: "Nickname", value: nickname },
-                       { name: "Role(s)", value: memberRoles },
-                       { name: "Date Joined", value: member.joinedAt.toLocaleDateString() })
-            .setImage(member.user.displayAvatarURL({format: "png", dynamic: true, size: 2048}))
+            .addFields({ name: "Tag", value: member.user.tag, inline: true },
+                       { name: "Nickname", value: nickname, inline: true },
+                       { name: "Date Joined", value: member.joinedAt.toLocaleDateString() },
+                       { name: "Role(s)", value: memberRoles })
+            //.setImage(member.user.displayAvatarURL({format: "png", dynamic: true, size: 2048}))
             .setFooter("Vive La Résistance le Hololive~");
         message.channel.send(`**${message.author.username}**-sama, this is`, embed)
     } // end of run

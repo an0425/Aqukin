@@ -18,7 +18,7 @@ Users.prototype.addStock = async function(stock, amount) {
 	const userStock = await UserStocks.findOne({where: { user_id: this.user_id, stock_id: stock.id },});
 
 	// increase the user_share if the stock is found in the user portfolio, else add the stock to the portfolio
-	if (userStock) {return userStock.increment("user_share", { by: amount });}
+	if (userStock) { return userStock.increment("user_share", { by: amount }); }
 	await UserStocks.create({ user_id: this.user_id, stock_id: stock.id, user_share: amount });
 };
 

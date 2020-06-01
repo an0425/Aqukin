@@ -39,7 +39,10 @@ module.exports = class MessageEvent extends BaseEvent {
         const command = bot.commands.get(commandName) || bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
         let para = await commandCheck(bot, message, command, args, prefix);
 
-        if(!para) { return; } // checks if the parameters is returned, if not do nothing
+        if(!para) { 
+            bot.mentioned = false;
+            return; 
+        } // checks if the parameters is returned, if not do nothing
 
         // try executing the command and catch any errors
         try{

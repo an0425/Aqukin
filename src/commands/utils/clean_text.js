@@ -3,7 +3,7 @@ const { checkNum } = require("../../utilities/functions");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class CleanCommand extends BaseCommand{
-    constructor() {super("cleantext", ["del", "clean", "delete"], "Clean up a specified number of messages (max 99, requires Administrative rights)", "ADMINISTRATOR", "utility", false, false, "[a positive integer less than or equals to 99]")}
+    constructor() {super("cleantext", ["ct", "del", "clean", "delete"], "Clean up a specified number of messages (max 99, requires Administrative rights)", "ADMINISTRATOR", "utility", false, false, "[a positive integer less than or equals to 99]")}
     
     async run(para){
         const { message, ridingAqua } = para;

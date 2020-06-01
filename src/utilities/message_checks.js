@@ -19,7 +19,7 @@ async function typeCheck(bot, message, prefix, tag){
 async function commandCheck(bot, message, command, args, prefix){
     // checks if the command is valid
     if (!command) {
-        message.channel.send(`**${message.author.username}**-sama, Aqukin can't find any command with that name, try \`>help\` if you need help with commands~`, ridingAqua);
+        message.channel.send(`**${message.author.username}**-sama, Aqukin can't find any command with that name, try \`${prefix}help\` if you need help with commands~`, ridingAqua);
         return; 
     }
 
@@ -57,7 +57,7 @@ async function commandCheck(bot, message, command, args, prefix){
             }
             // checks if Aqukin is streaming any audio, excluding the play/multiplay commands, if not return a message to inform the author
             if(!player && command.name !== "play" && command.name !== "multiplay") { 
-                message.channel.send(`**${message.author.username}**-sama, Aqukin is not currently streaming any audio`, ridingAqua)
+                message.channel.send(`**${message.author.username}**-sama, Aqukin is not currently streaming any audio`, ridingAqua);
                 return;
             }; 
             // checks if the command require voting
@@ -134,7 +134,9 @@ async function commandCheck(bot, message, command, args, prefix){
                                     bot.music.votingSystem.delete(command.name);
                                 }
                             }
-                        } catch(err) {console.log(err);} 
+                        } catch(err) {
+                            console.log(err);
+                        } 
                         msg.delete({ timeout: 12000 });
                     } // end of if voteRequire is > 0
                     else {
