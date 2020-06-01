@@ -1,61 +1,79 @@
-/* This module allows the author to queue youtube URL or keyword to Aqukin audio streaming */
-const BaseCommand = require("../../utils/structures/BaseCommand");
-const { MessageEmbed } = require('discord.js');
+/* This module allows the author to enqueue Youtube URL/Playlist/Tracks from search results to Aqukin audio streaming */
+const ytdl = require("ytdl-core");
+// const { musicEmbed } = require("../../utilities/embed_constructor");
+const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class PlayCommand extends BaseCommand{
-    constructor() {super("play",["p"], "CONNECT", "music", false, true, "<Youtube URL or Keywords>")}
+    constructor() {super("play", ["p"], "Enqueue Youtube URL/Playlist/Tracks from search results", "CONNECT", "music", true, false, "<Youtube URL> or <Keywords>")}
 
     async run (para){
         // shortcut variables
-        const bot = para.bot;
-        const msg = para.message;
-        const author = para.message.author.username;
+        const { bot, message, player, voiceChannel } = para;
+        const { author, channel } = message;
         
+        // search for track(s) with the given arguments
         const query = para.args.join(" ");
         console.log(query);
+        const validate = await ytdl.validateURL(query);
         
+        // checks if there any search result(s), if not return a message to inform the author
+        if(!validate) { return channel.send(`**${author.username}**-sama, Aqukin can't find any tracks with the given keywords`, para.ridingAqua); }
+
+       // Get the song info
+       const songInfo = await ytdl.getInfo(para.args[0]);
+       const song = {
+           title: songInfo.title,
+           url: songInfo.video_url,
+       };
+
+       if (!player) {
+           const playerContruct = {
+               textChannel: channel,
+               voiceChannel: voiceChannel,
+               connection: null,
+               songs: [],
+               volume: 5,
+               playing: true
+            };
+            bot.queue.set(message.guild.id, playerContruct);
         
-        // spawns a player inside the author's voice channel
-        const { channel } = msg.member.voice
-        const player = bot.music.players.spawn({
-            guild: msg.guild,
-            voiceChannel: channel,
-            textChannel: msg.channel,
-        });
-
-        try { // try and catch any errors
-            // searches the results with the given keywords
-            let i = 0;
-            const searchResults = await bot.music.search(query, msg.author);
-            const tracks = searchResults.tracks.slice(0, 10);
-            const tracksInfo = tracks.map(r => `${++i}) ${r.title}\n    ${r.uri}`).join("\n");
+            playerContruct.songs.push(song);
         
-            // embed the result(s)
-            const embed = new MessageEmbed()
-                .setAuthor(bot.user.tag, bot.user.displayAvatarURL())
-                .setDescription(tracksInfo)
-                .setFooter(`${author}-sama, here's your music results`);
-  
-            
-            const sentMessage = await msg.channel.send(`**${author}**-sama, please enter the track number that you would like Aqukin to queue.`, embed); // display the embed
-            sentMessage.delete({ timeout: 10000 }); // delete the embed after 10s
-
-            // Allow the author to select a track fron the search results within the allowed time of 10s
-            const filter = m => (msg.author.id === m.author.id) && (m.content >= 1 && m.content <= tracks.length);
-            const response = await msg.channel
-                .awaitMessages(filter, { max: 1, time: 10000, errors: ['time']});
-
-            if (response) {
-                await msg.channel.bulkDelete(1); // delete the user respond
-                const entry = response.first().content;
-                const player = bot.music.players.get(msg.guild.id);
-                const track = tracks[entry-1];
-                player.queue.add(track);
-                msg.channel.send(`**${author}**-sama, Aqukin has enqueued track **${track.title}**`);
-                if (!player.playing) player.play();
+            try {
+                var connection = await voiceChannel.join();
+                playerContruct.connection = connection;
+                await playing(bot, message.guild, playerContruct.songs[0], author);
+            } catch (err) {
+                console.log(err);
+                bot.queue.delete(para.message.guild.id);
+                return channel.send(err);
             }
-        } catch (err) {console.log(err);}
-    }
-};
+        }
+        else{
+            player.songs.push(song);
+            return channel.send(`**${author.username}**-sama, Aqukin has queued: **${song.title}**`);
+        }
+    } // end of run
+}; // end of module.exports
 
+async function playing(bot, guild, song, author){
+    const player = bot.queue.get(guild.id);
+    if (!song) {
+        player.voiceChannel.leave();
+        bot.queue.delete(guild.id);
+        return;
+    }
+            
+    // queue push
+    const dispatcher = player.connection
+        .play(await ytdl(song.url), { filter: 'audioonly' })
+            
+        .on("finish", () => {
+            player.songs.shift();
+            playing(bot, guild, player.songs[0]);
+        })
+                
+        .on("error", console.error);
+    player.textChannel.send(`**${author.username}**-sama, Aqukin is now playing: **${song.title}**`)
+}
     

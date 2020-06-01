@@ -6,14 +6,20 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon ./src/aqukin.js",
-    "lavalink": "java -jar Lavalink.jar",
-    "aqukin": "node ./src/aqukin.js"
+    "aqukin": "node ./src/aqukin.js",
+    "economy": "node ./src/database/dbInit.js"
   },
   "author": "DeaLoux",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/opus": "^0.3.2",
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
-    "erela.js": "^1.1.7"
+    "ffmpeg-static": "^4.2.2",
+    "googleapis": "^50.0.0",
+    "ms": "^2.1.2",
+    "sequelize": "^5.21.11",
+    "sqlite3": "^4.2.0",
+    "ytdl-core": "^2.1.5"
   }
 }

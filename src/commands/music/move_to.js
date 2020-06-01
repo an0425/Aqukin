@@ -1,26 +1,40 @@
-/* This module allows the author to move into a specified timestamp in Aqukin's current audio streaming track */
-const BaseCommand = require("../../utils/structures/BaseCommand");
+/* This module allows the author to move into a specified timestamp in current track of Aqukin's audio stream  
+const { Utils } = require("erela.js");
+const { musicEmbed } = require("../../utilities/embed_constructor");
+const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class MoveToCommand extends BaseCommand{
-    constructor() {super("move",["to", "time"], "CONNECT", "music", false, true, "<mm:ss>")}
+    constructor() {super("moveto", ["m", "to", "time", "move"], "Move the audio player to a specified timestamp in the current track", "CONNECT", "music", true, false, "<ex: 1m12s>")}
     
-    run(para){
+    async run(para){
         // shortcut variables
-        const msg = para.message;
-        const author = para.message.author.username;
-        const { id } = msg.guild;
-        const player = para.bot.music.players.get(id);
-
-        // convert split the argument by the colon and convert it into the correct format
-        const time = para.args[0].toString().trim().split(":");
-        // check if the author has entered the correct format of the timestamp, if no return a message to inform them
-        if(isNaN(time[0])) return msg.channel.send(`**${author}**-sama, that's not a valid timestamp, please use this timestamp format **<mm:ss>**`);
-        const timestamp = parseInt(time[0])*60000 + parseInt(time[1])*1000;
+        const { message, player } = para;
+        const author = message.author.username;
+        const timestamp = await Utils.parseTime(para.args[0]);
         
-        player.seek(timestamp);
-        msg.channel.send(`${author}-sama, Aqukin has moved the current track to **${para.args[0]}**`);
-    }
-};
+        // checks if the author has provided the correct format for the timestamp
+        if(!timestamp) return message.channel.send(`**${author}**-sama, please specify the timestamp in the correct format, ex \`>move <1m12s>\``);
+        // try to move to the given timestamp, inform the author if fail
+        try{ 
+            await player.seek(timestamp);
+            // inform the author if success
+            message.channel.send(`**${author}**-sama, Aqukin has moved the current track to position \`${Utils.formatTime(player.position, true)}s\``);
+
+            // Update the currently playing embed
+            if(!player.paused) { return; }
+            const embed = await musicEmbed(para.bot.music, player, player.queue[0])
+            if(!player.sentMessage) {
+                player.sentMessage = await player.textChannel.send(embed);
+            }
+            else{
+                await player.sentMessage.edit(embed); // send the embed to inform about the now playing track
+            }
+        } catch(err) {
+            console.log(err);
+            message.channel.send(`**${author}**-sama, please provide a valid timestamp~`, para.ridingAqua);
+        } 
+    } // end of run
+}; // end of module.exports */
 
 
 

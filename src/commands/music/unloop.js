@@ -1,46 +1,51 @@
-/* This module allows the author to loop the current track Aqukin current audio streaming */
-const BaseCommand = require("../../utils/structures/BaseCommand");
+/* This module allows the author to unloop the current track/queue in Aqukin audio stream 
+const { musicEmbed } = require("../../utilities/embed_constructor");
+const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class UnLoopCommand extends BaseCommand{
-    constructor() {super("unloop",[], "CONNECT", "music", false, true, "<song> or <track> or <queue>")}
+    constructor() {super("unloop", ["unrepeat"], "Unloop the current track/queue", "CONNECT", "music", true, true, "<song/track> or <queue>")}
 
-    run(para){
+    async run(para){
         // shortcut variables
-        const msg = para.message;
-        const author = para.message.author.username;
-        const { id } = msg.guild;
-        const player = para.bot.music.players.get(id);
-        
-        
+        const { message, player, voteReached } = para;
+        if(!voteReached) { return; }
+        const author = message.author.username;
 
         switch(para.args[0].toLowerCase()){
             // cases for song and track
             case "song":
             case "track":
                 // checks if the track is already set to loop, if so return a message to inform the author
-                if (!player.trackRepeat) return msg.channel.send(`**${author}**-sama, this track is not currently set to loop.`);
-                player.setTrackRepeat(false); // loop the current queue
-                msg.channel.send(`**${author}**-sama, Aqukin will now unloop the current track`);
+                if (!player.trackRepeat) { return message.channel.send(`**${author}**-sama, this track is not currently set to loop.`); }
+                await player.setTrackRepeat(false); // unloop the current track
+                message.channel.send(`**${author}**-sama, Aqukin has cancelled the current track loop~`);
                 break;
             
             // a case for queue
             case "queue":
                 // checks if the queue is empty, if so return a message to inform the author
-                if (player.queue.empty) return msg.channel.send(`**${author}**-sama, Aqukin the queue is currently empty.`);
+                if (player.queue.empty) { return message.channel.send(`**${author}**-sama, the queue is currently empty~`, para.ridingAqua); }
                 // checks if the track is already set to loop, if so return a message to inform the author
-                if (!player.queueRepeat) return msg.channel.send(`**${author}**-sama, this queue is not currently set to loop.`);
-                player.setTrackRepeat(false); // unloop the current audio track
-                player.setQueueRepeat(false); // unloop the current queue
-                msg.channel.send(`**${author}**-sama, Aqukin will now unloop the current queue`);
+                if (!player.queueRepeat) { return message.channel.send(`**${author}**-sama, this queue is not currently set to loop.`); }
+                await player.setQueueRepeat(false); // unloop the current queue
+                message.channel.send(`**${author}**-sama, Aqukin has cancelled the current queue loop~`);
                 break;
             
             // a default case for wrong input
             default:
-                msg.channel.send(`**${author}**-sama, please use this format !unloop **<song>** or **<track>** or **<queue>**`);
-                break;
+                message.channel.send(`**${author}**-sama, please use this format \`>unloop <song> or <track> or <queue>\``);
+        } // end of switch
+
+        // Update the currently playing embed
+        const embed = await musicEmbed(para.bot.music, player, player.queue[0])
+        try{
+            await player.sentMessage.edit(embed); // send the embed to inform about the now playing track
+        } catch(err) {
+            console.log("Recreating the deleted music embed", err);
+            player.sentMessage = await player.textChannel.send(embed);
         }
-    }
-};
+    } // end of run
+}; // end of modulde.exports */
 
 
 

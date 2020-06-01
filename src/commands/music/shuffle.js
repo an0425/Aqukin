@@ -1,18 +1,16 @@
-/* This module allows the author to shuffle the music queue */
-const BaseCommand = require('../../utils/structures/BaseCommand');
+/* This module allows the author to shuffle the music queue 
+const BaseCommand = require('../../utilities/structures/BaseCommand');
 
 module.exports = class ShuffleQueueCommand extends BaseCommand {
-  constructor () {super('shuffle', [], "CONNECT", "music", false, false, "");}
+  constructor () {super("shufflequeue", ["sq", "shuffle"], "Shuffle the audio player's queue", "CONNECT", "music", false, false, "");}
 
   async run (para) {
     // shortcut variables
-    const msg = para.message
-    const { id } = msg.guild;
-    const player = para.bot.music.players.get(id);
-    
+    const { message, player } = para;
+
     // checks if the current queue is empty, if so return a message to inform the author
-    if(player.queue.empty) return msg.channel.send(`**${author}**-sama, the audio queue is currently empty :(`);
-    player.queue.shuffle();
-    msg.channel.send(`**${msg.author.username}**-sama, Aqukin has shuffled the queue`);
-  }
-}
+    if(player.queue.empty) { return message.channel.send(`**${author}**-sama, the queue is currently empty~`, para.ridingAqua); }
+    player.queue.shuffle();// shuffles the queue
+    message.channel.send(`**${message.author.username}**-sama, Aqukin has shuffled the queue`); // informs the author
+  } // end of run
+} // end of module.exports */
