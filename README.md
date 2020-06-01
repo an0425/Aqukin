@@ -1,2 +1,2 @@
 # Aqukin
- Discord Bot - Aqukin your ninja combat maido
+ Discord Bot - Aqukin your ninja combat maid
