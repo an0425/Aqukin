@@ -19,7 +19,7 @@ module.exports = class DisplayStockMarketCommand extends BaseCommand{
         const sentMgs = await bot.sentMarket.get(message.author.id);
         if(sentMgs) { 
             sentMgs.delete()
-                   .catch((err) => {console.log(`The market message has been deleted manually~`);});
+                   .catch((err) => { console.log(`The market message has been deleted manually~`); });
         }
         bot.sentMarket.set(message.author.id, message.channel.send(`**${message.author.username}**-sama, welcome to the stock market`, embed));
     }

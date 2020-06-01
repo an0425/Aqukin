@@ -25,8 +25,8 @@ module.exports = class AddInvestorCommand extends BaseCommand{
 
         let reply;
         // checks if the author has tagged themselve
-        if(target.id === message.author.id) reply = "you";
-        else reply = `**${target.username}**-sama`;
+        if(target.id === message.author.id) { reply = "you"; }
+        else { reply = `**${target.username}**-sama`; }
         
         if(bot.currency.has(target.id)) { return message.channel.send(`**${message.author.username}**-sama, ${reply} has already participated in the economy~`); }
 

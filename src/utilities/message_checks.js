@@ -7,14 +7,12 @@ const ridingAqua = {files: ["https://media1.tenor.com/images/e6578328df71dbd6b44
 // this function checks for message type, return true if it's a command, return false if it's not
 async function typeCheck(bot, message, prefix, tag){
     // checks if the message is a command type
-    if(message.content.startsWith(prefix))  
-        return true; 
+    if(message.content.startsWith(prefix))  { return true; }
     else if(message.content.startsWith(tag)){
         bot.mentioned = true;
         return true;
     }
-    else 
-        return false; // return false
+    else{ return false; } // return false
 } // end of typeCheck(...) function
 
 // this function handles the all the checks for the commands
@@ -29,7 +27,7 @@ async function commandCheck(bot, message, command, args, prefix){
     if(command.args && !args.length){
         let reply = `**${message.author.username}**-sama, please provide an argument for this command.`; // default reply without usage
         // checks if there's a correct usage for the command
-        if(command.usage) { reply += `\nThe proper usage would be \`${prefix}${command.name} ${command.usage}\``;} // add the usage to the reply
+        if(command.usage) { reply += `\nThe proper usage would be \`${prefix}${command.name} ${command.usage}\``; } // add the usage to the reply
         message.channel.send(reply); // return the reply to inform the author
         return;
     }
@@ -161,7 +159,7 @@ async function commandCheck(bot, message, command, args, prefix){
 
         // a case for other economy commands
         case "economy":
-            if(!bot.currency.has(message.author.id)) {
+            if(!bot.currency.has(message.author.id) && command.name !== "addinvestor") {
                 message.channel.send(`**${message.author.username}**-sama, you need to be an investor to use this command~`);
                 return;
             }

@@ -16,11 +16,12 @@ const force = process.argv.includes("--force") || process.argv.includes("-f"); /
 
 sequelize.sync({ force }).then(async () => {
 	const shop = [
-		StockMarket.upsert({ name: "Casino", cost: 120, market_share: 100 }),
-		StockMarket.upsert({ name: "Government", cost: 700, market_share: 100 }),
-		StockMarket.upsert({ name: "Lawfirm", cost: 400, market_share: 100 }),
-		StockMarket.upsert({ name: "Court", cost: 500, market_share: 100 }),
-		StockMarket.upsert({ name: "Bank", cost: 250, market_share: 100 }),
+		await StockMarket.upsert({ name: "Casino", cost: 120, market_share: 100 }),
+		await StockMarket.upsert({ name: "Bank", cost: 250, market_share: 100 }),
+		await StockMarket.upsert({ name: "Eastern Law", cost: 400, market_share: 100 }),
+		await StockMarket.upsert({ name: "Western Law", cost: 400, market_share: 100 }),
+		await StockMarket.upsert({ name: "Court", cost: 500, market_share: 100 }),
+		await StockMarket.upsert({ name: "Government", cost: 700, market_share: 100 }),
 	];
 	await Promise.all(shop);
 	console.log("Database synced");

@@ -14,7 +14,7 @@ module.exports = class InvestmentPortfolioCommand extends BaseCommand{
                 const users = message.mentions.users.first([2]);
                 target = users[1]; // get the mentioned user
             }
-            else {target = message.author;}
+            else { target = message.author; }
         }
         else{ target = message.mentions.users.first() || message.author;} // used prefix instead of mentioning Aqukin
 
@@ -45,7 +45,7 @@ module.exports = class InvestmentPortfolioCommand extends BaseCommand{
             }); // end of for each
         }
         // construct the embed
-        const {thumbnails} = para.bot.music;
+        const { thumbnails } = para.bot.music;
         const embed = new MessageEmbed()
             .setColor(0x1DE2FE)
             .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])

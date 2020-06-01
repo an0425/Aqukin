@@ -6,19 +6,24 @@ const { Users, StockMarket } = require("../../database/dbObjects");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class BuyStockCommand extends BaseCommand{
-    constructor() {super("buy", ["b", "purchase"], "Purchase an amount of share(s) of a firm available from the stock market", "SEND_MESSAGES", "economy", true, false, "<avaiable stock> [amount]")}
+    constructor() {super("buy", ["b", "purchase"], "Purchase an amount of share(s) of a firm available from the stock market", "SEND_MESSAGES", "economy", true, false, "[amount] <avaiable stock>")}
     
     async run(para){
         // shorcut variables
-        const {message, bot, args} = para;
+        const { message, bot, args } = para;
+
+        let firmName;
+        if(isNaN(args[0])) { firmName = args.join(" "); }
+        else{ firmName = args.slice(1).join(" "); }
+        
+        let amount = await checkNum(args[0], 1);
 
         // checks if the user is requesting to buy a valid stock
-        const stock = await StockMarket.findOne({ where: { name: { [Op.like]: args[0] } } });
-        if(!stock){ return message.channel.send(`**${message.author.username}**-sama, the is no such firm called **${args[0]}**`); }
+        const stock = await StockMarket.findOne({ where: { name: { [Op.like]: firmName } } });
+        if(!stock){ return message.channel.send(`**${message.author.username}**-sama, the is no such firm called **${firmName}**`); }
 
         if(stock.market_share === 0) { return message.channel.send(`**${message.author.username}**-sama, the **${stock.name}** has already reached its maximum share~`); }
 
-        let amount = await checkNum(args[1], 1);
         
         if(stock.market_share < amount){ // else adjust the amount to the number of remaining share(s) if the amount exceeds it
             amount = stock.market_share;
