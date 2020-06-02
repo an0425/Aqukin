@@ -38,7 +38,7 @@ module.exports = class AddInvestorCommand extends BaseCommand{
             .forEach(cmd => description += `\n\`${para.prefix}${cmd.name} ${cmd.usage}\` -- ${cmd.description}.\n`);
         
         // construct the embed
-        const {thumbnails} = bot.music;
+        const {thumbnails} = bot;
         const embed = new MessageEmbed()
             .setColor(0x1DE2FE)
             .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])

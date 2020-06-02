@@ -44,7 +44,7 @@ module.exports = class InvestmentPortfolioCommand extends BaseCommand{
             }); // end of for each
         }
         // construct the embed
-        const { thumbnails } = para.bot.music;
+        const { thumbnails } = para.bot;
         const embed = new MessageEmbed()
             .setColor(0x1DE2FE)
             .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])

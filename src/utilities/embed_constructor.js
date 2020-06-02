@@ -31,7 +31,7 @@ async function marketEmbed(bot, message, stocks){
     stocks.forEach(stock => description += `\nThe **${stock.name}**\n\`Current stock price\` -- $${stock.cost}\n\`Available share(s)\` -- ${stock.market_share}\n`);
 
     // construct the embed
-    const {thumbnails} = bot.music;
+    const {thumbnails} = bot;
     const embed = new MessageEmbed()
         .setColor(0x1DE2FE)
         .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])

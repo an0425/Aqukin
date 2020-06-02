@@ -1,8 +1,9 @@
 /* This module creates the associations between the models of the database */
+require("dotenv").config();
 const Sequelize = require("sequelize");
 
 const sequelize = new Sequelize("database", "username", "password", {
-	host: "localhost",
+	host: process.env.HOST,
 	dialect: "sqlite",
 	logging: false,
 	storage: "database.sqlite",
