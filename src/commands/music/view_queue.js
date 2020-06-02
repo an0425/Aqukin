@@ -59,27 +59,24 @@ module.exports = class ViewQueueCommand extends BaseCommand {
 async function generateQueueEmbed(queue, thumbnails) {
   const embeds = [];
   let k = 8;
-  let info = "";
+  let info;
   for(let i = 0; i < queue.length; i += 7) { // for loop going through all the tracks in the queue
     const next = queue.slice(i+1, k)
     // checks if there's anything next in queue
     if (!next.empty){
       let j = i;
       k += 7;
-      next.forEach(async track => {
-        const duration = await convertLenght(track.duration);
-        info += `${++j}) [${track.title}](${track.url}) | length \`${duration}\` | requested by **${track.requester.username}**-sama\n\n`; });
+      info = next.map(track => `${++j}) [${track.title}](${track.url}) | length \`${track.duration}\` | requested by **${track.requester.username}**-sama`).join("\n\n");
     } // end of if
     else { info = "Currently no track is next in queue~~~"; } // else next in queue is empty
     
     // construct the embed(s)
     const images = ["https://media1.tenor.com/images/db59d6409b27b749fe7226246e73f1b2/tenor.gif?itemid=16625248",
                     "https://media1.tenor.com/images/b8295db81d621037cc67797b6692279e/tenor.gif?itemid=16802911"]
-    const duration = await convertLenght(queue[0].duration);
     const embed = new MessageEmbed()
       .setColor(0x1DE2FE)
       .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
-      .setDescription(`⬇️ Currently playing ⬇️\n [${queue[0].title}](${queue[0].url}) | length \`${duration}\` | requested by **${queue[0].requester.username}**-sama\n\n⬇️ Next in queue ⬇️\n${info}`)
+      .setDescription(`⬇️ Currently playing ⬇️\n [${queue[0].title}](${queue[0].url}) | length \`${queue[0].duration}\` | requested by **${queue[0].requester.username}**-sama\n\n⬇️ Next in queue ⬇️\n${info}`)
       .setImage(images[Math.floor(Math.random() * Math.floor(images.length))])
       .setFooter("Vive La Résistance le Hololive~");
     embeds.push(embed); // pushing embeds (for transition between pages)
