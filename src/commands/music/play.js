@@ -36,11 +36,11 @@ module.exports = class PlayCommand extends BaseCommand{
         if(ytdl.validateURL(query)) {  
             // Get the song info
             await ytdl.getBasicInfo(query).then(async trackInfo => {
-                const duration = await formatLength(trackInfo.length_seconds);
+                const duration = await formatLength(trackInfo.videoDetails.lengthSeconds);
                 const track = {
-                    id: trackInfo.video_id,
-                    url: trackInfo.video_url,
-                    title: trackInfo.title,
+                    id: trackInfo.videoDetails.videoId,
+                    url: trackInfo.videoDetails.video_url,
+                    title: trackInfo.videoDetails.title,
                     duration: duration,
                     requester: message.author,
                 };

@@ -1,7 +1,5 @@
 /logs
-/node_modules
 **/database
 **/economy
-package-lock.json
 .env
 *.sqlite
