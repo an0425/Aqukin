@@ -1,4 +1,4 @@
-/* This module allows the author to shuffle the music queue 
+/* This module allows the author to shuffle the music queue */
 const BaseCommand = require('../../utilities/structures/BaseCommand');
 
 module.exports = class ShuffleQueueCommand extends BaseCommand {
@@ -9,8 +9,15 @@ module.exports = class ShuffleQueueCommand extends BaseCommand {
     const { message, player } = para;
 
     // checks if the current queue is empty, if so return a message to inform the author
-    if(player.queue.empty) { return message.channel.send(`**${author}**-sama, the queue is currently empty~`, para.ridingAqua); }
-    player.queue.shuffle();// shuffles the queue
+    if(player.queue.size <= 1) { return message.channel.send(`**${author}**-sama, the audio queue is currently empty~`, para.ridingAqua); }
+    await shuffle(player.queue);
     message.channel.send(`**${message.author.username}**-sama, Aqukin has shuffled the queue`); // informs the author
   } // end of run
-} // end of module.exports */
+} // end of module.exports
+
+async function shuffle(queue){
+  for(let i = queue.length-1; i>1; i--){
+    let j = Math.floor(Math.random() * (i + 1));
+    [queue[i], queue[j]] = [queue[j], queue[i]];
+  }
+}

@@ -8,8 +8,21 @@ module.exports = class PlayCommand extends BaseCommand{
 
     async run (para){
         // shortcut variables
-        const { bot, message, player, voiceChannel } = para;
+        const { bot, message, voiceChannel } = para;
         const { author, channel } = message;
+
+        let player = para.player;
+        if(!player) {
+            player = {
+                textChannel: channel,
+                voiceChannel: voiceChannel,
+                connection: await voiceChannel.join(),
+                queue: [],
+                volume: 5,
+                playing: true
+            };
+            bot.queue.set(message.guild.id, player);
+        }
         
         // search for track(s) with the given arguments
         const query = para.args.join(" ");
@@ -19,46 +32,38 @@ module.exports = class PlayCommand extends BaseCommand{
         // checks if there any search result(s), if not return a message to inform the author
         if(!validate) { return channel.send(`**${author.username}**-sama, Aqukin can't find any tracks with the given keywords`, para.ridingAqua); }
 
-       // Get the song info
-       const songInfo = await ytdl.getInfo(para.args[0]);
-       const song = {
-           title: songInfo.title,
-           url: songInfo.video_url,
-       };
-
-       if (!player) {
-           const playerContruct = {
-               textChannel: channel,
-               voiceChannel: voiceChannel,
-               connection: null,
-               songs: [],
-               volume: 5,
-               playing: true
+        // Get the song info
+        let track;
+        await ytdl.getBasicInfo(query).then(trackInfo => {
+            track = {
+                id: trackInfo.video_id,
+                url: trackInfo.video_url,
+                title: trackInfo.title,
+                duration: trackInfo.length_seconds,
+                thumbnailUrl: trackInfo.player_response.videoDetails.thumbnail.thumbnails[3].url,
+                seekable: trackInfo.player_response.videoDetails.isCrawlable,
+                isPrivate: trackInfo.player_response.videoDetails.isPrivate,
+                isStream: trackInfo.player_response.videoDetails.isLiveContent,
+                requester: message.author,
             };
-            bot.queue.set(message.guild.id, playerContruct);
-        
-            playerContruct.songs.push(song);
-        
-            try {
-                var connection = await voiceChannel.join();
-                playerContruct.connection = connection;
-                await playing(bot, message.guild, playerContruct.songs[0], author);
-            } catch (err) {
-                console.log(err);
-                bot.queue.delete(para.message.guild.id);
-                return channel.send(err);
-            }
-        }
-        else{
-            player.songs.push(song);
-            return channel.send(`**${author.username}**-sama, Aqukin has queued: **${song.title}**`);
+        });
+       
+        console.log(track);
+        player.queue.push(track);
+        channel.send(`**${author.username}**-sama, Aqukin has enqueued track **${track.title}**`);
+
+        try {
+            if(!player.connection.dispatcher) { await playing(bot, message.guild, player); }
+        } catch (err) {
+            console.log(err);
+            bot.queue.delete(message.guild.id);
         }
     } // end of run
 }; // end of module.exports
 
-async function playing(bot, guild, song, author){
-    const player = bot.queue.get(guild.id);
-    if (!song) {
+async function playing(bot, guild, player){
+    const track = player.queue[0];
+    if (!track) {
         player.voiceChannel.leave();
         bot.queue.delete(guild.id);
         return;
@@ -66,14 +71,14 @@ async function playing(bot, guild, song, author){
             
     // queue push
     const dispatcher = player.connection
-        .play(await ytdl(song.url), { filter: 'audioonly' })
+        .play(await ytdl(track.url), { filter: 'audioonly' })
             
         .on("finish", () => {
-            player.songs.shift();
-            playing(bot, guild, player.songs[0]);
+            player.queue.shift();
+            playing(bot, guild, player);
         })
                 
         .on("error", console.error);
-    player.textChannel.send(`**${author.username}**-sama, Aqukin is now playing: **${song.title}**`)
+    player.textChannel.send(`**${track.requester.username}**-sama, Aqukin is now playing track **${track.title}**`)
 }
     

@@ -1,22 +1,21 @@
 /* This module construct an embed neccessary for displaying the current playing track */
-// const { Utils } = require("erela.js");
-const { convertTF } = require("../utilities/functions");
+const { convertTF, convertLenght } = require("../utilities/functions");
 const { MessageEmbed } = require("discord.js");
 
 async function musicEmbed(music, player, track){
-    const { thumbnails } = music;
+    //const { thumbnails } = music;
     let pauseStatus = await convertTF(player.paused);
     const loopStatus = await convertTF(player.trackRepeat);
     const qloopStatus = await convertTF(player.queueRepeat);
     let trackLenght;
     if(track.isStream) { trackLenght = "Live"; }
-    else { trackLenght = `${Utils.formatTime(track.duration, true)}s`; }
+    else { trackLenght = await convertLenght(track.duration); }
 
     if(player.paused){
         let timestamp;
         try{
-            timestamp = Utils.formatTime(player.position, true);
-            pauseStatus += ` (at ${timestamp}s)`;
+            timestamp = await convertLenght(player.position);
+            pauseStatus += ` (at ${timestamp})`;
         } catch(err) {
             console.log(err);
             pauseStatus += ` (at around 1s)`;

@@ -8,7 +8,7 @@ module.exports = class DisconnectCommand extends BaseCommand{
       // shortcut variables
       const { player, voteReached } = para;
       if(!voteReached) { return; }
-      player.songs = [];
+      player.queue = [];
       await player.connection.dispatcher.end();
     } // end of run
 }; // end of module.exports
