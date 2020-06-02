@@ -31,6 +31,12 @@ Reflect.defineProperty(bot.currency, "getBalance", {
 	},
 }); */
 
+var port = process.env.PORT || 8080;
+app.listen(port, () => {
+    console.log("Server listening on port " + port);
+});
+
+
 (async ()=>{
 	await bot.login(process.env.BOT_TOKEN); // connect the bot to the Discord server
 
