@@ -52,8 +52,8 @@ module.exports = class HelpCommand extends BaseCommand{
                 .setThumbnail("https://media1.tenor.com/images/e4d23a9fb9a1dab0b47c84029883dfb7/tenor.gif?itemid=17189878")
                 .setTitle(`You can send \`${para.prefix}help [command name]\` to get info on a specific command~`)
                 .addFields({ name: "Music commands", value: musicCmds }, 
-                           { name: "Ultility commands", value: utilsCmds },
-                           { name: "Economy commands", value: econCmds },)
+                           { name: "Ultility commands", value: utilsCmds },)
+                           //{ name: "Economy commands", value: econCmds },
                 .setImage(images[Math.floor(Math.random() * Math.floor(images.length))])
                 .setFooter("Vive La Résistance le Hololive~");
             channel.send(`**${author.username}**-sama, here's the list of Aqukin's commands, the current prefix is "${para.prefix}"`, helpEmbed); // send out the embed
