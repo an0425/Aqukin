@@ -42,6 +42,7 @@ Reflect.defineProperty(bot.currency, "getBalance", {
 })();
 
 async function alive(){
+	const http = require('http');
 	const express = require('express');
 	const app = express();
 
@@ -73,8 +74,17 @@ async function alive(){
 		"https://media1.tenor.com/images/16eadf034787f65e5bde3b469aa45f63/tenor.gif?itemid=16958536",
 		"https://vignette.wikia.nocookie.net/virtualyoutuber/images/f/fc/Framerate_detector_Ookami_Mio_V.2.gif"];
 
+	app.get("/", (request, response) => {
+		console.log(Date.now() + " Ping Received");
+		response.sendStatus(200);
+	});
+		  
 	let PORT = process.env.PORT || 8080;
 	app.listen(PORT, () => {
     	console.log(`Aqukin is running on port ${ PORT }`);
 	});
+
+	setInterval(() => {
+		http.get(`http://${process.env.PROJECT_DOMAIN}.herokuapp.com/`);
+	  }, 280000);
 }
