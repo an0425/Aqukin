@@ -11,7 +11,7 @@ module.exports = class VolumeCommand extends BaseCommand{
         const { message, player } = para;
         const { author, channel } = message;
 
-        let num = await checkNum(para.args[0], 1);
+        let num = await checkNum(para.args[0], 1, 0, false);
         // checks if the author is trying to raise the volume above 5
         if (num > 5) { return channel.send(`**${author.username}**-sama, please keep the volume at \`5\` or below as Aqukin is concerning about your health~`); }
         

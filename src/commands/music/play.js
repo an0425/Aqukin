@@ -2,9 +2,8 @@
 const ytdl = require("ytdl-core");
 const ytpl = require("ytpl");
 const ytsr = require("ytsr");
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, MessageAttachment } = require("discord.js");
 const { formatLength } = require("../../utilities/functions");
-const { registerMusicEvents } = require("../../utilities/handlers");
 const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
@@ -111,6 +110,22 @@ module.exports = class PlayCommand extends BaseCommand{
             bot.queue.delete(message.guild.id);
         }
 
+        // connection events
+        await player.connection
+        .on("error", console.error)
+
+        .once("ready", async () => {
+            console.log("ready to stream");
+        })
+
+        .once("disconnect", async () =>{
+            await player.queue.splice(0);
+            try{ await player.sentMessage.delete(); }
+            catch(err) { console.log("The message has already been manually deleted\n") }; // try catch in case the message got deleted manually
+            await player.connection.disconnect();
+            console.log("disconnected");
+        })
+
         if(player.sentMessage){
             // Update the currently playing embed
             const embed = await musicEmbed(para.bot, player, player.queue[0])
@@ -127,8 +142,12 @@ module.exports = class PlayCommand extends BaseCommand{
 async function playing(bot, guild, player){
     const track = player.queue[0];
     if (!track) {
-        player.voiceChannel.leave();
-        bot.queue.delete(guild.id);
+        try{
+            await player.connection.channel.leave();
+            await bot.queue.delete(guild.id);
+            const sentMessage = await player.textChannel.send(`The queue has ended, arigatou gozamatshita~`, new MessageAttachment("src/utilities/pictures/bye.gif"));
+            await sentMessage.delete({ timeout: 5200 });
+        } catch (err) { console.log(err); }
         return;
     }
             
@@ -138,7 +157,7 @@ async function playing(bot, guild, player){
             
         .on("finish", async () => {
             try{ await player.sentMessage.delete(); }
-            catch(err) { console.log("The message has already been manually deleted\n", err) }; // try catch in case the message got deleted manually
+            catch(err) { console.log("The message has already been manually deleted\n") }; // try catch in case the message got deleted manually
             await bot.votingSystem.clear();
             await player.queue.shift();
             playing(bot, guild, player);
@@ -150,26 +169,6 @@ async function playing(bot, guild, player){
             catch(err) { console.log("The message is terminated abnormally", err); }
         })
                 
-        .on("error", console.error);
-
-    // connection events
-    player.connection
-        .once("ready", async () => {
-            console.log("ready to stream")
-        })
-
-        .once("disconnect", async () =>{
-            await player.queue.splice(0);
-            try{ await player.sentMessage.delete(); }
-            catch(err) { console.log("The message has already been manually deleted\n", err) }; // try catch in case the message got deleted manually
-            await player.connection.disconnect();
-            console.log("disconnected");
-        })
-
-        .on("newSession", async () =>{
-            console.log("moved");
-        })
-
         .on("error", console.error);
 }
     

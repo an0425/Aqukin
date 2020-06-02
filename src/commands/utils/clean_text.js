@@ -8,7 +8,7 @@ module.exports = class CleanCommand extends BaseCommand{
     async run(para){
         const { message, ridingAqua } = para;
         const { author, channel } = message;
-        const num = await checkNum(para.args[0], 10);
+        const num = await checkNum(para.args[0], 10, 1, true);
 
         // checks if the input is more than 99
         if(num>99) { return channel.send(`**${author.username}**-sama, Aqukin can only delete a maximum of \`99\` messages only~`, ridingAqua); }

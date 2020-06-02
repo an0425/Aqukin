@@ -1,9 +1,11 @@
 /* This module exports utilities functions */
 
 // This function makes necessary checks and returns the valid number
-async function checkNum(num, defaultNum){
-    if(isNaN(num) || !num || num < 1) { num = defaultNum; }  // adjust the number to 1 if the number is invalid
-    else { num = Math.floor(num); } // else round the number
+async function checkNum(num, defaultNum, range, round){
+    if(isNaN(num) || !num || num < range) { num = defaultNum; }  // adjust the number to 1 if the number is invalid
+    else { 
+        if(round) { num = Math.floor(num); }
+    } // else round the number
     return num; // return the number
 }
 
