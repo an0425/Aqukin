@@ -1,5 +1,4 @@
 /* This module allows the author to view the current music queue */
-const { convertLenght } = require("../../utilities/functions");
 const { MessageEmbed } = require('discord.js');
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
@@ -12,7 +11,6 @@ module.exports = class ViewQueueCommand extends BaseCommand {
     // shortcut variables
     const { message, player } = para;
     
-
     // checks if the queue is empty, if so return a message to inform the author
     if (player.queue.length === 0 ) { return message.channel.send(`**${message.author.username}**-sama, Aqukin the queue is currently empty~`, para.ridingAqua); }
     

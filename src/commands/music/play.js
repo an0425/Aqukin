@@ -3,8 +3,9 @@ const ytdl = require("ytdl-core");
 const ytpl = require("ytpl");
 const ytsr = require("ytsr");
 const { MessageEmbed } = require("discord.js");
-const { convertLenght } = require("../../utilities/functions");
-// const { musicEmbed } = require("../../utilities/embed_constructor");
+const { formatLength } = require("../../utilities/functions");
+const { registerMusicEvents } = require("../../utilities/handlers");
+const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class PlayCommand extends BaseCommand{
@@ -19,7 +20,6 @@ module.exports = class PlayCommand extends BaseCommand{
         if(!player) {
             player = {
                 textChannel: channel,
-                voiceChannel: voiceChannel,
                 connection: await voiceChannel.join(),
                 queue: [],
                 volume: 5,
@@ -36,13 +36,12 @@ module.exports = class PlayCommand extends BaseCommand{
         if(ytdl.validateURL(query)) {  
             // Get the song info
             await ytdl.getBasicInfo(query).then(async trackInfo => {
-                const duration = await convertLenght(trackInfo.length_seconds);
+                const duration = await formatLength(trackInfo.length_seconds);
                 const track = {
                     id: trackInfo.video_id,
                     url: trackInfo.video_url,
                     title: trackInfo.title,
                     duration: duration,
-                    thumbnail: trackInfo.player_response.videoDetails.thumbnail.thumbnails[3].url,
                     requester: message.author,
                 };
                 //console.log(track);
@@ -60,7 +59,6 @@ module.exports = class PlayCommand extends BaseCommand{
                         url: trackInfo.url_simple,
                         title: trackInfo.title,
                         duration: trackInfo.duration,
-                        thumbnail: trackInfo.thumbnail,
                         requester: message.author,
                     }
                     player.queue.push(track);
@@ -97,7 +95,6 @@ module.exports = class PlayCommand extends BaseCommand{
                         url: trackInfo.link,
                         title: trackInfo.title,
                         duration: trackInfo.duration,
-                        thumbnail: trackInfo.thumbnail,
                         requester: message.author,
                     }
                     await player.queue.push(track);
@@ -113,6 +110,17 @@ module.exports = class PlayCommand extends BaseCommand{
             console.log(err);
             bot.queue.delete(message.guild.id);
         }
+
+        if(player.sentMessage){
+            // Update the currently playing embed
+            const embed = await musicEmbed(para.bot, player, player.queue[0])
+            try{
+                await player.sentMessage.edit(embed); // send the embed to inform about the now playing track
+            } catch(err) {
+                console.log("Recreating the deleted music embed", err);
+                player.sentMessage = await player.textChannel.send(embed);
+            }
+        }
     } // end of run
 }; // end of module.exports
 
@@ -124,16 +132,44 @@ async function playing(bot, guild, player){
         return;
     }
             
-    // queue push
+    // dispatcher events
     const dispatcher = player.connection
-        .play(await ytdl(track.url), { filter: 'audioonly' })
+        .play(await ytdl(track.url), { filter: "audioonly" })
             
-        .on("finish", () => {
-            player.queue.shift();
+        .on("finish", async () => {
+            try{ await player.sentMessage.delete(); }
+            catch(err) { console.log("The message has already been manually deleted\n", err) }; // try catch in case the message got deleted manually
+            await bot.votingSystem.clear();
+            await player.queue.shift();
             playing(bot, guild, player);
+        })
+
+        .on("start", async () =>{
+            const embed = await musicEmbed(bot, player, track);
+            try{ player.sentMessage = await player.textChannel.send(embed); } // send the embed to inform about the now playing track
+            catch(err) { console.log("The message is terminated abnormally", err); }
         })
                 
         .on("error", console.error);
-    player.textChannel.send(`**${track.requester.username}**-sama, Aqukin is now playing track **${track.title}**`)
+
+    // connection events
+    player.connection
+        .once("ready", async () => {
+            console.log("ready to stream")
+        })
+
+        .once("disconnect", async () =>{
+            await player.queue.splice(0);
+            try{ await player.sentMessage.delete(); }
+            catch(err) { console.log("The message has already been manually deleted\n", err) }; // try catch in case the message got deleted manually
+            await player.connection.disconnect();
+            console.log("disconnected");
+        })
+
+        .on("newSession", async () =>{
+            console.log("moved");
+        })
+
+        .on("error", console.error);
 }
     

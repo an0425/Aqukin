@@ -8,8 +8,8 @@ module.exports = class DisconnectCommand extends BaseCommand{
       // shortcut variables
       const { player, voteReached } = para;
       if(!voteReached) { return; }
-      player.queue = [];
-      await player.connection.dispatcher.end();
+      player.queue.splice(0);
+      await player.connection.disconnect();
     } // end of run
 }; // end of module.exports
 

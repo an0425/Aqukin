@@ -13,8 +13,8 @@ async function convertTF(value){
     return "No";
 }
 
-// This function convert video length from seconds format to minutes
-async function convertLenght(value){
+// This function format numbers (seconds) to hh:mm:ss format
+async function formatLength(value){
     let hours;
     let minutes;
     let seconds;
@@ -46,4 +46,32 @@ async function convertLenght(value){
     return reply;
 }
 
-module.exports = { checkNum, convertTF, convertLenght };
+// This function convert video length from seconds format to minutes
+async function convertInput(value){
+    let hours = 0;
+    let minutes = 0;
+    let seconds = 0;
+    value = value.trim().split(":");
+    await value.forEach(i => i = parseInt(i));
+    let total;
+
+    switch(value.length){
+        case 3:
+            hours = parseInt(value[0]*3600);
+            minutes = parseInt(value[1]*60);
+            seconds = parseInt(value[2]);
+            break;
+        case 2:
+            minutes = parseInt(value[0]*60);
+            seconds = parseInt(value[1]);
+            break;
+        case 1:
+            seconds = parseInt(value[0]);
+            break;
+    }
+    total = hours + minutes + seconds;
+    if(total < 0 || isNaN(total)) { total = 0; }
+    return total;
+}
+
+module.exports = { checkNum, convertTF, formatLength, convertInput };

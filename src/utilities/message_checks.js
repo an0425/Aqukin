@@ -50,7 +50,7 @@ async function commandCheck(bot, message, command, args, prefix){
                 return; 
             }
             // checks if Aqukin in a voice channel and the author is also in that voice channel, if not return a message to inform them
-            if (player && player.voiceChannel.id !== channel.id) { 
+            if (player && player.connection.channel.id !== channel.id) { 
                 message.channel.send(`**${message.author.username}**-sama, you need to be in the same voice channel with Aqukin to use this command`, ridingAqua);
                 return;
             }
@@ -72,7 +72,7 @@ async function commandCheck(bot, message, command, args, prefix){
                 }
 
                 let votingSysVar = bot.votingSystem.get(command.name); 
-                const members = player.voiceChannel.members.filter(m => !m.user.bot);
+                const members = player.connection.channel.members.filter(m => !m.user.bot);
 
                 // check if the author has already voted
                 if(votingSysVar.voters.has(message.author.id)) {

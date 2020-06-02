@@ -1,5 +1,5 @@
 /* This module allows the author to resume Aqukin current audio streaming */
-//const { musicEmbed } = require("../../utilities/embed_constructor");
+const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class ResumeCommand extends BaseCommand{
@@ -16,14 +16,14 @@ module.exports = class ResumeCommand extends BaseCommand{
         player.connection.dispatcher.resume();
         message.channel.send(`**${author}**-sama, Aqukin has resumed audio streaming~`);
 
-        /* Update the currently playing embed
-        const embed = await musicEmbed(para.bot.music, player, player.queue[0])
+        /* Update the currently playing embed */
+        const embed = await musicEmbed(para.bot, player, player.queue[0])
         try{
             await player.sentMessage.edit(embed); // send the embed to inform about the now playing track
         } catch(err) {
             console.log("Recreating the deleted music embed", err);
             player.sentMessage = await player.textChannel.send(embed);
-        } */
+        }
     } // end of run
 }; // end of module.exports
 

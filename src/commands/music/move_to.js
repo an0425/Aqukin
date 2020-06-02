@@ -1,40 +1,33 @@
-/* This module allows the author to move into a specified timestamp in current track of Aqukin's audio stream  
-const { Utils } = require("erela.js");
-const { musicEmbed } = require("../../utilities/embed_constructor");
+/* This module allows the author to move into a specified timestamp in current track of Aqukin's audio stream  */
+const ytdl = require("ytdl-core");
+const { convertInput, formatLength } = require("../../utilities/functions");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class MoveToCommand extends BaseCommand{
-    constructor() {super("moveto", ["m", "to", "time", "move"], "Move the audio player to a specified timestamp in the current track", "CONNECT", "music", true, false, "<ex: 1m12s>")}
+    constructor() {super("moveto", ["m", "to", "time", "move"], "Move the audio player to a specified timestamp in the current track", "CONNECT", "music", true, false, "<hh:mm:ss>, example <1:32>")}
     
     async run(para){
         // shortcut variables
         const { message, player } = para;
         const author = message.author.username;
-        const timestamp = await Utils.parseTime(para.args[0]);
+        const timestamp = await convertInput(para.args[0]);
+        const duration = await convertInput(player.queue[0].duration);
+
+        if(timestamp >= duration) { return message.channel.send(`**${author}**-sama, the timestamp should be less than the track length \`${player.queue[0].duration}\``); }
         
-        // checks if the author has provided the correct format for the timestamp
-        if(!timestamp) return message.channel.send(`**${author}**-sama, please specify the timestamp in the correct format, ex \`>move <1m12s>\``);
         // try to move to the given timestamp, inform the author if fail
         try{ 
-            await player.seek(timestamp);
+            await player.connection.play(await ytdl(player.queue[0].url), { filter: "audioonly", seek: timestamp });
             // inform the author if success
-            message.channel.send(`**${author}**-sama, Aqukin has moved the current track to position \`${Utils.formatTime(player.position, true)}s\``);
+            const time = await formatLength(timestamp);
+            message.channel.send(`**${author}**-sama, Aqukin has moved the current track to position \`${time}\``);
 
-            // Update the currently playing embed
-            if(!player.paused) { return; }
-            const embed = await musicEmbed(para.bot.music, player, player.queue[0])
-            if(!player.sentMessage) {
-                player.sentMessage = await player.textChannel.send(embed);
-            }
-            else{
-                await player.sentMessage.edit(embed); // send the embed to inform about the now playing track
-            }
         } catch(err) {
             console.log(err);
             message.channel.send(`**${author}**-sama, please provide a valid timestamp~`, para.ridingAqua);
         } 
     } // end of run
-}; // end of module.exports */
+}; // end of module.exports 
 
 
 
