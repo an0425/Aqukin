@@ -34,12 +34,11 @@ Reflect.defineProperty(bot.currency, "getBalance", {
 (async ()=>{
 	await bot.login(process.env.BOT_TOKEN); // connect the bot to the Discord server
 
-	await alive();
-
 	/* handlers */
 	await registerEvents(bot, "../events");
 	await registerCommands(bot, "../commands");
 	await consoleChatter(bot);
+	await alive();
 })();
 
 async function alive(){

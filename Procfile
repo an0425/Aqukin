@@ -1,4 +1,4 @@
-web: node ./src/aqukin.js -p 8080
+web: node ./src/aqukin.js
 
 
 
