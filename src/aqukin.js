@@ -7,9 +7,10 @@ const bot = new Client();
 bot.queue = new Map();
 bot.votingSystem = new Collection();
 bot.commands = new Collection(); // bot commands
-bot.currency = new Collection(); // currency
-bot.sentMarket = new Collection(); // market message
+//bot.currency = new Collection(); // currency
+//bot.sentMarket = new Collection(); // market message
 
+/*
 Reflect.defineProperty(bot.currency, "add", {
 	value: async function add(id, amount) {
 		const user = bot.currency.get(id);
@@ -28,7 +29,7 @@ Reflect.defineProperty(bot.currency, "getBalance", {
 		const user = bot.currency.get(id);
 		return user ? user.balance : 0;
 	},
-});
+}); */
 
 (async ()=>{
 	await bot.login(process.env.BOT_TOKEN); // connect the bot to the Discord server

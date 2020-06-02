@@ -1,5 +1,5 @@
 /* this module represents the "ready" event */
-const { Users } = require("../database/dbObjects");
+//const { Users } = require("../database/dbObjects");
 const BaseEvent = require("../utilities/structures/BaseEvent");
 
 module.exports = class ReadyEvent extends BaseEvent {
@@ -7,8 +7,8 @@ module.exports = class ReadyEvent extends BaseEvent {
 	
 	async run (bot){
 		// Database variables
-		const storedBalances = await Users.findAll();
-		storedBalances.forEach(b => bot.currency.set(b.user_id, b));
+		// const storedBalances = await Users.findAll();
+		// storedBalances.forEach(b => bot.currency.set(b.user_id, b));
 
 		// Bot variables
 		bot.mentioned = false;
