@@ -32,7 +32,7 @@ Reflect.defineProperty(bot.currency, "getBalance", {
 }); */
 
 var port = process.env.PORT || 8080;
-app.listen(port, () => {
+aqukin.listen(port, () => {
     console.log("Server listening on port " + port);
 });
 
