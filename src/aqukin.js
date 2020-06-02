@@ -1,7 +1,7 @@
 /* Main module for Aqukin */
 require("dotenv").config();
 const { Client, Collection } = require("discord.js");
-const { Users } = require("./database/dbObjects");
+// const { Users } = require("./database/dbObjects");
 const { registerCommands, registerEvents, consoleChatter } = require("./utilities/handlers");
 const bot = new Client();
 bot.queue = new Map();
