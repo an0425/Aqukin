@@ -108,7 +108,7 @@ async function commandCheck(bot, message, command, args, prefix){
                             const memPermissionCheck = message.guild.members.cache.get(user.id);
                             const { channel } = message.guild.members.cache.get(user.id).voice;
                             if (!channel) { return false; }
-                            if (channel.id === player.voiceChannel.id) {  // checks if the voters are in the same voice channel with Aqukin
+                            if (channel.id === player.connection.channel.id) {  // checks if the voters are in the same voice channel with Aqukin
                                 if(memPermissionCheck.hasPermission("ADMINISTRATOR")){
                                     voteReached = true;
                                     return ["🆗"].includes(reaction.emoji.name); 
