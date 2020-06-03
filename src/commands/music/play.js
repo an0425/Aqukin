@@ -20,9 +20,10 @@ module.exports = class PlayCommand extends BaseCommand{
             player = {
                 textChannel: channel,
                 connection: await voiceChannel.join(),
+                trackRepeat: false,
+                queueRepeat: false,
                 queue: [],
-                volume: 5,
-                playing: true
+                loopqueue: []
             };
             bot.queue.set(message.guild.id, player);
         }
@@ -139,35 +140,45 @@ module.exports = class PlayCommand extends BaseCommand{
 }; // end of module.exports
 
 async function playing(bot, guild, player){
-    const track = player.queue[0];
+    let track = player.queue[0];
     if (!track) {
-        try{
-            await player.connection.channel.leave();
-            await bot.queue.delete(guild.id);
-            const sentMessage = await player.textChannel.send(`The queue has ended, arigatou gozamatshita~`, new MessageAttachment("src/utilities/pictures/bye.gif"));
-            await sentMessage.delete({ timeout: 5200 });
-        } catch (err) { console.log(err); }
-        return;
+        if(player.queueRepeat){
+            player.queue = await player.queue.concat(player.loopqueue);
+            await player.loopqueue.splice(0);
+            track = player.queue[0];
+        }
+        else{
+            try{
+                await player.connection.channel.leave();
+                await bot.queue.delete(guild.id);
+                const sentMessage = await player.textChannel.send(`The queue has ended, arigatou gozamatshita~`, new MessageAttachment("src/utilities/pictures/bye.gif"));
+                await sentMessage.delete({ timeout: 5200 });
+            } catch (err) { console.log(err); }
+            return;
+        }
     }
             
     // dispatcher events
     const dispatcher = player.connection
         .play(await ytdl(track.url), { filter: "audioonly", seek: track.seek || 0 })
-            
-        .on("finish", async () => {
-            try{ await player.sentMessage.delete(); }
-            catch(err) { console.log("The message has already been manually deleted\n") }; // try catch in case the message got deleted manually
-            await bot.votingSystem.clear();
-            await player.queue.shift();
-            playing(bot, guild, player);
-        })
+
+        .on("error", console.error)
 
         .on("start", async () =>{
             const embed = await musicEmbed(bot, player, track);
             try{ player.sentMessage = await player.textChannel.send(embed); } // send the embed to inform about the now playing track
             catch(err) { console.log("The message is terminated abnormally", err); }
-        })
-                
-        .on("error", console.error);
+        })    
+            
+        .on("finish", async () => {
+            try{ await player.sentMessage.delete(); }
+            catch(err) { console.log("The message has already been manually deleted\n") }; // try catch in case the message got deleted manually
+            await bot.votingSystem.clear();
+            // loop status checks
+            if(player.trackRepeat) { await player.queue.splice(1, 0, player.queue[0]); }
+            else if(player.queueRepeat) { await player.loopqueue.push(player.queue[0]); }
+            await player.queue.shift();
+            playing(bot, guild, player);
+        });
 }
     

@@ -2,8 +2,8 @@
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 const { convertInput, formatLength } = require("../../utilities/functions");
 
-module.exports = class MoveToCommand extends BaseCommand{
-    constructor() {super("moveto", ["m", "to", "time", "move"], "Move the audio player to a specified timestamp in the current track", "CONNECT", "music", true, false, "<hh:mm:ss>, example <1:32>")}
+module.exports = class MoveCommand extends BaseCommand{
+    constructor() {super("move", ["m", "to", "time"], "Move the audio player to a specified timestamp in the current track", "CONNECT", "music", true, false, "<hh:mm:ss>, example <1:32>")}
     
     async run(para){
         // shortcut variables

@@ -4,20 +4,20 @@ const { checkNum } = require("../../utilities/functions");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class VolumeCommand extends BaseCommand{
-    constructor() {super("setvolume", ["v", "volume"], "Set the audio player's volume (maximum 4 times)", "ADMINISTRATOR", "music", true, false, "[times] ex: 2.5 means 2.5 times the default volume")}
+    constructor() {super("setvolume", ["v", "volume"], "Set the audio player's volume (maximum 4 times)", "ADMINISTRATOR", "music", true, false, "[percentage], ex: 150 means 150% of the default volume")}
     
     async run(para){
         // shortcut variables
         const { message, player } = para;
         const { author, channel } = message;
 
-        let num = await checkNum(para.args[0], 1, 0, false);
+        let num = await checkNum(para.args[0], 100, 0, true);
         // checks if the author is trying to raise the volume above 4
-        if (num > 4) { return channel.send(`**${author.username}**-sama, please keep the volume at \`4\` or below as Aqukin is concerning about your health~`); }
+        if (num > 400) { return channel.send(`**${author.username}**-sama, please keep the volume at \`400\` or below as Aqukin is concerning about your health~`); }
         
         // set the volume
-        await player.connection.dispatcher.setVolume(num);
-        channel.send(`**${author.username}**-sama, Aqukin has set the volume to \`${player.connection.dispatcher.volume}\``); // inform the author
+        await player.connection.dispatcher.setVolume(num/100);
+        channel.send(`**${author.username}**-sama, Aqukin has set the volume to \`${player.connection.dispatcher.volume*100}\``); // inform the author
         
         /* Update the currently playing embed */
         const embed = await musicEmbed(para.bot, player, player.queue[0])

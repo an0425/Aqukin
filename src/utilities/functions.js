@@ -54,7 +54,7 @@ async function convertInput(value){
     let minutes = 0;
     let seconds = 0;
     value = value.trim().split(":");
-    await value.forEach(i => i = parseInt(i));
+    await value.forEach(i => { i = parseInt(i); });
     let total;
 
     switch(value.length){
