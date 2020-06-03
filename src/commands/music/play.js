@@ -123,7 +123,7 @@ module.exports = class PlayCommand extends BaseCommand{
 
             .once("disconnect", async () =>{
                 try{ await player.sentMessage.delete(); }
-                catch(err) { console.log("The message has already been manually deleted\n") }; // try catch in case the message got deleted manually
+                catch(err) { console.log("The message has already been manually deleted") }; // try catch in case the message got deleted manually
                 await bot.queue.delete(player.id);
                 console.log("disconnected");
             })
@@ -174,7 +174,7 @@ async function playing(bot, guild, player){
             
         .on("finish", async () => {
             try{ await player.sentMessage.delete(); }
-            catch(err) { console.log("The message has already been manually deleted\n") }; // try catch in case the message got deleted manually
+            catch(err) { console.log("The message has already been manually deleted") }; // try catch in case the message got deleted manually
             // loop status checks
             if(!player.seeking) {
                 await bot.votingSystem.clear();
