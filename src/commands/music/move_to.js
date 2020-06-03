@@ -1,7 +1,6 @@
 /* This module allows the author to move into a specified timestamp in current track of Aqukin's audio stream  */
-const ytdl = require("ytdl-core");
-const { convertInput, formatLength } = require("../../utilities/functions");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
+const { convertInput, formatLength } = require("../../utilities/functions");
 
 module.exports = class MoveToCommand extends BaseCommand{
     constructor() {super("moveto", ["m", "to", "time", "move"], "Move the audio player to a specified timestamp in the current track", "CONNECT", "music", true, false, "<hh:mm:ss>, example <1:32>")}
@@ -16,14 +15,16 @@ module.exports = class MoveToCommand extends BaseCommand{
         if(timestamp >= duration) { return message.channel.send(`**${author}**-sama, the timestamp should be less than the track length \`${player.queue[0].duration}\``); }
         
         // try to move to the given timestamp, inform the author if fail
-        try{ 
-            await player.connection.play(await ytdl(player.queue[0].url), { filter: "audioonly", seek: timestamp });
+        try{
+            await player.queue.splice(1, 0, player.queue[0]);
+            player.queue[1].seek = timestamp;
+            await player.connection.dispatcher.end();
             // inform the author if success
             const time = await formatLength(timestamp);
             message.channel.send(`**${author}**-sama, Aqukin has moved the current track to position \`${time}\``);
-
         } catch(err) {
             console.log(err);
+            player.connection.moving = false;
             message.channel.send(`**${author}**-sama, please provide a valid timestamp~`, para.ridingAqua);
         } 
     } // end of run

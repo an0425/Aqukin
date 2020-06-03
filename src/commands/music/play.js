@@ -2,7 +2,7 @@
 const ytdl = require("ytdl-core");
 const ytpl = require("ytpl");
 const ytsr = require("ytsr");
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const { formatLength } = require("../../utilities/functions");
 const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
@@ -122,7 +122,6 @@ module.exports = class PlayCommand extends BaseCommand{
             await player.queue.splice(0);
             try{ await player.sentMessage.delete(); }
             catch(err) { console.log("The message has already been manually deleted\n") }; // try catch in case the message got deleted manually
-            await player.connection.disconnect();
             console.log("disconnected");
         })
 
@@ -153,7 +152,7 @@ async function playing(bot, guild, player){
             
     // dispatcher events
     const dispatcher = player.connection
-        .play(await ytdl(track.url), { filter: "audioonly" })
+        .play(await ytdl(track.url), { filter: "audioonly", seek: track.seek || 0 })
             
         .on("finish", async () => {
             try{ await player.sentMessage.delete(); }
