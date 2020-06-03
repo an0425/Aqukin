@@ -16,9 +16,11 @@ module.exports = class MoveCommand extends BaseCommand{
         
         // try to move to the given timestamp, inform the author if fail
         try{
+            player.seeking = true;
             await player.queue.splice(1, 0, player.queue[0]);
             player.queue[1].seek = timestamp;
             await player.connection.dispatcher.end();
+            //player.seeking = false;
             // inform the author if success
             const time = await formatLength(timestamp);
             message.channel.send(`**${author}**-sama, Aqukin has moved the current track to position \`${time}\``);

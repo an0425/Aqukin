@@ -18,10 +18,12 @@ module.exports = class PlayCommand extends BaseCommand{
         let player = para.player;
         if(!player) {
             player = {
+                id: message.guild.id,
                 textChannel: channel,
                 connection: await voiceChannel.join(),
                 trackRepeat: false,
                 queueRepeat: false,
+                seeking: false,
                 queue: [],
                 loopqueue: []
             };
@@ -113,18 +115,18 @@ module.exports = class PlayCommand extends BaseCommand{
 
         // connection events
         await player.connection
-        .on("error", console.error)
+            .on("error", console.error)
 
-        .once("ready", async () => {
-            console.log("ready to stream");
-        })
+            .once("ready", async () => {
+                console.log("ready to stream");
+            })
 
-        .once("disconnect", async () =>{
-            await player.queue.splice(0);
-            try{ await player.sentMessage.delete(); }
-            catch(err) { console.log("The message has already been manually deleted\n") }; // try catch in case the message got deleted manually
-            console.log("disconnected");
-        })
+            .once("disconnect", async () =>{
+                try{ await player.sentMessage.delete(); }
+                catch(err) { console.log("The message has already been manually deleted\n") }; // try catch in case the message got deleted manually
+                await bot.queue.delete(player.id);
+                console.log("disconnected");
+            })
 
         if(player.sentMessage){
             // Update the currently playing embed
@@ -173,12 +175,16 @@ async function playing(bot, guild, player){
         .on("finish", async () => {
             try{ await player.sentMessage.delete(); }
             catch(err) { console.log("The message has already been manually deleted\n") }; // try catch in case the message got deleted manually
-            await bot.votingSystem.clear();
             // loop status checks
-            if(player.trackRepeat) { await player.queue.splice(1, 0, player.queue[0]); }
-            else if(player.queueRepeat) { await player.loopqueue.push(player.queue[0]); }
+            if(!player.seeking) {
+                await bot.votingSystem.clear();
+                player.queue[0].seek = 0;
+                if(player.trackRepeat) { await player.queue.splice(1, 0, player.queue[0]); }
+                else if(player.queueRepeat) { await player.loopqueue.push(player.queue[0]); }
+            }
             await player.queue.shift();
-            playing(bot, guild, player);
+            await playing(bot, guild, player);
+            player.seeking = false;
         });
 }
     
