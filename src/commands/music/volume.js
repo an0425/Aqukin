@@ -1,6 +1,6 @@
 /* This module allows the author to configure the volume of Aqukin's audio stream  */
-const { musicEmbed } = require("../../utilities/embed_constructor");
 const { checkNum } = require("../../utilities/functions");
+const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class VolumeCommand extends BaseCommand{
@@ -13,7 +13,7 @@ module.exports = class VolumeCommand extends BaseCommand{
 
         let num = await checkNum(para.args[0], 100, 0, true);
         // checks if the author is trying to raise the volume above 4
-        if (num > 400) { return channel.send(`**${author.username}**-sama, please keep the volume at \`400\` or below as Aqukin is concerning about your health~`); }
+        if (num > 400) { return channel.send(`**${author.username}**-sama, please keep the volume at \`400\` or below as Aqukin is concerning about your health _(´ㅅ\`)⌒)\\_`); }
         
         // set the volume
         await player.connection.dispatcher.setVolume(num/100);

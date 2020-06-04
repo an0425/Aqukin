@@ -10,10 +10,7 @@ module.exports = class ViewQueueCommand extends BaseCommand {
   async run (para) {
     // shortcut variables
     const { message, player } = para;
-    
-    // checks if the queue is empty, if so return a message to inform the author
-    if (player.queue.length === 0 ) { return message.channel.send(`**${message.author.username}**-sama, Aqukin the queue is currently empty~`, para.ridingAqua); }
-    
+        
     const thumbnails = ["https://media1.tenor.com/images/2ba20a995dd1b361c0cef1aeb90a7d61/tenor.gif?itemid=17372641"];
     let currentPage = 0; // default current page to the first page
     const embeds = await generateQueueEmbed(player.queue, thumbnails);
@@ -76,7 +73,7 @@ async function generateQueueEmbed(queue, thumbnails) {
       .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
       .setDescription(`⬇️ Currently playing ⬇️\n [${queue[0].title}](${queue[0].url}) | length \`${queue[0].duration}\` | requested by **${queue[0].requester.username}**-sama\n\n⬇️ Next in queue ⬇️\n${info}`)
       .setImage(images[Math.floor(Math.random() * Math.floor(images.length))])
-      .setFooter("Vive La Résistance le Hololive~");
+      .setFooter("Vive La Résistance le Hololive ٩(ˊᗜˋ*)و");
     embeds.push(embed); // pushing embeds (for transition between pages)
   } // end of for loop
   return embeds;

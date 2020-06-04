@@ -23,7 +23,7 @@ async function antiSpam(bot, message){
                 antispam.warned.delete(message.author.id);
                 msgCount = 0;
             }, 30000); // the warning is effective for half a minute
-            return message.channel.send(`**${mutedMember.user.username}**-sama, please don't spam, it won't make you a better person`); // warn them
+            return message.channel.send(`**${mutedMember.user.username}**-sama, please don't spam, it won't make you a better person (´-﹃-\`)`); // warn them
         } // end of if
 
         if(antispam.msgCount < msgThreshhold*2){return antispam.msgCount++;}
@@ -37,13 +37,13 @@ async function antiSpam(bot, message){
         antispam.muted.add(message.author.id);
         mutedMember.roles.remove(currentRoles).then(console.log).catch(console.error); // remove all current roles
         mutedMember.roles.add(mutedRole.id);
-        message.channel.send(`${mutedMember.user.tag} have been muted for \`${ms(muteTime)}\``, {files: ["https://media1.tenor.com/images/9d81ec7c2abd005d8da208d2f56e89df/tenor.gif?itemid=17267165"]});
+        message.channel.send(`${mutedMember.user.tag} have been muted for \`${ms(muteTime)}\` (´-﹃-\`)`, {files: ["https://media1.tenor.com/images/9d81ec7c2abd005d8da208d2f56e89df/tenor.gif?itemid=17267165"]});
 
         setTimeout(function(){ // after the mute
             antispam.muted.delete(message.author.id);
             mutedMember.roles.add(currentRoles); // add all the roles back
             mutedMember.roles.remove(mutedRole.id); // remove the muted role
-            message.channel.send(`**${mutedMember.user.username}**-sama, muting restrictions have been lifted`);
+            message.channel.send(`**${mutedMember.user.username}**-sama, muting restrictions have been lifted ( ˊᵕˋ)ﾉˊᵕˋ)`);
         }, muteTime)
     } // end of else msgRecently
 } // end of spamCheck(...) function

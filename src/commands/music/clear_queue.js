@@ -12,9 +12,9 @@ module.exports = class ClearQueueCommand extends BaseCommand {
     const author = message.author.username;
 
     // checks if the current queue is empty, if so return a message to inform the author
-    if(player.queue.size <= 1) { return message.channel.send(`**${author}**-sama, the audio queue is currently empty~`, para.ridingAqua); }
+    if(player.queue.length <= 1) { return message.channel.send(`**${author}**-sama, The queue is already cleared _(´ㅅ\`)⌒)\\_`); }
     await player.queue.splice(1);
-    message.channel.send(`**${author}**-sama, Aqukin has cleared the queue`);
+    message.channel.send(`**${author}**-sama, Aqukin has cleared the queue (\`･ω･´)`);
 
     /* Update the currently playing embed */
     const embed = await musicEmbed(para.bot, player, player.queue[0])

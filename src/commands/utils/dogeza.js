@@ -8,6 +8,6 @@ module.exports = class DogezaCommand extends BaseCommand{
 
     async run(para) {
         const { channel, author } = para.message;
-        channel.send(`Oose no mama ni (As you will), **${author.username}**-sama!`, attachments[Math.floor(Math.random() * Math.floor(attachments.length))]);
+        channel.send(`Oose no mama ni (As you will), **${author.username}**-sama _(´ㅅ\`)⌒)\\_`, attachments[Math.floor(Math.random() * Math.floor(attachments.length))]);
     } // end of run
 }; // end of module.exports

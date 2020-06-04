@@ -9,9 +9,9 @@ module.exports = class ShuffleQueueCommand extends BaseCommand {
     const { message, player } = para;
 
     // checks if the current queue is empty, if so return a message to inform the author
-    if(player.queue.size <= 1) { return message.channel.send(`**${author}**-sama, the audio queue is currently empty~`, para.ridingAqua); }
+    if(player.queue.size <= 1) { return message.channel.send(`**${author}**-sama, there is only one track in the queue _(´ㅅ\`)⌒)\\_`); }
     await shuffle(player.queue);
-    message.channel.send(`**${message.author.username}**-sama, Aqukin has shuffled the queue`); // informs the author
+    message.channel.send(`**${message.author.username}**-sama, Aqukin has shuffled the queue (\`･ω･´)`); // informs the author
   } // end of run
 } // end of module.exports
 

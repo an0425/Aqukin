@@ -14,10 +14,10 @@ module.exports = class LoopQueueCommand extends BaseCommand{
         player.trackRepeat = false; // reset track loop
         player.queueRepeat = !player.queueRepeat; // toggle queue loop
         if (!player.queueRepeat) { 
-            await player.loopqueue.splice(0);
-            message.channel.send(`**${author}**-sama, Aqukin will now \`stop looping the current queue\`~`); 
+            await player.loopqueue.splice(0); // clear the loop queue
+            message.channel.send(`**${author}**-sama, Aqukin will now \`stop looping the current queue\` (\`･ω･´)`); 
         }
-        else { message.channel.send(`**${author}**-sama, Aqukin will now \`loop the current queue\`~`); }
+        else { message.channel.send(`**${author}**-sama, Aqukin will now \`loop the current queue\` ₍^ •⌄• ^₎`); }
                     
         // Update the currently playing embed
         const embed = await musicEmbed(para.bot, player, player.queue[0])

@@ -12,7 +12,7 @@ module.exports = class MoveCommand extends BaseCommand{
         const timestamp = await convertInput(para.args[0]);
         const duration = await convertInput(player.queue[0].duration);
 
-        if(timestamp >= duration) { return message.channel.send(`**${author}**-sama, the timestamp should be less than the track length \`${player.queue[0].duration}\``); }
+        if(timestamp >= duration) { return message.channel.send(`**${author}**-sama, the timestamp should be less than the track length \`${player.queue[0].duration}\` (´-﹃-\`)`); }
         
         // try to move to the given timestamp, inform the author if fail
         try{
@@ -23,11 +23,11 @@ module.exports = class MoveCommand extends BaseCommand{
             //player.seeking = false;
             // inform the author if success
             const time = await formatLength(timestamp);
-            message.channel.send(`**${author}**-sama, Aqukin has moved the current track to position \`${time}\``);
+            message.channel.send(`**${author}**-sama, Aqukin will now moving the current track to position \`${time}\`, please be patient _(ˇωˇ」∠)\\_`);
         } catch(err) {
             console.log(err);
             player.connection.moving = false;
-            message.channel.send(`**${author}**-sama, please provide a valid timestamp~`, para.ridingAqua);
+            message.channel.send(`**${author}**-sama, please provide a valid timestamp (´-﹃-\`)`, para.ridingAqua);
         } 
     } // end of run
 }; // end of module.exports 

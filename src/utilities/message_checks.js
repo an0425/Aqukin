@@ -19,13 +19,13 @@ async function typeCheck(bot, message, prefix, tag){
 async function commandCheck(bot, message, command, args, prefix){
     // checks if the command is valid
     if (!command) {
-        message.channel.send(`**${message.author.username}**-sama, Aqukin can't find any command with that name, try \`${prefix}help\` if you need help with commands~`, ridingAqua);
+        message.channel.send(`**${message.author.username}**-sama, Aqukin can't find any command with that name, try \`${prefix}help\` if you need help with commands _(ˇωˇ」∠)\_`, ridingAqua);
         return; 
     }
 
     // checks if the command require and argument and whether the user has provided it
     if(command.args && !args.length){
-        let reply = `**${message.author.username}**-sama, please provide an argument for this command.`; // default reply without usage
+        let reply = `**${message.author.username}**-sama, please provide an argument for this command (´-﹃-\`)`; // default reply without usage
         // checks if there's a correct usage for the command
         if(command.usage) { reply += `\nThe proper usage would be \`${prefix}${command.name} ${command.usage}\``; } // add the usage to the reply
         message.channel.send(reply); // return the reply to inform the author
@@ -34,7 +34,7 @@ async function commandCheck(bot, message, command, args, prefix){
 
     // checks if the author has the permission to use the command, if not return a message to inform them
     if (!message.member.hasPermission(command.permission)) {
-        message.channel.send(`I'm sorry **${message.author.username}**-sama, but it seems like you don't have the permission to use this command`, ridingAqua);
+        message.channel.send(`I'm sorry **${message.author.username}**-sama, but it seems like you don't have the permission to use this command (´-﹃-\`)`, ridingAqua);
         return;
     }
 
@@ -46,17 +46,17 @@ async function commandCheck(bot, message, command, args, prefix){
             const { channel }  = message.member.voice;
             // checks if the author is in a voice channel, if not return a message to inform them
             if(!channel) { 
-                message.channel.send(`**${message.author.username}**-sama, you need to be in a voice channel to use this command`, ridingAqua);
+                message.channel.send(`**${message.author.username}**-sama, you need to be in a voice channel to use this command (´-﹃-\`)`, ridingAqua);
                 return; 
             }
             // checks if Aqukin in a voice channel and the author is also in that voice channel, if not return a message to inform them
             if (player && player.connection.channel.id !== channel.id) { 
-                message.channel.send(`**${message.author.username}**-sama, you need to be in the same voice channel with Aqukin to use this command`, ridingAqua);
+                message.channel.send(`**${message.author.username}**-sama, you need to be in the same voice channel with Aqukin to use this command (´-﹃-\`)`, ridingAqua);
                 return;
             }
             // checks if Aqukin is streaming any audio, excluding the play/multiplay commands, if not return a message to inform the author
             if(!player && command.name !== "play") { 
-                message.channel.send(`**${message.author.username}**-sama, Aqukin is not currently streaming any audio`, ridingAqua);
+                message.channel.send(`**${message.author.username}**-sama, Aqukin is not currently streaming any audio (´-﹃-\`)`, ridingAqua);
                 return;
             }; 
             // checks if the command require voting
@@ -76,7 +76,7 @@ async function commandCheck(bot, message, command, args, prefix){
 
                 // check if the author has already voted
                 if(votingSysVar.voters.has(message.author.id)) {
-                    message.channel.send(`**${message.author.username}**-sama, Aqukin has already acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote~`);
+                    message.channel.send(`**${message.author.username}**-sama, Aqukin has already acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote _(ˇωˇ」∠)\\_`);
                     return;
                 }
 
@@ -94,15 +94,15 @@ async function commandCheck(bot, message, command, args, prefix){
                         // contruct and send an embed asking the members to vote
                         const embed = new MessageEmbed()
                             .setTitle(`Please react if you would also like to \`${command.description}\``)
-                            .setDescription(`Aqukin require \`${votingSysVar.votesRequired}\` more vote(s) to \`${command.description}\`~`)
+                            .setDescription(`Aqukin require \`${votingSysVar.votesRequired}\` more vote(s) to \`${command.description}\` (\`･ω･´)`)
                             .setFooter("Vive La Résistance le Hololive~");
-                        const msg = await message.channel.send(`**${message.author.username}**-sama, Aqukin has acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote~`, embed);
+                        const msg = await message.channel.send(`**${message.author.username}**-sama, Aqukin has acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote ( ˊᵕˋ)ﾉˊᵕˋ)`, embed);
                         await msg.react("🆗");
 
                         const filter = (reaction, user) => { // members reactions filter
                             if (user.bot) { return false; } // exclude bot
                             if (votingSysVar.voters.has(user.id)){ // checks if the user has already voted
-                                message.channel.send(`**${user.username}**-sama, Aqukin has already acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote~`);
+                                message.channel.send(`**${user.username}**-sama, Aqukin has already acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote (_(ˇωˇ」∠)\\_`);
                                 return false;
                             }
                             const memPermissionCheck = message.guild.members.cache.get(user.id);
@@ -114,7 +114,7 @@ async function commandCheck(bot, message, command, args, prefix){
                                     return ["🆗"].includes(reaction.emoji.name); 
                                 }
                                 else{
-                                    message.channel.send(`**${user.username}**-sama, Aqukin has acknowledge your vote to \`${command.description}\`~`);
+                                    message.channel.send(`**${user.username}**-sama, Aqukin has acknowledge your vote to \`${command.description}\` ( ˊᵕˋ)ﾉˊᵕˋ)`);
                                     votingSysVar.voters.set(user.id, user); // the user has now voted via emote reation
                                     return ["🆗"].includes(reaction.emoji.name); 
                                 }
@@ -125,7 +125,7 @@ async function commandCheck(bot, message, command, args, prefix){
                         try{
                             const reactions = await msg.awaitReactions(filter, { max: votingSysVar.votesRequired, time: 12000, errors: ["time"] })
                             if(reactions){
-                                const reactionVotes = reactions.get("🆗").users.cache.filter(u => !u.bot);
+                                const reactionVotes = await reactions.get("🆗").users.cache.filter(u => !u.bot);
                                 votingSysVar.voteCount += reactionVotes.size; // register the reactions count into the vote count
                             
                                 if(votingSysVar.votesRequired > 0){ // check after the reaction vote
@@ -161,7 +161,7 @@ async function commandCheck(bot, message, command, args, prefix){
         // a case for other economy commands
         case "economy":
             if(!bot.currency.has(message.author.id) && command.name !== "addinvestor") {
-                message.channel.send(`**${message.author.username}**-sama, you need to be an investor to use this command~`);
+                message.channel.send(`**${message.author.username}**-sama, you need to be an investor to use this command (´-﹃-\`)`);
                 return;
             }
             para = { // same collection but in this case only needed parameters

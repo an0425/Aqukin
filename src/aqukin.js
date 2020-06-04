@@ -75,7 +75,7 @@ async function alive(){
 		"https://vignette.wikia.nocookie.net/virtualyoutuber/images/f/fc/Framerate_detector_Ookami_Mio_V.2.gif"];
 
 	app.get("/", (request, response) => {
-		console.log(Date.now() + " Ping Received");
+		// console.log(Date.now() + " Ping Received");
 		response.sendStatus(200);
 	});
 		  
@@ -84,7 +84,5 @@ async function alive(){
     	console.log(`Aqukin is running on port ${ PORT }`);
 	});
 
-	setInterval(() => {
-		http.get(`http://${process.env.PROJECT_DOMAIN}.herokuapp.com/`);
-	  }, 280000);
+	setInterval(() => { http.get(`http://${process.env.PROJECT_DOMAIN}.herokuapp.com/`); }, 280000);
 }

@@ -12,9 +12,9 @@ module.exports = class ResumeCommand extends BaseCommand{
         const author = message.author.username;
         
         // checks if the player is already paused, if so return a message to inform the author
-        if (!player.connection.dispatcher.paused) { return message.channel.send(`**${author}**-sama, Aqukin audio stream is not paused.`); }
+        if (!player.connection.dispatcher.paused) { return message.channel.send(`**${author}**-sama, Aqukin audio stream is not paused _(´ㅅ\`)⌒)\\_`); }
         player.connection.dispatcher.resume();
-        message.channel.send(`**${author}**-sama, Aqukin has resumed audio streaming~`);
+        message.channel.send(`**${author}**-sama, Aqukin has resumed audio streaming ₍^ •⌄• ^₎`);
 
         /* Update the currently playing embed */
         const embed = await musicEmbed(para.bot, player, player.queue[0])

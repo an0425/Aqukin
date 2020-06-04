@@ -14,7 +14,7 @@ module.exports = class HelpCommand extends BaseCommand{
             const commandName = para.args[0].toLowerCase();
             const command = bot.commands.get(commandName) || bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
             // checks if there's a command with the given argurment, if not return a message to inform the author
-            if(!command) { return channel.send(`**${author.username}**-sama, Aqukin can't find any command with that name~`, para.ridingAqua); }
+            if(!command) { return channel.send(`**${author.username}**-sama, Aqukin can't find any command with that name (´-﹃-\`)`, para.ridingAqua); }
 
             // construct the embed
             const images = ["https://media1.tenor.com/images/224db5f05470946e4c60ca9afea7597f/tenor.gif?itemid=17308034", 
@@ -28,7 +28,7 @@ module.exports = class HelpCommand extends BaseCommand{
                            {name: "Usage", value: `${para.prefix}${command.name} ${command.usage}`},
                            {name: "Description", value: command.description},)
                 .setImage(images[Math.floor(Math.random() * Math.floor(images.length))])
-                .setFooter("Vive La Résistance le Hololive~");
+                .setFooter("Vive La Résistance le Hololive ٩(ˊᗜˋ*)و");
             channel.send(`**${author.username}**-sama, here's the info of the \`${command.name}\` command`, cmdInfoEmbed); // send out the embed
         } // end of if
         
@@ -50,12 +50,12 @@ module.exports = class HelpCommand extends BaseCommand{
             const helpEmbed = new MessageEmbed()
                 .setColor(0x1DE2FE)
                 .setThumbnail("https://media1.tenor.com/images/e4d23a9fb9a1dab0b47c84029883dfb7/tenor.gif?itemid=17189878")
-                .setTitle(`You can send \`${para.prefix}help [command name]\` to get info on a specific command~`)
+                .setTitle(`You can send \`${para.prefix}help [command name]\` to get info on a specific command ( ˊᵕˋ)ﾉˊᵕˋ)`)
                 .addFields({ name: "Music commands", value: musicCmds }, 
                            { name: "Ultility commands", value: utilsCmds },)
                            //{ name: "Economy commands", value: econCmds },
                 .setImage(images[Math.floor(Math.random() * Math.floor(images.length))])
-                .setFooter("Vive La Résistance le Hololive~");
+                .setFooter("Vive La Résistance le Hololive ٩(ˊᗜˋ*)و");
             channel.send(`**${author.username}**-sama, here's the list of Aqukin's commands, the current prefix is "${para.prefix}"`, helpEmbed); // send out the embed
         } // end of else
     } // end of run

@@ -1,9 +1,9 @@
 /* This module allows the author to enqueue Youtube URL/Playlist/Tracks from search results to Aqukin audio streaming */
-const ytdl = require("ytdl-core");
 const ytpl = require("ytpl");
 const ytsr = require("ytsr");
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+const ytdl = require("ytdl-core");
 const { formatLength } = require("../../utilities/functions");
+const { MessageEmbed, MessageAttachment } = require("discord.js");
 const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
@@ -48,10 +48,9 @@ module.exports = class PlayCommand extends BaseCommand{
                 };
                 //console.log(track);
                 player.queue.push(track);
-                channel.send(`**${author.username}**-sama, Aqukin has enqueued track **${track.title}**`);
+                channel.send(`**${author.username}**-sama, Aqukin has enqueued track **${track.title}** ٩(ˊᗜˋ*)و`);
             });    
         }
-
         // if the queury is a youtube playlist link
         else if (ytpl.validateURL(query)){
             await ytpl(query, { limit:0 }).then(async playlist =>{
@@ -65,12 +64,13 @@ module.exports = class PlayCommand extends BaseCommand{
                     }
                     player.queue.push(track);
                 });
-                await channel.send(`**${author.username}**-sama, Aqukin has enqueued \`${playlist.total_items}\` track(s) from the playlist **${playlist.title}**`);
+                await channel.send(`**${author.username}**-sama, Aqukin has enqueued \`${playlist.total_items}\` track(s) from the playlist **${playlist.title}** ٩(ˊᗜˋ*)و`);
             });
         }
+        // else try searching youtube with the given argument
         else{
             await ytsr(query, {limit:10}).then(async results => {
-                if(!results) { return channel.send(`**${author.username}**-sama, Aqukin can't find any tracks with the given keywords`, para.ridingAqua); }                
+                if(!results) { return channel.send(`**${author.username}**-sama, Aqukin can't find any tracks with the given keywords (´-﹃-\`)`, para.ridingAqua); }                
                 const tracks = results.items.filter(i => i.type === "video");
                 
                 // embed the result(s)
@@ -82,8 +82,7 @@ module.exports = class PlayCommand extends BaseCommand{
                     .setDescription(tracksInfo)
                     .setImage("https://media1.tenor.com/images/85e6b8577e925a9037d03a796588e7ed/tenor.gif?itemid=15925240")
                     .setFooter("Vive La Résistance le Hololive~");
-
-                const sentMessage = await message.channel.send(`**${author}**-sama, please enter the track number that you would like Aqukin to queue.`, embed); // display the embed
+                const sentMessage = await message.channel.send(`**${author-username}**-sama, please enter the track number that you would like Aqukin to queue (\`･ω･´)`, embed); // display the embed
 
                 // Allow the author to select a track fron the search results within the allowed time of 12s
                 const filter = m => (message.author.id === m.author.id) && (m.content >= 1 && m.content <= tracks.length);
@@ -101,7 +100,7 @@ module.exports = class PlayCommand extends BaseCommand{
                     }
                     await player.queue.push(track);
                     response.first().delete(); // delete the user respond
-                    message.channel.send(`**${author.username}**-sama, Aqukin has enqueued track **${tracks[entry-1].title}**`); // inform the author
+                    message.channel.send(`**${author.username}**-sama, Aqukin has enqueued track **${tracks[entry-1].title}** ٩(ˊᗜˋ*)و`); // inform the author
                 } catch(err) { return console.log(err); }
             });
         }
@@ -153,7 +152,7 @@ async function playing(bot, guild, player){
             try{
                 await player.connection.channel.leave();
                 await bot.queue.delete(guild.id);
-                const sentMessage = await player.textChannel.send(`The queue has ended, arigatou gozamatshita~`, new MessageAttachment("src/utilities/pictures/bye.gif"));
+                const sentMessage = await player.textChannel.send(`The queue has ended, arigatou gozamatshita ( ˊᵕˋ)ﾉˊᵕˋ)`, new MessageAttachment("src/utilities/pictures/bye.gif"));
                 await sentMessage.delete({ timeout: 5200 });
             } catch (err) { console.log(err); }
             return;

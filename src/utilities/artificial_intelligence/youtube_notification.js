@@ -76,7 +76,7 @@ async function ytNotify(para){
                     .setTitle(`${chSearchR.snippet.title} ${title}`)
                     .setDescription(`[${video.snippet.title}](https://www.youtube.com/watch?v=${video.id.videoId})`)
                     .setImage(`${video.snippet.thumbnails.high.url}`)
-                    .setFooter("Vive La Résistance le Hololive~");
+                    .setFooter("Vive La Résistance le Hololive ٩(ˊᗜˋ*)و");
                 // send the embed
                 message.channel.send(videoEmbed);
             }); // end of forEach loop

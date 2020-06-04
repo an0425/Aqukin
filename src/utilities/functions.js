@@ -11,8 +11,8 @@ async function checkNum(num, defaultNum, range, round){
 
 // This function convert true to yes, false to no
 async function convertTF(value){
-    if(value) { return "Yes"; }
-    return "No";
+    if(value) { return "Yes Peko"; }
+    return "No Dan";
 }
 
 // This function format numbers (seconds) to hh:mm:ss format

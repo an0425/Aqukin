@@ -12,9 +12,9 @@ module.exports = class PauseCommand extends BaseCommand{
         const author = message.author.username;
         
         // checks if the player is already paused, if so return a message to inform the author
-        if (player.connection.dispatcher.paused) { return message.channel.send(`**${author}**-sama, Aqukin is already paused.`); }
+        if (player.connection.dispatcher.paused) { return message.channel.send(`**${author}**-sama, Aqukin is already paused _(´ㅅ\`)⌒)\\_ `); }
         player.connection.dispatcher.pause();
-        message.channel.send(`**${author}**-sama, Aqukin has paused audio streaming~`);
+        message.channel.send(`**${author}**-sama, Aqukin has paused audio streaming ₍^ •⌄• ^₎`);
         
         /* Update the currently playing embed */
         const embed = await musicEmbed(para.bot, player, player.queue[0])

@@ -11,11 +11,11 @@ module.exports = class LoopTrackCommand extends BaseCommand{
         if(!voteReached) { return; }
         const author = message.author.username;
         
-        if(player.queueRepeat) { return message.channel.send(`**${author}**-sama, please cancel the queue loop first before looping the track~`); }
+        if(player.queueRepeat) { return message.channel.send(`**${author}**-sama, please cancel the queue loop first before looping the track (´-﹃-\`)`); }
 
         player.trackRepeat = !player.trackRepeat; // toggle track loop
-        if (!player.trackRepeat) { message.channel.send(`**${author}**-sama, Aqukin will now \`stop looping the current track\`~`); }
-        else { message.channel.send(`**${author}**-sama, Aqukin will now \`loop the current track\`~`); }
+        if (!player.trackRepeat) { message.channel.send(`**${author}**-sama, Aqukin will now \`stop looping the current track\` (\`･ω･´)`); }
+        else { message.channel.send(`**${author}**-sama, Aqukin will now \`loop the current track\` ₍^ •⌄• ^₎`); }
                     
         // Update the currently playing embed
         const embed = await musicEmbed(para.bot, player, player.queue[0])
