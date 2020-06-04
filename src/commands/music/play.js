@@ -82,7 +82,7 @@ module.exports = class PlayCommand extends BaseCommand{
                     .setDescription(tracksInfo)
                     .setImage("https://media1.tenor.com/images/85e6b8577e925a9037d03a796588e7ed/tenor.gif?itemid=15925240")
                     .setFooter("Vive La Résistance le Hololive~");
-                const sentMessage = await message.channel.send(`**${author-username}**-sama, please enter the track number that you would like Aqukin to queue (\`･ω･´)`, embed); // display the embed
+                const sentMessage = await message.channel.send(`**${author.username}**-sama, please enter the track number that you would like Aqukin to queue (\`･ω･´)`, embed); // display the embed
 
                 // Allow the author to select a track fron the search results within the allowed time of 12s
                 const filter = m => (message.author.id === m.author.id) && (m.content >= 1 && m.content <= tracks.length);
