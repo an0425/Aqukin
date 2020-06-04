@@ -61,7 +61,7 @@ async function generateQueueEmbed(queue, thumbnails) {
     if (!next.empty){
       let j = i;
       k += 7;
-      info = next.map(track => `${++j}) [${track.title}](${track.url}) | length \`${track.duration}\` | requested by **${track.requester.username}**-sama`).join("\n\n");
+      info = next.map(track => `${++j}) [${track.title}](${track.url}) | length \`${track.duration}\` | requested by **${track.requester.username}**-sama, nanodesu~`).join("\n\n");
     } // end of if
     else { info = "Currently no track is next in queue~~~"; } // else next in queue is empty
     
@@ -71,7 +71,7 @@ async function generateQueueEmbed(queue, thumbnails) {
     const embed = new MessageEmbed()
       .setColor(0x1DE2FE)
       .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
-      .setDescription(`⬇️ Currently playing ⬇️\n [${queue[0].title}](${queue[0].url}) | length \`${queue[0].duration}\` | requested by **${queue[0].requester.username}**-sama\n\n⬇️ Next in queue ⬇️\n${info}`)
+      .setDescription(`⚓ Currently playing ▶️\n [${queue[0].title}](${queue[0].url}) | length \`${queue[0].duration}\` | requested by **${queue[0].requester.username}**-sama, nanora~\n\n⚓ Next in queue ⏭️\n${info}`)
       .setImage(images[Math.floor(Math.random() * Math.floor(images.length))])
       .setFooter("Vive La Résistance le Hololive ٩(ˊᗜˋ*)و");
     embeds.push(embed); // pushing embeds (for transition between pages)

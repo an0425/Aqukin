@@ -13,10 +13,10 @@ async function musicEmbed(bot, player, track){
         .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
         .setTitle("⚓ Now Playing ⚓")
         .addFields({ name: "Title", value: `[${track.title}](${track.url})` },
-                   { name: "Volume", value: `${player.connection.dispatcher.volume*100}`, inline: true },
+                   { name: "🔞Volume", value: `${player.connection.dispatcher.volume*100}`, inline: true },
                    { name: "Track Length", value: track.duration, inline: true },
                    { name: "Queue Size", value: `${player.queue.length}`, inline: true },
-                   { name: "Paused", value: pauseStatus, inline: true },
+                   { name: "⏸️Paused", value: pauseStatus, inline: true },
                    { name: "Track Looped", value: loopStatus, inline: true },
                    { name: "Queue Looped", value: qloopStatus, inline: true },
                    { name: "Requested by", value: `**${track.requester.username}**-sama, nanodesu~`, inline: true })
