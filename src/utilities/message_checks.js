@@ -19,7 +19,7 @@ async function typeCheck(bot, message, prefix, tag){
 async function commandCheck(bot, message, command, args, prefix){
     // checks if the command is valid
     if (!command) {
-        message.channel.send(`**${message.author.username}**-sama, Aqukin can't find any command with that name, try \`${prefix}help\` if you need help with commands _(ˇωˇ」∠)\_`, ridingAqua);
+        message.channel.send(`**${message.author.username}**-sama, Aqukin can't find any command with that name, try \`${prefix}help\` if you need help with commands _(ˇωˇ」∠)\\_`, ridingAqua);
         return; 
     }
 
