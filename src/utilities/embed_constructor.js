@@ -1,12 +1,9 @@
 /* This module construct an embed neccessary for displaying the current playing track */
-const { convertTF } = require("../utilities/functions");
+const { convertTF, formatLength } = require("../utilities/functions");
 const { MessageEmbed } = require("discord.js");
 
 async function musicEmbed(bot, player, track){
     const { thumbnails } = bot;
-    const pauseStatus = await convertTF(player.connection.dispatcher.paused);
-    const loopStatus = await convertTF(player.trackRepeat);
-    const qloopStatus = await convertTF(player.queueRepeat);    
     // construct the embeds
     const embed = new MessageEmbed()
         .setColor(0x1DE2FE)
@@ -14,11 +11,11 @@ async function musicEmbed(bot, player, track){
         .setTitle("⚓ Now Playing ⚓")
         .addFields({ name: "Title", value: `[${track.title}](${track.url})` },
                    { name: "🔞Volume", value: `${player.connection.dispatcher.volume*100}`, inline: true },
-                   { name: "Track Length", value: track.duration, inline: true },
+                   { name: "Track Length", value: await formatLength(track.duration), inline: true },
                    { name: "Queue Size", value: `${player.queue.length}`, inline: true },
-                   { name: "⏸️Paused", value: pauseStatus, inline: true },
-                   { name: "Track Looped", value: loopStatus, inline: true },
-                   { name: "Queue Looped", value: qloopStatus, inline: true },
+                   { name: "⏸️Paused", value: await convertTF(player.connection.dispatcher.paused), inline: true },
+                   { name: "Track Looped", value: await convertTF(player.trackRepeat), inline: true },
+                   { name: "Queue Looped", value: await convertTF(player.queueRepeat), inline: true },
                    { name: "Requested by", value: `**${track.requester.username}**-sama, nanodesu~`, inline: true })
         .setImage(`https://img.youtube.com/vi/${track.id}/0.jpg`)
         .setFooter("Vive La Résistance le Hololive ٩(ˊᗜˋ*)و");

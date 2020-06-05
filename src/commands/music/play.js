@@ -2,7 +2,7 @@
 const ytpl = require("ytpl");
 const ytsr = require("ytsr");
 const ytdl = require("ytdl-core");
-const { formatLength } = require("../../utilities/functions");
+const { convertInput } = require("../../utilities/functions");
 const { MessageEmbed, MessageAttachment } = require("discord.js");
 const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
@@ -38,12 +38,11 @@ module.exports = class PlayCommand extends BaseCommand{
         if(ytdl.validateURL(query)) {  
             // Get the song info
             await ytdl.getBasicInfo(query).then(async trackInfo => {
-                const duration = await formatLength(trackInfo.videoDetails.lengthSeconds);
                 const track = {
                     id: trackInfo.videoDetails.videoId,
                     url: trackInfo.videoDetails.video_url,
                     title: trackInfo.videoDetails.title,
-                    duration: duration,
+                    duration: trackInfo.videoDetails.lengthSeconds,
                     requester: message.author,
                 };
                 //console.log(track);
@@ -54,12 +53,12 @@ module.exports = class PlayCommand extends BaseCommand{
         // if the queury is a youtube playlist link
         else if (ytpl.validateURL(query)){
             await ytpl(query, { limit:0 }).then(async playlist =>{
-                playlist.items.forEach(trackInfo => {
+                playlist.items.forEach(async trackInfo => {
                     const track = {
                         id: trackInfo.id,
                         url: trackInfo.url_simple,
                         title: trackInfo.title,
-                        duration: trackInfo.duration,
+                        duration: await convertInput(trackInfo.duration),
                         requester: message.author,
                     }
                     player.queue.push(track);
@@ -69,13 +68,14 @@ module.exports = class PlayCommand extends BaseCommand{
         }
         // else try searching youtube with the given argument
         else{
-            await ytsr(query, {limit:10}).then(async results => {
+            let noResult = false;
+            await ytsr(query, { limit:10 }).then(async results => {
                 if(!results) { return channel.send(`**${author.username}**-sama, Aqukin can't find any tracks with the given keywords (´-﹃-\`)`, para.ridingAqua); }                
                 const tracks = results.items.filter(i => i.type === "video");
                 
                 // embed the result(s)
                 let i = 0;
-                const tracksInfo = tracks.map(r => `${++i}) ${r.title}\n${r.link} | length \`${r.duration}s\``).join("\n\n"); // get the tracks info
+                const tracksInfo = await tracks.map(r => `${++i}) [${r.title}](${r.link}) | length \`${r.duration}\``).join("\n\n"); // get the tracks info
                 const embed = new MessageEmbed()
                     .setColor(0x1DE2FE)
                     .setTitle("Automatically times out in 12 seconds")
@@ -95,14 +95,18 @@ module.exports = class PlayCommand extends BaseCommand{
                         id: await ytdl.getURLVideoID(trackInfo.link),
                         url: trackInfo.link,
                         title: trackInfo.title,
-                        duration: trackInfo.duration,
+                        duration: await convertInput(trackInfo.duration),
                         requester: message.author,
                     }
                     await player.queue.push(track);
                     response.first().delete(); // delete the user respond
                     message.channel.send(`**${author.username}**-sama, Aqukin has enqueued track **${tracks[entry-1].title}** ٩(ˊᗜˋ*)و`); // inform the author
-                } catch(err) { return console.log(err); }
+                } catch(err) { 
+                    noResult = true;
+                    console.log(err); 
+                }
             });
+            if(noResult) { return; }
         }
 
         try {
@@ -167,8 +171,8 @@ async function playing(bot, guild, player){
 
         .on("start", async () =>{
             const embed = await musicEmbed(bot, player, track);
-            try{ player.sentMessage = await player.textChannel.send(embed); } // send the embed to inform about the now playing track
-            catch(err) { console.log("The message is terminated abnormally", err); }
+            try{ player.sentMessage = await player.textChannel.send(embed)  } // send the embed to inform about the now playing track
+            catch(err) { console.log("an error has occurered trying to send the embed", err); }
         })    
             
         .on("finish", async () => {

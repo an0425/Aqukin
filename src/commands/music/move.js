@@ -10,9 +10,8 @@ module.exports = class MoveCommand extends BaseCommand{
         const { message, player } = para;
         const author = message.author.username;
         const timestamp = await convertInput(para.args[0]);
-        const duration = await convertInput(player.queue[0].duration);
 
-        if(timestamp >= duration) { return message.channel.send(`**${author}**-sama, the timestamp should be less than the track length \`${player.queue[0].duration}\` (´-﹃-\`)`); }
+        if(await convertInput(para.args[0]) >= player.queue[0].duration) { return await message.channel.send(`**${author}**-sama, the timestamp should be less than the track length \`${await formatLength(player.queue[0].duration)}\` (´-﹃-\`)`); }
         
         // try to move to the given timestamp, inform the author if fail
         try{
@@ -20,10 +19,10 @@ module.exports = class MoveCommand extends BaseCommand{
             await player.queue.splice(1, 0, player.queue[0]);
             player.queue[1].seek = timestamp;
             await player.connection.dispatcher.end();
-            //player.seeking = false;
             // inform the author if success
-            const time = await formatLength(timestamp);
-            message.channel.send(`**${author}**-sama, Aqukin will now moving the current track to position \`${time}\`, please be patient _(ˇωˇ」∠)\\_`);
+            await message.channel.send(`**${author}**-sama, Aqukin will now moving the current track to position \`${await formatLength(timestamp)}\`, please be patient _(ˇωˇ」∠)\\_`);
+            const sentMgs = await message.channel.send({files: ["https://media1.tenor.com/images/bf16c156ab3e2301d22e6494fdab91c8/tenor.gif?itemid=17235518"]})
+            sentMgs.delete({ timeout:5200 });
         } catch(err) {
             console.log(err);
             player.connection.moving = false;
