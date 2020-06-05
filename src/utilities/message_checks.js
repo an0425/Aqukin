@@ -25,7 +25,7 @@ async function commandCheck(bot, message, command, args, prefix){
 
     // checks if the command require and argument and whether the user has provided it
     if(command.args && !args.length){
-        let reply = `**${message.author.username}**-sama, please provide an argument for this command (´-﹃-\`)`; // default reply without usage
+        let reply = `**${message.author.username}**-sama, please provide an argument for this command _(ˇωˇ」∠)\\_`; // default reply without usage
         // checks if there's a correct usage for the command
         if(command.usage) { reply += `\nThe proper usage would be \`${prefix}${command.name} ${command.usage}\``; } // add the usage to the reply
         message.channel.send(reply); // return the reply to inform the author

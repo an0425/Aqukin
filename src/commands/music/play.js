@@ -34,6 +34,7 @@ module.exports = class PlayCommand extends BaseCommand{
         const query = para.args.join(" ");
         console.log(query);
         
+        let noResult = false;
         // if the queury is a youtube video link
         if(ytdl.validateURL(query)) {  
             // Get the song info
@@ -64,13 +65,18 @@ module.exports = class PlayCommand extends BaseCommand{
                     player.queue.push(track);
                 });
                 await channel.send(`**${author.username}**-sama, Aqukin has enqueued \`${playlist.total_items}\` track(s) from the playlist **${playlist.title}** ٩(ˊᗜˋ*)و`);
-            });
+            })
+            .catch((err) => {
+                noResult = true;
+                message.channel.send(`**${author.username}**-sama, the playlist is either private or does not exist (´-﹃-\`)`)});
         }
         // else try searching youtube with the given argument
         else{
-            let noResult = false;
             await ytsr(query, { limit:10 }).then(async results => {
-                if(!results) { return channel.send(`**${author.username}**-sama, Aqukin can't find any tracks with the given keywords (´-﹃-\`)`, para.ridingAqua); }                
+                if(!results) {
+                    noResult = true;
+                    channel.send(`**${author.username}**-sama, Aqukin can't find any tracks with the given keywords (´-﹃-\`)`, para.ridingAqua); 
+                }                
                 const tracks = results.items.filter(i => i.type === "video");
                 
                 // embed the result(s)
@@ -105,9 +111,13 @@ module.exports = class PlayCommand extends BaseCommand{
                     noResult = true;
                     console.log(err); 
                 }
-            });
-            if(noResult) { return; }
+            })
+            .catch((err) => {
+                noResult = true;
+                console.log(err)});
         }
+
+        if(noResult) { return; }
 
         try {
             if(!player.connection.dispatcher) { await playing(bot, message.guild, player); }

@@ -16,8 +16,11 @@ module.exports = class ShuffleQueueCommand extends BaseCommand {
 } // end of module.exports
 
 async function shuffle(queue){
-  for(let i = queue.length-1; i>1; i--){
+  for(let i = queue.length-1; i>0; i--){
     let j = Math.floor(Math.random() * (i + 1));
+    while(j===0){
+      j = Math.floor(Math.random() * (i + 1));
+    }
     [queue[i], queue[j]] = [queue[j], queue[i]];
   }
 }
