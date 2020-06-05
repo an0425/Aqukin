@@ -47,6 +47,19 @@ async function reply(message, args, prefix){
             case "teiki":
                 channel.send("Ahh...")
                 break;
+            
+            case "see":
+                if (!args[i + 1]) return;
+                switch (args[i + 1].toLowerCase()) {
+                    case "u":
+                    case "you":
+                        channel.send(`Bye bye, **${author}**-sama ( ˊᵕˋ)ﾉˊᵕˋ)`);
+                        break;
+                    case "shit":
+                        channel.send(`**${author}**-sama, you can't see yours or mine? (*´꒳\`*)`);
+                        break;
+                }
+                break;
     
             case "good":
             case "gud":
@@ -83,6 +96,9 @@ async function reply(message, args, prefix){
                         break;
                     case "boy":
                         channel.send(`He truly is **${author}**-sama ٩(ˊᗜˋ*)و`);
+                        break;
+                    case "bye":
+                        channel.send(`Bye bye, **${author}**-sama ( ˊᵕˋ)ﾉˊᵕˋ)`);
                         break;
                     default:
                         channel.send(`It truly is **${author}**-sama ٩(ˊᗜˋ*)و`);
