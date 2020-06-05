@@ -58,6 +58,9 @@ async function reply(message, args, prefix){
                     case "afternoon":
                         channel.send(`Ohayo~ **${author}**-sama, have you had lunch yet? ( ˊᵕˋ)ﾉˊᵕˋ)`);
                         break;
+                    case "evening":
+                        channel.send(`Konbanwa~ **${author}**-sama, have you had dinner yet? ( ˊᵕˋ)ﾉˊᵕˋ)`);
+                        break;
                     case "day":
                         channel.send(`Good day to you too **${author}**-sama ( ˊᵕˋ)ﾉˊᵕˋ)`);
                         break;
@@ -66,6 +69,13 @@ async function reply(message, args, prefix){
                         break;
                     case "job":
                     case "bot":
+                    case "maid":
+                    case "aqua":
+                    case "luck":
+                    case "baqua":
+                    case "aqukin":
+                    case "akukin":
+                    case "<@!702620458130079750>":
                         channel.send(`Arigatou gozaimatsu~ **${author}**-sama ( ˊᵕˋ)ﾉˊᵕˋ)`);
                         break;
                     case "girl":
