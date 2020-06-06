@@ -59,7 +59,8 @@ async function commandCheck(bot, message, command, args, prefix){
             if(!player && command.name !== "play") { 
                 message.channel.send(`**${message.author.username}**-sama, Aqukin is not currently streaming any audio (´-﹃-\`)`, ridingAqua);
                 return;
-            }; 
+            };
+             
             // checks if the command require voting
             let votingSysVar;
             let voteCmds;
@@ -81,18 +82,17 @@ async function commandCheck(bot, message, command, args, prefix){
 
                 votingSysVar = await voteCmds.get(command.name); 
 
-                const members = player.connection.channel.members.filter(m => !m.user.bot);
-                if(members.size === 1 || message.member.hasPermission("ADMINISTRATOR")){
-                    if(votingSysVar) { voteCmds.delete(command.name); }
-                    votingSysVar.voteReached = true;
-                }
-
                 // check if the author has already voted
                 if(votingSysVar.voters.has(message.author.id)) {
                     message.channel.send(`**${message.author.username}**-sama, Aqukin has already acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote _(ˇωˇ」∠)\\_`);
                     return;
                 }
 
+                const members = player.connection.channel.members.filter(m => !m.user.bot);
+                if(members.size === 1 || message.member.hasPermission("ADMINISTRATOR")){
+                    if(votingSysVar) { voteCmds.delete(command.name); }
+                    votingSysVar.voteReached = true;
+                }
                 // else there's at least two or more members in the voice channel
                 else {
                     ++votingSysVar.voteCount; // increase the vote count
