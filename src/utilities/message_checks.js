@@ -43,7 +43,7 @@ async function commandCheck(bot, message, command, args, prefix){
     switch(command.tag){
         // checks if the command is a music command
         case "music": // neccessary checks for music commands 
-            const player = bot.music.get(message.guild.id);
+            const player = await bot.music.get(message.guild.id);
             const { channel }  = message.member.voice;
             // checks if the author is in a voice channel, if not return a message to inform them
             if(!channel) { 
@@ -110,7 +110,7 @@ async function commandCheck(bot, message, command, args, prefix){
                         const filter = (reaction, user) => { // members reactions filter
                             if (user.bot) { return false; } // exclude bot
                             if (votingSysVar.voters.has(user.id)){ // checks if the user has already voted
-                                message.channel.send(`**${user.username}**-sama, Aqukin has already acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote (_(ˇωˇ」∠)\\_`);
+                                message.channel.send(`**${user.username}**-sama, Aqukin has already acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote _(ˇωˇ」∠)\\_`);
                                 return false;
                             } 
                             const memPermissionCheck = message.guild.members.cache.get(user.id);

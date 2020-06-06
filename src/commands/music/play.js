@@ -27,7 +27,7 @@ module.exports = class PlayCommand extends BaseCommand{
                 queue: [],
                 loopqueue: []
             };
-            bot.music.set(message.guild.id, player);
+            await bot.music.set(message.guild.id, player);
         }
         
         // search for track(s) with the given arguments
@@ -47,7 +47,7 @@ module.exports = class PlayCommand extends BaseCommand{
                     requester: message.author,
                 };
                 //console.log(track);
-                player.queue.push(track);
+                await player.queue.push(track);
                 channel.send(`**${author.username}**-sama, Aqukin has enqueued track **${track.title}** ٩(ˊᗜˋ*)و`);
             });    
         }
@@ -62,7 +62,7 @@ module.exports = class PlayCommand extends BaseCommand{
                         duration: await convertInput(trackInfo.duration),
                         requester: message.author,
                     }
-                    player.queue.push(track);
+                    await player.queue.push(track);
                 });
                 await channel.send(`**${author.username}**-sama, Aqukin has enqueued \`${playlist.total_items}\` track(s) from the playlist **${playlist.title}** ٩(ˊᗜˋ*)و`);
             })
@@ -168,7 +168,7 @@ async function playing(bot, guild, player){
             try{
                 await player.connection.channel.leave();
                 await bot.music.delete(guild.id);
-                const sentMessage = await player.textChannel.send(`The queue has ended, arigatou gozaimatshita ( ˊᵕˋ)ﾉˊᵕˋ)`, new MessageAttachment("src/utilities/pictures/bye.gif"));
+                const sentMessage = await player.textChannel.send("The queue has ended, arigatou gozaimatshita ( ˊᵕˋ)ﾉˊᵕˋ)", new MessageAttachment("src/utilities/pictures/bye.gif"));
                 await sentMessage.delete({ timeout: 5200 });
             } catch (err) { console.log(err); }
             return;
