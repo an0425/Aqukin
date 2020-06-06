@@ -3,7 +3,7 @@ const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class ResumeCommand extends BaseCommand{
-    constructor() {super("resume", ["continue"], "Resume the audio player", "CONNECT", "music", false, true, "")}
+    constructor() {super("resume", ["continue"], "Resume the audio player", "CONNECT", "music", false, true, "", "-- will resume the audio player if paused")}
 
     async run(para){
         // shortcut variables

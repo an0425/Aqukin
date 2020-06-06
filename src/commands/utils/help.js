@@ -3,7 +3,7 @@ const { MessageEmbed } = require('discord.js');
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class HelpCommand extends BaseCommand{
-    constructor() {super("help", ["h"], "Provide info about commands", "SEND_MESSAGES", "utility", false, false, "[command]")}
+    constructor() {super("help", ["h"], "Provide info about commands", "SEND_MESSAGES", "utility", false, false, "[command name/alias]", "move -- will show info about the move command")}
     
     async run(para) {
         // shortcut variables
@@ -26,6 +26,7 @@ module.exports = class HelpCommand extends BaseCommand{
                 .addFields({name: "Command name", value: command.name, inline: true},
                            {name: "Aliases", value: command.aliases.join('\n'), inline: true},
                            {name: "Usage", value: `${para.prefix}${command.name} ${command.usage}`},
+                           {name: "Usage Example", value: `${para.prefix}${command.name} ${command.usageEx}`},
                            {name: "Description", value: command.description},)
                 .setImage(images[Math.floor(Math.random() * Math.floor(images.length))])
                 .setFooter("Vive La Résistance le Hololive ٩(ˊᗜˋ*)و");
@@ -40,6 +41,9 @@ module.exports = class HelpCommand extends BaseCommand{
             const utilsCmds = await bot.commands
                 .filter(cmd => cmd.tag === "utility")
                 .map(cmd => `\`${cmd.name}\``).join(" ");
+            const settingsCmds = await bot.commands
+                .filter(cmd => cmd.tag === "settings")
+                .map(cmd => `\`${cmd.name}\``).join(" ");
             const econCmds = await bot.commands
                 .filter(cmd => cmd.tag === "economy")
                 .map(cmd => `\`${cmd.name}\``).join(" ");
@@ -52,7 +56,8 @@ module.exports = class HelpCommand extends BaseCommand{
                 .setThumbnail("https://media1.tenor.com/images/e4d23a9fb9a1dab0b47c84029883dfb7/tenor.gif?itemid=17189878")
                 .setTitle(`You can send \`${para.prefix}help [command name]\` to get info on a specific command ( ˊᵕˋ)ﾉˊᵕˋ)`)
                 .addFields({ name: "Music commands", value: musicCmds }, 
-                           { name: "Ultility commands", value: utilsCmds },)
+                           { name: "Ultility commands", value: utilsCmds },
+                           { name: "Settings commands", value: settingsCmds },)
                            //{ name: "Economy commands", value: econCmds },
                 .setImage(images[Math.floor(Math.random() * Math.floor(images.length))])
                 .setFooter("Vive La Résistance le Hololive ٩(ˊᗜˋ*)و");

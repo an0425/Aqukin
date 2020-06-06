@@ -8,7 +8,7 @@ const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class PlayCommand extends BaseCommand{
-    constructor() {super("play", ["p"], "Enqueue Youtube URL/Playlist/Tracks from search results", "CONNECT", "music", true, false, "<Youtube URL> or <Keywords>")}
+    constructor() {super("play", ["p"], "Enqueue Youtube URL/Playlist/Tracks from search results", "CONNECT", "music", true, false, "<Youtube URL> or <Keywords>", "https://www.youtube.com/watch?v=-aB6MQU8l1s -- will enqueue the song")}
 
     async run (para){
         // shortcut variables
@@ -27,7 +27,7 @@ module.exports = class PlayCommand extends BaseCommand{
                 queue: [],
                 loopqueue: []
             };
-            bot.queue.set(message.guild.id, player);
+            bot.music.set(message.guild.id, player);
         }
         
         // search for track(s) with the given arguments
@@ -73,11 +73,12 @@ module.exports = class PlayCommand extends BaseCommand{
         // else try searching youtube with the given argument
         else{
             await ytsr(query, { limit:10 }).then(async results => {
-                if(!results) {
+                const tracks = results.items.filter(i => i.type === "video");
+
+                if(!tracks) {
                     noResult = true;
                     channel.send(`**${author.username}**-sama, Aqukin can't find any tracks with the given keywords (´-﹃-\`)`, para.ridingAqua); 
                 }                
-                const tracks = results.items.filter(i => i.type === "video");
                 
                 // embed the result(s)
                 let i = 0;
@@ -114,6 +115,7 @@ module.exports = class PlayCommand extends BaseCommand{
             })
             .catch((err) => {
                 noResult = true;
+                channel.send(`**${author.username}**-sama, Aqukin can't find any tracks with the given keywords (´-﹃-\`)`, para.ridingAqua); 
                 console.log(err)});
         }
 
@@ -123,7 +125,7 @@ module.exports = class PlayCommand extends BaseCommand{
             if(!player.connection.dispatcher) { await playing(bot, message.guild, player); }
         } catch (err) {
             console.log(err);
-            bot.queue.delete(message.guild.id);
+            bot.music.delete(message.guild.id);
         }
 
         // connection events
@@ -137,7 +139,7 @@ module.exports = class PlayCommand extends BaseCommand{
             .once("disconnect", async () =>{
                 try{ await player.sentMessage.delete(); }
                 catch(err) { console.log("The message has already been manually deleted") }; // try catch in case the message got deleted manually
-                await bot.queue.delete(player.id);
+                await bot.music.delete(player.id);
                 console.log("disconnected");
             })
 
@@ -165,8 +167,8 @@ async function playing(bot, guild, player){
         else{
             try{
                 await player.connection.channel.leave();
-                await bot.queue.delete(guild.id);
-                const sentMessage = await player.textChannel.send(`The queue has ended, arigatou gozamatshita ( ˊᵕˋ)ﾉˊᵕˋ)`, new MessageAttachment("src/utilities/pictures/bye.gif"));
+                await bot.music.delete(guild.id);
+                const sentMessage = await player.textChannel.send(`The queue has ended, arigatou gozaimatshita ( ˊᵕˋ)ﾉˊᵕˋ)`, new MessageAttachment("src/utilities/pictures/bye.gif"));
                 await sentMessage.delete({ timeout: 5200 });
             } catch (err) { console.log(err); }
             return;

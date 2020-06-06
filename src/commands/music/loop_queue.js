@@ -3,7 +3,7 @@ const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class LoopQueueCommand extends BaseCommand{
-    constructor() {super("loopqueue", ["lq"], "Toggle looping/unlooping the current queue", "CONNECT", "music", false, true, "")}
+    constructor() {super("loopqueue", ["lq"], "Toggle looping/unlooping the current queue", "CONNECT", "music", false, true, "", "-- will toggle looping/unlooping the queue")}
 
     async run(para){
         // shortcut variables

@@ -4,7 +4,7 @@ const { MessageEmbed } = require("discord.js");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class UsernfoCommand extends BaseCommand{
-    constructor() {super("userinfo", ["ui", "user", "info"], "Provide info about the mentioned user/Aqukin/yourself", "SEND_MESSAGES", "utility", false, false, "[mentioned user]")}
+    constructor() {super("userinfo", ["ui", "user", "info"], "Provide info about the mentioned user/Aqukin/yourself", "SEND_MESSAGES", "utility", false, false, "[mentioned user]", "@Aqukin -- will show info about Aqukin")}
     
     async run(para) {
         // get the mentioned user

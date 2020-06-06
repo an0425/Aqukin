@@ -9,7 +9,7 @@ async function typeCheck(bot, message, prefix, tag){
     // checks if the message is a command type
     if(message.content.startsWith(prefix))  { return true; }
     else if(message.content.startsWith(tag)){
-        bot.mentioned = true;
+        await bot.mentionCmd.mentioned.set(message.guild.id, true);
         return true;
     }
     else{ return false; } // return false
@@ -28,6 +28,7 @@ async function commandCheck(bot, message, command, args, prefix){
         let reply = `**${message.author.username}**-sama, please provide an argument for this command _(ˇωˇ」∠)\\_`; // default reply without usage
         // checks if there's a correct usage for the command
         if(command.usage) { reply += `\nThe proper usage would be \`${prefix}${command.name} ${command.usage}\``; } // add the usage to the reply
+        if(command.usageEx) { reply += `\nExample: ${prefix}${command.name} ${command.usageEx}`; } // add the usage example to the reply
         message.channel.send(reply); // return the reply to inform the author
         return;
     }
@@ -42,7 +43,7 @@ async function commandCheck(bot, message, command, args, prefix){
     switch(command.tag){
         // checks if the command is a music command
         case "music": // neccessary checks for music commands 
-            const player = bot.queue.get(message.guild.id);
+            const player = bot.music.get(message.guild.id);
             const { channel }  = message.member.voice;
             // checks if the author is in a voice channel, if not return a message to inform them
             if(!channel) { 
@@ -60,19 +61,31 @@ async function commandCheck(bot, message, command, args, prefix){
                 return;
             }; 
             // checks if the command require voting
-            let voteReached = false;
-
+            let votingSysVar;
+            let voteCmds;
             if(command.votable) {
-                if(!bot.votingSystem.has(command.name)){
-                    bot.votingSystem.set(command.name, {
+                if(!bot.votingSystem.has(message.guild.id)){
+                    await bot.votingSystem.set(message.guild.id, new Collection())
+                }
+
+                voteCmds = await bot.votingSystem.get(message.guild.id);
+                
+                if(!voteCmds.has(command.name)){
+                    await voteCmds.set(command.name, {
                         voteCount: 0,
-                        voters: new Collection(),
                         votesRequired: 0,
+                        voteReached: false,
+                        voters: new Collection(),
                     });
                 }
 
-                let votingSysVar = bot.votingSystem.get(command.name); 
+                votingSysVar = await voteCmds.get(command.name); 
+
                 const members = player.connection.channel.members.filter(m => !m.user.bot);
+                if(members.size === 1 || message.member.hasPermission("ADMINISTRATOR")){
+                    if(votingSysVar) { voteCmds.delete(command.name); }
+                    votingSysVar.voteReached = true;
+                }
 
                 // check if the author has already voted
                 if(votingSysVar.voters.has(message.author.id)) {
@@ -80,11 +93,6 @@ async function commandCheck(bot, message, command, args, prefix){
                     return;
                 }
 
-                // checks if there's only one member in the voice channel, except bots of course or if the author has administrative permission
-                if (members.size === 1 || message.member.hasPermission("ADMINISTRATOR")) {
-                    voteReached = true;
-                    bot.votingSystem.delete(command.name);
-                } 
                 // else there's at least two or more members in the voice channel
                 else {
                     ++votingSysVar.voteCount; // increase the vote count
@@ -97,53 +105,50 @@ async function commandCheck(bot, message, command, args, prefix){
                             .setDescription(`Aqukin require \`${votingSysVar.votesRequired}\` more vote(s) to \`${command.description}\` (\`･ω･´)`)
                             .setFooter("Vive La Résistance le Hololive~");
                         const msg = await message.channel.send(`**${message.author.username}**-sama, Aqukin has acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote ( ˊᵕˋ)ﾉˊᵕˋ)`, embed);
-                        await msg.react("🆗");
+                        await msg.react("⚓");
 
                         const filter = (reaction, user) => { // members reactions filter
                             if (user.bot) { return false; } // exclude bot
                             if (votingSysVar.voters.has(user.id)){ // checks if the user has already voted
                                 message.channel.send(`**${user.username}**-sama, Aqukin has already acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote (_(ˇωˇ」∠)\\_`);
                                 return false;
-                            }
+                            } 
                             const memPermissionCheck = message.guild.members.cache.get(user.id);
                             const { channel } = message.guild.members.cache.get(user.id).voice;
                             if (!channel) { return false; }
                             if (channel.id === player.connection.channel.id) {  // checks if the voters are in the same voice channel with Aqukin
                                 if(memPermissionCheck.hasPermission("ADMINISTRATOR")){
-                                    voteReached = true;
-                                    return ["🆗"].includes(reaction.emoji.name); 
+                                    votingSysVar.voteReached = true;
+                                    return ["⚓"].includes(reaction.emoji.name); 
                                 }
                                 else{
                                     message.channel.send(`**${user.username}**-sama, Aqukin has acknowledge your vote to \`${command.description}\` ( ˊᵕˋ)ﾉˊᵕˋ)`);
                                     votingSysVar.voters.set(user.id, user); // the user has now voted via emote reation
-                                    return ["🆗"].includes(reaction.emoji.name); 
+                                    return ["⚓"].includes(reaction.emoji.name); 
                                 }
                             }
                             return false;
                         } // end of reaction filter
                         // allow 12s for reaction vote
                         try{
-                            const reactions = await msg.awaitReactions(filter, { max: votingSysVar.votesRequired, time: 12000, errors: ["time"] })
+                            const reactions = await msg.awaitReactions(filter, { max: votingSysVar.votesRequired, time: 24000, errors: ["time"] })
                             if(reactions){
-                                const reactionVotes = await reactions.get("🆗").users.cache.filter(u => !u.bot);
+                                const reactionVotes = await reactions.get("⚓").users.cache.filter(u => !u.bot);
                                 votingSysVar.voteCount += reactionVotes.size; // register the reactions count into the vote count
                             
-                                if(votingSysVar.votesRequired > 0){ // check after the reaction vote
-                                    voteReached = true;
-                                    bot.votingSystem.delete(command.name);
-                                }
+                                // checks after the reaction vote
+                                if(votingSysVar.votesRequired > 0){ votingSysVar.voteReached = true; }
                             }
                         } catch(err) {
                             console.log(err);
                         } 
-                        msg.delete({ timeout: 12000 });
+                        msg.delete();
                     } // end of if voteRequire is > 0
-                    else {
-                        voteReached = true;
-                        bot.votingSystem.delete(command.name);
+                    else { // else the vote has been reached
+                        votingSysVar.voteReached = true;
                     }
                 } // end of else there's at least two or more members in the voice channel
-            } // end of if the command require voting                  
+            } // end of if the command require voting
             // construct a collection of all parameters to pass to a function to eliminate unused parameters
             para = {
                 bot: bot,
@@ -154,7 +159,10 @@ async function commandCheck(bot, message, command, args, prefix){
                 // music only parameters
                 player: player,
                 voiceChannel: channel,
-                voteReached: voteReached
+            }
+            if(votingSysVar){
+                if(votingSysVar.voteReached) { para.voteReached = votingSysVar.voteReached; }
+                voteCmds.delete(command.name);
             }
             break; // end of music case
 

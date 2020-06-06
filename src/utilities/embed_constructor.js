@@ -8,7 +8,7 @@ async function musicEmbed(bot, player, track){
     const embed = new MessageEmbed()
         .setColor(0x1DE2FE)
         .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
-        .setTitle("⚓ Now Playing (*´꒳\`*) ⚓ ")
+        .setTitle("⚓ Now Playing (*´꒳`\\*) ⚓ ")
         .addFields({ name: "Title", value: `[${track.title}](${track.url})` },
                    { name: "🔞Volume", value: `${player.connection.dispatcher.volume*100}`, inline: true },
                    { name: "Track Length", value: await formatLength(track.duration), inline: true },

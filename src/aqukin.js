@@ -4,9 +4,20 @@ const { Client, Collection } = require("discord.js");
 // const { Users } = require("./database/dbObjects");
 const { registerCommands, registerEvents, consoleChatter } = require("./utilities/handlers");
 const bot = new Client();
-bot.queue = new Map();
-bot.votingSystem = new Collection();
 bot.commands = new Collection(); // bot commands
+bot.mentionCmd = {
+	tag: process.env.TAG,
+	mentioned: new Collection(),
+};
+
+// variable will need to be ported to database later on
+bot.settings = {
+	enableantispam: true,
+	enablecommunication: true,
+	enablereaction: true,
+	prefix: process.env.PREFIX,
+};
+
 //bot.currency = new Collection(); // currency
 //bot.sentMarket = new Collection(); // market message
 
