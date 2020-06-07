@@ -2,7 +2,7 @@
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class ToggleAntiSpamCommand extends BaseCommand{
-    constructor() {super("toggleantispam", ["ta","antispam"], "Toggle antispam module", "ADMINISTRATOR", "settings", false, false, "", "-- will enable/disable Aqukin's ability to detect spam messages")}
+    constructor() {super("toggleantispam", ["ta","antispam"], "Toggle enabling/disabling the antispam module", "ADMINISTRATOR", "settings", false, false, "", "-- will enable/disable Aqukin's ability to detect spam messages")}
     
     async run(para){
         // shortcut variables

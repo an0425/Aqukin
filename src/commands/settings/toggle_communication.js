@@ -2,7 +2,7 @@
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class ToggleCommunicationCommand extends BaseCommand{
-    constructor() {super("togglecommunication", ["tc", "communication"], "Toggle communication module", "ADMINISTRATOR", "settings", false, false, "", "-- will enable/disable Aqukin's ability to communicate")}
+    constructor() {super("togglecommunication", ["tc", "communication"], "Toggle enabling/disabling the communication module", "ADMINISTRATOR", "settings", false, false, "", "-- will enable/disable Aqukin's ability to communicate")}
     
     async run(para){
         // shortcut variables

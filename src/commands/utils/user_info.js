@@ -22,19 +22,18 @@ module.exports = class UsernfoCommand extends BaseCommand{
             const aquaTw = "https://twitter.com/minatoaqua";
             const aThumbnails = ["https://media1.tenor.com/images/6ea2ecbe506ba7a51bc4a83bd5f16ae7/tenor.gif?itemid=17126194", 
                                  "https://media1.tenor.com/images/61eb394cd2c8f2effd2c0347b58545b9/tenor.gif?itemid=16289275"];
-            const creator = await bot.users.fetch("422435290054000640");
             const embed = new MessageEmbed()
                 .setColor(0x1DE2FE)
                 .setThumbnail(aThumbnails[Math.floor(Math.random() * Math.floor(aThumbnails.length))])
                 .setTitle(`⚓ ${user.username} information ⚓`)
                 .addFields({ name: "Nickname", value: "Baqua\nOnion\nIQ-3", inline: true },
-                           { name: "Minato Aqua Channel", value: `[Aqua Ch. 湊あくあ](${aquaCh})`, inline: true },
-                           { name: "Minato Aqua Twitter", value: `[@minatoaqua](${aquaTw})`, inline: true },
+                           { name: "Version", value: `${process.env.VER}`, inline: true },
+                           { name: "Date Created", value: user.createdAt.toLocaleDateString(), inline: true }, 
                            { name: "Aliases (`･ω･´)", value: "Go-Sai\nDai Tenshi\nSeigi no Mikata\nDiamond Ninja Combat Maid\nLeader of the Hololive Resistance" },
                            { name: "Description", value: `${process.env.DESC}` },
-                           { name: "Version", value: `${process.env.VER}`, inline: true },
-                           { name: "Date Created", value: user.createdAt.toLocaleDateString(), inline: true },
-                           { name: "Author", value: `${creator.tag}`, inline: true })
+                           { name: "Minato Aqua Channel", value: `[Aqua Ch. 湊あくあ](${aquaCh})`, inline: true },
+                           { name: "Minato Aqua Twitter", value: `[@minatoaqua](${aquaTw})`, inline: true },)
+                           //{ name: "Author", value: `${bot.creator.tag}`, inline: true })
                 .setImage("https://media1.tenor.com/images/8bb13d9fa4311f314a2d419c9d2d6c37/tenor.gif?itemid=16917426")
                 .setFooter("Vive La Résistance le Hololive ٩(ˊᗜˋ*)و");
             return message.channel.send(`**${message.author.username}**-sama, this is`, embed); // send the embed

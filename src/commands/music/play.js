@@ -77,7 +77,8 @@ module.exports = class PlayCommand extends BaseCommand{
 
                 if(!tracks) {
                     noResult = true;
-                    channel.send(`**${author.username}**-sama, Aqukin can't find any tracks with the given keywords (´-﹃-\`)`, para.ridingAqua); 
+                    channel.send(`**${author.username}**-sama, Aqukin can't find any tracks with the given keywords (´-﹃-\`)`, para.ridingAqua);
+                    return; 
                 }                
                 
                 // embed the result(s)
@@ -85,17 +86,17 @@ module.exports = class PlayCommand extends BaseCommand{
                 const tracksInfo = await tracks.map(r => `${++i}) [${r.title}](${r.link}) | length \`${r.duration}\``).join("\n\n"); // get the tracks info
                 const embed = new MessageEmbed()
                     .setColor(0x1DE2FE)
-                    .setTitle("Automatically times out in 12 seconds")
+                    .setTitle("Automatically times out in 24 seconds")
                     .setDescription(tracksInfo)
                     .setImage("https://media1.tenor.com/images/85e6b8577e925a9037d03a796588e7ed/tenor.gif?itemid=15925240")
                     .setFooter("Vive La Résistance le Hololive~");
                 const sentMessage = await message.channel.send(`**${author.username}**-sama, please enter the track number that you would like Aqukin to queue (\`･ω･´)`, embed); // display the embed
 
-                // Allow the author to select a track fron the search results within the allowed time of 12s
+                // Allow the author to select a track fron the search results within the allowed time of 24s
                 const filter = m => (message.author.id === m.author.id) && (m.content >= 1 && m.content <= tracks.length);
                 try{
-                    sentMessage.delete({ timeout: 12000 });
-                    const response = await message.channel.awaitMessages(filter, { max: 1, time: 12000, errors: ["time"]}) // await the user respond within 12s
+                    //sentMessage.delete({ timeout: 12000 });
+                    const response = await message.channel.awaitMessages(filter, { max: 1, time: 24000, errors: ["time"]}) // await the user respond within 24s
                     const entry = await response.first().content;
                     const trackInfo = tracks[entry-1];
                     const track = {
@@ -110,12 +111,13 @@ module.exports = class PlayCommand extends BaseCommand{
                     message.channel.send(`**${author.username}**-sama, Aqukin has enqueued track **${tracks[entry-1].title}** ٩(ˊᗜˋ*)و`); // inform the author
                 } catch(err) { 
                     noResult = true;
-                    console.log(err); 
+                    console.log(err);
                 }
+                sentMessage.delete(); // delete the embed 
             })
             .catch((err) => {
                 noResult = true;
-                channel.send(`**${author.username}**-sama, Aqukin can't find any tracks with the given keywords (´-﹃-\`)`, para.ridingAqua); 
+                channel.send(`**${author.username}**-sama, An error has occured while queuing (´-﹃-\`)`, para.ridingAqua); 
                 console.log(err)});
         }
 
