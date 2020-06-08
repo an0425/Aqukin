@@ -4,7 +4,7 @@ const { MessageEmbed } = require("discord.js");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class UsernfoCommand extends BaseCommand{
-    constructor() {super("userinfo", ["ui", "user", "info"], "Provide info about the mentioned user/Aqukin/yourself", "SEND_MESSAGES", "utility", false, false, "[mentioned user]", "@Aqukin -- will show info about Aqukin")}
+    constructor() {super("userinfo", ["ui", "user", "info"], "Provide info about the mentioned user/Aqukin/yourself", "SEND_MESSAGES", "utility", false, "[mentioned user]", "@Aqukin -- will show info about Aqukin")}
     
     async run(para) {
         // get the mentioned user
@@ -57,7 +57,7 @@ module.exports = class UsernfoCommand extends BaseCommand{
         if(member.nickname) { nickname = member.nickname; }
         else { nickname = "None"; } // if not display "None" instead of "null"
         
-        const { gifs } = bot;
+        const { gifs } = bot.media;
         const embed = new MessageEmbed()
             .setColor(0x1DE2FE)
             //.setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])

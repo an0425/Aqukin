@@ -6,19 +6,21 @@ const { alive } = require("./utilities/alive");
 const { registerCommands, registerEvents, registerInputs, consoleChatter } = require("./utilities/handlers");
 const bot = new Client();
 bot.commands = new Collection(); // bot commands
+bot.media = {
+	gifs: [],
+	thumbnails: []
+};
 bot.mentionCmd = {
 	tag: process.env.TAG,
-	mentioned: new Collection(),
+	mentioned: new Collection()
 };
-bot.thumbnails = [];
-bot.gifs = [];
 
 // variable will need to be ported to database later on
 bot.settings = {
 	enableantispam: true,
 	enablecommunication: true,
 	enablereaction: true,
-	prefix: process.env.PREFIX,
+	prefix: process.env.PREFIX
 };
 
 //bot.currency = new Collection(); // currency
@@ -52,6 +54,6 @@ Reflect.defineProperty(bot.currency, "getBalance", {
 	await registerEvents(bot, "../events");
 	await registerCommands(bot, "../commands");
 	await registerInputs(bot, "../utilities/pictures");
-	await consoleChatter(bot);
 	await alive();
+	await consoleChatter(bot);
 })();

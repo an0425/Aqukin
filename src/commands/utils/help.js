@@ -3,13 +3,13 @@ const { MessageEmbed } = require('discord.js');
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class HelpCommand extends BaseCommand{
-    constructor() {super("help", ["h"], "Provide info about commands", "SEND_MESSAGES", "utility", false, false, "[command name/alias]", "move -- will show info about the move command")}
+    constructor() {super("help", ["h"], "Provide info about commands", "SEND_MESSAGES", "utility", false, "[command name/alias]", "move -- will show info about the move command")}
     
     async run(para) {
         // shortcut variables
         const { message, bot } = para;
         const { author, channel } = message;
-        const { gifs } = bot;
+        const { gifs } = bot.media;
         
         if(para.args.length){ // if the author has asked for help with a specific command
             const commandName = para.args[0].toLowerCase();

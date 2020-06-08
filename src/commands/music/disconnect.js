@@ -3,7 +3,7 @@ const { voteConstruct } = require("../../utilities/voting_system");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class DisconnectCommand extends BaseCommand{
-    constructor() {super("disconnect", ["dc", "leave"], "Disconnect Aqukin from the voice channel", "CONNECT", "music", false, true, "", "-- will disconnect Aqukin from the voice channel")}
+    constructor() {super("disconnect", ["dc", "leave"], "Disconnect Aqukin from the voice channel", "CONNECT", "music", false, "", "-- will disconnect Aqukin from the voice channel")}
 
     async run (para) {
       // shortcut variables

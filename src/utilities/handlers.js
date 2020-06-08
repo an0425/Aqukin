@@ -56,14 +56,14 @@ async function registerInputs(bot, dir = ""){
             if(file.startsWith("thumbnails")){
                 await lineReader.eachLine(`${filePath}/${file}`, async function(line) {
                     if(line.length === 0) { return; }
-                    await bot.thumbnails.push(line);
+                    await bot.media.thumbnails.push(line);
                 });
             }
             
             if(file.startsWith("gifs")){
                 await lineReader.eachLine(`${filePath}/${file}`, async function(line) {
                     if(line.length === 0) { return; }
-                    await bot.gifs.push(line);
+                    await bot.media.gifs.push(line);
                 });
             }
         } // end of if

@@ -5,13 +5,13 @@ const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class ViewQueueCommand extends BaseCommand {
   constructor () {
-    super("viewqueue", ["q", "vq", "view", "show", "queue"], "View the audio player's queue", "CONNECT", "music", false, false, "", "-- will display the queue");
+    super("viewqueue", ["q", "vq", "view", "show", "queue"], "View the audio player's queue", "CONNECT", "music", false, "", "-- will display the queue");
   }
 
   async run (para) {
     // shortcut variables
     const { message, player } = para;
-    const { thumbnails, gifs } = para.bot;
+    const { thumbnails, gifs } = para.bot.media;
     
     let currentPage = 0; // default current page to the first page
     const embeds = await generateQueueEmbed(player.queue, thumbnails, gifs);
@@ -59,7 +59,7 @@ async function generateQueueEmbed(queue, thumbnails, gifs) {
   for(let i = 0; i < queue.length; i += 7) { // for loop going through all the tracks in the queue
     const next = queue.slice(i+1, k)
     // checks if there's anything next in queue
-    if (!next.empty){
+    if (next.length !== 0){
       let j = i;
       k += 7;
       info = next.map(track => `${++j}) [${track.title}](${track.url}) | length \`${formatLength(track.duration)}\` | requested by **${track.requester.username}**-sama, nanodesu~`).join("\n\n");

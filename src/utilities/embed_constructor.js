@@ -3,7 +3,7 @@ const { convertTF, formatLength } = require("../utilities/functions");
 const { MessageEmbed } = require("discord.js");
 
 async function musicEmbed(bot, player, track){
-    const { thumbnails } = bot;
+    const { thumbnails } = bot.media;
     // construct the embeds
     const embed = new MessageEmbed()
         .setColor(0x1DE2FE)
@@ -28,7 +28,7 @@ async function marketEmbed(bot, message, stocks){
     stocks.forEach(stock => description += `\nThe **${stock.name}**\n\`Current stock price\` -- $${stock.cost}\n\`Available share(s)\` -- ${stock.market_share}\n`);
 
     // construct the embed
-    const {thumbnails} = bot;
+    const { thumbnails, gifs } = bot.media;
     const embed = new MessageEmbed()
         .setColor(0x1DE2FE)
         .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
@@ -36,7 +36,7 @@ async function marketEmbed(bot, message, stocks){
         .addFields({ name: "Your Balance", value: `$${bot.currency.getBalance(message.author.id)}`, inline: true },
                    { name: "Economy Role", value: `${user.econrole}`, inline: true },
                    { name: "Market", value: `${description}` },)
-        .setImage("https://media1.tenor.com/images/4e30c640c8df3035dec6f99e5c31f52c/tenor.gif?itemid=17136673")
+        .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
         .setFooter("Vive La Résistance le Hololive ٩(ˊᗜˋ*)و");
     return embed;
 } // end of marketEmbed(...)

@@ -4,7 +4,7 @@ const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class PauseCommand extends BaseCommand{
-    constructor() {super("pause", ["wait", "stop"], "Pause the audio player", "CONNECT", "music", false, true, "", "-- will pause the audio player if playing")}
+    constructor() {super("pause", ["wait", "stop"], "Pause the audio player", "CONNECT", "music", false, "", "-- will pause the audio player if playing")}
 
     async run(para){
         // shortcut variables

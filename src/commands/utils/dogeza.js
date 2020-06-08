@@ -4,7 +4,7 @@ const BaseCommand = require("../../utilities/structures/BaseCommand");
 const attachments = [new MessageAttachment("src/utilities/pictures/dogeza_1.jpg"), new MessageAttachment("src/utilities/pictures/dogeza_2.jpg"), new MessageAttachment("src/utilities/pictures/dogeza_3.png")];
 
 module.exports = class DogezaCommand extends BaseCommand{
-    constructor() {super("dogeza", [], "Display randomly Aqua dogeza pictures", "SEND_MESSAGES", "utility", false, false, "", "-- will display a dogeza picture")}
+    constructor() {super("dogeza", [], "Display randomly Aqua dogeza pictures", "SEND_MESSAGES", "utility", false, "", "-- will display a dogeza picture")}
 
     async run(para) {
         const { channel, author } = para.message;

@@ -2,7 +2,7 @@
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class ConfigurePrefixCommand extends BaseCommand{
-    constructor() {super("configureprefix", ["cp", "changeprefix", "prefix"], "Configure the prefix", "ADMINISTRATOR", "settings", true, false, "<new prefix>", "?! -- will change Aqukin's current prefix to ?!")}
+    constructor() {super("configureprefix", ["cp", "changeprefix", "prefix"], "Configure the prefix", "ADMINISTRATOR", "settings", true, "<new prefix>", "?! -- will change Aqukin's current prefix to ?!")}
     
     async run(para){
         // shortcut variables
