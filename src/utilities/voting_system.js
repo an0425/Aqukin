@@ -27,8 +27,7 @@ async function voteConstruct (bot, message, player, command){
     }
 
     const members = player.connection.channel.members.filter(m => !m.user.bot);
-    // members.size === 1 || message.member.hasPermission("ADMINISTRATOR")
-    if(members.size > 1){
+    if(members.size === 1 || message.member.hasPermission("ADMINISTRATOR")){
         if(votingSysVar) { voteCmds.delete(command.name); }
         votingSysVar.voteReached = true;
     }
@@ -36,7 +35,7 @@ async function voteConstruct (bot, message, player, command){
     else {
         ++votingSysVar.voteCount; // increase the vote count
         votingSysVar.voters.set(message.author.id, message.author) // the author has now voted via command
-        votingSysVar.votesRequired = Math.ceil(members.size * 2) - votingSysVar.voteCount;
+        votingSysVar.votesRequired = Math.ceil(members.size * .6) - votingSysVar.voteCount;
         if(votingSysVar.votesRequired > 0){  
             // contruct and send an embed asking the members to vote
             const embed = new MessageEmbed()
@@ -48,10 +47,10 @@ async function voteConstruct (bot, message, player, command){
 
             const filter = (reaction, user) => { // members reactions filter
                 if (user.bot) { return false; } // exclude bot
-                /*if (votingSysVar.voters.has(user.id)){ // checks if the user has already voted
+                if (votingSysVar.voters.has(user.id)){ // checks if the user has already voted
                     message.channel.send(`**${user.username}**-sama, Aqukin has already acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote _(ˇωˇ」∠)\\_`);
                     return false;
-                } */
+                }
                 const memPermissionCheck = message.guild.members.cache.get(user.id);
                 const { channel } = message.guild.members.cache.get(user.id).voice;
                 if (!channel) { return false; }
@@ -68,8 +67,8 @@ async function voteConstruct (bot, message, player, command){
                 }
                 return false;
             } // end of reaction filter
-            // allow 12s for reaction vote
             try{
+                // allow 24s for reaction votes
                 const reactions = await msg.awaitReactions(filter, { max: votingSysVar.votesRequired, time: 24000, errors: ["time"] })
                 if(reactions){
                     const reactionVotes = await reactions.get("⚓").users.cache.filter(u => !u.bot);
