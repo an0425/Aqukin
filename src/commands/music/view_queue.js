@@ -11,10 +11,10 @@ module.exports = class ViewQueueCommand extends BaseCommand {
   async run (para) {
     // shortcut variables
     const { message, player } = para;
-        
-    const thumbnails = ["https://media1.tenor.com/images/2ba20a995dd1b361c0cef1aeb90a7d61/tenor.gif?itemid=17372641"];
+    const { thumbnails, gifs } = para.bot;
+    
     let currentPage = 0; // default current page to the first page
-    const embeds = await generateQueueEmbed(player.queue, thumbnails);
+    const embeds = await generateQueueEmbed(player.queue, thumbnails, gifs);
     const queueEmbed = await message.channel.send(`Current Page -> ${currentPage+1}/${embeds.length}`, embeds[currentPage]);
     await queueEmbed.react("⬅️");
     await queueEmbed.react("➡️");
@@ -52,7 +52,7 @@ module.exports = class ViewQueueCommand extends BaseCommand {
 } // end of module.exports 
 
 /* This function is for generating an embed with the queue information */
-async function generateQueueEmbed(queue, thumbnails) {
+async function generateQueueEmbed(queue, thumbnails, gifs) {
   const embeds = [];
   let k = 8;
   let info;
@@ -67,13 +67,11 @@ async function generateQueueEmbed(queue, thumbnails) {
     else { info = "Currently no track is next in queue~~~"; } // else next in queue is empty
     
     // construct the embed(s)
-    const images = ["https://media1.tenor.com/images/db59d6409b27b749fe7226246e73f1b2/tenor.gif?itemid=16625248",
-                    "https://media1.tenor.com/images/b8295db81d621037cc67797b6692279e/tenor.gif?itemid=16802911"]
     const embed = new MessageEmbed()
       .setColor(0x1DE2FE)
       .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
       .setDescription(`⚓ Currently playing ▶️\n [${queue[0].title}](${queue[0].url}) | length \`${formatLength(queue[0].duration)}\` | requested by **${queue[0].requester.username}**-sama, nanora~\n\n⚓ Next in queue ⏭️\n${info}`)
-      .setImage(images[Math.floor(Math.random() * Math.floor(images.length))])
+      .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
       .setFooter("Vive La Résistance le Hololive ٩(ˊᗜˋ*)و");
     embeds.push(embed); // pushing embeds (for transition between pages)
   } // end of for loop

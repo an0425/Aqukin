@@ -40,10 +40,10 @@ module.exports = class PlayCommand extends BaseCommand{
             // Get the song info
             await ytdl.getBasicInfo(query).then(async trackInfo => {
                 const track = {
-                    id: trackInfo.videoDetails.videoId,
-                    url: trackInfo.videoDetails.video_url,
-                    title: trackInfo.videoDetails.title,
-                    duration: trackInfo.videoDetails.lengthSeconds,
+                    id: trackInfo.player_response.videoDetails.videoId,
+                    url: trackInfo.video_url,
+                    title: trackInfo.player_response.videoDetails.title,
+                    duration: trackInfo.player_response.videoDetails.lengthSeconds,
                     requester: message.author,
                 };
                 //console.log(track);

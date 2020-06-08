@@ -9,16 +9,15 @@ module.exports = class HelpCommand extends BaseCommand{
         // shortcut variables
         const { message, bot } = para;
         const { author, channel } = message;
+        const { gifs } = bot;
         
         if(para.args.length){ // if the author has asked for help with a specific command
             const commandName = para.args[0].toLowerCase();
             const command = bot.commands.get(commandName) || bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
             // checks if there's a command with the given argurment, if not return a message to inform the author
-            if(!command) { return channel.send(`**${author.username}**-sama, Aqukin can't find any command with that name (´-﹃-\`)`, para.ridingAqua); }
+            if(!command) { return channel.send(`**${author.username}**-sama, Aqukin can't find any command with that name (´-﹃-\`), try ${prefix}help if you need the commands list`); }
 
             // construct the embed
-            const images = ["https://media1.tenor.com/images/224db5f05470946e4c60ca9afea7597f/tenor.gif?itemid=17308034", 
-                            "https://media1.tenor.com/images/b7254b1f7083b0d8088905de997ef5bb/tenor.gif?itemid=17177480"];      
             const cmdInfoEmbed = new MessageEmbed()
                 .setColor(0x1DE2FE)
                 .setThumbnail("https://media1.tenor.com/images/32618947eafb05a4e09dc819a3872440/tenor.gif?itemid=17189882")
@@ -28,7 +27,7 @@ module.exports = class HelpCommand extends BaseCommand{
                            {name: "Usage", value: `${para.prefix}${command.name} ${command.usage}`},
                            {name: "Usage Example", value: `${para.prefix}${command.name} ${command.usageEx}`},
                            {name: "Description", value: command.description},)
-                .setImage(images[Math.floor(Math.random() * Math.floor(images.length))])
+                .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
                 .setFooter("Vive La Résistance le Hololive ٩(ˊᗜˋ*)و");
             channel.send(`**${author.username}**-sama, here's the info of the \`${command.name}\` command`, cmdInfoEmbed); // send out the embed
         } // end of if
@@ -49,19 +48,18 @@ module.exports = class HelpCommand extends BaseCommand{
                 .map(cmd => `\`${cmd.name}\``).join(" ");
             
             // construct the embed
-            const images = ["https://media1.tenor.com/images/99bb4621f5bcd7fd358a7f4068b6f69c/tenor.gif?itemid=16936961", 
-                            "https://media1.tenor.com/images/cdd5329801ad282290ad6bb0f65896ec/tenor.gif?itemid=16527235"];
             const helpEmbed = new MessageEmbed()
                 .setColor(0x1DE2FE)
                 .setThumbnail("https://media1.tenor.com/images/e4d23a9fb9a1dab0b47c84029883dfb7/tenor.gif?itemid=17189878")
-                .setTitle(`You can send \`${para.prefix}help [command name]\` to get info on a specific command ( ˊᵕˋ)ﾉˊᵕˋ)`)
-                .addFields({ name: "Music commands", value: musicCmds }, 
+                .setTitle(`**${author.username}**-sama, here's the list of Aqukin's commands`)
+                .addFields({ name: "Current Prefix", value: `\`${para.prefix}\`` }, 
+                           { name: "Music commands", value: musicCmds }, 
                            { name: "Ultility commands", value: utilsCmds },
                            { name: "Settings commands", value: settingsCmds },)
                            //{ name: "Economy commands", value: econCmds },
-                .setImage(images[Math.floor(Math.random() * Math.floor(images.length))])
+                .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
                 .setFooter("Vive La Résistance le Hololive ٩(ˊᗜˋ*)و");
-            channel.send(`**${author.username}**-sama, here's the list of Aqukin's commands, the current prefix is "${para.prefix}"`, helpEmbed); // send out the embed
+            channel.send(`You can send \`${para.prefix}help [command name]\` to get info on a specific command ( ˊᵕˋ)ﾉˊᵕˋ)`, helpEmbed); // send out the embed
         } // end of else
     } // end of run
 }; // end of module.exports

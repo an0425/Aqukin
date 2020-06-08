@@ -1,4 +1,5 @@
 /* This module allows the author to pause Aqukin current audio streaming */
+const { voteConstruct } = require("../../utilities/voting_system");
 const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
@@ -7,14 +8,20 @@ module.exports = class PauseCommand extends BaseCommand{
 
     async run(para){
         // shortcut variables
-        const { message, player, voteReached } = para;
-        if(!voteReached) { return; }
+        const { message, player } = para;
         const author = message.author.username;
         
         // checks if the player is already paused, if so return a message to inform the author
         if (player.connection.dispatcher.paused) { return message.channel.send(`**${author}**-sama, Aqukin is already paused _(´ㅅ\`)⌒)\\_ `); }
-        player.connection.dispatcher.pause();
-        message.channel.send(`**${author}**-sama, Aqukin has paused audio streaming ₍^ •⌄• ^₎`);
+
+        // voting system
+        const voteReached = await voteConstruct(para.bot, message, player, para.command);
+        if(!voteReached) { return; }
+
+        try{
+            player.connection.dispatcher.pause();
+            message.channel.send(`**${author}**-sama, Aqukin has paused audio streaming ₍^ •⌄• ^₎`);
+        } catch(err) { console.log(err); }
         
         /* Update the currently playing embed */
         const embed = await musicEmbed(para.bot, player, player.queue[0])

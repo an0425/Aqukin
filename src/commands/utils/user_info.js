@@ -57,7 +57,7 @@ module.exports = class UsernfoCommand extends BaseCommand{
         if(member.nickname) { nickname = member.nickname; }
         else { nickname = "None"; } // if not display "None" instead of "null"
         
-        //const {thumbnails} = bot.music;
+        const { gifs } = bot;
         const embed = new MessageEmbed()
             .setColor(0x1DE2FE)
             //.setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
@@ -68,6 +68,7 @@ module.exports = class UsernfoCommand extends BaseCommand{
                        { name: "Date Joined", value: member.joinedAt.toLocaleDateString() },
                        { name: "Role(s)", value: memberRoles })
             //.setImage(member.user.displayAvatarURL({format: "png", dynamic: true, size: 2048}))
+            .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
             .setFooter("Vive La Résistance le Hololive ٩(ˊᗜˋ*)و");
         message.channel.send(`**${message.author.username}**-sama, this is`, embed)
     } // end of run

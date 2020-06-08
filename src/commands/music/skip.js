@@ -1,4 +1,5 @@
 /* This module allows the author to skip a track in Aqukin current audio streaming */
+const { voteConstruct } = require("../../utilities/voting_system");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 let USED = false; // default the command recently used check to false
@@ -8,11 +9,16 @@ module.exports = class SkipCommand extends BaseCommand{
     
     async run (para) {
         // shortcut variables
-        const { message, player, voteReached } = para;
+        const { message, player } = para;
+        
+        // voting system
+        const voteReached = await voteConstruct(para.bot, message, player, para.command);
         if(!voteReached) { return; }
 
-        await player.connection.dispatcher.end();
-        message.channel.send(`**${message.author.username}**-sama, Aqukin has skipped track **${player.queue[0].title}** (\`･ω･´)`);
+        try {
+            await player.connection.dispatcher.end();
+            message.channel.send(`**${message.author.username}**-sama, Aqukin has skipped track **${player.queue[0].title}** (\`･ω･´)`);    
+        } catch(err) { console.log(err); }
     } // end of run
 }; // end of module.exports
 

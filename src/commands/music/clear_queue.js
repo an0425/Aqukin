@@ -1,4 +1,5 @@
 /* This module allows the author to clear the music queue */
+const { voteConstruct } = require("../../utilities/voting_system");
 const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
@@ -7,14 +8,20 @@ module.exports = class ClearQueueCommand extends BaseCommand {
 
   async run (para) {
     // shortcut variables
-    const { message, player, voteReached } = para;
-    if(!voteReached) { return; }
+    const { message, player } = para;
     const author = message.author.username;
 
     // checks if the current queue is empty, if so return a message to inform the author
-    if(player.queue.length <= 1) { return message.channel.send(`**${author}**-sama, The queue is already cleared _(´ㅅ\`)⌒)\\_`); }
-    await player.queue.splice(1);
-    message.channel.send(`**${author}**-sama, Aqukin has cleared the queue (\`･ω･´)`);
+    if(player.queue.length <= 1) { return message.channel.send(`**${author}**-sama, no need to clear the queue as there is no track upcoming _(´ㅅ\`)⌒)\\_`); }
+
+    // voting system
+    const voteReached = await voteConstruct(para.bot, message, player, para.command);
+    if(!voteReached) { return; }
+
+    try {
+      await player.queue.splice(1);
+      message.channel.send(`**${author}**-sama, Aqukin has cleared the queue (\`･ω･´)`);  
+    } catch(err) { console.log(err); }
 
     /* Update the currently playing embed */
     const embed = await musicEmbed(para.bot, player, player.queue[0])

@@ -1,4 +1,5 @@
-/* This module allows the author to toggle looping/unlooping the current queue */ 
+/* This module allows the author to toggle looping/unlooping the current queue */
+const { voteConstruct } = require("../../utilities/voting_system");
 const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
@@ -7,18 +8,23 @@ module.exports = class LoopQueueCommand extends BaseCommand{
 
     async run(para){
         // shortcut variables
-        const { message, player, voteReached } = para;
-        if(!voteReached) { return; }
+        const { message, player } = para;
         const author = message.author.username;
-        
-        player.trackRepeat = false; // reset track loop
-        player.queueRepeat = !player.queueRepeat; // toggle queue loop
-        if (!player.queueRepeat) { 
-            await player.loopqueue.splice(0); // clear the loop queue
-            message.channel.send(`**${author}**-sama, Aqukin will now \`stop looping the current queue\` (\`･ω･´)`); 
-        }
-        else { message.channel.send(`**${author}**-sama, Aqukin will now \`loop the current queue\` ₍^ •⌄• ^₎`); }
-                    
+
+        // voting system
+        const voteReached = await voteConstruct(para.bot, message, player, para.command);
+        if(!voteReached) { return; }
+
+        try{
+            player.trackRepeat = false; // reset track loop
+            player.queueRepeat = !player.queueRepeat; // toggle queue loop
+            if (!player.queueRepeat) { 
+                await player.loopqueue.splice(0); // clear the loop queue
+                message.channel.send(`**${author}**-sama, Aqukin will now \`stop looping the current queue\` (\`･ω･´)`); 
+            }
+            else { message.channel.send(`**${author}**-sama, Aqukin will now \`loop the current queue\` ₍^ •⌄• ^₎`); }    
+        } catch(err) { console.log(err); }
+                            
         // Update the currently playing embed
         const embed = await musicEmbed(para.bot, player, player.queue[0])
         try{

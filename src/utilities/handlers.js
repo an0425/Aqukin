@@ -1,6 +1,7 @@
 /* This module exports a console chatter function and functions that handling commands and events by recursivesly look for ".js" files in commands/events folders and their sub-folders and  */
 const path = require("path");
 const fs = require("fs").promises;
+const lineReader = require("line-reader");
 const BaseEvent = require ("./structures/BaseEvent");
 const BaseCommand = require ("./structures/BaseCommand");
 
@@ -43,11 +44,30 @@ async function registerEvents(bot, dir = ""){
 } // end of registerEvents(...) function
 
 // Thumbnail text file handler
-async function registerThumbnails(bot, dir = ""){
+async function registerInputs(bot, dir = ""){
     const filePath = path.join(__dirname, dir);
     //console.log(filePath)
     const files = await fs.readdir(filePath);
-    
+    for(const file of files){
+        const stat = await fs.lstat(path.join(filePath, file));
+        if(stat.isDirectory()) registerInputs(bot, path.join(dir, file));
+
+        if(file.endsWith(".txt")){
+            if(file.startsWith("thumbnails")){
+                await lineReader.eachLine(`${filePath}/${file}`, async function(line) {
+                    if(line.length === 0) { return; }
+                    await bot.thumbnails.push(line);
+                });
+            }
+            
+            if(file.startsWith("gifs")){
+                await lineReader.eachLine(`${filePath}/${file}`, async function(line) {
+                    if(line.length === 0) { return; }
+                    await bot.gifs.push(line);
+                });
+            }
+        } // end of if
+    } // end of for loop
 } // end of registerThumbnails(...) function
 
 // This function allows you to chat as Aqukin through the terminal  
@@ -59,4 +79,4 @@ async function consoleChatter(bot){
     }) // end of listener.addListener
 } // end of consoleChatter(bot) function
 
-module.exports = { registerCommands, registerEvents, registerThumbnails, consoleChatter };
+module.exports = { registerCommands, registerEvents, registerInputs, consoleChatter };

@@ -19,6 +19,7 @@
     "ffmpeg-static": "^4.2.2",
     "googleapis": "^51.0.0",
     "http": "0.0.1-security",
+    "line-reader": "^0.4.0",
     "ms": "^2.1.2",
     "sequelize": "^5.21.11",
     "sqlite3": "^4.2.0",
