@@ -9,7 +9,7 @@ module.exports = class HelpCommand extends BaseCommand{
         // shortcut variables
         const { message, bot } = para;
         const { author, channel } = message;
-        const { gifs } = bot.media;
+        const { thumbnails, gifs } = bot.media;
         
         if(para.args.length){ // if the author has asked for help with a specific command
             const commandName = para.args[0].toLowerCase();
@@ -20,7 +20,7 @@ module.exports = class HelpCommand extends BaseCommand{
             // construct the embed
             const cmdInfoEmbed = new MessageEmbed()
                 .setColor(0x1DE2FE)
-                .setThumbnail("https://media1.tenor.com/images/32618947eafb05a4e09dc819a3872440/tenor.gif?itemid=17189882")
+                .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
                 .setTitle(`[] is optional, <> is mandatory`)
                 .addFields({name: "Command name", value: command.name, inline: true},
                            {name: "Aliases", value: command.aliases.join('\n'), inline: true},
@@ -50,7 +50,7 @@ module.exports = class HelpCommand extends BaseCommand{
             // construct the embed
             const helpEmbed = new MessageEmbed()
                 .setColor(0x1DE2FE)
-                .setThumbnail("https://media1.tenor.com/images/e4d23a9fb9a1dab0b47c84029883dfb7/tenor.gif?itemid=17189878")
+                .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
                 .setTitle(`**${author.username}**-sama, here's the list of Aqukin's commands`)
                 .addFields({ name: "Current Prefix", value: `\`${para.prefix}\`` }, 
                            { name: "Music commands", value: musicCmds }, 
