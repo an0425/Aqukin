@@ -24,7 +24,7 @@ function formatLength(value){
     if(!isNaN(value)) {
         value = parseInt(value, 10);
         if(value === 0){
-            reply += "Live";
+            reply += "Start";
         }
         else{
             if (value >= 60){

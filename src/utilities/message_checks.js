@@ -65,6 +65,11 @@ async function commandCheck(bot, message, command, args, prefix){
                 message.channel.send(`**${message.author.username}**-sama, Aqukin is not currently streaming any audio (oT-T) 尸`, ridingAqua);
                 return;
             }
+            // checks if the player is moving
+            if(player && player.seeking && command.name !== "disconnect"){
+                message.channel.send(`**${message.author.username}**-sama, Aqukin is still in the process of moving, please refrain from using any music commands in the mean time (╯︵╰,)`, ridingAqua);
+                return;
+            }
             // music only variables
             para.player = player;
             para.voiceChannel = channel;

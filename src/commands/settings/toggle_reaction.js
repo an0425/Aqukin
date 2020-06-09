@@ -11,7 +11,7 @@ module.exports = class ToggleReactionCommand extends BaseCommand{
         bot.settings.enablereaction = !bot.settings.enablereaction;
 
         let reply = "";
-        if(!bot.settings.reaction){ reply += "Aqukin has disabled the reaction module * ￣ ▽ ￣) b"; }
+        if(!bot.settings.reaction){ reply += "Aqukin has disabled the reaction module (* ￣ ▽ ￣) b"; }
         else{ reply += "Aqukin will now enable the reaction module (ﾉ ◕ ヮ ◕) ﾉ *: ･ ﾟ ✧"; }
         message.channel.send(`**${message.author.username}**-sama, ${reply}`);
     } // end of run

@@ -27,13 +27,12 @@ module.exports = class MoveCommand extends BaseCommand{
             player.queue[1].seek = timestamp;
             await player.connection.dispatcher.end();
             // inform the author if success
-            await message.channel.send(`**${author.username}**-sama, Aqukin will now moving the current track to position \`${await formatLength(timestamp)}\`, please be patient _(ˇωˇ」∠)\\_`);
-            const sentMgs = await message.channel.send({files: ["https://media1.tenor.com/images/bf16c156ab3e2301d22e6494fdab91c8/tenor.gif?itemid=17235518"]})
-            sentMgs.delete({ timeout:5200 });
+            await message.channel.send(`**${author.username}**-sama, Aqukin will now moving the current track to position \`${await formatLength(timestamp)}\`, the further the move, the longer it will take, please be patient _(ˇωˇ」∠)\\_`);
+            player.seekingMsg = await message.channel.send({files: ["https://media1.tenor.com/images/bf16c156ab3e2301d22e6494fdab91c8/tenor.gif?itemid=17235518"]})
         } catch(err) {
             console.log(err);
             player.connection.moving = false;
-            message.channel.send(`**${author.username}**-sama, an error has occured while trying to move the track (´-﹃-\`), Aqukin has informed **${bot.author.username}**-sama`);
+            message.channel.send(`**${author.username}**-sama, an error has occured while trying to move the track ☆ ｏ (＞ ＜ ；) ○, Aqukin has informed **${bot.author.username}**-sama`);
         } 
     } // end of run
 }; // end of module.exports 

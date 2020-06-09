@@ -141,6 +141,12 @@ module.exports = class PlayCommand extends BaseCommand{
             .once("disconnect", async () =>{
                 try{ await player.sentMessage.delete(); }
                 catch(err) { console.log("The message has already been manually deleted") }; // try catch in case the message got deleted manually
+                if(player.seekingMsg) {
+                    try{ 
+                        await player.seekingMsg.delete(); 
+                    }
+                    catch(err) { console.log(err); }
+                }
                 await bot.music.delete(player.id);
                 console.log("disconnected");
             })
@@ -184,6 +190,14 @@ async function playing(bot, guild, player){
         .on("error", console.error)
 
         .on("start", async () =>{
+            if(player.seeking){
+                try{ 
+                    //console.log(player, player.seekingMsg);
+                    await player.seekingMsg.delete(); 
+                }
+                catch(err) { console.log(err); }
+                player.seeking = false;
+            }
             const embed = await musicEmbed(bot, player, track);
             try{ player.sentMessage = await player.textChannel.send(embed)  } // send the embed to inform about the now playing track
             catch(err) { console.log("an error has occurered trying to send the embed", err); }
@@ -201,7 +215,7 @@ async function playing(bot, guild, player){
             }
             await player.queue.shift();
             await playing(bot, guild, player);
-            player.seeking = false;
+            //player.seeking = false;
         });
 }
     
