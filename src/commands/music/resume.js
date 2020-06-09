@@ -12,7 +12,7 @@ module.exports = class ResumeCommand extends BaseCommand{
         const author = message.author.username;
         
         // checks if the player is already paused, if so return a message to inform the author
-        if (!player.connection.dispatcher.paused) { return message.channel.send(`**${author}**-sama, Aqukin audio stream is not paused _(´ㅅ\`)⌒)\\_`); }
+        if (!player.connection.dispatcher.paused) { return message.channel.send(`**${author}**-sama, Aqukin audio stream is not paused (つ ω\`｡)`); }
 
         // voting system
         const voteReached = await voteConstruct(para.bot, message, player, para.command);
@@ -21,7 +21,7 @@ module.exports = class ResumeCommand extends BaseCommand{
 
         try{
             player.connection.dispatcher.resume();
-            message.channel.send(`**${author}**-sama, Aqukin has resumed audio streaming ₍^ •⌄• ^₎`);    
+            message.channel.send(`**${author}**-sama, Aqukin has resumed audio streaming \\ (★ ω ★) /`);    
         } catch(err) { console.log(err); }
 
         /* Update the currently playing embed */

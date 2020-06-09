@@ -11,7 +11,7 @@ module.exports = class CleanCommand extends BaseCommand{
         const num = await checkNum(para.args[0], 10, 1, true);
 
         // checks if the input is more than 99
-        if(num>99) { return channel.send(`**${author.username}**-sama, Aqukin can only delete a maximum of \`99\` messages only _(´ㅅ\`)⌒)\\_`); }
+        if(num>99) { return channel.send(`**${author.username}**-sama, Aqukin can only delete a maximum of \`99\` messages only (｡ • ́︿ • ̀｡)`); }
 
         // interaction
         const sentMessage = await channel.send(`Cleaning \`${num}\` messages`, {files: ["https://media1.tenor.com/images/bf16c156ab3e2301d22e6494fdab91c8/tenor.gif?itemid=17235518"]});

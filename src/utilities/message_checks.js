@@ -17,13 +17,13 @@ async function typeCheck(bot, message, prefix, tag){
 async function commandCheck(bot, message, command, args, prefix){
     // checks if the command is valid
     if (!command) {
-        message.channel.send(`**${message.author.username}**-sama, Aqukin can't find any command with that name, try \`${prefix}help\` if you need help with commands _(ˇωˇ」∠)\\_`, ridingAqua);
+        message.channel.send(`**${message.author.username}**-sama, Aqukin can't find any command with that name ლ (¯ ロ ¯ "ლ), try \`${prefix}help\` if you need help with commands`, ridingAqua);
         return; 
     }
 
     // checks if the command require and argument and whether the user has provided it
     if(command.args && !args.length){
-        let reply = `**${message.author.username}**-sama, please provide an argument for this command _(ˇωˇ」∠)\\_`; // default reply without usage
+        let reply = `**${message.author.username}**-sama, please provide an argument for this command (＃ ￣ω￣)`; // default reply without usage
         // checks if there's a correct usage for the command
         if(command.usage) { reply += `\nThe proper usage would be \`${prefix}${command.name} ${command.usage}\``; } // add the usage to the reply
         if(command.usageEx) { reply += `\nExample: ${prefix}${command.name} ${command.usageEx}`; } // add the usage example to the reply
@@ -33,7 +33,7 @@ async function commandCheck(bot, message, command, args, prefix){
 
     // checks if the author has the permission to use the command, if not return a message to inform them
     if (!message.member.hasPermission(command.permission)) {
-        message.channel.send(`I'm sorry **${message.author.username}**-sama, but it seems like you don't have the permission to use this command (´-﹃-\`)`, ridingAqua);
+        message.channel.send(`I'm sorry **${message.author.username}**-sama, but it seems like you don't have the permission to use this command (っ ´ω\`) ﾉ (╥ω╥)`, ridingAqua);
         return;
     }
 
@@ -52,17 +52,17 @@ async function commandCheck(bot, message, command, args, prefix){
             const { channel }  = message.member.voice;
             // checks if the author is in a voice channel, if not return a message to inform them
             if(!channel) { 
-                message.channel.send(`**${message.author.username}**-sama, you need to be in a voice channel to use this command (´-﹃-\`)`, ridingAqua);
+                message.channel.send(`**${message.author.username}**-sama, you need to be in a voice channel to use this command (－‸ლ)`, ridingAqua);
                 return; 
             }
             // checks if Aqukin in a voice channel and the author is also in that voice channel, if not return a message to inform them
             if (player && player.connection.channel.id !== channel.id) { 
-                message.channel.send(`**${message.author.username}**-sama, you need to be in the same voice channel with Aqukin to use this command (´-﹃-\`)`, ridingAqua);
+                message.channel.send(`**${message.author.username}**-sama, you need to be in the same voice channel with Aqukin to use this command (╯ ° □ °) ╯ ┻━━┻`, ridingAqua);
                 return;
             }
             // checks if Aqukin is streaming any audio, excluding the play/multiplay commands, if not return a message to inform the author
             if(!player && command.name !== "play") { 
-                message.channel.send(`**${message.author.username}**-sama, Aqukin is not currently streaming any audio (´-﹃-\`)`, ridingAqua);
+                message.channel.send(`**${message.author.username}**-sama, Aqukin is not currently streaming any audio (oT-T) 尸`, ridingAqua);
                 return;
             }
             // music only variables
@@ -73,7 +73,7 @@ async function commandCheck(bot, message, command, args, prefix){
         // neccessary checks for economy commands
         case "economy":
             if(!bot.currency.has(message.author.id) && command.name !== "addinvestor") {
-                message.channel.send(`**${message.author.username}**-sama, you need to be an investor to use this command (´-﹃-\`)`);
+                message.channel.send(`**${message.author.username}**-sama, you need to be an investor to use this command (｡ • ́︿ • ̀｡)`);
                 return;
             }
             break; // end of economy case

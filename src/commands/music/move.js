@@ -12,13 +12,13 @@ module.exports = class MoveCommand extends BaseCommand{
 
         // checks if the author has administrative permission or have requested the track, if so continue, if not return a message to inform them
         if(message.author.id !== player.queue[0].requester.id && !message.member.hasPermission("ADMINISTRATOR")) { 
-            return message.channel.send(`**${author.username}**-sama, this track is requested by **${player.queue[0].requester.username}**-sama, you can only move your own requested tracks (´-﹃-\`)`); 
+            return message.channel.send(`**${author.username}**-sama, this track is requested by **${player.queue[0].requester.username}**-sama, you can only move your own requested tracks (-ω- 、)`); 
         }
 
         const timestamp = await convertInput(para.args[0]);
 
         // checks if the author has requested to move to a valid timestamp, if so continue, if not return a message to inform them
-        if(convertInput(para.args[0]) > player.queue[0].duration) { return message.channel.send(`**${author.username}**-sama, the timestamp should be less than the track length \`${formatLength(player.queue[0].duration)}\` (´-﹃-\`)`); }
+        if(convertInput(para.args[0]) > player.queue[0].duration) { return message.channel.send(`**${author.username}**-sama, the timestamp should be less than the track length \`${formatLength(player.queue[0].duration)}\` ლ (¯ ロ ¯ "ლ)`); }
         
         // try to move to the given timestamp, inform the author if fail
         try{

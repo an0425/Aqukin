@@ -10,7 +10,7 @@ module.exports = class ShuffleQueueCommand extends BaseCommand {
     const { message, player } = para;
 
     // checks if the current queue is empty, if so return a message to inform the author
-    if(player.queue.length <= 2) { return message.channel.send(`**${message.author.username}**-sama, there is no point in shuffling the queue _(´ㅅ\`)⌒)\\_`); }
+    if(player.queue.length <= 2) { return message.channel.send(`**${message.author.username}**-sama, there is no point in shuffling the queue ヽ (￣д￣) ノ`); }
 
     // voting system
     const voteReached = await voteConstruct(para.bot, message, player, para.command);
@@ -18,7 +18,7 @@ module.exports = class ShuffleQueueCommand extends BaseCommand {
 
     try { 
       await shuffle(player.queue);
-      message.channel.send(`**${message.author.username}**-sama, Aqukin has shuffled the queue (\`･ω･´)`); // informs the author  
+      message.channel.send(`**${message.author.username}**-sama, Aqukin has shuffled the queue 乁 (• ω • 乁)`); // informs the author  
     } catch(err) { console.log(err); }
   } // end of run
 } // end of module.exports

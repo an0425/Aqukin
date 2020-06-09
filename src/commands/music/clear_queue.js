@@ -12,7 +12,7 @@ module.exports = class ClearQueueCommand extends BaseCommand {
     const author = message.author.username;
 
     // checks if the current queue is empty, if so return a message to inform the author
-    if(player.queue.length <= 1) { return message.channel.send(`**${author}**-sama, no need to clear the queue as there is no track upcoming _(´ㅅ\`)⌒)\\_`); }
+    if(player.queue.length <= 1) { return message.channel.send(`**${author}**-sama, no need to clear the queue as there is no track upcoming ╮ (︶︿︶) ╭`); }
 
     // voting system
     const voteReached = await voteConstruct(para.bot, message, player, para.command);
@@ -20,7 +20,7 @@ module.exports = class ClearQueueCommand extends BaseCommand {
 
     try {
       await player.queue.splice(1);
-      message.channel.send(`**${author}**-sama, Aqukin has cleared the queue (\`･ω･´)`);  
+      message.channel.send(`**${author}**-sama, Aqukin has cleared the queue (っ ˘ω˘ς)`);  
     } catch(err) { console.log(err); }
 
     /* Update the currently playing embed */

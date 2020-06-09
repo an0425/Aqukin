@@ -43,7 +43,7 @@ async function registerEvents(bot, dir = ""){
     } // end of for loop
 } // end of registerEvents(...) function
 
-// Thumbnail text file handler
+// Text files handler
 async function registerInputs(bot, dir = ""){
     const filePath = path.join(__dirname, dir);
     //console.log(filePath)
@@ -68,7 +68,7 @@ async function registerInputs(bot, dir = ""){
             }
         } // end of if
     } // end of for loop
-} // end of registerThumbnails(...) function
+} // end of registerInputs(...) function
 
 // This function allows you to chat as Aqukin through the terminal  
 async function consoleChatter(bot){

@@ -68,7 +68,7 @@ module.exports = class PlayCommand extends BaseCommand{
             })
             .catch((err) => {
                 noResult = true;
-                message.channel.send(`**${author.username}**-sama, the playlist is either private or does not exist (´-﹃-\`)`)});
+                message.channel.send(`**${author.username}**-sama, the playlist is either private or does not exist 〣 (ºΔº) 〣`)});
         }
         // else try searching youtube with the given argument
         else{
@@ -77,7 +77,7 @@ module.exports = class PlayCommand extends BaseCommand{
 
                 if(!tracks) {
                     noResult = true;
-                    channel.send(`**${author.username}**-sama, Aqukin can't find any tracks with the given keywords (´-﹃-\`)`, para.ridingAqua);
+                    channel.send(`**${author.username}**-sama, Aqukin can't find any tracks with the given keywords (｡T ω T｡)`, para.ridingAqua);
                     return; 
                 }                
                 
@@ -89,8 +89,8 @@ module.exports = class PlayCommand extends BaseCommand{
                     .setTitle("Automatically times out in 24 seconds")
                     .setDescription(tracksInfo)
                     .setImage("https://media1.tenor.com/images/85e6b8577e925a9037d03a796588e7ed/tenor.gif?itemid=15925240")
-                    .setFooter("Vive La Résistance le Hololive~");
-                const sentMessage = await message.channel.send(`**${author.username}**-sama, please enter the track number that you would like Aqukin to queue (\`･ω･´)`, embed); // display the embed
+                    .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
+                const sentMessage = await message.channel.send(`**${author.username}**-sama, please enter the track number that you would like Aqukin to queue ヽ (o´∀\`) ﾉ ♪ ♬`, embed); // display the embed
 
                 // Allow the author to select a track fron the search results within the allowed time of 24s
                 const filter = m => (message.author.id === m.author.id) && (m.content >= 1 && m.content <= tracks.length);
@@ -117,7 +117,7 @@ module.exports = class PlayCommand extends BaseCommand{
             })
             .catch((err) => {
                 noResult = true;
-                channel.send(`**${author.username}**-sama, An error has occured while queuing (´-﹃-\`)`, para.ridingAqua); 
+                channel.send(`**${author.username}**-sama, An error has occured while queuing (ಥ﹏ಥ)`, para.ridingAqua); 
                 console.log(err)});
         }
 
@@ -170,7 +170,7 @@ async function playing(bot, guild, player){
             try{
                 await player.connection.channel.leave();
                 await bot.music.delete(guild.id);
-                const sentMessage = await player.textChannel.send("The queue has ended, arigatou gozaimatshita ( ˊᵕˋ)ﾉˊᵕˋ)", new MessageAttachment("src/utilities/pictures/bye.gif"));
+                const sentMessage = await player.textChannel.send("The queue has ended, arigatou gozaimatshita ☆ ⌒ ヽ (* '､ ^ *) chu~", new MessageAttachment("src/utilities/pictures/bye.gif"));
                 await sentMessage.delete({ timeout: 5200 });
             } catch (err) { console.log(err); }
             return;

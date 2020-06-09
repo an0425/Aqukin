@@ -11,7 +11,7 @@ module.exports = class LoopTrackCommand extends BaseCommand{
         const { message, player } = para;
         const author = message.author.username;
         
-        if(player.queueRepeat) { return message.channel.send(`**${author}**-sama, please cancel the queue loop first before looping the track (´-﹃-\`)`); }
+        if(player.queueRepeat) { return message.channel.send(`**${author}**-sama, please cancel the queue loop first before looping the track (￣ω￣;)`); }
 
         // voting system
         const voteReached = await voteConstruct(para.bot, message, player, para.command);
@@ -19,8 +19,8 @@ module.exports = class LoopTrackCommand extends BaseCommand{
 
         try {
             player.trackRepeat = !player.trackRepeat; // toggle track loop
-            if (!player.trackRepeat) { message.channel.send(`**${author}**-sama, Aqukin will now \`stop looping the current track\` (\`･ω･´)`); }
-            else { message.channel.send(`**${author}**-sama, Aqukin will now \`loop the current track\` ₍^ •⌄• ^₎`); }    
+            if (!player.trackRepeat) { message.channel.send(`**${author}**-sama, Aqukin will now \`stop looping the current track\` (* ￣ ▽ ￣) b`); }
+            else { message.channel.send(`**${author}**-sama, Aqukin will now \`loop the current track\` (ﾉ ≧ ∀ ≦) ﾉ`); }    
         } catch(err) { console.log(err); }
                     
         // Update the currently playing embed

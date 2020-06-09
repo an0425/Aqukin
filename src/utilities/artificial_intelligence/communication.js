@@ -27,7 +27,7 @@ async function reply(message, args, prefix){
             case "konichiwa~":
             case "konaqua":
             case "konaqua~":
-                channel.send(`Konaqua~ **${author}**-sama (\`･ω･´)`)
+                channel.send(`Konaqua~ **${author}**-sama (o´ω\`o) ﾉ`)
                 break;
                 
             case "yo":
@@ -41,7 +41,7 @@ async function reply(message, args, prefix){
             case "name":
             case "who":
             case "jikoshoukai":
-                channel.send(`**${author}**-sama, if you want to get my info try \`${prefix}ui <tag me>\` instead (\`･ω･´)`)
+                channel.send(`**${author}**-sama, if you want to get my info try \`${prefix}ui <tag me>\` instead (* / ▽ ＼ *)`)
                 break;
     
             case "teiki":
@@ -53,7 +53,7 @@ async function reply(message, args, prefix){
                 switch (args[i + 1].toLowerCase()) {
                     case "u":
                     case "you":
-                        channel.send(`Bye bye, **${author}**-sama ( ˊᵕˋ)ﾉˊᵕˋ)`);
+                        channel.send(`Bye bye, **${author}**-sama ＼ (⌒ ▽ ⌒)`);
                         break;
                     case "shit":
                         channel.send(`**${author}**-sama, you can't see yours or mine? (*´꒳\`*)`);
@@ -66,19 +66,19 @@ async function reply(message, args, prefix){
                 if (!args[i + 1]) return;
                 switch (args[i + 1].toLowerCase()) {
                     case "morning":
-                        channel.send(`Ohayo~ **${author}**-sama, have you had breakfast yet? ( ˊᵕˋ)ﾉˊᵕˋ)`)
+                        channel.send(`Ohayo~ **${author}**-sama, have you had breakfast yet? (≧ ▽ ≦) /`)
                         break;
                     case "afternoon":
-                        channel.send(`Ohayo~ **${author}**-sama, have you had lunch yet? ( ˊᵕˋ)ﾉˊᵕˋ)`);
+                        channel.send(`Ohayo~ **${author}**-sama, have you had lunch yet? (o´ ▽ \`o) ﾉ`);
                         break;
                     case "evening":
-                        channel.send(`Konbanwa~ **${author}**-sama, have you had dinner yet? ( ˊᵕˋ)ﾉˊᵕˋ)`);
+                        channel.send(`Konbanwa~ **${author}**-sama, have you had dinner yet? (´ ▽ \`) /`);
                         break;
                     case "day":
-                        channel.send(`Good day to you too **${author}**-sama ( ˊᵕˋ)ﾉˊᵕˋ)`);
+                        channel.send(`Good day to you too **${author}**-sama ヽ (・ ∀ ・) ﾉ`);
                         break;
                     case "night":
-                        channel.send(`Oyasuminasai~ **${author}**-sama ( ˊᵕˋ)ﾉˊᵕˋ)`);
+                        channel.send(`Oyasuminasai~ **${author}**-sama (´ ,, • ω • ,,) ♡`);
                         break;
                     case "job":
                     case "bot":
@@ -89,25 +89,30 @@ async function reply(message, args, prefix){
                     case "aqukin":
                     case "akukin":
                     case "<@!702620458130079750>":
-                        channel.send(`Arigatou gozaimatsu~ **${author}**-sama ( ˊᵕˋ)ﾉˊᵕˋ)`);
+                        channel.send(`Arigatou gozaimatsu~ **${author}**-sama (⁄ ⁄ • ⁄ω⁄ • ⁄ ⁄)`);
                         break;
                     case "girl":
-                        channel.send(`She truly is **${author}**-sama ٩(ˊᗜˋ*)و`);
+                    case "lady":
+                    case "madam":
+                        channel.send(`She truly is **${author}**-sama (￢‿￢)`);
                         break;
                     case "boy":
-                        channel.send(`He truly is **${author}**-sama ٩(ˊᗜˋ*)و`);
+                    case "sir":
+                    case "gentleman":
+                    case "knight":
+                        channel.send(`He truly is **${author}**-sama ／ (^ × ^) ＼`);
                         break;
                     case "bye":
-                        channel.send(`Bye bye, **${author}**-sama ( ˊᵕˋ)ﾉˊᵕˋ)`);
+                        channel.send(`Bye bye, **${author}**-sama ＼ (⌒ ▽ ⌒)`);
                         break;
                     default:
-                        channel.send(`It truly is **${author}**-sama ٩(ˊᗜˋ*)و`);
+                        channel.send(`It truly is **${author}**-sama (☆ ω ☆)`);
                         break;
                 }
                 break;
 
             case "help":
-                channel.send(`**${author}**-sama, if you need help with commands, try \`${prefix}help\` instead (\`･ω･´)`);
+                channel.send(`**${author}**-sama, if you need help with commands, try \`${prefix}help\` instead ⊃｡ • ́‿ • ̀｡) ⊃`);
                 break;
     
             case "fighto":
@@ -116,7 +121,7 @@ async function reply(message, args, prefix){
     
             case "nani":
             case "nani?":
-                channel.send("Omae mou shindeiru _(ˇωˇ」∠)\\_");
+                channel.send("Omae mou shindeiru (⌐ ■ _ ■)");
                 break;
     
             case "vui":
@@ -125,34 +130,34 @@ async function reply(message, args, prefix){
             case "www":
             case "草":
             case "くさ":
-                channel.send("www ₍^ •⌄• ^₎");
+                channel.send("www (〃 ▽ 〃)");
                 break;
     
             case "wibu":
             case "weaboo":
             case "weeb":
             case "weebs":
-                channel.send("Wibu detected");
+                channel.send("Wibu detected (° ロ °)!");
                 break;
     
             case "baka":
-                channel.send("Baka janai, Baqua desu _(ˇωˇ」∠)\\_");
+                channel.send("Baka janai, Baqua desu~ (＃ ＞ ＜)");
                 break;
     
             case "trash":
             case "gomi":
-                channel.send("Gomi janai _(ˇωˇ」∠)\\_");
+                channel.send("Gomi janai~ (ᗒᗣᗕ)՞");
                 break;
     
             case "what":
             case "huh":
             case "wut":
-                channel.send("Nani? _(´ㅅ`)⌒)\\_");
+                channel.send("Nani? _Σ (° ロ °)");
                 break;
     
             case "ohayo":
             case "ohayo~":
-                channel.send(`Ohayo~ **${author}**-sama, have you had breakfast yet? ( ˊᵕˋ)ﾉˊᵕˋ)`);
+                channel.send(`Ohayo~ **${author}**-sama, have you had breakfast yet? (≧ ▽ ≦) /`);
                 break;
     
             case "g9":
@@ -160,7 +165,7 @@ async function reply(message, args, prefix){
             case "oyasumi~":
             case "oyasuminasai":
             case "oyasuminasai~":
-                channel.send(`Oyasuminasai~ **${author}**-sama ( ˊᵕˋ)ﾉˊᵕˋ)`);
+                channel.send(`Oyasuminasai~ **${author}**-sama (´ ,, • ω • ,,) ♡`);
                 break;
         } // end of switch
     } // end of for loop

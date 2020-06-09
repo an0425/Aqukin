@@ -7,6 +7,6 @@ module.exports = class BaquafinaCommand extends BaseCommand{
     constructor() {super("baquafina", ["pure", "aquafina", "bakafina", "aqukinfina"], "Display randomly one of the Baquafina(?) pictures", "SEND_MESSAGES", "utility", false, "", "-- will display a Baquafina(?) picture")}
 
     async run(para) {
-        para.message.channel.send(`Atashi~ PURE ₍^ •⌄• ^₎`, attachments[Math.floor(Math.random() * Math.floor(attachments.length))]);
+        para.message.channel.send(`Atashi~ PURE (* ¯︶¯ *)`, attachments[Math.floor(Math.random() * Math.floor(attachments.length))]);
     } // end of run
 }; // end of module.exports
