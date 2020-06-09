@@ -16,17 +16,17 @@ async function ytNotify(para){
     switch(chSearchR.snippet.liveBroadcastContent){
         // a case for live
         case "live":
-            title = "is now live";
+            title = "is now live ☆ *: .｡. o (≧ ▽ ≦) o .｡.: * ☆";
             break;
 
         // a case for upcoming live
         case "upcoming":
-            title = "is scheduled to live soon";
+            title = "is scheduled to live soon 	(๑˃ᴗ˂) ﻭ";
             break;
 
         // default case for neither
         default:
-            return message.channel.send(`**${author}**-sama, **${chSearchR.snippet.title}** is not live nor having any upcoming stream right now~`);
+            return message.channel.send(`**${author}**-sama, **${chSearchR.snippet.title}** is not live nor having any upcoming stream right now (｡ • ́︿ • ̀｡)`);
     } // end of switch case
     livestatus(chSearchR); // display the embed
 
@@ -64,7 +64,7 @@ async function ytNotify(para){
             const { data } = response;
             
             if(data.items.length === 0){
-                return message.channel.send(`**${author}**-sama, **${chSearchR.snippet.title}** is not live nor having any upcoming stream right now~`);
+                return message.channel.send(`**${author}**-sama, **${chSearchR.snippet.title}** is not live nor having any upcoming stream right now (｡ • ́︿ • ̀｡)`);
             }
             
             data.items.forEach((video) => {
@@ -76,7 +76,7 @@ async function ytNotify(para){
                     .setTitle(`${chSearchR.snippet.title} ${title}`)
                     .setDescription(`[${video.snippet.title}](https://www.youtube.com/watch?v=${video.id.videoId})`)
                     .setImage(`${video.snippet.thumbnails.high.url}`)
-                    .setFooter("Vive La Résistance le Hololive ٩(ˊᗜˋ*)و");
+                    .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
                 // send the embed
                 message.channel.send(videoEmbed);
             }); // end of forEach loop

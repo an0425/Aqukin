@@ -9,7 +9,7 @@ module.exports = class ConfigurePrefixCommand extends BaseCommand{
         const { message, bot } = para;
         
         bot.settings.prefix = para.args[0];
-        message.channel.send(`**${message.author.username}**-sama, Aqukin has changed the current prefix to ${bot.settings.prefix} (*´꒳\`\\*)`);
+        message.channel.send(`**${message.author.username}**-sama, Aqukin has changed the current prefix to ${bot.settings.prefix} ヽ (o ＾ ▽ ＾ o) ノ`);
     } // end of run
 }; // end of module.exports
 

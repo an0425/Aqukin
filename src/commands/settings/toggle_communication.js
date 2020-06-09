@@ -11,7 +11,7 @@ module.exports = class ToggleCommunicationCommand extends BaseCommand{
         bot.settings.enablecommunication = !bot.settings.enablecommunication;
 
         let reply = "";
-        if(!bot.settings.enablecommunication){ reply += "Aqukin has disabled the communication module _(ˇωˇ」∠)\\_"; }
+        if(!bot.settings.enablecommunication){ reply += "Aqukin has disabled the communication module * ￣ ▽ ￣) b"; }
         else{ reply += "Aqukin will now enable the communication module (*´꒳`\\*)"; }
         message.channel.send(`**${message.author.username}**-sama, ${reply}`);
     } // end of run

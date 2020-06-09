@@ -11,7 +11,7 @@ module.exports = class ToggleAntiSpamCommand extends BaseCommand{
         bot.settings.enableantispam = !bot.settings.enableantispam;
 
         let reply = "";
-        if(!bot.settings.enableantispam){ reply += "Aqukin has disabled the antispam module _(ˇωˇ」∠)\\_"; }
+        if(!bot.settings.enableantispam){ reply += "Aqukin has disabled the antispam module (* ￣ ▽ ￣) b"; }
         else{ reply += "Aqukin will now enable the antispam module (*´꒳`\\*)"; }
         message.channel.send(`**${message.author.username}**-sama, ${reply}`);
     } // end of run
