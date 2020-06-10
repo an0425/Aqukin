@@ -10,7 +10,7 @@ function checkNum(num, defaultNum, range, round){
 }
 
 // This function convert true to yes, false to no
-function convertTF(value){
+function convertBoolean(value){
     if(value) { return "Yes peko"; }
     return "No dan";
 }
@@ -70,26 +70,30 @@ function convertInput(value){
     let hours = 0;
     let minutes = 0;
     let seconds = 0;
-    value = value.trim().split(":");
-    value.forEach(i => { i = parseInt(i); });
 
-    switch(value.length){
-        case 3:
-            hours = parseInt(value[0]*3600);
-            minutes = parseInt(value[1]*60);
-            seconds = parseInt(value[2]);
-            break;
-        case 2:
-            minutes = parseInt(value[0]*60);
-            seconds = parseInt(value[1]);
-            break;
-        case 1:
-            seconds = parseInt(value[0]);
-            break;
+    if(value){
+        value = value.trim().split(":");
+        value.forEach(i => { i = parseInt(i); });
+        
+        switch(value.length){
+            case 3:
+                hours = parseInt(value[0]*3600);
+                minutes = parseInt(value[1]*60);
+                seconds = parseInt(value[2]);
+                break;
+            case 2:
+                minutes = parseInt(value[0]*60);
+                seconds = parseInt(value[1]);
+                break;
+            case 1:
+                seconds = parseInt(value[0]);
+                break;
+        }
     }
+    
     total = hours + minutes + seconds;
     if(total < 0 || isNaN(total)) { total = 0; }
     return total;
 }
 
-module.exports = { checkNum, convertTF, formatLength, convertInput };
+module.exports = { checkNum, convertBoolean, formatLength, convertInput };
