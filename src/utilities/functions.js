@@ -16,16 +16,26 @@ function convertTF(value){
 }
 
 // This function format numbers (seconds) to hh:mm:ss format
-function formatLength(value){
+function formatLength(value, seeking){
     let hours;
     let minutes;
     let seconds;
     let reply = "";
+    
+    // Checks if the value is a valid number
     if(!isNaN(value)) {
         value = parseInt(value, 10);
+
+        // Checks if the value is equal to 0
         if(value === 0){
-            reply += "Start";
+            if(seeking){
+                reply += "Start";
+            }
+            else{
+                reply += "Live";
+            }
         }
+        // Else the value is greater than 0
         else{
             if (value >= 60){
                 minutes = (value - value%60)/60;
@@ -48,19 +58,20 @@ function formatLength(value){
                 if(seconds < 10){ seconds = `0${seconds}`; }
                 reply += `${seconds}`;
             }
-        }
-    }
+        } // End of else the value is greater than 0
+    } // End of if the value is a valid number
+
     return reply;
 }
 
 // This function convert video length from seconds format to minutes
 function convertInput(value){
+    let total;
     let hours = 0;
     let minutes = 0;
     let seconds = 0;
     value = value.trim().split(":");
     value.forEach(i => { i = parseInt(i); });
-    let total;
 
     switch(value.length){
         case 3:

@@ -14,7 +14,7 @@ module.exports = class CleanCommand extends BaseCommand{
         if(num>99) { return channel.send(`**${author.username}**-sama, Aqukin can only delete a maximum of \`99\` messages only (｡ • ́︿ • ̀｡)`); }
 
         // interaction
-        const sentMessage = await channel.send(`Cleaning \`${num}\` messages`, {files: ["https://media1.tenor.com/images/bf16c156ab3e2301d22e6494fdab91c8/tenor.gif?itemid=17235518"]});
+        const sentMessage = await channel.send(`Cleaning \`${num}\` messages`, {files: ["https://media1.tenor.com/images/f7b00948fa084c6de0e461ebfb12a90d/tenor.gif?itemid=17086199"]});
         await sentMessage.delete({ timeout: 3000 });
         // actual deletion
         channel.bulkDelete(num+1)

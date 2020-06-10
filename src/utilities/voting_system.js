@@ -36,6 +36,8 @@ async function voteConstruct (bot, message, player, command){
         ++votingSysVar.voteCount; // increase the vote count
         votingSysVar.voters.set(message.author.id, message.author) // the author has now voted via command
         votingSysVar.votesRequired = Math.ceil(members.size * .6) - votingSysVar.voteCount;
+        
+        // Checks if more vote(s) is required
         if(votingSysVar.votesRequired > 0){  
             // contruct and send an embed asking the members to vote
             const embed = new MessageEmbed()
@@ -45,7 +47,8 @@ async function voteConstruct (bot, message, player, command){
             const msg = await message.channel.send(`**${message.author.username}**-sama, Aqukin has acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote (= ω =) .. nyaa`, embed);
             await msg.react("⚓");
 
-            const filter = (reaction, user) => { // members reactions filter
+            // members reactions filter
+            const filter = (reaction, user) => {
                 if (user.bot) { return false; } // exclude bot
                 if (votingSysVar.voters.has(user.id)){ // checks if the user has already voted
                     message.channel.send(`**${user.username}**-sama, Aqukin has already acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote (￣ ￣ |||)`);
@@ -67,6 +70,7 @@ async function voteConstruct (bot, message, player, command){
                 }
                 return false;
             } // end of reaction filter
+            
             try{
                 // allow 24s for reaction votes
                 const reactions = await msg.awaitReactions(filter, { max: votingSysVar.votesRequired, time: 24000, errors: ["time"] })

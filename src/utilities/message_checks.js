@@ -21,6 +21,12 @@ async function commandCheck(bot, message, command, args, prefix){
         return; 
     }
 
+    // checks if the author has the permission to use the command, if not return a message to inform them
+    if (!message.member.hasPermission(command.permission)) {
+        message.channel.send(`I'm sorry **${message.author.username}**-sama, but it seems like you don't have the permission to use this command (っ ´ω\`) ﾉ (╥ω╥)`, ridingAqua);
+        return;
+    }
+
     // checks if the command require and argument and whether the user has provided it
     if(command.args && !args.length){
         let reply = `**${message.author.username}**-sama, please provide an argument for this command (＃ ￣ω￣)`; // default reply without usage
@@ -31,13 +37,8 @@ async function commandCheck(bot, message, command, args, prefix){
         return;
     }
 
-    // checks if the author has the permission to use the command, if not return a message to inform them
-    if (!message.member.hasPermission(command.permission)) {
-        message.channel.send(`I'm sorry **${message.author.username}**-sama, but it seems like you don't have the permission to use this command (っ ´ω\`) ﾉ (╥ω╥)`, ridingAqua);
-        return;
-    }
-
-    let para = { // same collection but in this case only needed parameters
+    // This variable stores the neccessary parameters for a commands
+    let para = { 
         bot: bot,
         command: command,
         message: message,
@@ -45,6 +46,8 @@ async function commandCheck(bot, message, command, args, prefix){
         prefix: prefix,
         ridingAqua: ridingAqua
     }
+
+    // Switch case for different command types checking
     switch(command.tag){
         // neccessary checks for music commands
         case "music": 
@@ -83,6 +86,7 @@ async function commandCheck(bot, message, command, args, prefix){
             }
             break; // end of economy case
     } // end of switch
+
     return para;
 } // end of commandCheck(...) function
 
