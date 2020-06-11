@@ -28,6 +28,7 @@ module.exports = class HelpCommand extends BaseCommand{
                            {name: "Usage Example", value: `${para.prefix}${command.name} ${command.usageEx}`},
                            {name: "Description", value: command.description},)
                 .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
+                .setImage("https://media1.tenor.com/images/db59d6409b27b749fe7226246e73f1b2/tenor.gif?itemid=16625248")
                 .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
             channel.send(`**${author.username}**-sama, here's the info of the \`${command.name}\` command`, cmdInfoEmbed); // send out the embed
         } // end of if

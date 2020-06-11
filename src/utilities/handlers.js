@@ -19,8 +19,8 @@ async function registerCommands(bot, dir = ""){
             if(Command.prototype instanceof BaseCommand) {
                 const cmd = new Command();
                 bot.commands.set(cmd.name, cmd);
-            } // end of if
-        } // end of if
+            } // end of if the file is an instance of BaseEvent
+        } // end of if the file is a .js file
     } // end of for loop
 } // end of registerCommands(...) function
 
@@ -38,8 +38,8 @@ async function registerEvents(bot, dir = ""){
             if(Event.prototype instanceof BaseEvent) {
                 const event = new Event();
                 bot.on(event.name, event.run.bind(event, bot));
-            } // end of if
-        } // end of if
+            } // end of if the file is an instance of BaseEvent
+        } // end of if the file is a .js file
     } // end of for loop
 } // end of registerEvents(...) function
 
@@ -66,7 +66,7 @@ async function registerInputs(bot, dir = ""){
                     await bot.media.gifs.push(line);
                 });
             }
-        } // end of if
+        } // end of if the file is a .txt file 
     } // end of for loop
 } // end of registerInputs(...) function
 
