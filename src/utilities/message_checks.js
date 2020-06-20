@@ -1,6 +1,5 @@
 /* This module handles all the checking for the "message" event */
 const ridingAqua = {files: ["https://media1.tenor.com/images/e6578328df71dbd6b44318553e06eda8/tenor.gif?itemid=17267168"]};
-//const ridingAqua = new MessageAttachment("./src/pictures/riding.gif");
 
 // this function checks for message type, return true if it's a command, return false if it's not
 async function typeCheck(bot, message, prefix, tag){
@@ -17,6 +16,7 @@ async function typeCheck(bot, message, prefix, tag){
 async function commandCheck(bot, message, command, args, prefix){
     // checks if the command is valid
     if (!command) {
+        console.log(message.content);
         message.channel.send(`**${message.author.username}**-sama, Aqukin can't find any command with that name ლ (¯ ロ ¯ "ლ), try \`${prefix}help\` if you need help with commands`, ridingAqua);
         return; 
     }

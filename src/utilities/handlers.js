@@ -44,7 +44,7 @@ async function registerEvents(bot, dir = ""){
 } // end of registerEvents(...) function
 
 // Text files handler
-async function registerInputs(bot, dir = ""){
+async function registerMediaFiles(bot, dir = ""){
     const filePath = path.join(__dirname, dir);
     //console.log(filePath)
     const files = await fs.readdir(filePath);
@@ -68,7 +68,7 @@ async function registerInputs(bot, dir = ""){
             }
         } // end of if the file is a .txt file 
     } // end of for loop
-} // end of registerInputs(...) function
+} // end of registerMediaFiles(...) function
 
 // This function allows you to chat as Aqukin through the terminal  
 async function consoleChatter(bot){
@@ -79,4 +79,4 @@ async function consoleChatter(bot){
     }) // end of listener.addListener
 } // end of consoleChatter(bot) function
 
-module.exports = { registerCommands, registerEvents, registerInputs, consoleChatter };
+module.exports = { registerCommands, registerEvents, registerMediaFiles, consoleChatter };

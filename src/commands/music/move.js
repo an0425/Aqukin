@@ -3,7 +3,9 @@ const BaseCommand = require("../../utilities/structures/BaseCommand");
 const { convertInput, formatLength } = require("../../utilities/functions");
 
 module.exports = class MoveCommand extends BaseCommand{
-    constructor() {super("move", ["m", "to", "time"], "Move the audio player to a specified timestamp in the current track by its requester/admin", "CONNECT", "music", true, "<hh:mm:ss>", "02:32 or 2:32 or 0:2:32 or 1:92 or 152 -- will all move the current track to the position 2 minutes & 32 seconds")}
+    constructor() {
+        super("move", ["m", "to", "time"], "Move the audio player to a specified timestamp in the current track by its requester/admin", "CONNECT", "music", true, "<hh:mm:ss>", "02:32 or 2:32 or 0:2:32 or 1:92 or 152 -- will all move the current track to the position 2 minutes & 32 seconds");
+    }
     
     async run(para){
         // shortcut variables
@@ -27,8 +29,7 @@ module.exports = class MoveCommand extends BaseCommand{
             player.queue[1].seek = timestamp;
             await player.connection.dispatcher.end();
             // inform the author if success
-            await message.channel.send(`**${author.username}**-sama, Aqukin will now move the current track to position \`${await formatLength(timestamp, player.seeking)}\`, the further the move, the longer it will take, please be patient refrain from using any music commands in the mean time _(ˇωˇ」∠)\\_`);
-            player.seekingMsg = await message.channel.send({files: ["https://media1.tenor.com/images/bf16c156ab3e2301d22e6494fdab91c8/tenor.gif?itemid=17235518"]})
+            await message.channel.send(`**${author.username}**-sama, Aqukin will now move the current track to position \`${await formatLength(timestamp, player.seeking)}\``);
         } catch(err) {
             console.log(err);
             player.connection.moving = false;

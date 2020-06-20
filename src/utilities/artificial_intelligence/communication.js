@@ -7,7 +7,7 @@ async function react(message){
 } // end of react(...) function
 
 // This function handles Aqukin's replying ability
-async function reply(message, args, prefix){
+async function reply(message, args, prefix, tag){
     // shortcut variables
     const author = message.author.username; // message's author username
     const channel = message.channel; // para.message.channel for short
@@ -88,7 +88,7 @@ async function reply(message, args, prefix){
                     case "baqua":
                     case "aqukin":
                     case "akukin":
-                    case "<@!702620458130079750>":
+                    case tag:
                         channel.send(`Arigatou gozaimatsu~ **${author}**-sama (⁄ ⁄ • ⁄ω⁄ • ⁄ ⁄)`);
                         break;
                     case "girl":

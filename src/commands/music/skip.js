@@ -5,7 +5,7 @@ const BaseCommand = require("../../utilities/structures/BaseCommand");
 let USED = false; // default the command recently used check to false
 
 module.exports = class SkipCommand extends BaseCommand{
-    constructor() {super("skip", ["s", "n", "nxt", "next"], "Skip the current track", "CONNECT", "music", false, "", "-- will skip the current track")}
+    constructor() { super("skip", ["s", "n", "nxt", "next"], "Skip the current track", "CONNECT", "music", false, "", "-- will skip the current track"); }
     
     async run (para) {
         // shortcut variables

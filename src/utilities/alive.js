@@ -1,6 +1,6 @@
 /* This module help Aqukin staying alive on Heroku hosting service by pinging its domaince once every 5 minutes */
-const http = require('http');
-const express = require('express');
+const http = require("http");
+const express = require("express");
 const app = express();
 
 async function alive(){

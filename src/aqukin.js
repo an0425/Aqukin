@@ -3,7 +3,7 @@ require("dotenv").config();
 const { Client, Collection } = require("discord.js");
 // const { Users } = require("./database/dbObjects");
 const { alive } = require("./utilities/alive");
-const { registerCommands, registerEvents, registerInputs, consoleChatter } = require("./utilities/handlers");
+const { registerCommands, registerEvents, registerMediaFiles, consoleChatter } = require("./utilities/handlers");
 const bot = new Client();
 bot.commands = new Collection(); // bot commands
 bot.media = {
@@ -18,7 +18,7 @@ bot.mentionCmd = {
 // variable will need to be ported to database later on
 bot.settings = {
 	enableantispam: true,
-	enablecommunication: true,
+	enablecommunication: false,
 	enablereaction: true,
 	prefix: process.env.PREFIX
 };
@@ -53,7 +53,7 @@ Reflect.defineProperty(bot.currency, "getBalance", {
 	/* handlers */
 	await registerEvents(bot, "../events");
 	await registerCommands(bot, "../commands");
-	await registerInputs(bot, "../utilities/pictures");
-	await alive();
+	await registerMediaFiles(bot, "../utilities/pictures");
+	//await alive();
 	await consoleChatter(bot);
 })();

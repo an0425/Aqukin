@@ -51,7 +51,7 @@ module.exports = class HelpCommand extends BaseCommand{
             const helpEmbed = new MessageEmbed()
                 .setColor(0x1DE2FE)
                 .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
-                .setTitle(`**${author.username}**-sama, here's the list of Aqukin's commands (つ ≧ ▽ ≦) つ`)
+                .setTitle(`You can send \`${para.prefix}help [command name]\` to get info on a specific command ☆ ⌒ (≧ ▽ °)`)
                 .addFields({ name: "Current Prefix", value: `\`${para.prefix}\`` }, 
                            { name: "Music commands", value: musicCmds }, 
                            { name: "Ultility commands", value: utilsCmds },
@@ -59,7 +59,7 @@ module.exports = class HelpCommand extends BaseCommand{
                            //{ name: "Economy commands", value: econCmds },
                 .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
                 .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
-            channel.send(`You can send \`${para.prefix}help [command name]\` to get info on a specific command ☆ ⌒ (≧ ▽ °)`, helpEmbed); // send out the embed
+            channel.send(`**${author.username}**-sama, here's the list of Aqukin's commands (つ ≧ ▽ ≦) つ`, helpEmbed); // send out the embed
         } // end of else
     } // end of run
 }; // end of module.exports

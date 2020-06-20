@@ -27,7 +27,7 @@ module.exports = class MessageEvent extends BaseEvent {
             const args = message.content.trim().split(/ +/g);
             try{
                 if(bot.settings.enablereaction) { await react(message); }
-                if(bot.settings.enablecommunication) { await reply(message, args, bot.settings.prefix); }
+                if(bot.settings.enablecommunication) { await reply(message, args, bot.settings.prefix, bot.mentionCmd.tag); }
             } catch (err){console.log(err);} // try to react, communicate and catch any errors
             return;
         } // end of if the message is not a command
