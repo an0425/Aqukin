@@ -54,6 +54,6 @@ Reflect.defineProperty(bot.currency, "getBalance", {
 	await registerEvents(bot, "../events");
 	await registerCommands(bot, "../commands");
 	await registerMediaFiles(bot, "../utilities/pictures");
-	//await alive();
+	await alive();
 	await consoleChatter(bot);
 })();
