@@ -1,5 +1,4 @@
 /* this module represents the "message" event */
-//require("dotenv").config();
 const BaseEvent = require("../utilities/structures/BaseEvent");
 const { typeCheck, commandCheck } = require("../utilities/message_checks");
 const { antiSpam } = require("../utilities/artificial_intelligence/antiSpam");
@@ -18,8 +17,6 @@ module.exports = class MessageEvent extends BaseEvent {
             await antiSpam(bot, message);
             if(bot.antispam.warned.has(message.author.id)) { return; }
         }
-        
-        //await bot.mentionCmd.mentioned.set(message.guild.id, false);
         
         // checks for command
         const iscmd = await typeCheck(bot, message, bot.settings.prefix, bot.mentionCmd.tag);

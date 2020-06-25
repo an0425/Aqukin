@@ -3,20 +3,22 @@ const ridingAqua = {files: ["https://media1.tenor.com/images/e6578328df71dbd6b44
 
 // this function checks for message type, return true if it's a command, return false if it's not
 async function typeCheck(bot, message, prefix, tag){
-    // checks if the message is a command type
-    if(message.content.startsWith(prefix))  { return true; }
-    else if(message.content.startsWith(tag)){
-        await bot.mentionCmd.mentioned.set(message.guild.id);
+    // checks if the message is not a command type
+    if(!message.content.startsWith(prefix) && !message.content.startsWith(tag))  { 
+        return false;
+    }
+    // else the message is a command
+    else{ 
+        await bot.mentionCmd.mentioned.set(message.guild.id, message.content.startsWith(tag));
         return true;
     }
-    else{ return false; } // return false
 } // end of typeCheck(...) function
 
 // this function handles the all the checks for the commands
 async function commandCheck(bot, message, command, args, prefix){
     // checks if the command is valid
     if (!command) {
-        console.log(message.content);
+        console.log(message.content, args);
         message.channel.send(`**${message.author.username}**-sama, ${bot.user.username} can't find any command with that name ლ (¯ ロ ¯ "ლ), try \`${prefix}help\` if you need help with commands`, ridingAqua);
         return; 
     }
