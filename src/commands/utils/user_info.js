@@ -10,7 +10,7 @@ module.exports = class UsernfoCommand extends BaseCommand{
         // get the mentioned user
         const { message, bot } = para;
         let user;
-        if(bot.mentioned && message.mentions.users.size>1) { // if Aqukin is mentioned and a user is also mentioned
+        if(bot.mentioned && message.mentions.users.size>1) { // if the bot is mentioned and a user is also mentioned
             const users = message.mentions.users.first([2]);
             user = users[1]; // get the mentioned user
         }

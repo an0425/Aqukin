@@ -1,4 +1,4 @@
-/* This module allows the author to move into a specified timestamp in current track of Aqukin's audio stream  */
+/* This module allows the author to move into a specified timestamp in current track of the bot audio stream  */
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 const { convertInput, formatLength } = require("../../utilities/functions");
 
@@ -29,11 +29,11 @@ module.exports = class MoveCommand extends BaseCommand{
             player.queue[1].seek = timestamp;
             await player.connection.dispatcher.end();
             // inform the author if success
-            await message.channel.send(`**${author.username}**-sama, Aqukin will now move the current track to position \`${await formatLength(timestamp, player.seeking)}\``);
+            await message.channel.send(`**${author.username}**-sama, ${para.bot.user.username} will now move the current track to position \`${await formatLength(timestamp, player.seeking)}\``);
         } catch(err) {
             console.log(err);
             player.connection.moving = false;
-            message.channel.send(`**${author.username}**-sama, an error has occured while trying to move the track ☆ ｏ (＞ ＜ ；) ○, Aqukin has informed **${bot.author.username}**-sama`);
+            message.channel.send(`**${author.username}**-sama, an error has occured while trying to move the track ☆ ｏ (＞ ＜ ；) ○, ${bot.user.username} has informed **${bot.author.username}**-sama`);
         } 
     } // end of run
 }; // end of module.exports 

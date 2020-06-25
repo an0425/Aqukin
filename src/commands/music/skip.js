@@ -1,4 +1,4 @@
-/* This module allows the author to skip a track in Aqukin current audio streaming */
+/* This module allows the author to skip a track in the bot current audio streaming */
 const { voteConstruct } = require("../../utilities/voting_system");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
@@ -17,7 +17,7 @@ module.exports = class SkipCommand extends BaseCommand{
 
         try {
             await player.connection.dispatcher.end();
-            message.channel.send(`**${message.author.username}**-sama, Aqukin has skipped track ヾ (⌐ ■ _ ■) ノ ♪ **${player.queue[0].title}** `);    
+            message.channel.send(`**${message.author.username}**-sama, ${para.bot.user.username} has skipped track ヾ (⌐ ■ _ ■) ノ ♪ **${player.queue[0].title}** `);    
         } catch(err) { console.log(err); }
     } // end of run
 }; // end of module.exports

@@ -3,7 +3,7 @@ const http = require("http");
 const express = require("express");
 const app = express();
 
-async function alive(){
+async function alive(bot){
 	app.get("/", (request, response) => {
 		// console.log(Date.now() + " Ping Received");
 		response.sendStatus(200);
@@ -11,7 +11,7 @@ async function alive(){
 		  
 	let PORT = process.env.PORT || 8080;
 	app.listen(PORT, () => {
-    	console.log(`Aqukin is running on port ${ PORT }`);
+    	console.log(`${bot.user.username} is running on port ${ PORT }`);
 	});
 
 	setInterval(() => { http.get(`http://${process.env.PROJECT_DOMAIN}.herokuapp.com/`); }, 280000);

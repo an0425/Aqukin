@@ -3,7 +3,7 @@ const { voteConstruct } = require("../../utilities/voting_system");
 const BaseCommand = require('../../utilities/structures/BaseCommand');
 
 module.exports = class ShuffleQueueCommand extends BaseCommand {
-    constructor () { super("shufflequeue", ["sq", "shuffle"], "Shuffle the audio player's queue", "ADMINISTRATOR", "music", false, "", "-- will shuffle the queue"); }
+    constructor () { super("shufflequeue", ["sq", "shuffle"], "Shuffle the audio player's queue", "CONNECT", "music", false, "", "-- will shuffle the queue"); }
 
     async run (para) {
         // shortcut variables
@@ -17,7 +17,7 @@ module.exports = class ShuffleQueueCommand extends BaseCommand {
         if(!voteReached) { return; }
         try { 
             await shuffle(player.queue);
-            message.channel.send(`**${message.author.username}**-sama, Aqukin has shuffled the queue 乁 (• ω • 乁)`); // informs the author  
+            message.channel.send(`**${message.author.username}**-sama, ${para.bot.user.username} has shuffled the queue 乁 (• ω • 乁)`); // informs the author  
         } catch(err) { console.log(err); }
     } // end of run
 } // end of module.exports

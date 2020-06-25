@@ -1,4 +1,4 @@
-/* This module changes Aqukin's current prefix */
+/* This module changes the bot's current prefix */
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class ConfigurePrefixCommand extends BaseCommand{
@@ -9,7 +9,7 @@ module.exports = class ConfigurePrefixCommand extends BaseCommand{
         const { message, bot } = para;
         
         bot.settings.prefix = para.args[0];
-        message.channel.send(`**${message.author.username}**-sama, Aqukin has changed the current prefix to ${bot.settings.prefix} ヽ (o ＾ ▽ ＾ o) ノ`);
+        message.channel.send(`**${message.author.username}**-sama, ${bot.user.username} has changed the current prefix to ${bot.settings.prefix} ヽ (o ＾ ▽ ＾ o) ノ`);
     } // end of run
 }; // end of module.exports
 

@@ -6,7 +6,7 @@ async function typeCheck(bot, message, prefix, tag){
     // checks if the message is a command type
     if(message.content.startsWith(prefix))  { return true; }
     else if(message.content.startsWith(tag)){
-        await bot.mentionCmd.mentioned.set(message.guild.id, true);
+        await bot.mentionCmd.mentioned.set(message.guild.id);
         return true;
     }
     else{ return false; } // return false
@@ -17,7 +17,7 @@ async function commandCheck(bot, message, command, args, prefix){
     // checks if the command is valid
     if (!command) {
         console.log(message.content);
-        message.channel.send(`**${message.author.username}**-sama, Aqukin can't find any command with that name ლ (¯ ロ ¯ "ლ), try \`${prefix}help\` if you need help with commands`, ridingAqua);
+        message.channel.send(`**${message.author.username}**-sama, ${bot.user.username} can't find any command with that name ლ (¯ ロ ¯ "ლ), try \`${prefix}help\` if you need help with commands`, ridingAqua);
         return; 
     }
 
@@ -58,19 +58,19 @@ async function commandCheck(bot, message, command, args, prefix){
                 message.channel.send(`**${message.author.username}**-sama, you need to be in a voice channel to use this command (－‸ლ)`, ridingAqua);
                 return; 
             }
-            // checks if Aqukin in a voice channel and the author is also in that voice channel, if not return a message to inform them
+            // checks if the bot in a voice channel and the author is also in that voice channel, if not return a message to inform them
             if (player && player.connection.channel.id !== channel.id) { 
-                message.channel.send(`**${message.author.username}**-sama, you need to be in the same voice channel with Aqukin to use this command (╯ ° □ °) ╯ ┻━━┻`, ridingAqua);
+                message.channel.send(`**${message.author.username}**-sama, you need to be in the same voice channel with ${bot.user.username} to use this command (╯ ° □ °) ╯ ┻━━┻`, ridingAqua);
                 return;
             }
-            // checks if Aqukin is streaming any audio, excluding the play/multiplay commands, if not return a message to inform the author
+            // checks if the bot is streaming any audio, excluding the play/multiplay commands, if not return a message to inform the author
             if(!player && command.name !== "play") { 
-                message.channel.send(`**${message.author.username}**-sama, Aqukin is not currently streaming any audio (oT-T) 尸`, ridingAqua);
+                message.channel.send(`**${message.author.username}**-sama, ${bot.user.username} is not currently streaming any audio (oT-T) 尸`, ridingAqua);
                 return;
             }
             // checks if the player is moving
             if(player && player.seeking && command.name !== "disconnect"){
-                message.channel.send(`**${message.author.username}**-sama, Aqukin is still in the process of moving, please refrain from using any music commands in the mean time (╯︵╰,)`, ridingAqua);
+                message.channel.send(`**${message.author.username}**-sama, ${bot.user.username} is still in the process of moving, please refrain from using any music commands in the mean time (╯︵╰,)`, ridingAqua);
                 return;
             }
             // music only variables

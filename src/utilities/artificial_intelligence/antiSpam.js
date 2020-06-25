@@ -1,4 +1,4 @@
-/* This module handles Aqukin's ability to prevent message spamming (PROTOTYPE) */
+/* This module handles the bot's ability to prevent message spamming (PROTOTYPE) */
 const ms = require("ms");
 
 // This function checks for spam, very basic and will be updated

@@ -20,9 +20,9 @@ module.exports = class LoopQueueCommand extends BaseCommand{
             player.queueRepeat = !player.queueRepeat; // toggle queue loop
             if (!player.queueRepeat) { 
                 await player.loopqueue.splice(0); // clear the loop queue
-                message.channel.send(`**${author}**-sama, Aqukin will now \`stop looping the current queue\` (* ￣ ▽ ￣) b`); 
+                message.channel.send(`**${author}**-sama, ${para.bot.user.username} will now \`stop looping the current queue\` (* ￣ ▽ ￣) b`); 
             }
-            else { message.channel.send(`**${author}**-sama, Aqukin will now \`loop the current queue\` (/ = ω =) /`); }    
+            else { message.channel.send(`**${author}**-sama, ${para.bot.user.username} will now \`loop the current queue\` (/ = ω =) /`); }    
         } catch(err) { console.log(err); }
                             
         // Update the currently playing embed

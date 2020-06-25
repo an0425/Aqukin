@@ -1,4 +1,4 @@
-/* This module is the user interface for Aqukin's help */
+/* This module is the user interface for the bot help command */
 const { MessageEmbed } = require('discord.js');
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
@@ -15,7 +15,7 @@ module.exports = class HelpCommand extends BaseCommand{
             const commandName = para.args[0].toLowerCase();
             const command = bot.commands.get(commandName) || bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
             // checks if there's a command with the given argurment, if not return a message to inform the author
-            if(!command) { return channel.send(`**${author.username}**-sama, Aqukin can't find any command with that name ლ (ಠ_ಠ ლ), try \`${para.prefix}help\` if you need the commands list`); }
+            if(!command) { return channel.send(`**${author.username}**-sama, ${bot.user.username} can't find any command with that name ლ (ಠ_ಠ ლ), try \`${para.prefix}help\` if you need the commands list`); }
 
             // construct the embed
             const cmdInfoEmbed = new MessageEmbed()
@@ -59,7 +59,7 @@ module.exports = class HelpCommand extends BaseCommand{
                            //{ name: "Economy commands", value: econCmds },
                 .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
                 .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
-            channel.send(`**${author.username}**-sama, here's the list of Aqukin's commands (つ ≧ ▽ ≦) つ`, helpEmbed); // send out the embed
+            channel.send(`**${author.username}**-sama, here's the list of ${bot.user.username}'s commands (つ ≧ ▽ ≦) つ`, helpEmbed); // send out the embed
         } // end of else
     } // end of run
 }; // end of module.exports

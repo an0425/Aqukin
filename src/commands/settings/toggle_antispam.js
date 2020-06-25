@@ -1,4 +1,4 @@
-/* This module toggles Aqukin's ability to detect spam messages */
+/* This module toggles the bot's ability to detect spam messages */
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class ToggleAntiSpamCommand extends BaseCommand{
@@ -11,8 +11,8 @@ module.exports = class ToggleAntiSpamCommand extends BaseCommand{
         bot.settings.enableantispam = !bot.settings.enableantispam;
 
         let reply = "";
-        if(!bot.settings.enableantispam){ reply += "Aqukin has disabled the antispam module (* ￣ ▽ ￣) b"; }
-        else{ reply += "Aqukin will now enable the antispam module (*´꒳`\\*)"; }
+        if(!bot.settings.enableantispam){ reply += `${bot.user.username} has disabled the antispam module (* ￣ ▽ ￣) b`; }
+        else{ reply += `${bot.user.username} will now enable the antispam module (*´꒳\`\\*)`; }
         message.channel.send(`**${message.author.username}**-sama, ${reply}`);
     } // end of run
 }; // end of module.exports

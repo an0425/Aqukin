@@ -1,4 +1,4 @@
-/* This module toggles Aqukin's ability to communicate */
+/* This module toggles the bot's ability to communicate */
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class ToggleCommunicationCommand extends BaseCommand{
@@ -11,8 +11,8 @@ module.exports = class ToggleCommunicationCommand extends BaseCommand{
         bot.settings.enablecommunication = !bot.settings.enablecommunication;
 
         let reply = "";
-        if(!bot.settings.enablecommunication){ reply += "Aqukin has disabled the communication module (* ￣ ▽ ￣) b"; }
-        else{ reply += "Aqukin will now enable the communication module (*´꒳`\\*)"; }
+        if(!bot.settings.enablecommunication){ reply += `${bot.user.username} has disabled the communication module (* ￣ ▽ ￣) b`; }
+        else{ reply += `${bot.user.username} will now enable the communication module (*´꒳\`\\*)`; }
         message.channel.send(`**${message.author.username}**-sama, ${reply}`);
     } // end of run
 }; // end of module.exports

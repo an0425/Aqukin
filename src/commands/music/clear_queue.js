@@ -20,7 +20,7 @@ module.exports = class ClearQueueCommand extends BaseCommand {
 
         try {
             await player.queue.splice(1);
-            message.channel.send(`**${author}**-sama, Aqukin has cleared the queue (っ ˘ω˘ς)`);  
+            message.channel.send(`**${author}**-sama, ${para.bot.user.username} has cleared the queue (っ ˘ω˘ς)`);  
         }       catch(err) { console.log(err); }
 
         /* Update the currently playing embed */

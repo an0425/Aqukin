@@ -1,4 +1,4 @@
-/* This module allows the author to enqueue Youtube URL/Playlist/Tracks from search results to Aqukin audio streaming */
+/* This module allows the author to enqueue Youtube URL/Playlist/Tracks from search results to the bot audio streaming */
 const ytpl = require("ytpl");
 const ytsr = require("ytsr");
 const ytdl = require("ytdl-core");
@@ -17,7 +17,7 @@ module.exports = class PlayCommand extends BaseCommand{
         const { bot, message, voiceChannel } = para;
         const { author, channel } = message;
 
-        // Create a player if the player for this guild does not exist
+        // create a player if the player for this guild does not exist
         let player = await para.player;
         if(!player) {
             player = {
@@ -51,7 +51,7 @@ module.exports = class PlayCommand extends BaseCommand{
                 };
                 //console.log(track);
                 await player.queue.push(track);
-                channel.send(`**${author.username}**-sama, Aqukin has enqueued track **${track.title}** ٩(ˊᗜˋ*)و`);
+                channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued track **${track.title}** ٩(ˊᗜˋ*)و`);
             });    
         }
         // if the queury is a youtube playlist link
@@ -67,7 +67,7 @@ module.exports = class PlayCommand extends BaseCommand{
                     }
                     await player.queue.push(track);
                 });
-                await channel.send(`**${author.username}**-sama, Aqukin has enqueued \`${playlist.total_items}\` track(s) from the playlist **${playlist.title}** ٩(ˊᗜˋ*)و`);
+                await channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued \`${playlist.total_items}\` track(s) from the playlist **${playlist.title}** ٩(ˊᗜˋ*)و`);
             })
             .catch((err) => {
                 noResult = true;
@@ -75,12 +75,12 @@ module.exports = class PlayCommand extends BaseCommand{
         }
         // else try searching youtube with the given argument
         else{
-            await ytsr(query, { limit:10 }).then(async results => {
+            await ytsr(query, { limit:5 }).then(async results => {
                 const tracks = results.items.filter(i => i.type === "video");
 
                 if(!tracks) {
                     noResult = true;
-                    channel.send(`**${author.username}**-sama, Aqukin can't find any tracks with the given keywords (｡T ω T｡)`, para.ridingAqua);
+                    channel.send(`**${author.username}**-sama, ${bot.user.username} can't find any tracks with the given keywords (｡T ω T｡)`, para.ridingAqua);
                     return; 
                 }                
                 
@@ -93,9 +93,9 @@ module.exports = class PlayCommand extends BaseCommand{
                     .setDescription(tracksInfo)
                     .setImage("https://media1.tenor.com/images/85e6b8577e925a9037d03a796588e7ed/tenor.gif?itemid=15925240")
                     .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
-                const sentMessage = await message.channel.send(`**${author.username}**-sama, please enter the track number that you would like Aqukin to queue ヽ (o´∀\`) ﾉ ♪ ♬`, embed); // display the embed
+                const sentMessage = await message.channel.send(`**${author.username}**-sama, please enter the track number that you would like ${bot.user.username} to queue ヽ (o´∀\`) ﾉ ♪ ♬`, embed); // display the embed
 
-                // Allow the author to select a track fron the search results within the allowed time of 24s
+                // allow the author to select a track fron the search results within the allowed time of 24s
                 const filter = m => (message.author.id === m.author.id) && (m.content >= 1 && m.content <= tracks.length);
                 try{
                     const response = await message.channel.awaitMessages(filter, { max: 1, maxProcessed: 1, time: 24000, errors: ["time"]}); // await the user respond within 24s
@@ -110,7 +110,7 @@ module.exports = class PlayCommand extends BaseCommand{
                     }
                     await player.queue.push(track);
                     response.first().delete(); // delete the user respond
-                    message.channel.send(`**${author.username}**-sama, Aqukin has enqueued track **${tracks[entry-1].title}** ٩(ˊᗜˋ*)و`); // inform the author
+                    message.channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued track **${tracks[entry-1].title}** ٩(ˊᗜˋ*)و`); // inform the author
                 } catch(err) {
                     noResult = true;
                     console.log(err);
@@ -119,15 +119,15 @@ module.exports = class PlayCommand extends BaseCommand{
             })
             .catch((err) => {
                 noResult = true;
-                channel.send(`**${author.username}**-sama, An error has occured while queuing (ಥ﹏ಥ)`, para.ridingAqua); 
-                console.log(err)});
+                channel.send(`**${author.username}**-sama, An error has occured while enqueuing (ಥ﹏ಥ)`, para.ridingAqua); 
+                console.log("An error has occured while enqueuing", err)});
         } // end of else the given is keyword
 
-        // Terminate the code if no results are found
+        // terminate the code if no results are found
         if(noResult) { return; }
 
         try {
-            if(!player.connection.dispatcher) { await playing(bot, message.guild, player); }
+            if(!player.connection.dispatcher) { await playing(bot, player); }
         } catch (err) {
             console.log(err);
             bot.music.delete(message.guild.id);
@@ -143,20 +143,16 @@ module.exports = class PlayCommand extends BaseCommand{
 
             .once("disconnect", async () =>{
                 try{ await player.sentMessage.delete(); }
-                catch(err) { console.log("The message has already been manually deleted") }; // try catch in case the message got deleted manually
-                if(player.seekingMsg) {
-                    try{ 
-                        await player.seekingMsg.delete(); 
-                    }
-                    catch(err) { console.log(err); }
-                }
+                catch(err) { console.log("The message has already been manually deleted"); } // try catch in case the message got deleted manually
+                await player.queue.splice(0);
+                await bot.votingSystem.delete(player.id);
                 await bot.music.delete(player.id);
                 console.log("disconnected");
             });
 
-        // Update the currently playing embed if it exists
+        // update the currently playing embed if it exists
         if(player.sentMessage){
-            const embed = await musicEmbed(para.bot, player, player.queue[0])
+            const embed = await musicEmbed(para.bot, player, player.queue[0]);
             try{
                 await player.sentMessage.edit(embed); // send the embed to inform about the now playing track
             } catch(err) {
@@ -167,21 +163,20 @@ module.exports = class PlayCommand extends BaseCommand{
     } // end of run
 }; // end of module.exports
 
-async function playing(bot, guild, player){
+async function playing(bot, player){
     let track = player.queue[0];
-    // Checks if the queue is empty
+    // checks if the queue is empty
     if (!track) {
-        // Repeat the queue if queueRepeat is set to true
+        // repeat the queue if queueRepeat is set to true
         if(player.queueRepeat){
             player.queue = await player.queue.concat(player.loopqueue);
             await player.loopqueue.splice(0);
             track = player.queue[0];
         }
-        // Else terminate the player
+        // else terminate the player
         else{
             try{
-                await player.connection.channel.leave();
-                await bot.music.delete(guild.id);
+                await player.connection.disconnect();
                 const sentMessage = await player.textChannel.send("The queue has ended, arigatou gozaimatshita ☆ ⌒ ヽ (* '､ ^ *) chu~", new MessageAttachment("src/utilities/pictures/bye.gif"));
                 await sentMessage.delete({ timeout: 5200 });
             } catch (err) { console.log(err); }
@@ -189,7 +184,7 @@ async function playing(bot, guild, player){
         }
     } // end of if the queue is empty
             
-    // Else the queue is not empty, setup the neccessary events for the dispatcher
+    // else the queue is not empty, setup the neccessary events for the dispatcher
     let ytdlOptions = { filter: "audio" };
     let dispatcherOptions = { volume: (player.volume === null) ? 1 : player.volume };
     if(track.duration > 600){
@@ -205,7 +200,8 @@ async function playing(bot, guild, player){
         .on("error", console.error)
 
         .on("start", async () =>{
-            // Now playing embed constructing and sending
+            // now playing embed constructing and sending
+            player.seeking = false;
             const embed = await musicEmbed(bot, player, track);
             try{ player.sentMessage = await player.textChannel.send(embed); } // send the embed to inform about the now playing track
             catch(err) { console.log("an error has occurered trying to send the embed", err); }
@@ -214,6 +210,14 @@ async function playing(bot, guild, player){
         .on("finish", async () => {
             try{ await player.sentMessage.delete(); }
             catch(err) { console.log("The message has already been manually deleted"); }; // try catch in case the message got deleted manually
+
+            const members = player.connection.channel.members.filter(m => !m.user.bot);
+            if(members.size === 0){
+                try{
+                    await player.connection.disconnect(); 
+                    return player.textChannel.send(`Dear masters, please don't leave ${bot.user.username} alone in a voice chat room like that (｡╯︵╰｡)`);
+                } catch(err) { console.log("Error occured while disconnecting from voice chat while being left alone", err); }
+            }
             
             // loop status checks
             if(!player.seeking) {
@@ -224,8 +228,7 @@ async function playing(bot, guild, player){
             }
             
             await player.queue.shift();
-            await playing(bot, guild, player);
-            player.seeking = false;
+            await playing(bot, player);
         });
 } // end of playing(...) function
 

@@ -1,10 +1,10 @@
-/* This module allows the author to stop Aqukin current audio streaming and disconnect her from the voice channel */
+/* This module allows the author to stop the bot current audio streaming and disconnect her from the voice channel */
 const { voteConstruct } = require("../../utilities/voting_system");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class DisconnectCommand extends BaseCommand{
     constructor() {
-        super("disconnect", ["dc", "leave"], "Disconnect Aqukin from the voice channel", "CONNECT", "music", false, "", "-- will disconnect Aqukin from the voice channel");
+        super("disconnect", ["dc", "leave"], "Disconnect the audio player from the voice channel", "CONNECT", "music", false, "", "-- will disconnect the audio player from the voice channel");
     }
 
     async run (para) {
@@ -15,7 +15,6 @@ module.exports = class DisconnectCommand extends BaseCommand{
         if(!voteReached) { return; }
 
         try {
-            player.queue.splice(0);
             await player.connection.disconnect();  
         } catch(err) { console.log(err); }
     } // end of run

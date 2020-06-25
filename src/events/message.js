@@ -1,5 +1,5 @@
 /* this module represents the "message" event */
-require("dotenv").config();
+//require("dotenv").config();
 const BaseEvent = require("../utilities/structures/BaseEvent");
 const { typeCheck, commandCheck } = require("../utilities/message_checks");
 const { antiSpam } = require("../utilities/artificial_intelligence/antiSpam");
@@ -19,7 +19,7 @@ module.exports = class MessageEvent extends BaseEvent {
             if(bot.antispam.warned.has(message.author.id)) { return; }
         }
         
-        await bot.mentionCmd.mentioned.set(message.guild.id, false);
+        //await bot.mentionCmd.mentioned.set(message.guild.id, false);
         
         // checks for command
         const iscmd = await typeCheck(bot, message, bot.settings.prefix, bot.mentionCmd.tag);
@@ -42,14 +42,14 @@ module.exports = class MessageEvent extends BaseEvent {
         let para = await commandCheck(bot, message, command, args, bot.settings.prefix);
 
         if(!para) { 
-            await bot.mentionCmd.mentioned.set(message.guild.id, false);
+            await bot.mentionCmd.mentioned.delete(message.guild.id);
             return; 
         } // checks if the parameters is returned, if not do nothing
 
         // try executing the command and catch any errors
         try{
             await command.run(para);
-            await bot.mentionCmd.mentioned.set(message.guild.id, false);
+            await bot.mentionCmd.mentioned.delete(message.guild.id);
         } catch (err){console.log(err);}
     } // end of run
 }// end of module.exports

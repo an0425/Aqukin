@@ -1,12 +1,12 @@
-/* This module handles Aqukin's communicating ability */
+/* This module handles the bot's communicating ability */
 
-// This function handles Aqukin's random reacting ability
+// This function handles the bot's random reacting ability
 async function react(message){
     const emojiList = Array.from(message.guild.emojis.cache.map(e => e.id.toString())); // an array contains all the custom emojis id of the server
     if(Math.random() <= 0.3) message.react(emojiList[Math.floor(Math.random() * Math.floor(emojiList.length))]); 
 } // end of react(...) function
 
-// This function handles Aqukin's replying ability
+// This function handles the bot's replying ability
 async function reply(message, args, prefix, tag){
     // shortcut variables
     const author = message.author.username; // message's author username

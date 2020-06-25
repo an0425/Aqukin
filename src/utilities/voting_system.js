@@ -22,7 +22,7 @@ async function voteConstruct (bot, message, player, command){
 
     // check if the author has already voted
     if(votingSysVar.voters.has(message.author.id)) {
-        message.channel.send(`**${message.author.username}**-sama, Aqukin has already acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote (ᗒᗣᗕ)՞`);
+        message.channel.send(`**${message.author.username}**-sama, ${bot.user.username} has already acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote (ᗒᗣᗕ)՞`);
         return votingSysVar.voteReached;
     }
 
@@ -42,28 +42,28 @@ async function voteConstruct (bot, message, player, command){
             // contruct and send an embed asking the members to vote
             const embed = new MessageEmbed()
                 .setTitle(`Please react if you would also like to \`${command.description}\``)
-                .setDescription(`Aqukin require \`${votingSysVar.votesRequired}\` more vote(s) to \`${command.description}\` (ｏ ・ _ ・) ノ ”(ノ _ <、)`)
+                .setDescription(`${bot.user.username} require \`${votingSysVar.votesRequired}\` more vote(s) to \`${command.description}\` (ｏ ・ _ ・) ノ ”(ノ _ <、)`)
                 .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
-            const msg = await message.channel.send(`**${message.author.username}**-sama, Aqukin has acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote (= ω =) .. nyaa`, embed);
+            const msg = await message.channel.send(`**${message.author.username}**-sama, ${bot.user.username} has acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote (= ω =) .. nyaa`, embed);
             await msg.react("⚓");
 
             // members reactions filter
             const filter = (reaction, user) => {
                 if (user.bot) { return false; } // exclude bot
                 if (votingSysVar.voters.has(user.id)){ // checks if the user has already voted
-                    message.channel.send(`**${user.username}**-sama, Aqukin has already acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote (￣ ￣ |||)`);
+                    message.channel.send(`**${user.username}**-sama, ${bot.user.username} has already acknowledged your vote to \`${command.description}\`, please wait for other(s) to vote (￣ ￣ |||)`);
                     return false;
                 }
                 const memPermissionCheck = message.guild.members.cache.get(user.id);
                 const { channel } = message.guild.members.cache.get(user.id).voice;
                 if (!channel) { return false; }
-                if (channel.id === player.connection.channel.id) {  // checks if the voters are in the same voice channel with Aqukin
+                if (channel.id === player.connection.channel.id) {  // checks if the voters are in the same voice channel with the bot
                     if(memPermissionCheck.hasPermission("ADMINISTRATOR")){
                         votingSysVar.voteReached = true;
                         return ["⚓"].includes(reaction.emoji.name); 
                     }
                     else{
-                        message.channel.send(`**${user.username}**-sama, Aqukin has acknowledge your vote to \`${command.description}\` (* ￣ ▽ ￣) b`);
+                        message.channel.send(`**${user.username}**-sama, ${bot.user.username} has acknowledge your vote to \`${command.description}\` (* ￣ ▽ ￣) b`);
                         votingSysVar.voters.set(user.id, user); // the user has now voted via emote reation
                         return ["⚓"].includes(reaction.emoji.name); 
                     }
