@@ -3,10 +3,9 @@ require("dotenv").config();
 const Sequelize = require("sequelize");
 
 /* local 
-const sequelize = new Sequelize("database", "username", "password", {
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
 	host: "localhost",
-	dialect: "sqlite",
-	storage: "database.sqlite",
+	dialect: "postgres",
 	logging: false,
 }); */
 
@@ -27,6 +26,7 @@ require("../database/models/user_stocks")(sequelize, Sequelize.DataTypes);
 const force = process.argv.includes("--force") || process.argv.includes("-f"); // force sync
 
 sequelize.sync({ force }).then(async () => {
+	/*
 	const shop = [
 		await StockMarket.upsert({ name: "Casino", cost: 120, market_share: 100 }),
 		await StockMarket.upsert({ name: "Bank", cost: 250, market_share: 100 }),
@@ -34,8 +34,8 @@ sequelize.sync({ force }).then(async () => {
 		await StockMarket.upsert({ name: "Western Law", cost: 400, market_share: 100 }),
 		await StockMarket.upsert({ name: "Court", cost: 500, market_share: 100 }),
 		await StockMarket.upsert({ name: "Government", cost: 700, market_share: 100 }),
-	];
-	await Promise.all(shop);
+	]; 
+	await Promise.all(shop); */
 	console.log("Database synced");
 	sequelize.close();
 }).catch(console.error);
