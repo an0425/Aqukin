@@ -2,7 +2,7 @@
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class ToggleMessageReplyCommand extends BaseCommand{
-    constructor() {super("togglemessagereply", ["tmr", "mr", "messagereply", "reply"], "Toggle enabling/disabling the message reply module", "ADMINISTRATOR", "settings", false, "", "-- will enable/disable Aqukin's ability to reply to messages")}
+    constructor() {super("togglemessagereply", ["tmr", "reply", "messagereply"], "Toggle enabling/disabling the message reply module", "ADMINISTRATOR", "settings", false, "", "-- will enable/disable Aqukin's ability to reply to messages")}
     
     async run(para){
         // shortcut variables

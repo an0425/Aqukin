@@ -66,7 +66,7 @@ module.exports = class HelpCommand extends BaseCommand{
                     .filter(cmd => cmd.tag === "settings")
                     .map(cmd => `\`${cmd.name}\``).join(" ");
                 helpEmbed.addFields(
-                    { name: "Settings commands (Adminstrative rights are required)", value: settingsCmds },
+                    { name: "Settings commands (Admin/Owner only)", value: settingsCmds },
                     { name: "Message Reply", value: `\`${convertBoolean(settings.reply)}\``, inline: true },
                     { name: "Message React", value: `\`${convertBoolean(settings.react)}\``, inline: true },
                     //{ name: "Current cleantext number", value: settingsCmds, inline: true }

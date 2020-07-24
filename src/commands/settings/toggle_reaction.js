@@ -2,7 +2,7 @@
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class ToggleReactionCommand extends BaseCommand{
-    constructor() {super("togglereact", ["tr", "react"], "Toggle enabling/disabling the reaction module", "ADMINISTRATOR", "settings", false, "", "-- will enable/disable Aqukin's ability to react to messages")}
+    constructor() {super("togglereact", ["tr", "react"], "Toggle enabling/disabling the reaction module which allow Aqukin to react to messages with your server custom emojis", "ADMINISTRATOR", "settings", false, "", "-- will enable/disable Aqukin's ability to react to messages")}
     
     async run(para){
         // shortcut variables

@@ -10,7 +10,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, pr
 }); */
 
 /* server */
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
+const sequelize = new Sequelize(process.env.DB_URL, {
 	dialect:  "postgres",
 	protocol: "postgres",
 	port:     process.env.PORT,

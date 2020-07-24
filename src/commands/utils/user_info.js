@@ -4,7 +4,7 @@ const { MessageEmbed } = require("discord.js");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class UsernfoCommand extends BaseCommand{
-    constructor() {super("userinfo", ["ui", "user", "info"], "Provide info about the mentioned user/Aqukin/yourself", "SEND_MESSAGES", "utility", false, "[mentioned user]", "@Aqukin -- will show info about Aqukin")}
+    constructor() {super("userinfo", ["ui", "user", "info"], "Provide info about the mentioned user/the bot/yourself", "SEND_MESSAGES", "utility", false, "[mentioned user]", "@Aqukin -- will show info about Aqukin")}
     
     async run(para) {
         // get the mentioned user
@@ -31,8 +31,8 @@ module.exports = class UsernfoCommand extends BaseCommand{
                            { name: "Minato Aqua Channel", value: `[Aqua Ch. 湊あくあ](${aquaCh})`, inline: true },
                            { name: "Minato Aqua Twitter", value: `[@minatoaqua](${aquaTw})`, inline: true },
                            { name: "Aliases (`･ω･´)", value: "Go-Sai\nDai Tenshi\nSeigi no Mikata\nDiamond Ninja Combat Maid\nLeader of the Hololive Resistance" },
-                           { name: "Description", value: `${process.env.DESC}` },
-                           { name: "Version", value: `${process.env.VER}`, inline: true },
+                           { name: "Description", value: `${process.env.npm_package_description}` },
+                           { name: "Version", value: `${process.env.npm_package_version}`, inline: true },
                            { name: "Date Created", value: user.createdAt.toLocaleDateString(), inline: true }, )
                            //{ name: "Author", value: `${bot.creator.tag}`, inline: true })
                 .setImage("https://media1.tenor.com/images/8bb13d9fa4311f314a2d419c9d2d6c37/tenor.gif?itemid=16917426")
