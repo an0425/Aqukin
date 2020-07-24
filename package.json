@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon ./src/aqukin.js",
-    "aqukin": "node ./src/aqukin.js",
+    "start": "node ./src/aqukin.js",
     "db": "node ./src/database/dbInit.js"
   },
   "author": "DeaLoux",
