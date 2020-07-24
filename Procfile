@@ -1,4 +1,5 @@
-worker: node ./src/database/dbInit.js
+web: npm start
+worker: npm db
 
 
 
