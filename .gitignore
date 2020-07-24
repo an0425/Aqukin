@@ -4,4 +4,3 @@
 **/economy
 .env
 package-lock.json
-*.sqlite

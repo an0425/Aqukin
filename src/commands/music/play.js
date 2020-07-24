@@ -6,7 +6,6 @@ const { convertInput } = require("../../utilities/functions");
 const { MessageEmbed } = require("discord.js");
 const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
-const { response } = require("express");
 
 module.exports = class PlayCommand extends BaseCommand{
     constructor() {
@@ -167,11 +166,11 @@ module.exports = class PlayCommand extends BaseCommand{
 
             .once("disconnect", async () =>{
                 // catch in case the message got deleted manually
-                await player.sentMessage.delete().catch(err => console.log("The message has already been manually deleted"));
                 await player.queue.splice(0);
                 await bot.votingSystem.delete(player.id);
                 await bot.music.delete(player.id);
                 console.log("disconnected");
+                await player.sentMessage.delete().catch(err => console.log("The message has already been manually deleted"));
             });
 
         // update the currently playing embed if it exists
@@ -235,9 +234,6 @@ async function playing(bot, player){
         })    
             
         .on("finish", async () => {
-            await player.sentMessage.delete()
-                .catch(err => console.log("The message has already been manually deleted")); // try catch in case the message got deleted manually
-
             const members = await player.connection.channel.members.filter(m => !m.user.bot);
             if(members.size === 0){
                 try{
@@ -256,7 +252,9 @@ async function playing(bot, player){
             
             await player.queue.shift();
             await playing(bot, player);
+
+            await player.sentMessage.delete()
+                .catch(err => console.log("The message has already been manually deleted")); // try catch in case the message got deleted manually
         });
 } // end of playing(...) function
 
-    
