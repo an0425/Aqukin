@@ -53,7 +53,8 @@ module.exports = class HelpCommand extends BaseCommand{
                 .setColor(0x1DE2FE)
                 .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
                 .setTitle(`You can try \`${para.prefix}help [command name]\` to get info on a specific command ☆ ⌒ (≧ ▽ °)`)
-                .addFields({ name: "Current Prefix", value: `\`${para.prefix}\`` }, 
+                .addFields({ name: "Current Prefix", value: `\`${para.prefix}\``, inline: true }, 
+                           { name: "Detailed Guide", value: `[Wiki](https://github.com/DeaLoux/Aqukin/wiki)`, inline: true },
                            { name: "Music commands", value: musicCmds }, 
                            { name: "Ultility commands", value: utilsCmds },)
                            //{ name: "Economy commands", value: econCmds },

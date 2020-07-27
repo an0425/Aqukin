@@ -16,7 +16,7 @@ module.exports = class GuildCreateEvent extends BaseEvent {
                             For the list of **commands**, try \`${newGuild.prefix}help\`.\n
                             You can always change the **current prefix** with the command \`configureprefix\` or \`cp\` for short.\n
                             You can also **mention ${name}** for **commands** instead of using the prefix, for example \`@${name} h\` should give you the list of commands.\n
-                            For a more detailed guide, please prefer to [README](https://github.com/DeaLoux/Aqukin#readme).\n
+                            For a more detailed guide, please prefer to the [Wiki](https://github.com/DeaLoux/Aqukin/wiki).\n
                             If you need more help or considering support, join us at the [Onion Squad](https://www.youtube.com/watch?v=-aB6MQU8l1s).`;
         const embed = new MessageEmbed()
             .setColor(0x1DE2FE)
@@ -27,7 +27,7 @@ module.exports = class GuildCreateEvent extends BaseEvent {
             .setImage("https://media1.tenor.com/images/c0e9bb7fbe7ae685ca2c7aa214e82cdc/tenor.gif?itemid=17166292")
             .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
 
-        guild.channels.create(`YAGOO's Dream`, { 
+        guild.channels.create(`Hololive House`, { 
                 reason: `User guide channel`,
         }).then((channel) => {
             channel.send(`Konaqua~ masters of **${guild.name}**`, embed);
