@@ -16,7 +16,7 @@ async function alive(bot){
 
 	setInterval(() => { 
 		http.get(process.env.PROJECT_DOMAIN); 
-		bot.music.array.forEach(async player => {
+		bot.music.forEach(async player => {
 			const members = await player.connection.channel.members.filter(m => !m.user.bot);
             if(members.size === 0){
                 try{
