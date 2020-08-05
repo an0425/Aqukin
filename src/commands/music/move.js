@@ -4,7 +4,7 @@ const { convertInput, formatLength } = require("../../utilities/functions");
 
 module.exports = class MoveCommand extends BaseCommand{
     constructor() {
-        super("move", ["m", "to", "time"], "Move the audio player to a specified timestamp in the current track by its requester/admin", "CONNECT", "music", true, "<hh:mm:ss>", "02:32 (or 2:32 or 0:2:32 or 1:92 or 152) -- will all move the current track to the position of **2 minutes and 32 seconds**");
+        super("move", ["m", "to", "time"], "Move the audio player to a specified timestamp in the current track by its requester/admin", "CONNECT", "music", true, "<hh:mm:ss>", "02:32 -- will move the current track to the position of **2 minutes and 32 seconds**");
     }
     
     async run(para){

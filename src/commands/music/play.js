@@ -2,14 +2,14 @@
 const ytpl = require("ytpl");
 const ytsr = require("ytsr");
 const ytdl = require("ytdl-core");
-const { convertInput } = require("../../utilities/functions");
 const { MessageEmbed } = require("discord.js");
+const { convertInput } = require("../../utilities/functions");
 const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class PlayCommand extends BaseCommand{
     constructor() {
-        super("play", ["p"], "Enqueue Youtube Video/Playlist/Track from given URL search results", "CONNECT", "music", true, "<Youtube URL> or <Keywords>", "https://www.youtube.com/watch?v=-aB6MQU8l1s -- will enqueue the song");
+        super("play", ["p"], "Enqueue Youtube Video/Playlist/Track from given URL search results", "CONNECT", "music", true, "<Youtube URL/Keywords>", "https://www.youtube.com/watch?v=-aB6MQU8l1s -- will enqueue the song");
     }
 
     async run (para){
@@ -158,7 +158,10 @@ module.exports = class PlayCommand extends BaseCommand{
 
         // connection events
         await player.connection
-            .on("error", console.error)
+            .on("error", async (err) =>{
+                await player.textChannel.send(`**${author.username}**-sama, \`${err}\` 。 ゜ ゜ (´Ｏ\`) ゜ ゜。`);
+                await bot.music.delete(player.id);
+            })
 
             .once("ready", async () => {
                 console.log("ready to stream");
@@ -234,14 +237,6 @@ async function playing(bot, player){
         })    
             
         .on("finish", async () => {
-            const members = await player.connection.channel.members.filter(m => !m.user.bot);
-            if(members.size === 0){
-                try{
-                    await player.connection.disconnect(); 
-                    return player.textChannel.send(`Dear masters, please don't leave ${bot.user.username} alone in a voice chat room like that (｡╯︵╰｡)`);
-                } catch(err) { console.log("Error occured while disconnecting from voice chat while being left alone", err); }
-            }
-            
             // loop status checks
             if(!player.seeking) {
                 await bot.votingSystem.delete(player.id);

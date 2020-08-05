@@ -25,11 +25,13 @@ module.exports = class HelpCommand extends BaseCommand{
                 .setColor(0x1DE2FE)
                 .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
                 .setTitle(`[] is optional, <> is mandatory`)
-                .addFields({name: "Command name", value: command.name, inline: true},
-                           {name: "Aliases", value: command.aliases.join('\n'), inline: true},
-                           {name: "Usage", value: `${para.prefix}${command.name} ${command.usage}`},
-                           {name: "Usage Example", value: `${para.prefix}${command.name} ${command.usageEx}`},
-                           {name: "Description", value: command.description},)
+                .addFields({ name: "Prefix", value: `\`${para.prefix}\``, inline: true },
+                           { name: "Name", value: command.name, inline: true },
+                           { name: "Aliases", value: command.aliases.join('\n'), inline: true },
+                           { name: "Usage", value: `${para.prefix}${command.name} ${command.usage}` },
+                           { name: "Usage Example", value: `${para.prefix}${command.name} ${command.usageEx}` },
+                           { name: "Description", value: command.description },
+                           { name: "Detailed Guide", value: `[Wiki](https://github.com/DeaLoux/Aqukin/wiki)` })
                 .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
                 .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
             channel.send(`**${author.username}**-sama, here's the info of the \`${command.name}\` command`, cmdInfoEmbed); // send out the embed
@@ -73,6 +75,7 @@ module.exports = class HelpCommand extends BaseCommand{
                     //{ name: "Current cleantext number", value: settingsCmds, inline: true }
                 );
             }
+            
             channel.send(`**${author.username}**-sama, here's the list of ${bot.user.username}'s commands (つ ≧ ▽ ≦) つ`, helpEmbed); // send out the embed
         } // end of else
     } // end of run
