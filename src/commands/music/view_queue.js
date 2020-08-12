@@ -57,11 +57,11 @@ async function generateQueueEmbed(queue, thumbnails, gifs) {
     let k = 8;
     let info;
     
-    for(let i = 0; i < queue.length; i += 7) { // for loop going through all the tracks in the queue
-        const next = queue.slice(i+1, k)
+    for(let i = 1; i < queue.length; i += 7) { // for loop going through all the tracks in the queue
+        const next = queue.slice(i, k)
         // checks if there's anything next in queue
         if (next.length !== 0){
-            let j = i;
+            let j = i-1;
             k += 7;
             info = next.map(track => `${++j}) [${track.title}](${track.url}) | length \`${formatLength(track.duration)}\` | requested by **${track.requester.username}**-sama, nanodesu~`).join("\n\n");
         } // end of if
