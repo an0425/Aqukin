@@ -10,7 +10,7 @@ async function react(message, bot){
     }
 
     if(Math.random() <= 0.2) {
-        message.react(emojis[Math.floor(Math.random() * Math.floor(emojis.length))])
+        message.react(emojis[Math.floor(Math.random() * Math.floor(emojis.length))]);
     }
 } // end of react(...) function
 
@@ -179,4 +179,4 @@ async function reply(message, args, prefix, tag){
     } // end of for loop
 } // end of communicate(...) function
 
-module.exports = {react, reply};
+module.exports = { react, reply };

@@ -46,15 +46,15 @@ function formatLength(value, seeking){
             }
             seconds = value%60;
             
-            if(hours != undefined){
+            if(hours){
                 if(hours < 10){ hours = `0${hours}`; }
                 reply += `${hours}:`;
             }
-            if(minutes != undefined){
+            if(minutes){
                 if(minutes < 10){ minutes = `0${minutes}`; }
                 reply += `${minutes}:`;
             }
-            if(seconds != undefined){
+            if(seconds){
                 if(seconds < 10){ seconds = `0${seconds}`; }
                 reply += `${seconds}`;
             }

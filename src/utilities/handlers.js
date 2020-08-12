@@ -1,7 +1,6 @@
 /* This module exports a console chatter function and functions that handling commands and events by recursivesly look for ".js" files in commands/events folders and their sub-folders and  */
 const path = require("path");
 const fs = require("fs").promises;
-const lineReader = require("line-reader");
 const BaseEvent = require ("./structures/BaseEvent");
 const BaseCommand = require ("./structures/BaseCommand");
 
@@ -44,49 +43,40 @@ async function registerEvents(bot, dir = ""){
 } // end of registerEvents(...) function
 
 // Text files handler
-async function registerMediaFiles(bot, dir = ""){
+async function registerMediaFiles(media, dir = ""){
     const filePath = path.join(__dirname, dir);
     //console.log(filePath)
     const files = await fs.readdir(filePath);
     for(const file of files){
         const stat = await fs.lstat(path.join(filePath, file));
-        if(stat.isDirectory()) registerInputs(bot, path.join(dir, file));
+        if(stat.isDirectory()) registerMediaFiles(media, path.join(dir, file));
 
         if(file.endsWith(".txt")){
-            if(file.startsWith("thumbnails")){
-                await lineReader.eachLine(`${filePath}/${file}`, async function(line) {
-                    if(line.length === 0) { return; }
-                    await bot.media.thumbnails.push(line);
-                });
-            }
-            
-            else if(file.startsWith("gifs")){
-                await lineReader.eachLine(`${filePath}/${file}`, async function(line) {
-                    if(line.length === 0) { return; }
-                    await bot.media.gifs.push(line);
-                });
-            }
+            await fs.readFile(`${filePath}/${file}`, "utf-8").then(text => {
+                if(file.startsWith("thumbnails")){
+                    media.thumbnails = text.split("\n");
+                }
 
-            else if(file.startsWith("baquafina")){
-                await lineReader.eachLine(`${filePath}/${file}`, async function(line) {
-                    if(line.length === 0) { return; }
-                    await bot.media.baquafina.push(line);
-                });
-            }
+                else if(file.startsWith("gifs")){
+                    media.gifs = text.split("\n");
+                }
 
-            else if(file.startsWith("bakaqua")){
-                await lineReader.eachLine(`${filePath}/${file}`, async function(line) {
-                    if(line.length === 0) { return; }
-                    await bot.media.bakaqua.push(line);
-                });
-            }
+                else if(file.startsWith("activities")){
+                    media.activities = text.split("\n");
+                }
 
-            else if(file.startsWith("dogeza")){
-                await lineReader.eachLine(`${filePath}/${file}`, async function(line) {
-                    if(line.length === 0) { return; }
-                    await bot.media.dogeza.push(line);
-                });
-            }
+                else if(file.startsWith("baquafina")){
+                    media.baquafina = text.split("\n");
+                }
+
+                else if(file.startsWith("bakaqua")){
+                    media.bakaqua = text.split("\n");
+                }
+    
+                else if(file.startsWith("dogeza")){
+                    media.dogeza = text.split("\n");
+                }
+            });
         } // end of if the file is a .txt file 
     } // end of for loop
 } // end of registerMediaFiles(...) function

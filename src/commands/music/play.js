@@ -222,8 +222,8 @@ async function playing(bot, player){
     const dispatcher = player.connection
         .play(ytdl(track.url, ytdlOptions), dispatcherOptions)
         
-        .on("error", async () =>{
-            await player.textChannel.send(`**${player.queue[0].requester.username}**-sama, an \`error\` has occured when ${bot.user.username} was trying to play track \`${track.title}\` 。 ゜ ゜ (´Ｏ\`) ゜ ゜。`);
+        .on("error", async (err) =>{
+            await player.textChannel.send(`**${player.queue[0].requester.username}**-sama, \`${err}\` has occured when ${bot.user.username} was trying to play track \`${track.title}\` 。 ゜ ゜ (´Ｏ\`) ゜ ゜。`);
             await player.queue.shift();
             await playing(bot, player);
         })

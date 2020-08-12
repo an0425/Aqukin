@@ -1,5 +1,19 @@
 /* This module handles all the checking for the "message" event */
-const ridingAqua = {files: ["https://media1.tenor.com/images/e6578328df71dbd6b44318553e06eda8/tenor.gif?itemid=17267168"]};
+const { reply } = require("../utilities/artificial_intelligence/communication");
+const ridingAqua = { files: ["https://media1.tenor.com/images/e6578328df71dbd6b44318553e06eda8/tenor.gif?itemid=17267168"] };
+
+// This function checks if the user is spamming commands
+async function spamCheck(bot, message){
+    // shortcut variables
+    const { antispam } = bot;
+    const { author } = message;
+
+    // checks if the user has not called to bot recently, add to the list if so
+    if(!antispam.has(author.id)){
+        antispam.add(author.id);
+        setTimeout(() => { antispam.delete(author.id); }, 1500); 
+    }
+} // end of spamCheck(...) function
 
 // this function checks for message type, return true if it's a command, return false if it's not
 async function typeCheck(bot, message, prefix, tag){
@@ -7,21 +21,23 @@ async function typeCheck(bot, message, prefix, tag){
     if(!message.content.startsWith(prefix) && !message.content.startsWith(tag))  { 
         return false;
     }
-    // else the message is a command
-    else{ 
-        await bot.mentionCmd.mentioned.set(message.guild.id, message.content.startsWith(tag));
-        return true;
-    }
+
+    await bot.mentionCmd.mentioned.set(message.guild.id, message.content.startsWith(tag));
+    return true;
 } // end of typeCheck(...) function
 
 // this function handles the all the checks for the commands
-async function commandCheck(bot, message, command, args, prefix){
+async function commandCheck(bot, message, command, args, prefix, enableReply){
     // checks if the command is valid
     if (!command) {
-        console.log(message.content, args);
-        message.channel.send(`**${message.author.username}**-sama, ${bot.user.username} can't find any command with that name ლ (¯ ロ ¯ "ლ), try \`${prefix}help\` if you need help with commands`, ridingAqua);
+        //console.log(message.content, args);
+        if(enableReply) { 
+            await reply(message, args, prefix, bot.mentionCmd.tag); 
+        }
         return; 
     }
+
+    await args.shift();
 
     // checks if the author has the permission to use the command, if not return a message to inform them
     if (!message.member.hasPermission(command.permission)) {
@@ -33,7 +49,7 @@ async function commandCheck(bot, message, command, args, prefix){
     if(command.args && !args.length){
         let reply = `**${message.author.username}**-sama, please provide an argument for this command (＃ ￣ω￣)`; // default reply without usage
         // checks if there's a correct usage for the command
-        if(command.usage) { reply += `\nThe proper usage would be \`${prefix}${command.name} ${command.usage}\``; } // add the usage to the reply
+        reply += `\nThe proper usage would be \`${prefix}${command.name} ${command.usage}\``; // add the usage to the reply
         if(command.usageEx) { reply += `\nExample: ${prefix}${command.name} ${command.usageEx}`; } // add the usage example to the reply
         message.channel.send(reply); // return the reply to inform the author
         return;
@@ -92,4 +108,4 @@ async function commandCheck(bot, message, command, args, prefix){
     return para;
 } // end of commandCheck(...) function
 
-module.exports = { typeCheck, commandCheck };
+module.exports = { spamCheck, typeCheck, commandCheck };
