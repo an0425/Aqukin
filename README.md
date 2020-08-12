@@ -5,6 +5,7 @@
 <p align="center">
   <img src="https://github.com/DeaLoux/Aqukin/blob/master/src/utilities/media/background.png">
 </p>
+
 Your diamond ninja combat baka maid, a bot that was created based on a Virtual Youtuber known as [Minato Aqua](https://www.youtube.com/channel/UC1opHUrw8rvnsadT-iGp7Cg)
 
 # Description
