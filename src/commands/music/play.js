@@ -57,8 +57,8 @@ module.exports = class PlayCommand extends BaseCommand{
                 message.channel.send(`**${author.username}**-sama, \`${err}\``)});   
         }
         // if the queury is a youtube playlist link
-        else if ( ytpl.validateURL(query) ){
-            await ytpl(query, { limit:0 }).then(async playlist =>{
+        else if ( ytpl.validateID(query) ){
+            await ytpl(query, { limit: Infinity }).then(async playlist =>{
                 playlist.items.forEach(async trackInfo => {
                     const track = {
                         id: trackInfo.id,
@@ -172,7 +172,7 @@ module.exports = class PlayCommand extends BaseCommand{
                 await player.queue.splice(0);
                 await bot.votingSystem.delete(player.id);
                 await bot.music.delete(player.id);
-                await player.sentMessage.delete().catch(err);
+                await player.sentMessage.delete().catch();
             });
 
         // update the currently playing embed if it exists
@@ -247,7 +247,7 @@ async function playing(bot, player){
             await player.queue.shift();
             await playing(bot, player);
 
-            await player.sentMessage.delete().catch(err); // try catch in case the message got deleted manually
+            await player.sentMessage.delete().catch(); // try catch in case the message got deleted manually
         });
 } // end of playing(...) function
 

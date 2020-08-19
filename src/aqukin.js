@@ -29,6 +29,6 @@ settings(bot);
 	/* handlers */
 	await registerEvents(bot, "../events");
 	await registerCommands(bot, "../commands");
-	//await alive(bot);
+	await alive(bot);
 	await consoleChatter(bot);
 })();
