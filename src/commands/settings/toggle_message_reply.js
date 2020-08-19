@@ -11,7 +11,7 @@ module.exports = class ToggleMessageReplyCommand extends BaseCommand{
         bot.settings.toggleReply(message.guild.id)
             .then((settings) => {
                 let reply = "";
-                if(!settings.react){ reply += `${bot.user.username} has disabled the message reply module (* ￣ ▽ ￣) b`; }
+                if(!settings.reply){ reply += `${bot.user.username} has disabled the message reply module (* ￣ ▽ ￣) b`; }
                 else{ reply += `${bot.user.username} will now enable the message reply module (*´꒳\`\\*)`; }
                 message.channel.send(`**${message.author.username}**-sama, ${reply}`);
             })

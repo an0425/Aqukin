@@ -36,7 +36,7 @@ module.exports = class PlayCommand extends BaseCommand{
         // search for track(s) with the given arguments
         let noResult = false;
         const query = para.args.join(" ");
-        console.log(query);
+        //console.log(query);
         
         // if the queury is a youtube video link
         if(ytdl.validateURL(query)) {  
@@ -54,7 +54,7 @@ module.exports = class PlayCommand extends BaseCommand{
                 channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued track \`${track.title}\` ٩(ˊᗜˋ*)و`);
             }).catch((err) => {
                 noResult = true;
-                message.channel.send(`**${author.username}**-sama, \`the track is private\``)});   
+                message.channel.send(`**${author.username}**-sama, \`${err}\``)});   
         }
         // if the queury is a youtube playlist link
         else if ( ytpl.validateURL(query) ){
@@ -172,8 +172,7 @@ module.exports = class PlayCommand extends BaseCommand{
                 await player.queue.splice(0);
                 await bot.votingSystem.delete(player.id);
                 await bot.music.delete(player.id);
-                console.log("disconnected");
-                await player.sentMessage.delete().catch(err => console.log("The message has already been manually deleted"));
+                await player.sentMessage.delete().catch(err);
             });
 
         // update the currently playing embed if it exists
@@ -248,8 +247,7 @@ async function playing(bot, player){
             await player.queue.shift();
             await playing(bot, player);
 
-            await player.sentMessage.delete()
-                .catch(err => console.log("The message has already been manually deleted")); // try catch in case the message got deleted manually
+            await player.sentMessage.delete().catch(err); // try catch in case the message got deleted manually
         });
 } // end of playing(...) function
 

@@ -19,9 +19,9 @@ bot.settings = new Collection();
 settings(bot);
 
 // variable will need to be ported to database later on
-//bot.currency = new Collection(); // currency
-//bot.sentMarket = new Collection(); // market message
-//currency(bot);
+// bot.currency = new Collection(); // currency
+// bot.sentMarket = new Collection(); // market message
+// currency(bot);
 
 (async ()=>{
 	await bot.login(process.env.BOT_TOKEN); // connect the bot to the Discord server
@@ -29,6 +29,6 @@ settings(bot);
 	/* handlers */
 	await registerEvents(bot, "../events");
 	await registerCommands(bot, "../commands");
-	await alive(bot);
+	//await alive(bot);
 	await consoleChatter(bot);
 })();

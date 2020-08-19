@@ -3,21 +3,21 @@ require("dotenv").config();
 const Sequelize = require("sequelize");
 const { registerMediaFiles } = require("../utilities/handlers");
 
-/* local 
+/* local */
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
 	host: "localhost",
 	dialect: "postgres",
 	logging: false,
-}); */
+}); 
 
-/* server */
+/* server 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
 	dialect: "postgres",
 	protocol: "postgres",
 	port: process.env.PORT,
 	host: process.env.PROJECT_DOMAIN,
 	logging: false
-}); 
+}); */
 
 require("../database/models/users")(sequelize, Sequelize.DataTypes);
 require("../database/models/guilds")(sequelize, Sequelize.DataTypes);

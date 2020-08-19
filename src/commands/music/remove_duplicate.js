@@ -1,13 +1,18 @@
 /* This module allows the author to remove duplicates from the music queue */
+const { voteConstruct } = require("../../utilities/voting_system");
 const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require('../../utilities/structures/BaseCommand');
 
 module.exports = class RemoveDuplicateCommand extends BaseCommand {
-    constructor () { super("removeduplicate", ["rd", "duplicate"], "Remove duplicated tracks from the audio player's queue", "ADMINISTRATOR", "music", false, "", "-- will remove duplicated tracks from the queue"); }
+    constructor () { super("removeduplicate", ["rd", "duplicate"], "Remove duplicated tracks from the audio player's queue", "CONNECT", "music", false, "", "-- will remove duplicated tracks from the queue"); }
 
     async run (para) {
         // shortcut variables
         const { message, player } = para;
+
+        // voting system
+        const voteReached = await voteConstruct(para.bot, message, player, para.command);
+        if(!voteReached) { return; }
 
         try { 
             player.queue = removeDuplicate(player.queue)
