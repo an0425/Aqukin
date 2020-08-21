@@ -4,7 +4,7 @@ const { convertInput, formatLength } = require("../../utilities/functions");
 
 module.exports = class MoveCommand extends BaseCommand{
     constructor() {
-        super("move", ["m", "to", "time"], "Move the audio player to a specified timestamp in the current track by its requester/admin", "CONNECT", "music", true, "<hh:mm:ss>", "02:32 -- will move the current track to the position of **2 minutes and 32 seconds**");
+        super("move", ["m", "mv", "to", "time"], "Move the audio player to a specified timestamp in the current track by its requester/admin", "CONNECT", "music", true, "<hh:mm:ss>", "02:32 -- will move the current track to the position of **2 minutes and 32 seconds**");
     }
     
     async run(para){
@@ -17,20 +17,20 @@ module.exports = class MoveCommand extends BaseCommand{
             return message.channel.send(`**${author.username}**-sama, this track is requested by **${player.queue[0].requester.username}**-sama, you can only move your own requested tracks (-ω- 、)`); 
         }
 
-        const timestamp = await convertInput(para.args[0]);
+        const timestamp = convertInput(para.args[0]);
 
         // checks if the author has requested to move to a valid timestamp, if so continue, if not return a message to inform them
         if(timestamp >= player.queue[0].duration) { return message.channel.send(`**${author.username}**-sama, the timestamp should be less than the track length \`${formatLength(player.queue[0].duration)}\` ლ (¯ ロ ¯ "ლ)`); }
-        console.log(timestamp, player.queue[0].duration);
+        //console.log(timestamp, player.queue[0].duration);
         
         // try to move to the given timestamp, inform the author if fail
         try{
             player.seeking = true;
             await player.queue.splice(1, 0, player.queue[0]);
             player.queue[1].seek = timestamp;
-            await player.connection.dispatcher.end();
+            await player.connection.dispatcher.destroy();
             // inform the author if success
-            await message.channel.send(`**${author.username}**-sama, ${para.bot.user.username} will now move the current track to position \`${await formatLength(timestamp, player.seeking)}\``);
+            await message.channel.send(`**${author.username}**-sama, ${para.bot.user.username} will now move the current track to position \`${formatLength(timestamp, player.seeking)}\``);
         } catch(err) {
             console.log(err);
             player.connection.moving = false;

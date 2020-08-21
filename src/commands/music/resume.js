@@ -18,8 +18,8 @@ module.exports = class ResumeCommand extends BaseCommand{
         const voteReached = await voteConstruct(para.bot, message, player, para.command);
         if(!voteReached) { return; }
 
-
         try{
+            //console.log(player.connection.dispatcher);
             player.connection.dispatcher.resume();
             message.channel.send(`**${author}**-sama, ${para.bot.user.username} has resumed audio streaming \\ (★ ω ★) /`);    
         } catch(err) { console.log(err); }

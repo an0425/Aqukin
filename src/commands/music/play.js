@@ -221,12 +221,12 @@ async function playing(bot, player){
         dispatcherOptions.seek = (track.seek === null) ? 0 : track.seek;
     }
 
+    
     const dispatcher = player.connection
         .play(ytdl(track.url, ytdlOptions), dispatcherOptions)
         
         .on("error", async (err) =>{
             await player.textChannel.send(`**${player.queue[0].requester.username}**-sama, \`${err}\` has occured when ${bot.user.username} was trying to play track \`${track.title}\` 。 ゜ ゜ (´Ｏ\`) ゜ ゜。`);
-            await player.queue.shift();
             await playing(bot, player);
         })
 
@@ -236,15 +236,19 @@ async function playing(bot, player){
             const embed = await musicEmbed(bot, player, track);
             player.sentMessage = await player.textChannel.send(embed) // send the embed to inform about the now playing track
                 .catch(err => console.log("an error has occurered trying to send the embed", err));
-        })    
+        })
+        
+        .on("finish", async () =>{
+            await dispatcher.destroy();
+        })
             
-        .on("finish", async () => {
+        .once("close", async () => {
             // loop status checks
             if(!player.seeking) {
                 await bot.votingSystem.delete(player.id);
-                player.queue[0].seek = 0;
                 if(player.trackRepeat) { await player.queue.splice(1, 0, player.queue[0]); }
                 else if(player.queueRepeat) { await player.loopqueue.push(player.queue[0]); }
+                player.queue[0].seek = 0;
             }
             
             await player.queue.shift();

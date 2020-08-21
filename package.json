@@ -21,7 +21,7 @@
     "http": "0.0.1-security",
     "pg": "^8.3.2",
     "sequelize": "^6.3.4",
-    "ytdl-core": "^3.2.1",
+    "ytdl-core": "^3.2.2",
     "ytpl": "^0.3.0",
     "ytsr": "^0.1.21"
   },

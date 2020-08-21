@@ -21,6 +21,7 @@ module.exports = class PauseCommand extends BaseCommand{
         try{
             player.connection.dispatcher.pause();
             message.channel.send(`**${author}**-sama, ${para.bot.user.username} has paused audio streaming o (> ω <) o`);
+            //console.log(player.connection.dispatcher);
         } catch(err) { console.log(err); }
     
         // update the currently playing embed

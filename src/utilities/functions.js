@@ -44,7 +44,7 @@ function formatLength(value, seeking){
                     minutes = minutes%60;
                 }
             }
-            seconds = value%60;
+            seconds = value%60 || 0;
             
             if(hours){
                 if(hours < 10){ hours = `0${hours}`; }
@@ -54,10 +54,8 @@ function formatLength(value, seeking){
                 if(minutes < 10){ minutes = `0${minutes}`; }
                 reply += `${minutes}:`;
             }
-            if(seconds){
-                if(seconds < 10){ seconds = `0${seconds}`; }
-                reply += `${seconds}`;
-            }
+            if(seconds < 10){ seconds = `0${seconds}`; }
+            reply += `${seconds}`;
         } // End of else the value is greater than 0
     } // End of if the value is a valid number
 
