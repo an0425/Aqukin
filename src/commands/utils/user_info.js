@@ -48,10 +48,8 @@ module.exports = class UsernfoCommand extends BaseCommand{
             const memberRoles = member.roles.cache
                 .filter(role => role.name !== "@everyone")
                 .map(role => `\`${role.name}\``).join(" ") || `**${member.displayName}**-sama does not have a role yet (ｏ ・ _ ・) ノ ”(ノ _ <、)`; 
-            let title;
-            // checks if the author has tagged themselve
-            if(member.id === message.author.id) { title = "Your"; }
-            else { title = `**${member.displayName}**-sama`; }
+            
+            let title = member.id === message.author.id ? "Your" : `**${member.displayName}**-sama`;
             // get the user nickname
             const nickname = member.nickname || "None";
         

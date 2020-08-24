@@ -2,23 +2,24 @@
 
 // This function makes necessary checks and returns the valid number
 function checkNum(num, defaultNum, range, round){
-    if(isNaN(num) || !num || num < range) { num = defaultNum; }  // adjust the number to 1 if the number is invalid
-    else { 
-        if(round) { num = Math.floor(num); }
-    } // else round the number
-    return num; // return the number
+    // adjust the number to 1 if the number is invalid
+    if(isNaN(num) || !num || num < range) { num = defaultNum; } 
+    // else round the number if needed
+    else { num = round ? Math.floor(num) : num; } 
+
+    return num; 
 }
 
 // This function convert true to yes, false to no
 function convertBoolean(value){
-    if(value) { return "Yes peko"; }
-    return "No dan";
+    let reply = value ? "Yes peko" : "No dan";
+    return reply;
 }
 
 // This function format numbers (seconds) to hh:mm:ss format
-function formatLength(value, seeking){
-    let hours;
-    let minutes;
+async function formatLength(value, seeking){
+    let hours = -1;
+    let minutes = -1;
     let seconds;
     let reply = "";
     
@@ -28,12 +29,7 @@ function formatLength(value, seeking){
 
         // Checks if the value is equal to 0
         if(value === 0){
-            if(seeking){
-                reply += "Start";
-            }
-            else{
-                reply += "Live";
-            }
+            reply += seeking ? "Start" : "Live";
         }
         // Else the value is greater than 0
         else{
@@ -46,15 +42,15 @@ function formatLength(value, seeking){
             }
             seconds = value%60 || 0;
             
-            if(hours){
-                if(hours < 10){ hours = `0${hours}`; }
+            if(hours >= 0){
+                hours = hours < 10 ? `0${hours}` : hours; 
                 reply += `${hours}:`;
             }
-            if(minutes){
-                if(minutes < 10){ minutes = `0${minutes}`; }
+            if(minutes >= 0){
+                minutes = minutes < 10 ? `0${minutes}` : minutes; 
                 reply += `${minutes}:`;
             }
-            if(seconds < 10){ seconds = `0${seconds}`; }
+            seconds = seconds < 10 ? `0${seconds}` : seconds; 
             reply += `${seconds}`;
         } // End of else the value is greater than 0
     } // End of if the value is a valid number
@@ -90,7 +86,7 @@ function convertInput(value){
     }
     
     total = hours + minutes + seconds;
-    if(total < 0 || isNaN(total)) { total = 0; }
+    total = (total < 0 || isNaN(total)) ? 0 : total;
     return total;
 }
 

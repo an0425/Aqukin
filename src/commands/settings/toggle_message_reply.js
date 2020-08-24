@@ -6,17 +6,13 @@ module.exports = class ToggleMessageReplyCommand extends BaseCommand{
     
     async run(para){
         // shortcut variables
-        const { message, bot } = para;
+        const { message, bot, settings } = para;
 
-        bot.settings.toggleReply(message.guild.id)
-            .then((settings) => {
-                let reply = "";
-                if(!settings.reply){ reply += `${bot.user.username} has disabled the message reply module (* ￣ ▽ ￣) b`; }
-                else{ reply += `${bot.user.username} will now enable the message reply module (*´꒳\`\\*)`; }
-                message.channel.send(`**${message.author.username}**-sama, ${reply}`);
-            })
-            .catch((err) => { console.log(err); });
+        settings.reply = !settings.reply;
+        await settings.save();
 
+        let reply = settings.reply ? `${bot.user.username} has \`disabled\` the \`message reply module\` (* ￣ ▽ ￣) b` : `${bot.user.username} will now \`enable\` the \`message reply module\` (*´꒳\`\\*)`;
+        message.channel.send(`**${message.author.username}**-sama, ${reply}`);
     } // end of run
 }; // end of module.exports
 

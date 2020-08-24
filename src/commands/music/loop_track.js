@@ -21,8 +21,9 @@ module.exports = class LoopTrackCommand extends BaseCommand{
 
         try {
             player.trackRepeat = !player.trackRepeat; // toggle track loop
-            if (!player.trackRepeat) { message.channel.send(`**${author}**-sama, ${para.bot.user.username} will now \`stop looping the current track\` (* ￣ ▽ ￣) b`); }
-            else { message.channel.send(`**${author}**-sama, ${para.bot.user.username} will now \`loop the current track\` (ﾉ ≧ ∀ ≦) ﾉ`); }    
+
+            let reply = player.trackRepeat ? `will now \`loop the current track\` (ﾉ ≧ ∀ ≦) ﾉ` : `\`stop looping the current track\` (* ￣ ▽ ￣) b`;
+            message.channel.send(`**${author}**-sama, ${para.bot.user.username} will now ${reply}`);   
         } catch(err) { console.log(err); }
                     
         // Update the currently playing embed

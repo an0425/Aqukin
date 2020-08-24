@@ -59,14 +59,14 @@ module.exports = class PlayCommand extends BaseCommand{
         // if the queury is a youtube playlist link
         else if ( ytpl.validateID(query) ){
             await ytpl(query, { limit: Infinity }).then(async playlist =>{
-                await playlist.items.forEach(async trackInfo => {
+                playlist.items.forEach(async trackInfo => {
                     //console.log(trackInfo);
                     if(trackInfo.author.ref){
                         const track = {
                             id: trackInfo.id,
                             url: trackInfo.url_simple,
                             title: trackInfo.title,
-                            duration: await convertInput(trackInfo.duration),
+                            duration: convertInput(trackInfo.duration),
                             requester: message.author,
                         }
                         
@@ -110,16 +110,16 @@ module.exports = class PlayCommand extends BaseCommand{
                                 const entry = await response.first().content;
                                 const trackInfo = tracks[entry-1];
                                 const track = {
-                                    id: await ytdl.getURLVideoID(trackInfo.link),
+                                    id: ytdl.getURLVideoID(trackInfo.link),
                                     url: trackInfo.link,
                                     title: trackInfo.title,
-                                    duration: await convertInput(trackInfo.duration),
+                                    duration: convertInput(trackInfo.duration),
                                     requester: message.author,
                                     //live: trackInfo.live,
                                 }
                                 //console.log(trackInfo, track);
                                 await player.queue.push(track);
-                                response.first().delete(); // delete the user respond
+                                response.first().delete().catch(err => console.log(err)); // delete the user respond
                                 message.channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued track \`${tracks[entry-1].title}\` ٩(ˊᗜˋ*)و`); // inform the author
                             })
                             .catch(err =>{
@@ -173,9 +173,9 @@ module.exports = class PlayCommand extends BaseCommand{
             .once("disconnect", async () =>{
                 // catch in case the message got deleted manually
                 await player.queue.splice(0);
+                if(player.connection.dispatcher){ await player.connection.dispatcher.end(); }
                 await bot.votingSystem.delete(player.id);
                 await bot.music.delete(player.id);
-                await player.sentMessage.delete().catch(err => console.log(err));
             });
 
         // update the currently playing embed if it exists
@@ -227,33 +227,30 @@ async function playing(bot, player){
         
         .on("error", async (err) =>{
             await player.textChannel.send(`**${player.queue[0].requester.username}**-sama, \`${err}\` has occured when ${bot.user.username} was trying to play track \`${track.title}\` 。 ゜ ゜ (´Ｏ\`) ゜ ゜。`);
-            await playing(bot, player);
         })
 
         .on("start", async () =>{
             // now playing embed constructing and sending
             player.seeking = false;
             const embed = await musicEmbed(bot, player, track);
-            player.sentMessage = await player.textChannel.send(embed) // send the embed to inform about the now playing track
-                .catch(err => console.log("an error has occurered trying to send the embed", err));
+            // send the embed to inform about the now playing track
+            player.sentMessage = await player.textChannel.send(embed).catch(err => console.log("an error has occurered trying to send the embed", err));
         })
         
         .on("finish", async () =>{
             await dispatcher.destroy();
         })
-            
         .once("close", async () => {
             // loop status checks
             if(!player.seeking) {
                 await bot.votingSystem.delete(player.id);
                 if(player.trackRepeat) { await player.queue.splice(1, 0, player.queue[0]); }
                 else if(player.queueRepeat) { await player.loopqueue.push(player.queue[0]); }
-                player.queue[0].seek = 0;
+                if(player.queue[0]) { player.queue[0].seek = 0; }
             }
-            
+
             await player.queue.shift();
             await playing(bot, player);
-
             await player.sentMessage.delete().catch(err => console.log(err)); // try catch in case the message got deleted manually
         });
 } // end of playing(...) function

@@ -28,7 +28,7 @@ module.exports = class MoveCommand extends BaseCommand{
             player.seeking = true;
             await player.queue.splice(1, 0, player.queue[0]);
             player.queue[1].seek = timestamp;
-            await player.connection.dispatcher.destroy();
+            await player.connection.dispatcher.end();
             // inform the author if success
             await message.channel.send(`**${author.username}**-sama, ${para.bot.user.username} will now move the current track to position \`${formatLength(timestamp, player.seeking)}\``);
         } catch(err) {

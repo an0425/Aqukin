@@ -18,41 +18,15 @@ async function settings(bot){
             return newGuild;
         },
     });
-    
-    // toggle reply
-    Reflect.defineProperty(bot.settings, "toggleReply", {
-        value: async function toggleReply(id) {
-            const guild = bot.settings.get(id);
-            guild.reply = !guild.reply;
-            return guild.save();
-        },
-    });
-    
-    // toggle react
-    Reflect.defineProperty(bot.settings, "toggleReact", {
-        value: async function toggleReact(id) {
-            const guild = bot.settings.get(id);
-            guild.react = !guild.react;
-            return guild.save();
-        },
-    });
 
-    // toggle react
-    Reflect.defineProperty(bot.settings, "storeEmojis", {
-        value: async function storeEmojis(id, emojis) {
+    // toggle patreon status
+    Reflect.defineProperty(bot.settings, "togglePatreon", {
+        value: async function togglePatreon(id) {
             const guild = bot.settings.get(id);
-            guild.emojis = emojis;
+            guild.patreon = !guild.patreon;
             return guild.save();
         },
     });
-    
-    // get the settings
-    Reflect.defineProperty(bot.settings, "getSettings", {
-        value: function getSettings(id) {
-            const guild = bot.settings.get(id);
-            return guild;
-        },
-    }); 
 }
 
 

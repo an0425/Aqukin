@@ -26,7 +26,18 @@ module.exports = (sequelize, DataTypes) => {
 
 		emojis: {
 			type: DataTypes.ARRAY(DataTypes.STRING)
-		}
+		},
+
+		patreon: {
+			type: DataTypes.BOOLEAN,
+			defaultValue: '0',
+		},
+
+		// Patreon only
+		default_msg_num: {
+			type: DataTypes.INTEGER,
+			defaultValue: 10,
+		},
 	}, {
 		timestamps: false,
 	});

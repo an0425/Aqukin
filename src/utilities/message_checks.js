@@ -27,7 +27,7 @@ async function typeCheck(bot, message, prefix, tag){
 } // end of typeCheck(...) function
 
 // this function handles the all the checks for the commands
-async function commandCheck(bot, message, command, args, prefix, enableReply){
+async function commandCheck(bot, message, command, args, settings, prefix, enableReply){
     // checks if the command is valid
     if (!command) {
         //console.log(message.content, args);
@@ -38,6 +38,9 @@ async function commandCheck(bot, message, command, args, prefix, enableReply){
     }
 
     await args.shift();
+
+    // exclude onwer commands
+    if(command.tag == "owner" && message.author.id != bot.author.id) { return; }
 
     // checks if the author has the permission to use the command, if not return a message to inform them
     if (!message.member.hasPermission(command.permission)) {
@@ -50,7 +53,7 @@ async function commandCheck(bot, message, command, args, prefix, enableReply){
         let reply = `**${message.author.username}**-sama, please provide an argument for this command (＃ ￣ω￣)`; // default reply without usage
         // checks if there's a correct usage for the command
         reply += `\nThe proper usage would be \`${prefix}${command.name} ${command.usage}\``; // add the usage to the reply
-        if(command.usageEx) { reply += `\nExample: ${prefix}${command.name} ${command.usageEx}`; } // add the usage example to the reply
+        reply += command.usageEx ? `\nExample: ${prefix}${command.name} ${command.usageEx}` : ``; // add the usage example to the reply
         message.channel.send(reply); // return the reply to inform the author
         return;
     }
@@ -105,6 +108,16 @@ async function commandCheck(bot, message, command, args, prefix, enableReply){
                 return;
             }
             break; // end of economy case
+
+        // neccessary checks for settings commands
+        case "settings":
+            para.settings = settings;
+
+            if(command.patreonOnly && !para.settings.patreon) {
+                message.channel.send(`**${message.author.username}**-sama, you need to be a patreon to use this command (｡ • ́︿ • ̀｡)`);
+                return;
+            }
+            break; // end of settings case
     } // end of switch
 
     return para;

@@ -2,12 +2,13 @@
 const { checkNum } = require("../../utilities/functions");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
-module.exports = class CleanCommand extends BaseCommand{
-    constructor() {super("cleantext", ["ct", "clean"], "Bulk delete a specified number of messages including the command call, default to 10 if leave blank (maximum 99)", "ADMINISTRATOR", "utility", false, "[number]", "12 -- will bulk delete 13 messages **including 1 for the command call**")}
+module.exports = class CleanMessageCommand extends BaseCommand{
+    constructor() {super("cleanmessage", ["cm", "clean"], "Bulk delete a specified number of messages including the command call, default to the set number (10 by default) if leave blank (maximum 99)", "ADMINISTRATOR", "utility", false, "[number]", "12 -- will bulk delete 13 messages **including 1 for the command call**")}
     
     async run(para){
         const { author, channel } = para.message;
-        const num = await checkNum(para.args[0], 10, 1, true);
+        const defaultNum = await para.bot.settings.get(para.message.guild.id).default_msg_num;
+        const num = await checkNum(para.args[0], defaultNum, 1, true);
 
         // checks if the input is more than 99
         if(num>99) { return channel.send(`**${author.username}**-sama, ${para.bot.user.username} can only delete a maximum of \`99\` messages only (｡ • ́︿ • ̀｡)`); }

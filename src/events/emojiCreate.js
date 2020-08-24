@@ -7,11 +7,11 @@ module.exports = class EmojiCreateEvent extends BaseEvent {
     async run(bot, emoji){
         const {id, guild} = emoji;
 
-        const { react, emojis }  = await bot.settings.getSettings(guild.id);
+        const settings  = await bot.settings.get(guild.id);
         
-        if(react){
+        if(settings.react){
             await emojis.push(id);
-            bot.settings.storeEmojis(guild.id, emojis);
+            settings.save();
         }
     } // end of run
 } // end of module.exports

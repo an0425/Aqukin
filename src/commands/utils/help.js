@@ -64,15 +64,15 @@ module.exports = class HelpCommand extends BaseCommand{
                 .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
 
             if(message.member.hasPermission("ADMINISTRATOR")){
-                const settings = await bot.settings.getSettings(message.guild.id);
+                const settings = await bot.settings.get(message.guild.id);
                 const settingsCmds = await bot.commands
                     .filter(cmd => cmd.tag === "settings")
                     .map(cmd => `\`${cmd.name}\``).join(" ");
                 helpEmbed.addFields(
                     { name: "Settings commands (Admin/Owner only)", value: settingsCmds },
-                    { name: "Message Reply", value: `\`${convertBoolean(settings.reply)}\``, inline: true },
-                    { name: "Message React", value: `\`${convertBoolean(settings.react)}\``, inline: true },
-                    //{ name: "Current cleantext number", value: settingsCmds, inline: true }
+                    { name: "**Current Settings**", value: `Message Reply - \`${convertBoolean(settings.reply)}\`
+                                                            Message React - \`${convertBoolean(settings.react)}\`
+                                                            Default Message Number (cleanmessage) - \`${settings.default_msg_num}\``},
                 );
             }
             

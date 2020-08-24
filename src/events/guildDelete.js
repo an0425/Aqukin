@@ -5,7 +5,7 @@ module.exports = class GuildDeleteEvent extends BaseEvent {
     constructor() { super("guildDelete"); }
     
     async run(bot, guild){
-        const deletedGuild = await bot.settings.getSettings(guild.id);
+        const deletedGuild = await bot.settings.get(guild.id);
         await deletedGuild.destroy();
         await bot.settings.delete(guild.id);
         console.log(`Removed from -> ${guild.name}`);

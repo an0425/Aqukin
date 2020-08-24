@@ -7,11 +7,11 @@ module.exports = class EmojiDeleteEvent extends BaseEvent {
     async run(bot, emoji){
         const {id, guild} = emoji;
 
-        const { react, emojis }  = await bot.settings.getSettings(guild.id);
+        const settings  = await bot.settings.get(guild.id);
 
-        if(react){
-            await emojis.splice(await emojis.indexOf(id), 1);
-            bot.settings.storeEmojis(guild.id, emojis);
+        if(settings.react){
+            await settings.emojis.splice(await emojis.indexOf(id), 1);
+            settings.save();
         }
     } // end of run
 } // end of module.exports

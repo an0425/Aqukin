@@ -2,7 +2,7 @@
 
 // This function handles the bot's random reacting ability
 async function react(message, bot){
-    const { emojis } = await bot.settings.getSettings(message.guild.id);
+    const { emojis } = await bot.settings.get(message.guild.id);
 
     if(emojis.length === 0){
         await bot.settings.toggleReact(message.guild.id);

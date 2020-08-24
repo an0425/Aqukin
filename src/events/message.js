@@ -12,10 +12,10 @@ module.exports = class MessageEvent extends BaseEvent {
         if (message.author.bot || message.channel.type === "dm") { return; }
 
         // get the prefix
-        let settings = await bot.settings.getSettings(message.guild.id);
+        let settings = await bot.settings.get(message.guild.id);
         
         if(!settings){
-            setings = await bot.settings.setPrefix(message.guild.id, process.env.PREFIX, 0, 0);
+            settings = await bot.settings.setPrefix(message.guild.id, process.env.PREFIX, 0, 0);
         }
 
         // checks for command
@@ -39,7 +39,7 @@ module.exports = class MessageEvent extends BaseEvent {
             if(!args) { return; }
             const commandName = args[0].toLowerCase();
             const command = bot.commands.get(commandName) || bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
-            let para = await commandCheck(bot, message, command, args, settings.prefix, settings.reply);
+            let para = await commandCheck(bot, message, command, args, settings, settings.prefix, settings.reply);
 
             // checks if the parameters is returned, if not do nothing
             if(!para) { 
