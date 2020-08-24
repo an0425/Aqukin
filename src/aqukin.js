@@ -1,8 +1,8 @@
 /* Main module for Aqukin */
 require("dotenv").config();
+const { alive } = require("./utilities/alive");
 const { Client, Collection } = require("discord.js");
 const { settings, currency } = require("./database/properties");
-const { alive } = require("./utilities/alive");
 const { registerCommands, registerEvents, consoleChatter } = require("./utilities/handlers");
 
 // variables

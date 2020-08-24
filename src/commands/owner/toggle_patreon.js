@@ -15,7 +15,7 @@ module.exports = class DefaultMessageNumCommand extends BaseCommand{
 
         const settings = await bot.settings.togglePatreon(guild.id);
 
-        let reply = settings.patreon ? `is no longer a patreon w (° ｏ °) w` : `is now a patreon (´｡ • ω • ｡\`) ♡`;
+        let reply = settings.patreon ? `is now a patreon (´｡ • ω • ｡\`) ♡` : `is no longer a patreon w (° ｏ °) w`;
         message.channel.send(`**${message.author.username}**-sama, guild \`${guild.name}\` ${reply}`);
     } // end of run
 }; // end of module.exports
