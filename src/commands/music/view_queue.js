@@ -43,7 +43,7 @@ module.exports = class ViewQueueCommand extends BaseCommand {
                 // a default case for other reactions, which will stop the collector and end the method
                 default:
                     collector.stop();
-                    console.log('Stopped collector..');
+                    //console.log('Stopped collector..');
                     await queueEmbed.delete();
                     break;
             } // end of switch case
@@ -57,24 +57,27 @@ async function generateQueueEmbed(queue, thumbnails, gifs) {
     let k = 8;
     let info;
     
-    for(let i = 1; i < queue.length; i += 7) { // for loop going through all the tracks in the queue
-        const next = queue.slice(i, k)
+    for(let i = 0; i < queue.length; i += 7) { // for loop going through all the tracks in the queue
+        const next = queue.slice(i+1, k);
         // checks if there's anything next in queue
         if (next.length !== 0){
-            let j = i-1;
+            let j = i;
             k += 7;
-            info = next.map(track => `${++j}) [${track.title}](${track.url}) | length \`${formatLength(track.duration)}\` | requested by **${track.requester.username}**-sama, nanodesu~`).join("\n\n");
+            info = next.map(track => `${++j}) [${track.title}](${track.url}) | length \`${formatLength(track.duration)}\` | requested by **${track.requester.username}**-sama`).join("\n\n");
         } // end of if
         else { info = "Currently no track is next in queueヾ (= `ω´ =) ノ”"; } // else next in queue is empty
     
         // construct the embed(s)
-        const embed = new MessageEmbed()
-            .setColor(0x1DE2FE)
-            .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
-            .setDescription(`⚓ Currently playing ▶️\n [${queue[0].title}](${queue[0].url}) | length \`${formatLength(queue[0].duration)}\` | requested by **${queue[0].requester.username}**-sama, nanora~\n\n⚓ Next in queue ⏭️\n${info}`)
-            .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
-            .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
-        embeds.push(embed); // pushing embeds (for transition between pages)
+        if(i==0 || !info.startsWith("Currently")){
+            const embed = new MessageEmbed()
+                .setColor(0x1DE2FE)
+                .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
+                .setDescription(`⚓ Currently playing ▶️\n [${queue[0].title}](${queue[0].url}) | length \`${formatLength(queue[0].duration)}\` | requested by **${queue[0].requester.username}**-sama\n\n⚓ Next in queue ⏭️\n${info}`)
+                .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
+                .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
+            
+            embeds.push(embed); // pushing embeds (for transition between pages)
+        }
     } // end of for loop
     return embeds;
 } // end of gerenateQueueEmbed(queue) helper function

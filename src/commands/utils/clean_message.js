@@ -3,7 +3,7 @@ const { checkNum } = require("../../utilities/functions");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class CleanMessageCommand extends BaseCommand{
-    constructor() {super("cleanmessage", ["cm", "clean"], "Bulk delete a specified number of messages including the command call, default to the set number (10 by default) if left blank (maximum 99)", "ADMINISTRATOR", "utility", false, "[number]", "12 -- will bulk delete 13 messages **including 1 for the command call**")}
+    constructor() {super("cleanmessage", ["ct", "cm", "clean", "cleantext"], "Bulk delete a specified number of messages including the command call, default to the set number (10 by default) if left blank (maximum 99)", "ADMINISTRATOR", "utility", false, "[number]", "12 -- will bulk delete 13 messages **including 1 for the command call**")}
     
     async run(para){
         const { author, channel } = para.message;

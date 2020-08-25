@@ -17,7 +17,7 @@ function convertBoolean(value){
 }
 
 // This function format numbers (seconds) to hh:mm:ss format
-async function formatLength(value, seeking){
+function formatLength(value, seeking){
     let hours = -1;
     let minutes = -1;
     let seconds;
