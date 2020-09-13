@@ -19,11 +19,11 @@
     "ffmpeg-static": "^4.2.7",
     "googleapis": "^59.0.0",
     "http": "0.0.1-security",
-    "pg": "^8.3.2",
-    "sequelize": "^6.3.4",
+    "pg": "^8.3.3",
+    "sequelize": "^6.3.5",
     "ytdl-core": "^3.2.2",
-    "ytpl": "^0.3.0",
-    "ytsr": "^0.1.21"
+    "ytpl": "^1.0.0",
+    "ytsr": "^1.0.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"

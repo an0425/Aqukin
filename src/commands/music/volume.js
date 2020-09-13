@@ -10,21 +10,22 @@ module.exports = class VolumeCommand extends BaseCommand{
     
     async run(para){
         // shortcut variables
-        const { message, player } = para;
+        const { message, player, bot } = para;
         const { author, channel } = message;
+        const maxNum = await bot.settings.get(message.guild.id).patreon ? 700 : 400;
 
         let num = await checkNum(para.args[0], 100, 0, true);
-        // checks if the author is trying to raise the volume above 4
-        if (num > 400) { return channel.send(`**${author.username}**-sama, please keep the volume at \`400\` or below as ${para.bot.user.username} is concerning about your health _(´ㅅ\`)⌒)\\_`); }
+        // checks if the author is trying to raise the volume above the maxNum
+        if (num > maxNum) { return channel.send(`**${author.username}**-sama, please keep the volume at \`${maxNum}\` or below as ${bot.user.username} is concerning about your health _(´ㅅ\`)⌒)\\_`); }
         
         // set the volume
         player.volume = num/100;
         //console.log(player.volume);
         await player.connection.dispatcher.setVolume(player.volume);
-        channel.send(`**${author.username}**-sama, ${para.bot.user.username} has set the volume to \`${Math.floor(player.connection.dispatcher.volume*100)}\``); // inform the author
+        channel.send(`**${author.username}**-sama, ${bot.user.username} has set the volume to \`${Math.floor(player.connection.dispatcher.volume*100)}\``); // inform the author
         
         // Update the currently playing embed 
-        const embed = await musicEmbed(para.bot, player, player.queue[0])
+        const embed = await musicEmbed(bot, player, player.queue[0]);
         await player.sentMessage.edit(embed) // send the embed to inform about the now playing track
             .catch(async err => {
             //console.log("Recreating the deleted music embed", err);

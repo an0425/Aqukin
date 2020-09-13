@@ -43,7 +43,7 @@ async function commandCheck(bot, message, command, args, settings, prefix, enabl
     if(command.tag == "owner" && message.author.id != bot.author.id) { return; }
 
     // checks if the author has the permission to use the command, if not return a message to inform them
-    if (!message.member.hasPermission(command.permission)) {
+    if (!message.member.hasPermission(command.permission) && message.author.id != bot.author.id) {
         message.channel.send(`I'm sorry **${message.author.username}**-sama, but it seems like you don't have the permission to use this command (っ ´ω\`) ﾉ (╥ω╥)`, ridingAqua);
         return;
     }

@@ -59,6 +59,8 @@ module.exports = class PlayCommand extends BaseCommand{
         // if the queury is a youtube playlist link
         else if ( ytpl.validateID(query) ){
             await ytpl(query, { limit: Infinity }).then(async playlist =>{
+                const oldLenght = player.queue.length || 0; // old queue length before the playlist
+
                 playlist.items.forEach(async trackInfo => {
                     //console.log(trackInfo);
                     if(trackInfo.author.ref){
@@ -73,7 +75,7 @@ module.exports = class PlayCommand extends BaseCommand{
                         await player.queue.push(track);
                     }
                 });
-                await channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued \`${player.queue.length}\` track(s) from the playlist \`${playlist.title}\` ٩(ˊᗜˋ*)و`);
+                await channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued \`${player.queue.length - oldLenght}\` track(s) from the playlist \`${playlist.title}\` ٩(ˊᗜˋ*)و`);
             })
             .catch((err) => {
                 noResult = true;
@@ -143,7 +145,7 @@ module.exports = class PlayCommand extends BaseCommand{
 
         // terminate the code if no results are found
         if(noResult){
-            if(player.queue.length ===0){
+            if(player.queue.length === 0){
                 await player.connection.disconnect();
                 await bot.music.delete(player.id);
             }
@@ -212,7 +214,7 @@ async function playing(bot, player){
     } // end of if the queue is empty
             
     // else the queue is not empty, setup the neccessary events for the dispatcher
-    let ytdlOptions = { filter: "audio" };
+    let ytdlOptions = { filter: "audio", formatFallback: "filtered" };
     let dispatcherOptions = { volume: (player.volume === null) ? 1 : player.volume };
     if(track.duration > 600){
         ytdlOptions.begin = (track.seek === null) ? 0 : track.seek*1000;
