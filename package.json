@@ -22,7 +22,7 @@
     "pg": "^8.3.3",
     "sequelize": "^6.3.5",
     "ytdl-core": "^3.2.2",
-    "ytpl": "^1.0.0",
+    "ytpl": "^1.0.1",
     "ytsr": "^1.0.1"
   },
   "devDependencies": {

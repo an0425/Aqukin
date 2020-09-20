@@ -28,7 +28,6 @@ async function voteConstruct (bot, message, player, command){
 
     const members = player.connection.channel.members.filter(m => !m.user.bot);
     if(members.size === 1 || message.member.hasPermission("ADMINISTRATOR")){
-        if(votingSysVar) { voteCmds.delete(command.name); }
         votingSysVar.voteReached = true;
     }
     // else there's at least two or more members in the voice channel
@@ -82,10 +81,7 @@ async function voteConstruct (bot, message, player, command){
                     votingSysVar.voteCount += await reactions.get("⚓").users.cache.filter(u => { !u.bot && !votingSysVar.voters.has(u.id) }).size; // register the reactions count into the vote count
 
                     // checks if the vote is reached after the reaction vote
-                    if(votingSysVar.voteCount >= votingSysVar.votesRequired){ 
-                        if(votingSysVar) { await voteCmds.delete(command.name); }
-                        votingSysVar.voteReached = true; 
-                    }
+                    votingSysVar.voteReached = votingSysVar.voteCount >= votingSysVar.votesRequired; 
                 })
                 .catch(err => console.log(err));
 
@@ -96,10 +92,19 @@ async function voteConstruct (bot, message, player, command){
         
         // else the vote has been reached
         else { 
-            if(votingSysVar) { await voteCmds.delete(command.name); }
             votingSysVar.voteReached = true;
         }
     } // end of else there's at least two or more members in the voice channel
+
+    if(votingSysVar.voteReached){
+        if(voteCmds.has(command.name)){
+            await voteCmds.delete(command.name);
+        }
+        else{
+            votingSysVar.voteReached = false;
+        }
+    }
+
     return votingSysVar.voteReached;
 }
 
