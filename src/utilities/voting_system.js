@@ -18,7 +18,7 @@ async function voteConstruct (bot, message, player, command){
         });
     }
 
-    votingSysVar = await voteCmds.get(command.name); 
+    let votingSysVar = await voteCmds.get(command.name); 
 
     // check if the author has already voted
     if(votingSysVar.voters.has(message.author.id)) {

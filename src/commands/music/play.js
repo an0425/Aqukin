@@ -63,7 +63,7 @@ module.exports = class PlayCommand extends BaseCommand{
 
                 playlist.items.forEach(async trackInfo => {
                     //console.log(trackInfo);
-                    if(trackInfo.author.ref){
+                    if(trackInfo.author){
                         const track = {
                             id: trackInfo.id,
                             url: trackInfo.url_simple,
@@ -75,6 +75,7 @@ module.exports = class PlayCommand extends BaseCommand{
                         await player.queue.push(track);
                     }
                 });
+
                 await channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued \`${player.queue.length - oldLenght}\` track(s) from the playlist \`${playlist.title}\` ٩(ˊᗜˋ*)و`);
             })
             .catch((err) => {
