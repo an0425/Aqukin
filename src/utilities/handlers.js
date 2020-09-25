@@ -69,7 +69,7 @@ async function registerMediaFiles(media, dir = ""){
                     media.baquafina = text.split("\n");
                 }
 
-                else if(file.startsWith("bakaqua")){
+                else if(file.startsWith("baqua")){
                     media.bakaqua = text.split("\n");
                 }
     

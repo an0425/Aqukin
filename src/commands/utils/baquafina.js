@@ -3,7 +3,7 @@ const { MessageEmbed } = require("discord.js");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class BaquafinaCommand extends BaseCommand{
-    constructor() {super("baquafina", ["pure", "aquafina", "bakafina", "aqukinfina"], "Display randomly one of the Baquafina(?) pictures", "SEND_MESSAGES", "utility", false, "", "-- will display a Baquafina(?) picture")}
+    constructor() {super("baquafina", ["bqf", "bakafina", "baqukinfina"], "Baqua command but with a little bit more spices. Most effective when thristy.", "SEND_MESSAGES", "utility", false, "", "-- will display randomly a kinda *yabai* artwork of a Hololive member")}
 
     async run(para) {
         const embed = new MessageEmbed()
