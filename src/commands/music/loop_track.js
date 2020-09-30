@@ -24,15 +24,14 @@ module.exports = class LoopTrackCommand extends BaseCommand{
 
             let reply = player.trackRepeat ? `will now \`loop the current track\` (ﾉ ≧ ∀ ≦) ﾉ` : `\`stop looping the current track\` (* ￣ ▽ ￣) b`;
             message.channel.send(`**${author}**-sama, ${para.bot.user.username} will now ${reply}`);   
+
+            // Update the currently playing embed
+            const embed = await musicEmbed(para.bot, player, player.queue[0])
+            await player.sentMessage.edit(embed) // send the embed to inform about the now playing track
+                .catch(async err => { player.sentMessage = await player.textChannel.send(embed); });
         } catch(err) { console.log(err); }
                     
-        // Update the currently playing embed
-        const embed = await musicEmbed(para.bot, player, player.queue[0])
-        await player.sentMessage.edit(embed) // send the embed to inform about the now playing track
-            .catch(async err => {
-            //console.log("Recreating the deleted music embed", err);
-            player.sentMessage = await player.textChannel.send(embed);
-        });
+        
     } // end of run
 }; // end of module.exports 
 

@@ -15,6 +15,7 @@ module.exports = class ShuffleQueueCommand extends BaseCommand {
         // voting system
         const voteReached = await voteConstruct(para.bot, message, player, para.command);
         if(!voteReached) { return; }
+        
         try { 
             await shuffle(player.queue);
             message.channel.send(`**${message.author.username}**-sama, ${para.bot.user.username} has shuffled the queue 乁 (• ω • 乁)`); // informs the author  

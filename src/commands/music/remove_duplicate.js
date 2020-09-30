@@ -17,15 +17,12 @@ module.exports = class RemoveDuplicateCommand extends BaseCommand {
         try { 
             player.queue = removeDuplicate(player.queue)
             message.channel.send(`**${message.author.username}**-sama, ${para.bot.user.username} has removed duplicated tracks from the queue 乁 (• ω • 乁)`); // informs the author
-        } catch(err) { console.log(err); }
 
-        /* update the currently playing embed */
-        const embed = await musicEmbed(para.bot, player, player.queue[0]);
-        await player.sentMessage.edit(embed) // send the embed to inform about the now playing track
-            .catch(async err => {
-            //console.log("Recreating the deleted music embed", err);
-            player.sentMessage = await player.textChannel.send(embed);
-        });
+            // update the currently playing embed 
+            const embed = await musicEmbed(para.bot, player, player.queue[0]);
+            await player.sentMessage.edit(embed) // send the embed to inform about the now playing track
+                .catch(async err => { player.sentMessage = await player.textChannel.send(embed); });
+        } catch(err) { console.log(err); }
     } // end of run
 } // end of module.exports
 

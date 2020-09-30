@@ -20,15 +20,14 @@ module.exports = class ClearQueueCommand extends BaseCommand {
 
         try {
             await player.queue.splice(1);
-            message.channel.send(`**${author}**-sama, ${para.bot.user.username} has cleared the queue (っ ˘ω˘ς)`);  
-        }       catch(err) { console.log(err); }
-
-        // Update the currently playing embed
-        const embed = await musicEmbed(para.bot, player, player.queue[0])
-        await player.sentMessage.edit(embed) // send the embed to inform about the now playing track
-            .catch(async err => {
-            //console.log("Recreating the deleted music embed", err);
-            player.sentMessage = await player.textChannel.send(embed);
-        });
+            message.channel.send(`**${author}**-sama, ${para.bot.user.username} has cleared the queue (っ ˘ω˘ς)`);
+            
+            // Update the currently playing embed
+            const embed = await musicEmbed(para.bot, player, player.queue[0])
+            await player.sentMessage.edit(embed) // send the embed to inform about the now playing track
+                .catch(async err => {
+                player.sentMessage = await player.textChannel.send(embed);
+            });
+        } catch(err) { console.log(err); }
     } // end of run
 } // end of module.exports

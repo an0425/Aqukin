@@ -23,7 +23,7 @@
     "sequelize": "^6.3.5",
     "ytdl-core": "^3.3.0",
     "ytpl": "^1.0.1",
-    "ytsr": "^1.0.1"
+    "ytsr": "^1.0.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"

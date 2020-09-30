@@ -22,16 +22,15 @@ module.exports = class LoopQueueCommand extends BaseCommand{
                 await player.loopqueue.splice(0); // clear the loop queue
                 message.channel.send(`**${author}**-sama, ${para.bot.user.username} will now \`stop looping the current queue\` (* ￣ ▽ ￣) b`); 
             }
-            else { message.channel.send(`**${author}**-sama, ${para.bot.user.username} will now \`loop the current queue\` (/ = ω =) /`); }    
+            else { message.channel.send(`**${author}**-sama, ${para.bot.user.username} will now \`loop the current queue\` (/ = ω =) /`); }
+            
+            // Update the currently playing embed
+            const embed = await musicEmbed(para.bot, player, player.queue[0])
+            await player.sentMessage.edit(embed) // send the embed to inform about the now playing track
+                .catch(async err => { player.sentMessage = await player.textChannel.send(embed); });
         } catch(err) { console.log(err); }
                             
-        // Update the currently playing embed
-        const embed = await musicEmbed(para.bot, player, player.queue[0])
-        await player.sentMessage.edit(embed) // send the embed to inform about the now playing track
-            .catch(async err => {
-            //console.log("Recreating the deleted music embed", err);
-            player.sentMessage = await player.textChannel.send(embed);
-        });
+        
     } // end of run
 }; // end of module.exports 
 

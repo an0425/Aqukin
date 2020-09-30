@@ -22,15 +22,14 @@ module.exports = class PauseCommand extends BaseCommand{
             player.connection.dispatcher.pause();
             message.channel.send(`**${author}**-sama, ${para.bot.user.username} has paused audio streaming o (> ω <) o`);
             //console.log(player.connection.dispatcher);
+
+            // update the currently playing embed
+            const embed = await musicEmbed(para.bot, player, player.queue[0]);
+            await player.sentMessage.edit(embed) // send the embed to inform about the now playing track
+                .catch(async err => { player.sentMessage = await player.textChannel.send(embed); });
         } catch(err) { console.log(err); }
     
-        // update the currently playing embed
-        const embed = await musicEmbed(para.bot, player, player.queue[0]);
-        await player.sentMessage.edit(embed) // send the embed to inform about the now playing track
-            .catch(async err => {
-            //console.log("Recreating the deleted music embed", err);
-            player.sentMessage = await player.textChannel.send(embed);
-        });
+        
     } // end of run
 }; // end of module.exports
 
