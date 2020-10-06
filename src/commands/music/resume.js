@@ -28,8 +28,6 @@ module.exports = class ResumeCommand extends BaseCommand{
             await player.sentMessage.edit(embed) // send the embed to inform about the now playing track
                 .catch(async err => { player.sentMessage = await player.textChannel.send(embed); });
         } catch(err) { console.log(err); }
-
-        
     } // end of run
 }; // end of module.exports
 
