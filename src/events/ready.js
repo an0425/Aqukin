@@ -9,7 +9,6 @@ module.exports = class ReadyEvent extends BaseEvent {
 	
 	async run (bot){
 		// bot variables
-		bot.author = await bot.users.fetch(process.env.BOT_AUTHOR);
 		bot.music = new Collection();
 		bot.votingSystem = new Collection();
 			

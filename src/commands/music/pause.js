@@ -19,7 +19,7 @@ module.exports = class PauseCommand extends BaseCommand{
         if(!voteReached) { return; }
 
         try{
-            player.connection.dispatcher.pause();
+            await player.connection.dispatcher.pause();
             message.channel.send(`**${author}**-sama, ${para.bot.user.username} has paused audio streaming o (> ω <) o`);
             //console.log(player.connection.dispatcher);
 

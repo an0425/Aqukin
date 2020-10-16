@@ -31,7 +31,7 @@ module.exports = class HelpCommand extends BaseCommand{
                            { name: "Usage", value: `${para.prefix}${command.name} ${command.usage}` },
                            { name: "Usage Example", value: `${para.prefix}${command.name} ${command.usageEx}` },
                            { name: "Description", value: command.description },
-                           { name: "Detailed Guide", value: `[Wiki](https://github.com/DeaLoux/Aqukin/wiki)` })
+                           { name: "Detailed Guide", value: `[Wiki](https://github.com/DeaLoux/Aqukin/wiki)`})
                 .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
                 .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
             channel.send(`**${author.username}**-sama, here's the info of the \`${command.name}\` command`, cmdInfoEmbed); // send out the embed
@@ -65,14 +65,18 @@ module.exports = class HelpCommand extends BaseCommand{
 
             if(message.member.hasPermission("ADMINISTRATOR")){
                 const settings = await bot.settings.get(message.guild.id);
+                const channel = await message.channel.guild.channels.cache.has(settings.announcement_ch) ? message.channel.guild.channels.cache.get(settings.announcement_ch).name : "No channel is set aru";
                 const settingsCmds = await bot.commands
                     .filter(cmd => cmd.tag === "settings")
                     .map(cmd => `\`${cmd.name}\``).join(" ");
+                
                 helpEmbed.addFields(
                     { name: "Settings commands (Admin/Owner only)", value: settingsCmds },
                     { name: "**Current Settings**", value: `Message Reply - \`${convertBoolean(settings.reply)}\`
                                                             Message React - \`${convertBoolean(settings.react)}\`
-                                                            Default Message Number (cleanmessage) - \`${settings.default_msg_num}\``},
+                                                            Twitter Fanarts - \`${convertBoolean(settings.artfeed)}\`
+                                                            Default Message Number (cleanmessage) - \`${settings.default_msg_num}\`
+                                                            Announcement channel - \`${channel}\``},
                 );
             }
             

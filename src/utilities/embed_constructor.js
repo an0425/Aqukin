@@ -4,18 +4,16 @@ const { MessageEmbed } = require("discord.js");
 
 async function musicEmbed(bot, player, track){
     const { thumbnails } = bot.media;
+   
     // construct the embeds
-    let queueSize = `${player.queue.length}`;
-    if(player.queueRepeat){
-        queueSize += ` (${player.queue.length + player.loopqueue.length})`
-    }
+    const queueSize = player.queueRepeat ? `${player.queue.length} (${player.queue.length + player.loopqueue.length})` : `${player.queue.length}`;
     const embed = new MessageEmbed()
         .setColor(0x1DE2FE)
         .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
         .setTitle("⚓ Now Playing ~ (˘ ▽ ˘ ~) ⚓")
         .addFields({ name: "Title", value: `[${track.title}](${track.url})` },
                    { name: "🔞Volume", value: `${Math.floor(player.connection.dispatcher.volume*100)}`, inline: true },
-                   { name: "Track Length", value: await formatLength(track.duration), inline: true },
+                   { name: "Track Length", value: formatLength(track.duration), inline: true },
                    { name: "Queue Size", value: queueSize, inline: true },
                    { name: "⏸️Paused", value: convertBoolean(player.connection.dispatcher.paused), inline: true },
                    { name: "Track Looped", value: convertBoolean(player.trackRepeat), inline: true },

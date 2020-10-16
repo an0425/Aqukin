@@ -34,7 +34,6 @@ module.exports = class UsernfoCommand extends BaseCommand{
                            { name: "Description", value: `${process.env.npm_package_description}` },
                            { name: "Version", value: `${process.env.npm_package_version}`, inline: true },
                            { name: "Date Created", value: user.createdAt.toLocaleDateString(), inline: true }, )
-                           //{ name: "Author", value: `${bot.creator.tag}`, inline: true })
                 .setImage("https://media1.tenor.com/images/8bb13d9fa4311f314a2d419c9d2d6c37/tenor.gif?itemid=16917426")
                 .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
         } // end of if the author has tagged Aqukin
@@ -57,14 +56,12 @@ module.exports = class UsernfoCommand extends BaseCommand{
             const { gifs } = bot.media;
             embed = new MessageEmbed()
                 .setColor(0x1DE2FE)
-                //.setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
                 .setThumbnail(member.user.displayAvatarURL({format: "png", dynamic: true, size: 2048}))
                 .setTitle(`${title} information ｡ ﾟ (ﾟ ^ ∀ ^ ﾟ) ﾟ｡`)
                 .addFields({ name: "Tag", value: member.user.tag, inline: true },
                            { name: "Nickname", value: nickname, inline: true },
                            { name: "Date Joined", value: member.joinedAt.toLocaleDateString() },
                            { name: "Role(s)", value: memberRoles })
-                //.setImage(member.user.displayAvatarURL({format: "png", dynamic: true, size: 2048}))
                 .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
                 .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
         }

@@ -20,7 +20,7 @@ module.exports = class ResumeCommand extends BaseCommand{
 
         try{
             //console.log(player.connection.dispatcher);
-            player.connection.dispatcher.resume();
+            await player.connection.dispatcher.resume();
             message.channel.send(`**${author}**-sama, ${para.bot.user.username} has resumed audio streaming \\ (★ ω ★) /`);
             
             // Update the currently playing embed 
