@@ -16,7 +16,6 @@ bot.commands = new Collection(); // bot commands
 
 // database variables
 bot.settings = new Collection();
-settings(bot);
 
 // variable will need to be ported to database later on
 // bot.currency = new Collection(); // currency
@@ -29,6 +28,7 @@ settings(bot);
 	/* handlers */
 	await registerEvents(bot, "../events");
 	await registerCommands(bot, "../commands");
+	await settings(bot);
 	await alive(bot);
-	await consoleChatter(bot);
+	//await consoleChatter(bot);
 })();
