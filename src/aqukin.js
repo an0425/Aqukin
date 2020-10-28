@@ -27,8 +27,8 @@ bot.settings = new Collection();
 	await registerEvents(bot, "../events");
 	await registerCommands(bot, "../commands");
 	await settings(bot);
-	await alive(bot);
 	//await consoleChatter(bot);
 
 	await bot.login(process.env.BOT_TOKEN); // connect the bot to the Discord server
+	await alive(bot);
 })();
