@@ -23,12 +23,12 @@ bot.settings = new Collection();
 // currency(bot);
 
 (async ()=>{
-	await bot.login(process.env.BOT_TOKEN); // connect the bot to the Discord server
-
 	/* handlers */
 	await registerEvents(bot, "../events");
 	await registerCommands(bot, "../commands");
 	await settings(bot);
 	await alive(bot);
 	//await consoleChatter(bot);
+
+	await bot.login(process.env.BOT_TOKEN); // connect the bot to the Discord server
 })();
