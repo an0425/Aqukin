@@ -1,47 +1,51 @@
 /* Main module for Aqukin */
 require("dotenv").config();
-const { ErelaClient } = require("erela.js");
+const { Manager } = require("erela.js");
+const { alive } = require("./utilities/alive");
 const { Client, Collection } = require("discord.js");
-const { Users } = require("./database/dbObjects");
+const { settings, currency } = require("./database/properties");
 const { registerCommands, registerEvents, registerMusicEvents, consoleChatter } = require("./utilities/handlers");
+
+// variables
 const bot = new Client();
+bot.antispam = new Set();
+bot.mentionCmd = {
+	tag: process.env.TAG,
+	mentioned: new Collection()
+};
 bot.commands = new Collection(); // bot commands
-bot.currency = new Collection(); // currency
-bot.sentMarket = new Collection(); // market message
 
-Reflect.defineProperty(bot.currency, "add", {
-	value: async function add(id, amount) {
-		const user = bot.currency.get(id);
-		if (user) {
-			user.balance += Number(amount);
-			return user.save();
-		}
-		const newUser = await Users.create({ user_id: id, balance: amount });
-		bot.currency.set(id, newUser);
-		return newUser;
-	},
-});
+// database variables
+bot.settings = new Collection();
 
-Reflect.defineProperty(bot.currency, "getBalance", {
-	value: function getBalance(id) {
-		const user = bot.currency.get(id);
-		return user ? user.balance : 0;
-	},
-});
+// variable will need to be ported to database later on
+// bot.currency = new Collection(); // currency
+// bot.sentMarket = new Collection(); // market message
+// currency(bot);
 
 (async ()=>{
-	await bot.login(process.env.BOT_TOKEN); // connect the bot to the Discord server
-	
 	// erela
-	bot.music = new ErelaClient(bot, [{
-		host: process.env.HOST,
-		port: process.env.PORT,
-		password: process.env.PASSWORD
-	}]);
+	bot.music = new Manager({nodes: [{
+		host: "localhost",
+		port: process.env.LL_PORT,
+		password: process.env.LL_PASSWORD,
+		secure: false
+	}],
+		autoPlay: true,
+		send(id, payload) {
+			const guild = bot.guilds.cache.get(id);
+			if (guild) guild.shard.send(payload);
+		},
+	});
+	bot.on("raw", d => bot.music.updateVoiceState(d));
 
 	/* handlers */
-	await registerMusicEvents(bot.music, "../music_events");
 	await registerEvents(bot, "../events");
 	await registerCommands(bot, "../commands");
-	consoleChatter(bot);
+	await registerMusicEvents(bot, "../music_events");
+	await settings(bot);
+	//await consoleChatter(bot);
+
+	await bot.login(process.env.BOT_TOKEN); // connect the bot to the Discord server
+	//await alive(bot);
 })();

@@ -1,24 +1,29 @@
 {
   "name": "aqukin",
-  "version": "1.12.0",
-  "description": "I am a bot that was created based on a Virtual Youtuber known as **Minato Aqua**",
+  "version": "1.12.0l",
+  "description": "Your diamond ninja combat baka maid, a bot that was created based on a Virtual Youtuber known as **Minato Aqua**",
   "main": "aqukin.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ./src/aqukin.js",
     "lavalink": "java -jar Lavalink.jar",
-    "aqukin": "node ./src/aqukin.js",
-    "economy": "node ./src/database/dbInit.js"
+    "dev": "nodemon ./src/aqukin.js",
+    "start": "node ./src/aqukin.js",
+    "db": "node ./src/database/dbInit.js"
   },
   "author": "DeaLoux",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "discord.js": "^12.2.0",
+    "discord.js": "^12.4.1",
     "dotenv": "^8.2.0",
-    "erela.js": "^1.1.8",
-    "googleapis": "^50.0.0",
+    "erela.js": "^2.0.1",
+    "express": "^4.17.1",
+    "googleapis": "^62.0.0",
+    "http": "0.0.1-security",
     "ms": "^2.1.2",
-    "sequelize": "^5.21.11",
-    "sqlite3": "^4.2.0"
+    "pg": "^8.4.2",
+    "sequelize": "^6.3.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
   }
 }

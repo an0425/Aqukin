@@ -1,5 +1,5 @@
-/* This module allow the author to buy */
-const { Op } = require('sequelize');
+/* This module allow the author to buy 
+const { Op } = require("sequelize");
 const { checkNum } = require("../../utilities/functions");
 const { marketEmbed } = require("../../utilities/embed_constructor");
 const { Users, StockMarket } = require("../../database/dbObjects");
@@ -60,4 +60,4 @@ module.exports = class BuyStockCommand extends BaseCommand{
             message.channel.send(`**${message.author.username}**-sama, the transaction is cancelled as an error has occured`);
         }
     } // end of run
-}; // end of module.exports
+}; // end of module.exports */

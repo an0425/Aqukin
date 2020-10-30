@@ -1,4 +1,4 @@
-/* This module add the mentioned user as a new investor to the economy */
+/* This module add the mentioned user as a new investor to the economy 
 const { MessageEmbed } = require("discord.js");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
@@ -50,4 +50,4 @@ module.exports = class AddInvestorCommand extends BaseCommand{
             .setFooter("Vive La Résistance le Hololive~");
         message.channel.send(`**${message.author.username}**-sama, ${reply} will now join the economy game as a new investor`, embed);
     } // end of run
-}; // end of module.exports
+}; // end of module.exports */

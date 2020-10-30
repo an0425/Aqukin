@@ -1,4 +1,4 @@
-/* This module allow the author to buy */
+/* This module allow the author to buy 
 const { marketEmbed } = require("../../utilities/embed_constructor");
 const { StockMarket } = require("../../database/dbObjects");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
@@ -23,4 +23,4 @@ module.exports = class DisplayStockMarketCommand extends BaseCommand{
         }
         bot.sentMarket.set(message.author.id, message.channel.send(`**${message.author.username}**-sama, welcome to the stock market`, embed));
     }
-}; // end of module.exports
+}; // end of module.exports */

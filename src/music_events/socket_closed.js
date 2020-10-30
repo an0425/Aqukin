@@ -4,7 +4,7 @@ const BaseEvent = require("../utilities/structures/BaseEvent");
 module.exports = class socketClosedEvent extends BaseEvent {
     constructor () {super("socketClosed");}
   
-    async run (music, player) {
-      await music.players.destroy(player.guild.id);
+    async run (bot, player) {
+        await player.destroy();
     } // end of run
 } // end of module.exports

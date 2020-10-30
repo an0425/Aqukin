@@ -2,12 +2,10 @@
 const BaseEvent = require('../utilities/structures/BaseEvent');
 
 module.exports = class TrackEndEvent extends BaseEvent {
-  constructor () {super("trackEnd");}
-
-  async run (music, player, track) {
-    // reset the variables
-    try{ await player.sentMessage.delete(); }
-    catch(err) { console.log("The message has already been manually deleted\n", err) }; // try catch in case the message got deleted manually
-    await music.votingSystem.clear();
-  } // end of run
+    constructor () {super("trackEnd");}
+    async run (bot, player, track) {
+        // reset the variables
+        await player.sentMessage.delete().catch(err => console.log(err));
+        await bot.votingSystem.delete(player.guild);
+    } // end of run
 } // end of module.exports

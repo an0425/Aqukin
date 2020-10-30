@@ -4,7 +4,7 @@ const BaseEvent = require("../utilities/structures/BaseEvent");
 module.exports = class PlayerMoveEvent extends BaseEvent {
     constructor () {super("playerMove");}
   
-    async run (music, player, oldChannel, newChannel) {
-      player.voiceChannel = newChannel; // try catch in case something went wrong
+    async run (bot, player, oldChannel, newChannel) {
+        player.voiceChannel = newChannel;
     } // end of run
 } // end of module.exports

@@ -3,13 +3,12 @@ const { musicEmbed } = require("../utilities/embed_constructor");
 const BaseEvent = require('../utilities/structures/BaseEvent');
 
 module.exports = class TrackStartEvent extends BaseEvent {
-  constructor () {super("trackStart");}
+    constructor () {super("trackStart");}
 
-  async run (music, player, track) {
-    player.paused = false;
-    // construct the embed
-    const embed = await musicEmbed(music, player, track);
-    try{ player.sentMessage = await player.textChannel.send(embed); } // send the embed to inform about the now playing track
-    catch(err) { console.log("The message is terminated abnormally", err); }
-  } // end of run
+    async run (bot, player, track, payload) {
+        player.pause(false);
+        // construct the embed
+        const embed = await musicEmbed(bot, player, track);
+        player.sentMessage = await player.textChannel.send(embed).catch(err => console.log("an error has occurered trying to send the embed", err));    
+    } // end of run
 } // end of module.exports

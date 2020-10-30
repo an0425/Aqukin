@@ -3,7 +3,7 @@ server: # REST and WS server
   address: 0.0.0.0
 lavalink:
   server:
-    password: "minato"
+    password: "youshallnotpass"
     sources:
       youtube: true
       bandcamp: true
@@ -14,7 +14,7 @@ lavalink:
       http: true
       local: false
     bufferDurationMs: 400
-    youtubePlaylistLoadLimit: 4 # Number of pages at 100 each
+    youtubePlaylistLoadLimit: 6 # Number of pages at 100 each
     youtubeSearchEnabled: true
     soundcloudSearchEnabled: true
     gc-warnings: true
@@ -38,8 +38,8 @@ sentry:
 
 logging:
   file:
-    max-history: 1
-    max-size: 3MB
+    max-history: 5
+    max-size: 5MB
   path: ./logs/
 
   level:

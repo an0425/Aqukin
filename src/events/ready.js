@@ -1,28 +1,43 @@
 /* this module represents the "ready" event */
-const { Users } = require("../database/dbObjects");
+const { Collection } = require("discord.js");
 const BaseEvent = require("../utilities/structures/BaseEvent");
+const { Users, Guilds, Media } = require("../database/dbObjects");
 
 module.exports = class ReadyEvent extends BaseEvent {
-	constructor() {super("ready");}
+	constructor() { super("ready"); }
 	
 	async run (bot){
-		// Database variables
-		const storedBalances = await Users.findAll();
-		storedBalances.forEach(b => bot.currency.set(b.user_id, b));
+		// bot variables
+		bot.music.init(bot.user.id);
+		bot.votingSystem = new Collection();
+			
+		// database variables
+		/*
+		await Users.findAll().then(storedBalances => {
+			storedBalances.forEach(b => bot.currency.set(b.user_id, b));
+		}); */
+		
+		await Guilds.findAll().then(storedGuilds => {
+			storedGuilds.forEach(g => { 
+				bot.settings.set(g.guild_id, g);
+			});
+		});
 
-		// Bot variables
-		bot.mentioned = false;
-		bot.antispam = {
-			msgCount: 0, // a variable to store the number of (potential spam messages)
-			muted: new Set(), // a variable to store if the user who have been muted
-			msgRecently: new Set(), // a variable to store the user who have send a message within the cooldown time
-			warned: new Set() // a variable to store the user who have been warned
-		};
+		await Media.findOne({ where: { id: 1 } }).then(media => {
+			bot.media = {
+				gifs: media.gifs,
+				dogeza: media.dogeza,
+				bakaqua: media.bakaqua,
+				baquafina: media.baquafina,
+				thumbnails: media.thumbnails,
+				activities: media.activities
+			}
+		});
 
-		// Activities
-		const activities = ["Apex Legends", "Minecraft", "Sekiro: Shadows Die Twice", "Super Smash Bros. Ultimate", "Dark Souls III", "Super Mario Bros. 2", "Ring Fit Adventure"];
+		// activities
+		const { activities } = bot.media;
 		setInterval(() => {
-			bot.user.setActivity(activities[Math.floor(Math.random() * Math.floor(activities.length))], { type: "PLAYING" });}, 7200000);
-		console.log("Diamond Ninja Combat Maid is now ready at your service, master!");
+			bot.user.setActivity(activities[Math.floor(Math.random() * Math.floor(activities.length))], { type: "PLAYING" }); }, 7200000);
+		console.log(`${bot.user.username}, your diamond ninja combat baka maid is now ready at your service, master!`);
 	} // end of run
 } // end of module.exports

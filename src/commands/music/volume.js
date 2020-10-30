@@ -1,36 +1,39 @@
-/* This module allows the author to configure the volume of Aqukin's audio stream  */
+/* This module allows the author to configure the volume of the bot's audio stream  */
+const { checkNum } = require("../../utilities/functions");
 const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class VolumeCommand extends BaseCommand{
-    constructor() {super("setvolume", ["v", "volume"], "Set the audio player's volume", "ADMINISTRATOR", "music", true, false, "<a positive integer less than or equals to 200>")}
+    constructor() {
+        super("setvolume", ["v", "sv", "volume"], "Set the audio player's volume by percentage (maximum 400)", "ADMINISTRATOR", "music", true, "[percentage]", "150 -- will set the volume to 150% of the default volume");
+    }
     
     async run(para){
         // shortcut variables
-        const { message, player } = para;
+        const { message, player, bot } = para;
         const { author, channel } = message;
-        const num = Math.floor(para.args[0]);
+        const maxNum = await bot.settings.get(message.guild.id).patreon ? 700 : 400;
 
-        // checks if the input is a valid number or not
-        if (isNaN(num)) { return channel.send(`**${author.username}**-sama, that's not a valid number~`, para.ridingAqua); }
-        // checks if the author is trying to raise the volume above 400
-        if (num > 400) { return channel.send(`**${author.username}**-sama, please keep the volume at 400 or below as Aqukin is concerning about your health~`); }
-        // else checks if the author is trying to input a negative number
-        else if (num < 0) { return channel.send(`**${author.username}**-sama, Aqukin can't set the volume with a negative value`); }           
-        // set the volume
-        await player.setVolume(num);
-        channel.send(`**${author.username}**-sama, Aqukin has set the volume to \`${player.volume}\``); // inform the author
-        
-        // Update the currently playing embed
-        const embed = await musicEmbed(para.bot.music, player, player.queue[0])
         try{
-            await player.sentMessage.edit(embed); // send the embed to inform about the now playing track
-        } catch(err) {
-            console.log("Recreating the deleted music embed", err);
-            player.sentMessage = await player.textChannel.send(embed);
-        }
+            let num = await checkNum(para.args[0], 100, 0, true);
+            // checks if the author is trying to raise the volume above the maxNum
+            if (num > maxNum) { return channel.send(`**${author.username}**-sama, please keep the volume at \`${maxNum}\` or below as ${bot.user.username} is concerning about your health _(´ㅅ\`)⌒)\\_`); }
+        
+            await player.setVolume(num);
+            channel.send(`**${author.username}**-sama, ${bot.user.username} has set the volume to \`${player.volume}\``); // inform the author
+        
+            // Update the currently playing embed 
+            const embed = await musicEmbed(bot, player, player.queue.current);
+            await player.sentMessage.edit(embed) // send the embed to inform about the now playing track
+                .catch(async err => { player.sentMessage = await player.textChannel.send(embed); });
+        } catch(err) { console.log(err); }
     } // end of run
 }; // end of module.exports
+
+
+
+    
+
 
 
 

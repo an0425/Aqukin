@@ -1,4 +1,4 @@
-/* This module displays the investment portfolio of the author/mentioned user */
+/* This module displays the investment portfolio of the author/mentioned user 
 const { MessageEmbed } = require("discord.js");
 const { Users } = require("../../database/dbObjects");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
@@ -56,4 +56,4 @@ module.exports = class InvestmentPortfolioCommand extends BaseCommand{
             .setFooter("Vive La Résistance le Hololive~");
         message.channel.send(`**${message.author.username}**-sama, this is`, embed);
     } // end of run
-}; // end of module.exports
+}; // end of module.exports */

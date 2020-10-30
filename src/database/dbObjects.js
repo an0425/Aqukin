@@ -1,21 +1,34 @@
 /* This module creates the associations between the models of the database */
+require("dotenv").config();
 const Sequelize = require("sequelize");
 
-const sequelize = new Sequelize("database", "username", "password", {
+/* local */
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
 	host: "localhost",
-	dialect: "sqlite",
+	dialect: "postgres",
 	logging: false,
-	storage: "database.sqlite",
-});
+}); 
 
-const Users = sequelize.import("../database/models/users");
-const StockMarket = sequelize.import("../database/models/stock_market");
-const UserStocks = sequelize.import("../database/models/user_stocks");
+/* server 
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+	dialect: "postgres",
+	protocol: "postgres",
+	port: process.env.PORT,
+	host: process.env.PROJECT_DOMAIN,
+	logging: false
+}); */
+
+const Users = require("../database/models/users")(sequelize, Sequelize.DataTypes);
+const Media = require("../database/models/media")(sequelize, Sequelize.DataTypes);
+const Guilds = require("../database/models/guilds")(sequelize, Sequelize.DataTypes);
+const StockMarket = require("../database/models/stock_market")(sequelize, Sequelize.DataTypes);
+const UserStocks = require("../database/models/user_stocks")(sequelize, Sequelize.DataTypes);
 
 UserStocks.belongsTo(StockMarket, { foreignKey: "stock_id", as: "stock" });
 
+/** Users functions */
 Users.prototype.addStock = async function(stock, amount) {
-	const userStock = await UserStocks.findOne({where: { user_id: this.user_id, stock_id: stock.id },});
+	const userStock = await UserStocks.findOne({where: { user_id: this.user_id, stock_id: stock.id } });
 
 	// increase the user_share if the stock is found in the user portfolio, else add the stock to the portfolio
 	if (userStock) { return userStock.increment("user_share", { by: amount }); }
@@ -29,4 +42,4 @@ Users.prototype.getStocks = function() {
 	});
 };
 
-module.exports = { Users, StockMarket, UserStocks };
+module.exports = { Users, Guilds, StockMarket, UserStocks, Media };

@@ -2,9 +2,9 @@
 const BaseEvent = require('../utilities/structures/BaseEvent');
 
 module.exports = class NodeErrorEvent extends BaseEvent {
-  constructor () {super("nodeError");}
+    constructor () {super("nodeError");}
 
-  async run (music, node, error) {
-    console.log("An error has occured", error.message, node);
-  } // end of run
+    async run (bot, node, error) {
+        console.log("An error has occured", error.message, node);
+    } // end of run
 } // end of module.exports
