@@ -10,7 +10,7 @@ module.exports = class ShuffleQueueCommand extends BaseCommand {
         const { message, player } = para;
 
         // checks if the current queue is empty, if so return a message to inform the author
-        if(player.queue.size <= 2) { return message.channel.send(`**${message.author.username}**-sama, there is no point in shuffling the queue ヽ (￣д￣) ノ`); }
+        if(player.queue.size <= 1) { return message.channel.send(`**${message.author.username}**-sama, there is no point in shuffling the queue ヽ (￣д￣) ノ`); }
 
         // voting system
         const voteReached = await voteConstruct(para.bot, message, player, para.command);

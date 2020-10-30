@@ -54,30 +54,38 @@ module.exports = class ViewQueueCommand extends BaseCommand {
 /* This function is for generating an embed with the queue information */
 async function generateQueueEmbed(queue, thumbnails, gifs) {
     const embeds = [];
-    let k = 7;
-    let info;
-    
-    for(let i = 0; i < queue.length; i += 7) { // for loop going through all the tracks in the queue
-        const next = queue.slice(i, k);
-        // checks if there's anything next in queue
-        if (next.length !== 0){
+
+    if(queue.length > 0){
+        let k = 7;
+
+        // for loop going through all the tracks in the queue
+        for(let i = 0; i < queue.length; i += 7) { 
+            const next = queue.slice(i, k);
+            // checks if there's anything next in queue
             let j = i;
             k += 7;
-            info = next.map(track => `${++j}) [${track.title}](${track.uri}) | length \`${formatLength(track.duration)}\` | requested by **${track.requester.username}**-sama`).join("\n\n");
-        } // end of if
-        else { info = "Currently no track is next in queueヾ (= `ω´ =) ノ”"; } // else next in queue is empty
-    
-        // construct the embed(s)
-        if(i==0 || !info.startsWith("Currently")){
+            let info = next.map(track => `${++j}) [${track.title}](${track.uri}) | length \`${formatLength(track.duration)}\` | requested by **${track.requester.username}**-sama`).join("\n\n");
+        
+            // construct the embed(s)
             const embed = new MessageEmbed()
                 .setColor(0x1DE2FE)
                 .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
-                .setDescription(`⚓ **Currently playing** ▶️\n [${queue.current.title}](${queue.current.uri}) | length \`${formatLength(queue[0].duration)}\` | requested by **${queue[0].requester.username}**-sama\n\n⚓ **Next in queue** ⏭️\n${info}`)
+                .setDescription(`⚓ **Currently playing** ▶️\n [${queue.current.title}](${queue.current.uri}) | length \`${formatLength(queue.current.duration)}\` | requested by **${queue.current.requester.username}**-sama\n\n⚓ **Next in queue** ⏭️\n${info}`)
                 .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
                 .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
-
             embeds.push(embed); // pushing embeds (for transition between pages)
-        }
-    } // end of for loop
+        } // end of for loop
+    }
+
+    else{
+        const embed = new MessageEmbed()
+            .setColor(0x1DE2FE)
+            .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
+            .setDescription(`⚓ **Currently playing** ▶️\n [${queue.current.title}](${queue.current.uri}) | length \`${formatLength(queue.current.duration)}\` | requested by **${queue.current.requester.username}**-sama\n\n⚓ **Next in queue** ⏭️\n${"Currently no track is next in queueヾ (= `ω´ =) ノ”"}`)
+            .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
+            .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
+        embeds.push(embed);
+    }
+    
     return embeds;
 } // end of gerenateQueueEmbed(queue) helper function

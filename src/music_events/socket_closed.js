@@ -4,7 +4,8 @@ const BaseEvent = require("../utilities/structures/BaseEvent");
 module.exports = class socketClosedEvent extends BaseEvent {
     constructor () {super("socketClosed");}
   
-    async run (bot, player) {
-        await player.destroy();
+    async run (bot, player, payload) {
+        if(payload.code === 4006)
+            await player.destroy();
     } // end of run
-} // end of module.exports
+} // end of module.exports 

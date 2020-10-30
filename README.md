@@ -10,6 +10,7 @@ Your diamond ninja combat baka maid, a bot that was created based on a Virtual Y
 
 # Description
 For the list of commands or more info on setting Aqukin up, please refer to the [Wiki pages](https://github.com/DeaLoux/Aqukin/wiki)
+*This branch uses [Lavalink Engine](https://github.com/Frederikam/Lavalink) and [Erela.js Client](https://projects.solaris.codes/erelajs/) for playing music 
 
 # [License](https://github.com/DeaLoux/Aqukin/blob/master/LICENSE)
 - `Character Copyright` (c) 2017-2020 [Cover corp](https://cover-corp.com/)

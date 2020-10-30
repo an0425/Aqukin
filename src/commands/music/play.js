@@ -25,7 +25,6 @@ module.exports = class PlayCommand extends BaseCommand{
             await player.connect();
         }
         
-
         // search for track(s) with the given arguments
         const query = para.args.join(" ");
         //console.log(query);
@@ -49,12 +48,12 @@ module.exports = class PlayCommand extends BaseCommand{
                 // embed the result(s)
                 const embed = new MessageEmbed()
                     .setColor(0x1DE2FE)
-                    .setTitle("Automatically times out in 12 seconds")
+                    .setTitle("Automatically times out in 24 seconds")
                     .setDescription(tracksInfo)
                     .setImage("https://media1.tenor.com/images/85e6b8577e925a9037d03a796588e7ed/tenor.gif?itemid=15925240")
                     .setFooter("Vive La Résistance le Hololive~");
   
-                // Allow the author to select a track fron the search results within the allowed time of 24s
+                /* Allow the author to select a track fron the search results within the allowed time of 24s */
                 await message.channel.send(`**${author.username}**-sama, please enter the \`track number\` that you would like ${bot.user.username} to queue.`, embed)
                     .then(async (msg) => {
                         const filter = m => (message.author.id === m.author.id) && (m.content >= 1 && m.content <= tracks.length);
@@ -68,7 +67,7 @@ module.exports = class PlayCommand extends BaseCommand{
                             }).catch(err => console.log(err));
 
                         await msg.delete();
-                    }).catch(err => console.log(err));                
+                    }).catch(err => console.log(err));
                 break;
                     
             // a case for playlist

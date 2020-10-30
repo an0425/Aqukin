@@ -13,20 +13,19 @@ module.exports = class RemoveTrackCommand extends BaseCommand {
         const author = message.author.username;
 
         // checks if the current queue is empty, if so return a message to inform the author
-        if(player.queue.length <= 1) { return message.channel.send(`**${author}**-sama, ${bot.user.username} there is no track/song next in queue ╮ (︶︿︶) ╭`); }
+        if(player.queue.length === 0) { return message.channel.send(`**${author}**-sama, ${bot.user.username} there is no track/song next in queue ╮ (︶︿︶) ╭`); }
 
-        const num = await checkNum(para.args[0]-1, player.queue.length-1, 1, true);
+        const num = await checkNum(para.args[0], player.queue.length-1, 1, true);
 
         // checks if the current queue is empty, if so return a message to inform the author
-        if(player.queue.length-1 < num) { return message.channel.send(`**${author}**-sama, ${bot.user.username} can not find track indexed \`${num}\`, please try \`${para.prefix}queue\` for info about the queue \\_ :( ´ ཀ \`」 ∠): \\_ `); }
+        if(player.queue.length < num) { return message.channel.send(`**${author}**-sama, ${bot.user.username} can not find track indexed \`${num}\`, please try \`${para.prefix}queue\` for info about the queue \\_ :( ´ ཀ \`」 ∠): \\_ `); }
 
         // voting system
         const voteReached = await voteConstruct(para.bot, message, player, para.command);
         if(!voteReached) { return; }
 
         try {
-            const trackName = await player.queue.remove(num).title;
-            message.channel.send(`**${author}**-sama, ${bot.user.username} has removed track \`${trackName}\` from the queue (っ ˘ω˘ς)`); 
+            await message.channel.send(`**${author}**-sama, ${bot.user.username} has removed track \`${await player.queue.remove(num-1)[0].title}\` from the queue (っ ˘ω˘ς)`); 
             
             // Update the currently playing embed
             const embed = await musicEmbed(para.bot, player, player.queue.current)

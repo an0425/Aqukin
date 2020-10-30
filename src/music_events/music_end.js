@@ -5,7 +5,7 @@ module.exports = class TrackEndEvent extends BaseEvent {
     constructor () {super("trackEnd");}
     async run (bot, player, track) {
         // reset the variables
-        await player.sentMessage.delete().catch(err => console.log(err));
+        await player.sentMessage.delete().catch(err => console.log("The message has already been manually deleted"));
         await bot.votingSystem.delete(player.guild);
     } // end of run
 } // end of module.exports
