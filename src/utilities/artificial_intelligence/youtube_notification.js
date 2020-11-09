@@ -1,4 +1,5 @@
-/* This module notify each time the given channel has uploaded a new video or live */
+/* DEPRECIATED
+This module notify each time the given channel has uploaded a new video or live 
 require("dotenv").config();
 const { google } = require("googleapis");
 const { MessageEmbed } = require("discord.js");
@@ -87,4 +88,4 @@ async function ytNotify(para){
 
 } // end of ytNotify(...) function
 
-module.exports = { ytNotify };
+module.exports = { ytNotify }; */

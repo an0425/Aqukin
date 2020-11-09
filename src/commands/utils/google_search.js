@@ -1,4 +1,5 @@
-/* This module searches google for image(s) and sends them base on the given keyword 
+/* DEPRECIATED
+This module searches google for image(s) and sends them base on the given keyword 
 require("dotenv").config();
 const { google } = require("googleapis");
 const customSearch = google.customsearch("v1");
