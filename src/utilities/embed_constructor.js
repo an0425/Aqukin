@@ -13,7 +13,7 @@ async function musicEmbed(bot, player, track){
         .addFields({ name: "Title", value: `[${track.title}](${track.uri})` },
                    { name: "🔞Volume", value: `${Math.floor(player.volume)}`, inline: true },
                    { name: "Track Length", value: formatLength(track.duration), inline: true },
-                   { name: "Queue Size", value: player.queue.size, inline: true },
+                   { name: "Queue Size", value: player.queue.size + 1, inline: true },
                    { name: "⏸️Paused", value: convertBoolean(player.paused), inline: true },
                    { name: "Track Looped", value: convertBoolean(player.trackRepeat), inline: true },
                    { name: "Queue Looped", value: convertBoolean(player.queueRepeat), inline: true },

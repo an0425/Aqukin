@@ -8,7 +8,7 @@ module.exports = class SendEmojiCommand extends BaseCommand{
         const { message } = para;
         const { user } = para.bot;
 
-        const emoji = await message.guild.emojis.cache.find(emoji => emoji.name === para.args[0]);
+        const emoji = await message.guild.emojis.cache.find(emoji => emoji.name.toLowerCase() === para.args[0].toLowerCase());
 
         if(!emoji){
             return message.channel.send(`**${message.author.username}**-sama, ${user.username} can't find any emoji called \`${para.args[0]}\` o (T ヘ To)`);

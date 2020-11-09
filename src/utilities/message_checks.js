@@ -40,10 +40,11 @@ async function commandCheck(bot, message, command, args, settings, prefix, enabl
     await args.shift();
 
     // exclude onwer commands
-    if(command.tag == "owner" && message.author.id != await bot.fetchApplication().owner.id) { return; }
+    const { owner } = await bot.fetchApplication();
+    if(command.tag == "owner" && message.author.id !== owner.id) { return; }
 
     // checks if the author has the permission to use the command, if not return a message to inform them
-    if (!message.member.hasPermission(command.permission) && message.author.id != await bot.fetchApplication().owner.id) {
+    if (!message.member.hasPermission(command.permission) && message.author.id !== owner.id) {
         message.channel.send(`I'm sorry **${message.author.username}**-sama, but it seems like you don't have the permission to use this command (っ ´ω\`) ﾉ (╥ω╥)`, ridingAqua);
         return;
     }

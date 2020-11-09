@@ -1,4 +1,5 @@
-/* This module searches for a youtube channel and checks if whether or not they are live or will be live soon */
+/* DEPRECIATED
+This module searches for a youtube channel and checks if whether or not they are live or will be live soon 
 const {ytNotify} = require("../../utilities/artificial_intelligence/youtube_notification");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
@@ -8,4 +9,4 @@ module.exports = class LiveInfoCommand extends BaseCommand{
     async run(para) {
         ytNotify(para);
     } // end of run
-}; // end of module.exports
+}; // end of module.exports */

@@ -43,51 +43,33 @@ async function voteConstruct (bot, message, player, command){
                 .setTitle(`Please react if you would also like to \`${command.description}\``)
                 .setDescription(`${bot.user.username} require \`${votingSysVar.votesRequired}\` vote(s) to \`${command.description}\` (ｏ ・ _ ・) ノ ”(ノ _ <、)`)
                 .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
-            await message.channel.send(`**${message.author.username}**-sama, you have voted to \`${command.description}\`, please wait for other(s) to vote (= ω =) .. nyaa`, embed)
-            
-            .then(async (msg) => {
-                await msg.react("⚓");
+           
+            const msg = await message.channel.send(`**${message.author.username}**-sama, you have voted to \`${command.description}\`, please wait for other(s) to vote (= ω =) .. nyaa`, embed)
+            await msg.react("⚓");
                 
-                // members reactions filter
-                const filter = (reaction, user) => {                    
-                    // checks if the user has already voted
-                    if(votingSysVar.voters.has(user.id)){
-                        message.channel.send(`**${user.username}**-sama, you have already voted to \`${command.description}\`, please wait for other(s) to vote (￣ ￣ |||)`);
-                        return false; 
-                    }; 
-
-                    // checks if the voters are in the same voice channel with the bot
-                    const { channel } = message.guild.members.cache.get(user.id).voice;
-                    if (!channel) { return false; }
-                    if (channel.id === player.voiceChannel.id) {  
-                        // checks if the voters has administrative permission
-                        message.guild.members.fetch(user.id).then(async (userPerm) => {
-                            if(userPerm.hasPermission("ADMINISTRATOR")){
-                                votingSysVar.voteReached = true;
-                                return ["⚓"].includes(reaction.emoji.name); 
-                            }
-                            else{
-                                message.channel.send(`**${user.username}**-sama, ${bot.user.username} has acknowledge your vote to \`${command.description}\` (* ￣ ▽ ￣) b`);
-                                await votingSysVar.voters.set(user.id, user); // the user has now voted via emote reation
-                                return ["⚓"].includes(reaction.emoji.name); 
-                            }
-                        });
+            // members reactions filter
+            const filter = async (reaction, user) => {                    
+                // checks if the voters are not bot, use the correct emojis, is in the same voice channel with the bot and has not voted
+                if (!user.bot && ["⚓"].includes(reaction.emoji.name) && message.guild.members.cache.get(user.id).voice.channel.id === player.connection.channel.id && !votingSysVar.voters.has(user.id)) {  
+                    // checks if the voters has administrative permission
+                    const memCheck = await message.guild.members.fetch(user.id);
+                    if(memCheck.hasPermission("ADMINISTRATOR"))
+                        votingSysVar.voteCount = votingSysVar.votesRequired;
+                    else{
+                        message.channel.send(`**${user.username}**-sama, ${bot.user.username} has acknowledge your vote to \`${command.description}\` (* ￣ ▽ ￣) b`);
+                        await votingSysVar.voters.set(user.id, user); // the user has now voted via emote reation
                     }
-                    return false;
-                } // end of reaction filter
+                    return true;
+                }
+                return false;
+            } // end of reaction filter
                 
-                await msg.awaitReactions(filter, { max: votingSysVar.votesRequired, time: 24000, errors: ["time"] })
-                .then(async (reactions) => {
-                    votingSysVar.voteCount += await reactions.get("⚓").users.cache.filter(u => { !u.bot && !votingSysVar.voters.has(u.id) }).size; // register the reactions count into the vote count
-
-                    // checks if the vote is reached after the reaction vote
-                    votingSysVar.voteReached = votingSysVar.voteCount >= votingSysVar.votesRequired; 
-                })
-                .catch(err => console.log(err));
-
-                await msg.delete();
-            })
-            .catch(err => console.log(err));
+            const reactions = await msg.awaitReactions(filter, { max: votingSysVar.votesRequired-votingSysVar.voteCount, time: 24000 }).catch(console.error);
+            
+            // checks if the vote is reached after the reaction vote
+            votingSysVar.voteCount += reactions.size;
+            votingSysVar.voteReached = votingSysVar.voteCount >= votingSysVar.votesRequired; 
+            msg.delete();
         } // end of if vote has not been reached
         
         // else the vote has been reached

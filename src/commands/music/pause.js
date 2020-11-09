@@ -26,7 +26,7 @@ module.exports = class PauseCommand extends BaseCommand{
             // update the currently playing embed
             const embed = await musicEmbed(para.bot, player, player.queue.current);
             await player.sentMessage.edit(embed) // send the embed to inform about the now playing track
-                .catch(async err => { player.sentMessage = await player.textChannel.send(embed); });
+                .catch(async err => { player.sentMessage = await bot.channels.cache.get(player.textChannel).send(embed); });
         } catch(err) { console.log(err); }
     } // end of run
 }; // end of module.exports

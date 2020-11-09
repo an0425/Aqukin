@@ -27,7 +27,7 @@ bot.settings = new Collection();
 	// erela
 	bot.music = new Manager({nodes: [{
 		host: "localhost",
-		port: process.env.LL_PORT,
+		port: process.env.LL_PORT-0,
 		password: process.env.LL_PASSWORD,
 		secure: false
 	}],

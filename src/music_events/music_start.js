@@ -9,6 +9,6 @@ module.exports = class TrackStartEvent extends BaseEvent {
         player.pause(false);
         // construct the embed
         const embed = await musicEmbed(bot, player, track);
-        player.sentMessage = await player.textChannel.send(embed).catch(err => console.log("an error has occurered trying to send the embed", err));    
+        player.sentMessage = await bot.channels.cache.get(player.textChannel).send(embed).catch(err => console.log("an error has occurered trying to send the embed", err));    
     } // end of run
 } // end of module.exports
