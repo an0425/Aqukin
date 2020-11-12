@@ -1,6 +1,8 @@
 [![Dependencies](https://img.shields.io/david/DeaLoux/Aqukin)](https://david-dm.org/DeaLoux/Aqukin)
 [![License](https://badgen.net/github/license/DeaLoux/Aqukin)](https://github.com/DeaLoux/Aqukin/blob/master/LICENSE)
 
+# `DEPRECIATED: This branch is the stand alone version of the bot running only Opus Engine and thus is no longer updated. Use at your own discretion.`
+
 # Aqukin
 <p align="center">
   <img src="https://github.com/DeaLoux/Aqukin/blob/master/src/utilities/media/background.png">
@@ -10,6 +12,8 @@ Your diamond ninja combat baka maid, a bot that was created based on a Virtual Y
 
 # Description
 For the list of commands or more info on setting Aqukin up, please refer to the [Wiki pages](https://github.com/DeaLoux/Aqukin/wiki)
+
+This branch uses Discord built-in [Opus Engine](https://www.npmjs.com/package/@discordjs/opus) for playing music 
 
 # [License](https://github.com/DeaLoux/Aqukin/blob/master/LICENSE)
 - `Character Copyright` (c) 2017-2020 [Cover corp](https://cover-corp.com/)
