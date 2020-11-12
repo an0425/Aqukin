@@ -1,7 +1,7 @@
 [![Dependencies](https://img.shields.io/david/DeaLoux/Aqukin)](https://david-dm.org/DeaLoux/Aqukin)
 [![License](https://badgen.net/github/license/DeaLoux/Aqukin)](https://github.com/DeaLoux/Aqukin/blob/master/LICENSE)
 
-# `DEPRECIATED: this branch is just a stand alone version of the bot running only Lavalink Engine, all updates are on the master branch along with Opus Engine`
+# `DEPRECIATED: This branch is the stand alone version of the bot running only Lavalink Engine and thus is no longer updated. Use at your own discretion.`
 
 # Aqukin
 <p align="center">
