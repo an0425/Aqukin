@@ -6,6 +6,8 @@ const { MessageEmbed } = require("discord.js");
 const { convertInput } = require("../../utilities/functions");
 const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
+const BasePlayer = require("../../utilities/structures/BasePlayer");
+
 
 module.exports = class PlayCommand extends BaseCommand{
     constructor() {
@@ -18,21 +20,8 @@ module.exports = class PlayCommand extends BaseCommand{
         const { author, channel } = message;
 
         // create a player if the player for this guild does not exist
-        let player = await para.player;
-        if(!player) {
-            player = {
-                id: message.guild.id,
-                textChannel: channel,
-                //connection: await voiceChannel.join(),
-                trackRepeat: false,
-                queueRepeat: false,
-                seeking: false,
-                queue: [],
-                loopqueue: []
-            };
-            await bot.music.set(message.guild.id, player);
-        }
-        
+        let player = await para.player || new BasePlayer(bot, message.guild.id, channel, voiceChannel);
+
         // search for track(s) with the given arguments
         let noResult = false;
         const query = para.args.join(" ");
@@ -118,7 +107,6 @@ module.exports = class PlayCommand extends BaseCommand{
                                     title: trackInfo.title,
                                     duration: convertInput(trackInfo.duration),
                                     requester: message.author,
-                                    //live: trackInfo.live,
                                 }
                                 //console.log(trackInfo, track);
                                 await player.queue.push(track);
@@ -153,49 +141,23 @@ module.exports = class PlayCommand extends BaseCommand{
             return;
         }
 
-        player.connection = await voiceChannel.join();
-
-        if(!player.connection.dispatcher) { 
-            await playing(bot, player)
-                .catch (err => {
-                    console.log(err);
-                    message.channel.send(`**${author.username}**-sama, \`${err}\``);   
-                    bot.music.delete(message.guild.id);
-                });
-        }
-
-        // connection events
-        await player.connection
-            .on("error", async (err) =>{
-                await player.textChannel.send(`**${author.username}**-sama, \`${err}\` 。 ゜ ゜ (´Ｏ\`) ゜ ゜。`);
-                await bot.music.delete(player.id);
-            })
-
-            .once("ready", async () => {
-                console.log("ready to stream");
-            })
-
-            .once("disconnect", async () =>{
-                // catch in case the message got deleted manually
-                await player.queue.splice(0);
-                if(player.connection.dispatcher){ await player.connection.dispatcher.end(); }
-                await bot.votingSystem.delete(player.id);
-                await bot.music.delete(player.id);
+        if(!player.connection) { 
+            await playing(bot, player, voiceChannel).catch (err => {
+                console.log(err);
+                message.channel.send(`**${author.username}**-sama, \`${err}\``);   
+                bot.music.delete(message.guild.id);
             });
+        }
 
         // update the currently playing embed if it exists
         if(player.sentMessage){
             const embed = await musicEmbed(para.bot, player, player.queue[0]);
-            await player.sentMessage.edit(embed) // send the embed to inform about the now playing track
-                .catch(async err => {
-                //console.log("Recreating the deleted music embed", err);
-                player.sentMessage = await player.textChannel.send(embed);
-            });
+            await player.sentMessage.edit(embed).catch(async err => { player.sentMessage = await player.textChannel.send(embed); });
         }
     } // end of run
 }; // end of module.exports
 
-async function playing(bot, player){
+async function playing(bot, player, voiceChannel){
     let track = player.queue[0];
     // checks if the queue is empty
     if (!track) {
@@ -225,11 +187,10 @@ async function playing(bot, player){
     else{
         dispatcherOptions.seek = (track.seek === null) ? 0 : track.seek;
     }
-
+    player.connection = await voiceChannel.join()
     
-    const dispatcher = player.connection
-        .play(ytdl(track.url, ytdlOptions), dispatcherOptions)
-        
+    // VoiceBroadcast events
+    const dispatcher = player.connection.play(ytdl(track.url, ytdlOptions), dispatcherOptions)
         .on("error", async (err) =>{
             await player.textChannel.send(`**${player.queue[0].requester.username}**-sama, \`${err}\` has occured when ${bot.user.username} was trying to play track \`${track.title}\` 。 ゜ ゜ (´Ｏ\`) ゜ ゜。`);
         })
@@ -258,5 +219,18 @@ async function playing(bot, player){
             await playing(bot, player);
             await player.sentMessage.delete().catch(err => console.log(err)); // try catch in case the message got deleted manually
         });
+
+    // VoiceConnection events
+    player.connection.on("error", async (err) =>{
+        await player.textChannel.send(`**${author.username}**-sama, \`${err}\` 。 ゜ ゜ (´Ｏ\`) ゜ ゜。`);
+        await bot.music.delete(player.id);
+    })
+
+    .once("disconnect", async () =>{
+        await player.queue.splice(0);
+        if(player.connection.dispatcher){ await player.connection.dispatcher.end(); }
+        await bot.votingSystem.delete(player.id);
+        await bot.music.delete(player.id);
+    });
 } // end of playing(...) function
 

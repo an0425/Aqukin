@@ -4,7 +4,7 @@ const { Manager } = require("erela.js");
 const { alive } = require("../utilities/alive");
 const { Client, Collection } = require("discord.js");
 const { settings, currency } = require("../database/properties");
-const { registerCommands, registerEvents, registerMusicEvents, consoleChatter } = require("../utilities/handlers");
+const { registerCommands, registerEvents, LavalinkMusicEvents, consoleChatter } = require("../utilities/handlers");
 
 // variables
 const bot = new Client();
@@ -44,7 +44,7 @@ bot.settings = new Collection();
 	await registerEvents(bot, "../events");
 	await registerCommands(bot, "../commands");
 	await registerCommands(bot, "../lavalink/commands");
-	await registerMusicEvents(bot, "../lavalink/music_events");
+	await LavalinkMusicEvents(bot, "../lavalink/music_events");
 	await settings(bot);
 	//await consoleChatter(bot);
 
