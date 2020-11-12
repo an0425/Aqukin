@@ -8,7 +8,7 @@ module.exports = class QueueEnd extends BaseEvent {
         // interaction
         try {
             await player.destroy();
-            player.textChannel.send("The queue has ended, arigatou gozaimatshita ☆ ⌒ ヽ (* '､ ^ *) chu~", { files: ["https://media1.tenor.com/images/2acd2355ad05655cb2a536f44660fd23/tenor.gif?itemid=17267169"] })
+            await bot.channels.cache.get(player.textChannel).send("The queue has ended, arigatou gozaimatshita ☆ ⌒ ヽ (* '､ ^ *) chu~", { files: ["https://media1.tenor.com/images/2acd2355ad05655cb2a536f44660fd23/tenor.gif?itemid=17267169"] })
                 .then(msg => msg.delete({ timeout: 5200 }));
         } catch (err) { console.log(err); }
   } // end of run

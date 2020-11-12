@@ -86,7 +86,7 @@ function convertInput(value){
         }
     }
     
-    total = hours + minutes + seconds;
+    total = (hours + minutes + seconds)*1000;
     total = (total < 0 || isNaN(total)) ? 0 : total;
     return total;
 }

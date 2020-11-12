@@ -8,7 +8,6 @@ module.exports = class ReadyEvent extends BaseEvent {
 	
 	async run (bot){
 		// bot variables
-		bot.music.init(bot.user.id);
 		bot.votingSystem = new Collection();
 			
 		// database variables

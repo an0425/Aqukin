@@ -48,4 +48,5 @@ bot.settings = new Collection();
 
 	await bot.login(process.env.BOT_TOKEN); // connect the bot to the Discord server
 	//await alive(bot);
+	await bot.music.init(bot.user.id);
 })();

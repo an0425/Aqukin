@@ -13,14 +13,15 @@ module.exports = class MoveCommand extends BaseCommand{
         const author = message.author;
 
         // checks if the author has administrative permission or have requested the track, if so continue, if not return a message to inform them
-        if(message.author.id !== player.queue[0].requester.id && !message.member.hasPermission("ADMINISTRATOR")) { 
-            return message.channel.send(`**${author.username}**-sama, this track is requested by **${player.queue[0].requester.username}**-sama, you can only move your own requested tracks (-ω- 、)`); 
+        const { duration, requester } = player.queue.current;
+        if(message.author.id !== requester.id && !message.member.hasPermission("ADMINISTRATOR")) { 
+            return message.channel.send(`**${author.username}**-sama, this track is requested by **${requester.username}**-sama, you can only move your own requested tracks (-ω- 、)`); 
         }
 
         const timestamp = convertInput(para.args[0]);
 
         // checks if the author has requested to move to a valid timestamp, if so continue, if not return a message to inform them
-        if(timestamp >= player.queue[0].duration) { return message.channel.send(`**${author.username}**-sama, the timestamp should be less than the track length \`${formatLength(player.queue[0].duration)}\` ლ (¯ ロ ¯ "ლ)`); }
+        if(timestamp >= duration) { return message.channel.send(`**${author.username}**-sama, the timestamp should be less than the track length \`${formatLength(duration)}\` ლ (¯ ロ ¯ "ლ)`); }
         //console.log(timestamp, player.queue[0].duration);
         
         // try to move to the given timestamp, inform the author if fail

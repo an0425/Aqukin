@@ -13,6 +13,6 @@ constructor () {super("trackError");}
             await player.queue.add(player.queue[0],1);
             await player.stop(); 
         }
-        await player.textChannel.send(`**${track.requester.username}**-sama, \`${track.title}\` was stuck, ${bot.user.username} will try to play it again 〜 (＞ ＜) 〜	`);
+        await bot.channels.cache.get(player.textChannel).send(`**${track.requester.username}**-sama, \`${track.title}\` was stuck, ${bot.user.username} will try to play it again 〜 (＞ ＜) 〜	`);
     } // end of run
 } // end of module.exports

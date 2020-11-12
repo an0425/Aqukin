@@ -14,6 +14,6 @@ module.exports = class MusicStuckEvent extends BaseEvent {
             //await player.queue.add(player.queue[0],1);
             await player.stop(); 
         }
-        await player.textChannel.send(`**${track.requester.username}**-sama, \`${payload}\` has occured when ${bot.user.username} was trying to play track \`${track.title}\` 。 ゜ ゜ (´Ｏ\`) ゜ ゜。`);
+        await bot.channels.cache.get(player.textChannel).send(`**${track.requester.username}**-sama, \`${payload}\` has occured when ${bot.user.username} was trying to play track \`${track.title}\` 。 ゜ ゜ (´Ｏ\`) ゜ ゜。`);
     } // end of run
 } // end of module.exports
