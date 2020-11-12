@@ -1,6 +1,5 @@
 /logs
 /.vscode
 /node_modules
-**/economy
 .env
 package-lock.json

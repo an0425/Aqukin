@@ -1,0 +1,26 @@
+/* This module allows the author to skip a track in the bot current audio streaming */
+const { voteConstruct } = require("../../utilities/voting_system");
+const BaseCommand = require("../../utilities/structures/BaseCommand");
+
+module.exports = class SkipCommand extends BaseCommand{
+    constructor() { super("skip", ["s", "n", "nxt", "next"], "Skip the current track", "CONNECT", "music", false, "", "-- will skip the current track"); }
+    
+    async run (para) {
+        // shortcut variables
+        const { message, player } = para;
+        
+        // voting system
+        const voteReached = await voteConstruct(para.bot, message, player, para.command);
+        if(!voteReached) { return; }
+
+        try {
+            await message.channel.send(`**${message.author.username}**-sama, ${para.bot.user.username} has skipped track ヾ (⌐ ■ _ ■) ノ ♪ \`${player.queue.current.title}\``);
+            player.stop();    
+        } catch(err) { console.log(err); }
+    } // end of run
+}; // end of module.exports
+
+
+
+
+    

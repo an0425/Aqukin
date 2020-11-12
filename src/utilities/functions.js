@@ -17,7 +17,7 @@ function convertBoolean(value){
 }
 
 // This function format numbers (seconds) to hh:mm:ss format
-function formatLength(value, seeking){
+function formatLength(value, seeking, lavalink){
     let hours = -1;
     let minutes = -1;
     let seconds;
@@ -29,10 +29,12 @@ function formatLength(value, seeking){
 
         // Checks if the value is equal to 0
         if(value === 0){
-            reply += seeking ? "Start" : "Live";
+            reply += seeking || lavalink ? "Start" : "Live";
         }
         // Else the value is greater than 0
         else{
+            if(lavalink) value = value/1000;
+
             if (value >= 60){
                 minutes = (value - value%60)/60;
                 if (minutes >= 60){
@@ -59,7 +61,7 @@ function formatLength(value, seeking){
 }
 
 // This function convert video length from seconds format to minutes
-function convertInput(value){
+function convertInput(value, lavalink){
     let total;
     let hours = 0;
     let minutes = 0;
@@ -85,7 +87,7 @@ function convertInput(value){
         }
     }
     
-    total = hours + minutes + seconds;
+    total = lavalink ? (hours + minutes + seconds)*1000 : hours + minutes + seconds;
     total = (total < 0 || isNaN(total)) ? 0 : total;
     return total;
 }

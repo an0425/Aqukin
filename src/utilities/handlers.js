@@ -42,6 +42,25 @@ async function registerEvents(bot, dir = ""){
     } // end of for loop
 } // end of registerEvents(...) function
 
+// Music Events handler
+async function registerMusicEvents(bot, dir = ""){
+    const filePath = path.join(__dirname, dir);
+    //console.log(filePath)
+    const files = await fs.readdir(filePath);
+    for(const file of files){
+        const stat = await fs.lstat(path.join(filePath, file));
+        if(stat.isDirectory()) registerMusicEvents(bot, path.join(dir, file));
+
+        if(file.endsWith(".js")){
+            const Event = require(path.join(filePath, file));
+            if(Event.prototype instanceof BaseEvent) {
+                const event = new Event();
+                bot.music.on(event.name, event.run.bind(event, bot));
+            } // end of if
+        } // end of if
+    } // end of for loop
+} // end of registerMusicEvents(...) function
+
 // Text files handler
 async function registerMediaFiles(media, dir = ""){
     const filePath = path.join(__dirname, dir);
@@ -90,4 +109,4 @@ async function consoleChatter(bot){
     }) // end of listener.addListener
 } // end of consoleChatter(bot) function
 
-module.exports = { registerCommands, registerEvents, registerMediaFiles, consoleChatter };
+module.exports = { registerCommands, registerEvents, registerMusicEvents, registerMediaFiles, consoleChatter };

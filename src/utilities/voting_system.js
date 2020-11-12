@@ -26,7 +26,8 @@ async function voteConstruct (bot, message, player, command){
         return votingSysVar.voteReached;
     }
 
-    const members = player.connection.channel.members.filter(m => !m.user.bot);
+    const channel  = bot.music.lavalink ? await bot.channels.cache.get(player.voiceChannel) : player.connection.channel;
+    const members = channel.members.filter(m => !m.user.bot);
     if(members.size === 1 || message.member.hasPermission("ADMINISTRATOR")){
         votingSysVar.voteReached = true;
     }
@@ -50,7 +51,7 @@ async function voteConstruct (bot, message, player, command){
             // members reactions filter
             const filter = async (reaction, user) => {                    
                 // checks if the voters are not bot, use the correct emojis, is in the same voice channel with the bot and has not voted
-                if (!user.bot && ["⚓"].includes(reaction.emoji.name) && message.guild.members.cache.get(user.id).voice.channel.id === player.connection.channel.id && !votingSysVar.voters.has(user.id)) {  
+                if (!user.bot && ["⚓"].includes(reaction.emoji.name) && message.guild.members.cache.get(user.id).voice.channel.id === channel.id && !votingSysVar.voters.has(user.id)) {  
                     // checks if the voters has administrative permission
                     const memCheck = await message.guild.members.fetch(user.id);
                     if(memCheck.hasPermission("ADMINISTRATOR"))

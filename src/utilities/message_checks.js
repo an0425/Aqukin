@@ -73,30 +73,36 @@ async function commandCheck(bot, message, command, args, settings, prefix, enabl
     switch(command.tag){
         // neccessary checks for music commands
         case "music": 
-            const player = await bot.music.get(message.guild.id);
+            const player = bot.music.lavalink ? await bot.music.players.find(player => player.guild === message.guild.id) : await bot.music.get(message.guild.id);
             const { channel }  = message.member.voice;
+           
             // checks if the author is in a voice channel, if not return a message to inform them
             if(!channel) { 
                 message.channel.send(`**${message.author.username}**-sama, you need to be in a voice channel to use this command (－‸ლ)`, ridingAqua);
                 return; 
             }
-            // checks if the bot in a voice channel and the author is also in that voice channel, if not return a message to inform them
-            if (player && player.connection.channel.id !== channel.id) { 
-                message.channel.send(`**${message.author.username}**-sama, you need to be in the same voice channel with ${bot.user.username} to use this command (╯ ° □ °) ╯ ┻━━┻`, ridingAqua);
-                return;
+            
+            // checks if a player is already exist
+            if (player) { 
+                // checks if the bot in a voice channel and the author is also in that voice channel, if not return a message to inform them
+                if((bot.music.lavalink ? player.voiceChannel : player.connection.channel.id) !== channel.id){
+                    message.channel.send(`**${message.author.username}**-sama, you need to be in the same voice channel with ${bot.user.username} to use this command (╯ ° □ °) ╯ ┻━━┻`, ridingAqua);
+                    return;    
+                }
+
+                // checks if the player is moving, opus only
+                if(!bot.music.lavalink && player.seeking && command.name !== "disconnect"){
+                    message.channel.send(`**${message.author.username}**-sama, ${bot.user.username} is still in the process of moving, please refrain from using any music commands in the mean time (╯︵╰,)`, ridingAqua);
+                    return;
+                }
             }
-            // checks if the bot is streaming any audio, excluding the play/multiplay commands, if not return a message to inform the author
-            if(!player && command.name !== "play") { 
+
+            // else no player is spawned yet thus checks if the command is play 
+            else if(command.name !== "play") { 
                 message.channel.send(`**${message.author.username}**-sama, ${bot.user.username} is not currently streaming any audio (oT-T) 尸`, ridingAqua);
                 return;
             }
             
-            // checks if the player is moving
-            if(player && player.seeking && command.name !== "disconnect"){
-                message.channel.send(`**${message.author.username}**-sama, ${bot.user.username} is still in the process of moving, please refrain from using any music commands in the mean time (╯︵╰,)`, ridingAqua);
-                return;
-            } 
-
             // music only variables
             para.player = player;
             para.voiceChannel = channel;
