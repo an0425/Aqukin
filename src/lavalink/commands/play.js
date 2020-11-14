@@ -38,8 +38,9 @@ module.exports = class PlayCommand extends BaseCommand{
 
         // a case for playlist
         else if(searchResults.loadType === "PLAYLIST_LOADED") {
+            //console.log(searchResults.tracks);
             await searchResults.tracks.forEach(track => player.queue.add(track));
-            message.channel.send(`**${author.username}**-sama, Aqukin has enqueued \`${searchResults.tracks.length}\` tracks from the playlist \`${searchResults.playlist.name}\`| total length \`${formatLength(searchResults.playlist.duration)}\``);
+            message.channel.send(`**${author.username}**-sama, Aqukin has enqueued \`${searchResults.tracks.length}\` tracks from the playlist \`${searchResults.playlist.name}\`| total length \`${formatLength(searchResults.playlist.duration, false, bot.music.lavalink)}\``);
         }
 
         else if(searchResults.loadType === "SEARCH_RESULT") {

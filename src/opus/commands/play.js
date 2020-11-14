@@ -74,7 +74,7 @@ module.exports = class PlayCommand extends BaseCommand{
         }
         // else try searching youtube with the given argument
         else{
-            await ytsr(query, { limit:5 }).then(async results => {
+            await ytsr(query, { limit:7 }).then(async results => {
                 const tracks = results.items.filter(i => i.type === "video");
                 if(tracks.length === 0) {
                     noResult = true;
@@ -142,6 +142,7 @@ module.exports = class PlayCommand extends BaseCommand{
         }
 
         if(!player.connection) { 
+            player.connection = await voiceChannel.join();
             await playing(bot, player, voiceChannel).catch (err => {
                 console.log(err);
                 message.channel.send(`**${author.username}**-sama, \`${err}\``);   
@@ -187,7 +188,6 @@ async function playing(bot, player, voiceChannel){
     else{
         dispatcherOptions.seek = (track.seek === null) ? 0 : track.seek;
     }
-    player.connection = await voiceChannel.join()
     
     // VoiceBroadcast events
     const dispatcher = player.connection.play(ytdl(track.url, ytdlOptions), dispatcherOptions)
