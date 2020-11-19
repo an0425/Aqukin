@@ -2,4 +2,5 @@
 /.vscode
 /node_modules
 .env
+application.yml
 package-lock.json
