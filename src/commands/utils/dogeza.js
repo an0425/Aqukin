@@ -7,10 +7,11 @@ module.exports = class DogezaCommand extends BaseCommand{
 
     async run(para) {
         const { author, channel } = para.message;
+        const { embedColour, dogeza } = para.bot.media;
         const embed = new MessageEmbed()
-            .setColor(0x1DE2FE)
+            .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
             .setTitle(`Oose no mama ni, **${author.username}**-sama`)
-            .setImage(para.bot.media.dogeza[Math.floor(Math.random() * Math.floor(para.bot.media.dogeza.length))])
+            .setImage(dogeza[Math.floor(Math.random() * Math.floor(dogeza.length))])
             .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
         channel.send(embed);
     } // end of run

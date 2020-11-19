@@ -6,10 +6,11 @@ module.exports = class BaquaCommand extends BaseCommand{
     constructor() {super("baqua", ["b", "baka", "baqukin"], "Display randomly one of the artworks of Hololive members", "SEND_MESSAGES", "utility", false, "", "-- will display a random artwork of a Hololive member")}
 
     async run(para) {
+        const { embedColour, baqua } = para.bot.media;
         const embed = new MessageEmbed()
-            .setColor(0x1DE2FE)
+            .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
             .setTitle("Atashi~ TENSAI (‾́ ◡ ‾́)")
-            .setImage(para.bot.media.bakaqua[Math.floor(Math.random() * Math.floor(para.bot.media.bakaqua.length))])
+            .setImage(baqua[Math.floor(Math.random() * Math.floor(baqua.length))])
             .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
         para.message.channel.send(embed);
     } // end of run

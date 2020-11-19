@@ -27,10 +27,11 @@ module.exports = class ReadyEvent extends BaseEvent {
 			bot.media = {
 				gifs: media.gifs,
 				dogeza: media.dogeza,
-				bakaqua: media.bakaqua,
+				baqua: media.baqua,
 				baquafina: media.baquafina,
 				thumbnails: media.thumbnails,
-				activities: media.activities
+				activities: media.activities,
+				embedColour: [ 0xBC06C4, 0x1DE2FE ]
 			}
 		});
 

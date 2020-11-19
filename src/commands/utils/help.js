@@ -10,7 +10,7 @@ module.exports = class HelpCommand extends BaseCommand{
         // shortcut variables
         const { message, bot } = para;
         const { author, channel } = message;
-        const { thumbnails, gifs } = bot.media;
+        const { thumbnails, gifs, embedColour } = bot.media;
         
         if(para.args.length){ // if the author has asked for help with a specific command
             const commandName = para.args[0].toLowerCase();
@@ -22,7 +22,7 @@ module.exports = class HelpCommand extends BaseCommand{
 
             // construct the embed
             const cmdInfoEmbed = new MessageEmbed()
-                .setColor(0x1DE2FE)
+                .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
                 .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
                 .setTitle(`[] is optional, <> is mandatory`)
                 .addFields({ name: "Prefix", value: `\`${para.prefix}\``, inline: true },
@@ -52,7 +52,7 @@ module.exports = class HelpCommand extends BaseCommand{
             
             // construct the embed
             const helpEmbed = new MessageEmbed()
-                .setColor(0x1DE2FE)
+                .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
                 .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
                 .setTitle(`You can try \`${para.prefix}help [command name]\` to get info on a specific command ☆ ⌒ (≧ ▽ °)`)
                 .addFields({ name: "Current Prefix", value: `\`${para.prefix}\``, inline: true }, 

@@ -24,9 +24,9 @@
     "http": "0.0.1-security",
     "pg": "^8.5.1",
     "sequelize": "^6.3.5",
-    "ytdl-core": "^4.0.4",
-    "ytpl": "^1.0.1",
-    "ytsr": "^1.0.4"
+    "ytdl-core": "^4.0.5",
+    "ytpl": "git+https://github.com/dbrn/node-ytpl.git#patch-1",
+    "ytsr": "git+https://github.com/TimeForANinja/node-ytsr.git#wip-api-adjustments"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"

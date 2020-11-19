@@ -53,29 +53,30 @@ async function registerMediaFiles(media, dir = ""){
 
         if(file.endsWith(".txt")){
             await fs.readFile(`${filePath}/${file}`, "utf-8").then(text => {
+                const arr = text.split("\n").filter(str => str !== "\r" );
                 if(file.startsWith("thumbnails")){
-                    media.thumbnails = text.split("\n");
+                    media.thumbnails = arr;
                 }
 
                 else if(file.startsWith("gifs")){
-                    media.gifs = text.split("\n");
+                    media.gifs = arr;
                 }
 
                 else if(file.startsWith("activities")){
-                    media.activities = text.split("\n");
+                    media.activities = arr;
                 }
 
                 else if(file.startsWith("baquafina")){
-                    media.baquafina = text.split("\n");
+                    media.baquafina = arr;
                 }
 
                 else if(file.startsWith("baqua")){
-                    media.bakaqua = text.split("\n");
+                    media.baqua = arr;
                 }
     
                 else if(file.startsWith("dogeza")){
-                    media.dogeza = text.split("\n");
-                }
+                    media.dogeza = arr;
+                } 
             });
         } // end of if the file is a .txt file 
     } // end of for loop

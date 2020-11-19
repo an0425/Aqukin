@@ -1,5 +1,5 @@
 /* This module exports utilities functions */
-const { VoiceConnection, VoiceBroadcast } = require("discord.js");
+const { VoiceConnection, StreamDispatcher } = require("discord.js");
 const BasePlayer = require("../utilities/structures/BasePlayer");
 
 // This function registers all the necessary VoiceConnection events
@@ -21,7 +21,7 @@ async function VC_events(bot){
 
 // This function registers all the necessary VoiceBroadcast events
 async function VB_events(bot){
-    VoiceBroadcast.on("error", async (err) =>{
+    StreamDispatcher.on("error", async (err) =>{
         await BasePlayer.textChannel.send(`**${BasePlayer.queue[0].requester.username}**-sama, \`${err}\` has occured when ${bot.user.username} was trying to play track \`${BasePlayer.queue[0].title}\` 。 ゜ ゜ (´Ｏ\`) ゜ ゜。`);
     })
 

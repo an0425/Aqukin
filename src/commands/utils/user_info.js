@@ -18,13 +18,14 @@ module.exports = class UsernfoCommand extends BaseCommand{
 
         // checks if the user has tagged the bot
         let embed;
+        const { gifs, embedColour } = bot.media;
         if(user.id === bot.user.id){
             const aquaCh = "https://www.youtube.com/channel/UC1opHUrw8rvnsadT-iGp7Cg";
             const aquaTw = "https://twitter.com/minatoaqua";
             const aThumbnails = ["https://media1.tenor.com/images/6ea2ecbe506ba7a51bc4a83bd5f16ae7/tenor.gif?itemid=17126194", 
                                  "https://media1.tenor.com/images/61eb394cd2c8f2effd2c0347b58545b9/tenor.gif?itemid=16289275"];
             embed = new MessageEmbed()
-                .setColor(0x1DE2FE)
+                .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
                 .setThumbnail(aThumbnails[Math.floor(Math.random() * Math.floor(aThumbnails.length))])
                 .setTitle(`⚓ ${user.username} information (⁄ ⁄> ⁄ ▽ ⁄ <⁄ ⁄) ⚓`)
                 .addFields({ name: "Nickname", value: "Baqua\nOnion\nIQ-3", inline: true },
@@ -53,9 +54,9 @@ module.exports = class UsernfoCommand extends BaseCommand{
             const nickname = member.nickname || "None";
         
             // construct the embed
-            const { gifs } = bot.media;
+            
             embed = new MessageEmbed()
-                .setColor(0x1DE2FE)
+                .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
                 .setThumbnail(member.user.displayAvatarURL({format: "png", dynamic: true, size: 2048}))
                 .setTitle(`${title} information ｡ ﾟ (ﾟ ^ ∀ ^ ﾟ) ﾟ｡`)
                 .addFields({ name: "Tag", value: member.user.tag, inline: true },

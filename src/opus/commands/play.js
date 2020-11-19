@@ -3,8 +3,8 @@ const ytpl = require("ytpl");
 const ytsr = require("ytsr");
 const ytdl = require("ytdl-core");
 const { MessageEmbed } = require("discord.js");
-const { convertInput } = require("../../utilities/functions");
 const { musicEmbed } = require("../../utilities/embed_constructor");
+const { convertInput } = require("../../utilities/functions");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 const BasePlayer = require("../../utilities/structures/BasePlayer");
 
@@ -20,7 +20,7 @@ module.exports = class PlayCommand extends BaseCommand{
         const { author, channel } = message;
 
         // create a player if the player for this guild does not exist
-        let player = await para.player || new BasePlayer(bot, message.guild.id, channel, voiceChannel);
+        let player = await para.player || new BasePlayer(bot, message.guild.id, channel);
 
         // search for track(s) with the given arguments
         let noResult = false;
@@ -49,13 +49,14 @@ module.exports = class PlayCommand extends BaseCommand{
         else if ( ytpl.validateID(query) ){
             await ytpl(query, { limit: Infinity }).then(async playlist =>{
                 const oldLenght = player.queue.length || 0; // old queue length before the playlist
+                //console.log(playlist);
 
                 playlist.items.forEach(async trackInfo => {
                     //console.log(trackInfo);
-                    if(trackInfo.author){
+                    if(trackInfo.duration){
                         const track = {
                             id: trackInfo.id,
-                            url: trackInfo.url_simple,
+                            url: trackInfo.url,
                             title: trackInfo.title,
                             duration: convertInput(trackInfo.duration),
                             requester: message.author,
@@ -86,7 +87,7 @@ module.exports = class PlayCommand extends BaseCommand{
                 let i = 0;
                 const tracksInfo = await tracks.map(r => `${++i}) [${r.title}](${r.link}) | length \`${r.duration}\``).join("\n\n"); // get the tracks info
                 const embed = new MessageEmbed()
-                    .setColor(0x1DE2FE)
+                    .setColor(bot.media.embedColour[Math.floor(Math.random() * Math.floor(bot.media.embedColour.length))])
                     .setTitle("Automatically times out in 24 seconds")
                     .setDescription(tracksInfo)
                     .setImage("https://media1.tenor.com/images/85e6b8577e925a9037d03a796588e7ed/tenor.gif?itemid=15925240")
@@ -143,22 +144,22 @@ module.exports = class PlayCommand extends BaseCommand{
 
         if(!player.connection) { 
             player.connection = await voiceChannel.join();
-            await playing(bot, player, voiceChannel).catch (err => {
+            //await player.play(bot, ytdl);
+            await playing(bot, player).catch (err => {
                 console.log(err);
                 message.channel.send(`**${author.username}**-sama, \`${err}\``);   
                 bot.music.delete(message.guild.id);
-            });
+            }); 
         }
 
         // update the currently playing embed if it exists
         if(player.sentMessage){
-            const embed = await musicEmbed(para.bot, player, player.queue[0]);
-            await player.sentMessage.edit(embed).catch(async err => { player.sentMessage = await player.textChannel.send(embed); });
+            player.updateEmbed(bot);
         }
     } // end of run
 }; // end of module.exports
 
-async function playing(bot, player, voiceChannel){
+async function playing(bot, player){
     let track = player.queue[0];
     // checks if the queue is empty
     if (!track) {
@@ -200,7 +201,7 @@ async function playing(bot, player, voiceChannel){
             player.seeking = false;
             const embed = await musicEmbed(bot, player, track);
             // send the embed to inform about the now playing track
-            player.sentMessage = await player.textChannel.send(embed).catch(err => console.log("an error has occurered trying to send the embed", err));
+            player.sentMessage = await player.textChannel.send(embed).catch(console.error);
         })
         
         .on("finish", async () =>{
@@ -217,7 +218,7 @@ async function playing(bot, player, voiceChannel){
 
             await player.queue.shift();
             await playing(bot, player);
-            await player.sentMessage.delete().catch(err => console.log(err)); // try catch in case the message got deleted manually
+            await player.sentMessage.delete().catch(console.error); // try catch in case the message got deleted manually
         });
 
     // VoiceConnection events
@@ -232,5 +233,5 @@ async function playing(bot, player, voiceChannel){
         await bot.votingSystem.delete(player.id);
         await bot.music.delete(player.id);
     });
-} // end of playing(...) function
+} // end of playing(...) function 
 

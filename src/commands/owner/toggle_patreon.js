@@ -1,8 +1,8 @@
 /* This module allow the OWNER to toggle the patreon status of the given guild */
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
-module.exports = class DefaultMessageNumCommand extends BaseCommand{
-    constructor() {super("togglepatreon", ["tp", "patreon"], "Toggle the given guild patreon status", "SEND_MESSAGES", "owner", true, "<guild_id>", "123...9 -- will toggle the guild with id 123...9 patreon status", true)}
+module.exports = class TogglePatreonCommand extends BaseCommand{
+    constructor() {super("togglepatreon", ["tp", "patreon"], "Toggle the given guild patreon status", "SEND_MESSAGES", "owner", true, "<guild_id>", "123...9 -- will toggle the guild with id 123...9 patreon status")}
     
     async run(para){
         // shortcut variables

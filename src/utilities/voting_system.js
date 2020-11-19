@@ -41,6 +41,7 @@ async function voteConstruct (bot, message, player, command){
         if(votingSysVar.votesRequired > votingSysVar.voteCount){  
             // contruct and send an embed asking the members to vote
             const embed = new MessageEmbed()
+                .setColor(bot.media.embedColour[Math.floor(Math.random() * Math.floor(bot.media.embedColour.length))])
                 .setTitle(`Please react if you would also like to \`${command.description}\``)
                 .setDescription(`${bot.user.username} require \`${votingSysVar.votesRequired}\` vote(s) to \`${command.description}\` (ｏ ・ _ ・) ノ ”(ノ _ <、)`)
                 .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");

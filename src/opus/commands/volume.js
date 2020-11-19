@@ -1,6 +1,5 @@
 /* This module allows the author to configure the volume of the bot's audio stream  */
 const { checkNum } = require("../../utilities/functions");
-const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class VolumeCommand extends BaseCommand{
@@ -25,10 +24,8 @@ module.exports = class VolumeCommand extends BaseCommand{
             await player.connection.dispatcher.setVolume(player.volume);
             channel.send(`**${author.username}**-sama, ${bot.user.username} has set the volume to \`${Math.floor(player.connection.dispatcher.volume*100)}\``); // inform the author
         
-            // Update the currently playing embed 
-            const embed = await musicEmbed(bot, player, player.queue[0]);
-            await player.sentMessage.edit(embed) // send the embed to inform about the now playing track
-                .catch(async err => { player.sentMessage = await player.textChannel.send(embed); });
+            // Update the currently playing embed
+            player.updateEmbed(bot);
         } catch(err) { console.log(err); }
     } // end of run
 }; // end of module.exports

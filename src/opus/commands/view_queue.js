@@ -11,10 +11,10 @@ module.exports = class ViewQueueCommand extends BaseCommand {
     async run (para) {
         // shortcut variables
         const { message, player } = para;
-        const { thumbnails, gifs } = para.bot.media;
+        const { thumbnails, gifs, embedColour } = para.bot.media;
     
         let currentPage = 0; // default current page to the first page
-        const embeds = await generateQueueEmbed(player.queue, thumbnails, gifs);
+        const embeds = await generateQueueEmbed(player.queue, thumbnails, gifs, embedColour);
         const queueEmbed = await message.channel.send(`Current Page -> ${currentPage+1}/${embeds.length}`, embeds[currentPage]);
         await queueEmbed.react("⬅️");
         await queueEmbed.react("➡️");
@@ -23,7 +23,7 @@ module.exports = class ViewQueueCommand extends BaseCommand {
         const filter = (reaction, user) => ["⬅️", "➡️", "❌"].includes(reaction.emoji.name) && (message.author.id === user.id); // author's reactions filter
         const collector = queueEmbed.createReactionCollector(filter); // a collector for collecting the author's reactions
 
-        collector.on("collect", async (reaction, user) => {
+        collector.on("collect", async (reaction) => {
             // If there are 2 embeds.
             switch(reaction.emoji.name){
                 case "➡️":
@@ -52,7 +52,7 @@ module.exports = class ViewQueueCommand extends BaseCommand {
 } // end of module.exports 
 
 /* This function is for generating an embed with the queue information */
-async function generateQueueEmbed(queue, thumbnails, gifs) {
+async function generateQueueEmbed(queue, thumbnails, gifs, embedColour) {
     const embeds = [];
     let k = 8;
     let info;
@@ -70,7 +70,7 @@ async function generateQueueEmbed(queue, thumbnails, gifs) {
         // construct the embed(s)
         if(i==0 || !info.startsWith("Currently")){
             const embed = new MessageEmbed()
-                .setColor(0x1DE2FE)
+                .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
                 .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
                 .setDescription(`⚓ Currently playing ▶️\n [${queue[0].title}](${queue[0].url}) | length \`${formatLength(queue[0].duration)}\` | requested by **${queue[0].requester.username}**-sama\n\n⚓ Next in queue ⏭️\n${info}`)
                 .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])

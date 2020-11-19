@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.ARRAY(DataTypes.STRING)
 		},
 
-		bakaqua: {
+		baqua: {
 			type: DataTypes.ARRAY(DataTypes.STRING)
 		},
 

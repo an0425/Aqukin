@@ -3,11 +3,11 @@ const { convertBoolean, formatLength } = require("../utilities/functions");
 const { MessageEmbed } = require("discord.js");
 
 async function musicEmbed(bot, player, track){
-    const { thumbnails } = bot.media;
+    const { thumbnails, embedColour } = bot.media;
    
     // construct the embeds     
     const embed = new MessageEmbed()
-        .setColor(0x1DE2FE)
+        .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
         .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
         .setTitle("⚓ Now Playing ~ (˘ ▽ ˘ ~) ⚓")
         .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
@@ -46,9 +46,9 @@ async function marketEmbed(bot, message, stocks){
     stocks.forEach(stock => description += `\nThe **${stock.name}**\n\`Current stock price\` -- $${stock.cost}\n\`Available share(s)\` -- ${stock.market_share}\n`);
 
     // construct the embed
-    const { thumbnails, gifs } = bot.media;
+    const { thumbnails, gifs, embedColour } = bot.media;
     const embed = new MessageEmbed()
-        .setColor(0x1DE2FE)
+        .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
         .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
         .setTitle(`${message.guild.name} Stock Market Σ (° ロ °)`)
         .addFields({ name: "Your Balance", value: `$${bot.currency.getBalance(message.author.id)}`, inline: true },
