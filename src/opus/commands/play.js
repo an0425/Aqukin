@@ -181,7 +181,7 @@ async function playing(bot, player){
     } // end of if the queue is empty
             
     // else the queue is not empty, setup the neccessary events for the dispatcher
-    let ytdlOptions = { filter: "audio", formatFallback: "filtered" };
+    let ytdlOptions = { filter: "audio", formatFallback: "filtered", quality: 'highestaudio', highWaterMark: 1 << 25 };
     let dispatcherOptions = { volume: player.volume ? player.volume : 1 };
     if(track.duration > 600){
         ytdlOptions.begin = track.seek ? track.seek*1000 : 0;
