@@ -11,10 +11,9 @@ module.exports = class ViewQueueCommand extends BaseCommand {
     async run (para) {
         // shortcut variables
         const { message, player } = para;
-        const { thumbnails, gifs, embedColour } = para.bot.media;
     
         let currentPage = 0; // default current page to the first page
-        const embeds = await generateQueueEmbed(player.queue, thumbnails, gifs, embedColour);
+        const embeds = await generateQueueEmbed(player.queue, para.bot.media);
         const queueEmbed = await message.channel.send(`Current Page -> ${currentPage+1}/${embeds.length}`, embeds[currentPage]);
         await queueEmbed.react("⬅️");
         await queueEmbed.react("➡️");
@@ -24,13 +23,13 @@ module.exports = class ViewQueueCommand extends BaseCommand {
         const collector = queueEmbed.createReactionCollector(filter); // a collector for collecting the author's reactions
 
         collector.on("collect", async (reaction) => {
-            // If there are 2 embeds.
+            // If there are 2 embeds
             switch(reaction.emoji.name){
                 case "➡️":
                     if (currentPage < embeds.length-1) { // checks if the current page is not the last page
                         currentPage++; // current page with now be the next page
                         queueEmbed.edit(`Current Page -> ${currentPage+1}/${embeds.length}`, embeds[currentPage]);
-                    } 
+                    }
                     break;
         
                 case "⬅️":
@@ -52,7 +51,8 @@ module.exports = class ViewQueueCommand extends BaseCommand {
 } // end of module.exports 
 
 /* This function is for generating an embed with the queue information */
-async function generateQueueEmbed(queue, thumbnails, gifs, embedColour) {
+async function generateQueueEmbed(queue, media) {
+    const { thumbnails, gifs, embedColour } = media;
     const embeds = [];
     let k = 8;
     let info;

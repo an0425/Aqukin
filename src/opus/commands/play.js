@@ -182,12 +182,12 @@ async function playing(bot, player){
             
     // else the queue is not empty, setup the neccessary events for the dispatcher
     let ytdlOptions = { filter: "audio", formatFallback: "filtered" };
-    let dispatcherOptions = { volume: (player.volume === null) ? 1 : player.volume };
+    let dispatcherOptions = { volume: player.volume ? player.volume : 1 };
     if(track.duration > 600){
-        ytdlOptions.begin = (track.seek === null) ? 0 : track.seek*1000;
+        ytdlOptions.begin = track.seek ? track.seek*1000 : 0;
     }
     else{
-        dispatcherOptions.seek = (track.seek === null) ? 0 : track.seek;
+        dispatcherOptions.seek = track.seek ? track.seek : 0;
     }
     
     // VoiceBroadcast events

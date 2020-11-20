@@ -1,7 +1,7 @@
 /* Main module for Aqukin */
 require("dotenv").config();
 const { Manager } = require("erela.js");
-const { Shoukaku } = require('shoukaku');
+//const { Shoukaku } = require('shoukaku');
 const { alive } = require("../utilities/alive");
 const { Client, Collection } = require("discord.js");
 const { settings, currency } = require("../database/properties");
