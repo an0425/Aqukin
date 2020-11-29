@@ -64,13 +64,13 @@ async function generateQueueEmbed(queue, media, lavalink) {
             // checks if there's anything next in queue
             let j = i;
             k += 7;
-            let info = next.map(track => `${++j}) [${track.title}](${track.uri}) | length \`${formatLength(track.duration, false, lavalink)}\` | requested by **${track.requester.username}**-sama`).join("\n\n");
+            let info = next.map(track => `${++j}) [${track.title}](${track.uri}) | \`${formatLength(track.duration, false, lavalink)}\` | requested by **${track.requester.username}**-sama`).join("\n\n");
         
             // construct the embed(s)
             const embed = new MessageEmbed()
                 .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
                 .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
-                .setDescription(`⚓ **Currently playing** ▶️\n [${queue.current.title}](${queue.current.uri}) | length \`${formatLength(queue.current.duration, false, lavalink)}\` | requested by **${queue.current.requester.username}**-sama\n\n⚓ **Next in queue** ⏭️\n${info}`)
+                .setDescription(`⚓ **Currently playing** ▶️\n [${queue.current.title}](${queue.current.uri}) | \`${formatLength(queue.current.duration, false, lavalink)}\` | requested by **${queue.current.requester.username}**-sama\n\n⚓ **Next in queue** ⏭️\n${info}`)
                 .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
                 .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
             embeds.push(embed); // pushing embeds (for transition between pages)
@@ -81,7 +81,7 @@ async function generateQueueEmbed(queue, media, lavalink) {
         const embed = new MessageEmbed()
             .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
             .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
-            .setDescription(`⚓ **Currently playing** ▶️\n [${queue.current.title}](${queue.current.uri}) | length \`${formatLength(queue.current.duration, false, lavalink)}\` | requested by **${queue.current.requester.username}**-sama\n\n⚓ **Next in queue** ⏭️\n${"Currently no track is next in queueヾ (= `ω´ =) ノ”"}`)
+            .setDescription(`⚓ **Currently playing** ▶️\n [${queue.current.title}](${queue.current.uri}) | \`${formatLength(queue.current.duration, false, lavalink)}\` | requested by **${queue.current.requester.username}**-sama\n\n⚓ **Next in queue** ⏭️\n${"Currently no track is next in queueヾ (= `ω´ =) ノ”"}`)
             .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
             .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
         embeds.push(embed);

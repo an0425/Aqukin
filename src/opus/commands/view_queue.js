@@ -63,7 +63,7 @@ async function generateQueueEmbed(queue, media) {
         if (next.length !== 0){
             let j = i;
             k += 7;
-            info = next.map(track => `${++j}) [${track.title}](${track.url}) | length \`${formatLength(track.duration)}\` | requested by **${track.requester.username}**-sama`).join("\n\n");
+            info = next.map(track => `${++j}) [${track.title}](${track.url}) | \`${formatLength(track.duration)}\` | requested by **${track.requester.username}**-sama`).join("\n\n");
         } // end of if
         else { info = "Currently no track is next in queueヾ (= `ω´ =) ノ”"; } // else next in queue is empty
     
@@ -72,7 +72,7 @@ async function generateQueueEmbed(queue, media) {
             const embed = new MessageEmbed()
                 .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
                 .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
-                .setDescription(`⚓ Currently playing ▶️\n [${queue[0].title}](${queue[0].url}) | length \`${formatLength(queue[0].duration)}\` | requested by **${queue[0].requester.username}**-sama\n\n⚓ Next in queue ⏭️\n${info}`)
+                .setDescription(`⚓ Currently playing ▶️\n [${queue[0].title}](${queue[0].url}) | \`${formatLength(queue[0].duration)}\` | requested by **${queue[0].requester.username}**-sama\n\n⚓ Next in queue ⏭️\n${info}`)
                 .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
                 .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
             
