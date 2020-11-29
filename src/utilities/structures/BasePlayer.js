@@ -1,7 +1,7 @@
 const { musicEmbed } = require("../embed_constructor");
 
 module.exports = class BasePlayer{
-    constructor (bot, id, textChannel){
+    constructor (id, textChannel){
         this.id = id,
         this.textChannel = textChannel,
         this.trackRepeat = false,
@@ -9,8 +9,6 @@ module.exports = class BasePlayer{
         this.seeking = false,
         this.queue = [],
         this.loopqueue = []            
-
-        bot.music.set(id, this);
     }
     
     async updateEmbed(bot){

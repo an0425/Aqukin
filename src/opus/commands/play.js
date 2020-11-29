@@ -20,11 +20,11 @@ module.exports = class PlayCommand extends BaseCommand{
         const { author, channel } = message;
 
         // create a player if the player for this guild does not exist
-        let player = await para.player || new BasePlayer(bot, message.guild.id, channel);
+        let player = await para.player || new BasePlayer(message.guild.id, channel);
 
         // search for track(s) with the given arguments
-        let noResult = false;
         const query = para.args.join(" ");
+        const initQueue = player.queue.length;
         //console.log(query);
         
         // if the queury is a youtube video link
@@ -41,9 +41,7 @@ module.exports = class PlayCommand extends BaseCommand{
                 //console.log(trackInfo);
                 await player.queue.push(track);
                 channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued track \`${track.title}\` ٩(ˊᗜˋ*)و`);
-            }).catch((err) => {
-                noResult = true;
-                message.channel.send(`**${author.username}**-sama, \`${err}\``)});   
+            }).catch((err) => message.channel.send(`**${author.username}**-sama, \`${err}\``));   
         }
         // if the queury is a youtube playlist link
         else if ( ytpl.validateID(query) ){
@@ -61,7 +59,6 @@ module.exports = class PlayCommand extends BaseCommand{
                             duration: convertInput(trackInfo.duration),
                             requester: message.author,
                         }
-                        
                         await player.queue.push(track);
                     }
                 });
@@ -69,7 +66,6 @@ module.exports = class PlayCommand extends BaseCommand{
                 await channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued \`${player.queue.length - oldLenght}\` track(s) from the playlist \`${playlist.title}\` ٩(ˊᗜˋ*)و`);
             })
             .catch((err) => {
-                noResult = true;
                 console.log(err);
                 message.channel.send(`**${author.username}**-sama, \`${err}\``)});
         }
@@ -78,7 +74,6 @@ module.exports = class PlayCommand extends BaseCommand{
             await ytsr(query, { limit:7 }).then(async results => {
                 const tracks = results.items.filter(i => i.type === "video");
                 if(tracks.length === 0) {
-                    noResult = true;
                     channel.send(`**${author.username}**-sama, ${bot.user.username} can't find any tracks with the given keywords (｡T ω T｡)`, para.ridingAqua);
                     return; 
                 }                
@@ -88,61 +83,47 @@ module.exports = class PlayCommand extends BaseCommand{
                 const tracksInfo = await tracks.map(r => `${++i}) [${r.title}](${r.link}) | length \`${r.duration}\``).join("\n\n"); // get the tracks info
                 const embed = new MessageEmbed()
                     .setColor(bot.media.embedColour[Math.floor(Math.random() * Math.floor(bot.media.embedColour.length))])
-                    .setTitle("Automatically times out in 24 seconds")
+                    .setTitle(`Please enter the \`track number\` that you would like ${bot.user.username} to queue, or \`0\` to cancel ヽ (o´∀\`) ﾉ ♪ ♬`)
                     .setDescription(tracksInfo)
                     .setImage("https://media1.tenor.com/images/85e6b8577e925a9037d03a796588e7ed/tenor.gif?itemid=15925240")
                     .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
-                await message.channel.send(`**${author.username}**-sama, please enter the track number that you would like ${bot.user.username} to queue ヽ (o´∀\`) ﾉ ♪ ♬`, embed)
+                await message.channel.send(`**${author.username}**-sama, this embed will time out in 24 seconds`, embed)
                     .then(async (msg) => {
                         // allow the author to select a track fron the search results within the allowed time of 24s
-                        const filter = m => (message.author.id === m.author.id) && (m.content >= 1 && m.content <= tracks.length);
+                        const filter = m => (message.author.id === m.author.id) && (m.content >= 0 && m.content <= tracks.length);
 
                         // await the user respond within 24s
                         await message.channel.awaitMessages(filter, { max: 1, time: 24000, errors: ["time"] })
                             .then(async (response) => {
                                 const entry = await response.first().content;
-                                const trackInfo = tracks[entry-1];
-                                const track = {
-                                    id: ytdl.getURLVideoID(trackInfo.link),
-                                    url: trackInfo.link,
-                                    title: trackInfo.title,
-                                    duration: convertInput(trackInfo.duration),
-                                    requester: message.author,
+                                
+                                if(entry > 0){
+                                    const trackInfo = tracks[entry-1];
+                                    const track = {
+                                        id: ytdl.getURLVideoID(trackInfo.link),
+                                        url: trackInfo.link,
+                                        title: trackInfo.title,
+                                        duration: convertInput(trackInfo.duration),
+                                        requester: message.author,
+                                    }
+                                    //console.log(trackInfo, track);
+                                    await player.queue.push(track);
+                                    message.channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued track \`${tracks[entry-1].title}\` ٩(ˊᗜˋ*)و`); // inform the author
                                 }
-                                //console.log(trackInfo, track);
-                                await player.queue.push(track);
-                                response.first().delete().catch(err => console.log(err)); // delete the user respond
-                                message.channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued track \`${tracks[entry-1].title}\` ٩(ˊᗜˋ*)و`); // inform the author
-                            })
-                            .catch(err =>{
-                                noResult = true;
-                                console.log(err);
-                            });
 
-                        // delete the search results embed 
-                        msg.delete(); 
-                    })
-                    .catch(err => {
-                        noResult = true;
-                        console.log(err);
-                    });
-            })
-            .catch((err) => {
-                noResult = true;
+                                response.first().delete().catch(err => console.log(err)); // delete the user respond
+                            }).catch(console.error);
+                        
+                            msg.delete(); // delete the search results embed 
+                    }).catch(console.error);
+            }).catch((err) => {
                 channel.send(`**${author.username}**-sama, \`${err}\``, para.ridingAqua); 
-                console.log("An error has occured while enqueuing", err)});
+                console.log("An error has occured while enqueuing", err);
+            });
         } // end of else the given is keyword
 
-        // terminate the code if no results are found
-        if(noResult){
-            if(player.queue.length === 0){
-                //await player.connection.disconnect();
-                await bot.music.delete(player.id);
-            }
-            return;
-        }
-
-        if(!player.connection) { 
+        if(!player.connection && player.queue.length > 0) {
+            await bot.music.set(message.guild.id, player); 
             player.connection = await voiceChannel.join();
             //await player.play(bot, ytdl);
             await playing(bot, player).catch (err => {
@@ -153,7 +134,7 @@ module.exports = class PlayCommand extends BaseCommand{
         }
 
         // update the currently playing embed if it exists
-        if(player.sentMessage){
+        if(player.sentMessage && player.queue.length > initQueue){
             player.updateEmbed(bot);
         }
     } // end of run

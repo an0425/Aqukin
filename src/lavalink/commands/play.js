@@ -50,22 +50,24 @@ module.exports = class PlayCommand extends BaseCommand{
                 // embed the result(s)
                 const embed = new MessageEmbed()
                     .setColor(0x1DE2FE)
-                    .setTitle("Automatically times out in 24 seconds")
+                    .setTitle(`Please enter the \`track number\` that you would like ${bot.user.username} to queue, or \`0\` to cancel`)
                     .setDescription(tracksInfo)
                     .setImage("https://media1.tenor.com/images/85e6b8577e925a9037d03a796588e7ed/tenor.gif?itemid=15925240")
                     .setFooter("Vive La Résistance le Hololive~");
   
                 /* Allow the author to select a track fron the search results within the allowed time of 24s */
-                await message.channel.send(`**${author.username}**-sama, please enter the \`track number\` that you would like ${bot.user.username} to queue.`, embed)
+                await message.channel.send(`**${author.username}**-sama, this embed will time out in 24 seconds`, embed)
                     .then(async (msg) => {
-                        const filter = m => (message.author.id === m.author.id) && (m.content >= 1 && m.content <= tracks.length);
+                        const filter = m => (message.author.id === m.author.id) && (m.content >= 0 && m.content <= tracks.length);
                         // await the user respond within 24s
                         await message.channel.awaitMessages(filter, { max: 1, time: 24000 }) 
                             .then(async (response) => {
                                 const entry = await response.first().content;
-                                await player.queue.add(tracks[entry-1]); // enqueue
+                                if(entry > 0){
+                                    await player.queue.add(tracks[entry-1]); // enqueue
+                                    await message.channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued track \`${tracks[entry-1].title}\``); // inform the author
+                                }
                                 await response.first().delete(); // delete the user respond
-                                await message.channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued track \`${tracks[entry-1].title}\``); // inform the author
                             }).catch(err => console.log(err));
 
                         await msg.delete();
@@ -77,11 +79,11 @@ module.exports = class PlayCommand extends BaseCommand{
         }
 
         if (!player.playing && !player.paused && !player.queue.size)
-            player.play();
+            player.play().catch(console.error);
 
         // For playlists you'll have to use slightly different if statement
         else if (!player.playing && !player.paused && player.queue.totalSize === searchResults.tracks.length)
-            player.play();
+            player.play().catch(console.error);
 
         if(player.sentMessage){
             // Update the currently playing embed

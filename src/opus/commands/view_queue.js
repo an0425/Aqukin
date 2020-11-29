@@ -15,26 +15,38 @@ module.exports = class ViewQueueCommand extends BaseCommand {
         let currentPage = 0; // default current page to the first page
         const embeds = await generateQueueEmbed(player.queue, para.bot.media);
         const queueEmbed = await message.channel.send(`Current Page -> ${currentPage+1}/${embeds.length}`, embeds[currentPage]);
+        await queueEmbed.react("⏮️");
+        await queueEmbed.react("⏪");
         await queueEmbed.react("⬅️");
         await queueEmbed.react("➡️");
+        await queueEmbed.react("⏩");
+        await queueEmbed.react("⏭️");
         await queueEmbed.react('❌');
 
-        const filter = (reaction, user) => ["⬅️", "➡️", "❌"].includes(reaction.emoji.name) && (message.author.id === user.id); // author's reactions filter
+        const filter = (reaction, user) => ["⏮️","⏪","⬅️", "➡️", "⏩", "⏭️", "❌"].includes(reaction.emoji.name) && (message.author.id === user.id); // author's reactions filter
         const collector = queueEmbed.createReactionCollector(filter); // a collector for collecting the author's reactions
 
         collector.on("collect", async (reaction) => {
-            // If there are 2 embeds
-            switch(reaction.emoji.name){
+            const { name } = reaction.emoji;
+            switch(name){
                 case "➡️":
+                case "⏩":
+                case "⏭️":
                     if (currentPage < embeds.length-1) { // checks if the current page is not the last page
-                        currentPage++; // current page with now be the next page
+                        if(name == "➡️") { currentPage++; }
+                        else if(name == "⏩") { currentPage = currentPage+5 < embeds.length-1 ? currentPage+5 : embeds.length-1; }
+                        else { currentPage = embeds.length-1; }
                         queueEmbed.edit(`Current Page -> ${currentPage+1}/${embeds.length}`, embeds[currentPage]);
                     }
                     break;
         
                 case "⬅️":
+                case "⏪":
+                case "⏮️":
                     if (currentPage !== 0) { // checks if the current page is not the first page
-                        --currentPage; // current page will now be the previous page
+                        if(name == "⬅️") { currentPage--; }
+                        else if(name == "⏪") { currentPage = currentPage-5 > 0 ? currentPage-5 : 0; }
+                        else { currentPage = 0; }
                         queueEmbed.edit(`Current Page ${currentPage+1}/${embeds.length}`, embeds[currentPage]);
                     }
                     break;
