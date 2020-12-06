@@ -44,7 +44,7 @@ async function voteConstruct (bot, message, player, command){
                 .setColor(bot.media.embedColour[Math.floor(Math.random() * Math.floor(bot.media.embedColour.length))])
                 .setTitle(`Please react if you would also like to \`${command.description}\``)
                 .setDescription(`${bot.user.username} require \`${votingSysVar.votesRequired}\` vote(s) to \`${command.description}\` (ｏ ・ _ ・) ノ ”(ノ _ <、)`)
-                .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
+                .setFooter("FREEDOM SMILE (^)o(^)b");
            
             const msg = await message.channel.send(`**${message.author.username}**-sama, you have voted to \`${command.description}\`, please wait for other(s) to vote (= ω =) .. nyaa`, embed)
             await msg.react("⚓");

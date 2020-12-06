@@ -14,7 +14,7 @@ module.exports = class ReviewMediaCommand extends BaseCommand{
             .setTitle("Automatically times out in 24 seconds")
             .setDescription("1. baqua\n2. baquafina\n3. gifs\n4.thumbnails")
             .setImage("https://media1.tenor.com/images/85e6b8577e925a9037d03a796588e7ed/tenor.gif?itemid=15925240")
-            .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
+            .setFooter("FREEDOM SMILE (^)o(^)b");
         
             await message.channel.send(`**${message.author.username}**-sama, please choose a media array you want to review`, embed)
                 .then(async (msg) => {

@@ -12,7 +12,7 @@ module.exports = class DogezaCommand extends BaseCommand{
             .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
             .setTitle(`Oose no mama ni, **${author.username}**-sama`)
             .setImage(dogeza[Math.floor(Math.random() * Math.floor(dogeza.length))])
-            .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
+            .setFooter("FREEDOM SMILE (^)o(^)b");
         channel.send(embed);
     } // end of run
 }; // end of module.exports

@@ -53,7 +53,7 @@ module.exports = class InvestmentPortfolioCommand extends BaseCommand{
                        { name: "Economy Role", value: `${user.econrole}`, inline: true },
                        { name: "Investment(s)", value: `${description}` })
             .setImage("https://media1.tenor.com/images/c0e9bb7fbe7ae685ca2c7aa214e82cdc/tenor.gif?itemid=17166292")
-            .setFooter("Vive La Résistance le Hololive~");
+            .setFooter("FREEDOM SMILE (^)o(^)b");
         message.channel.send(`**${message.author.username}**-sama, this is`, embed);
     } // end of run
 }; // end of module.exports */

@@ -11,7 +11,7 @@ const BasePlayer = require("../../utilities/structures/BasePlayer");
 
 module.exports = class PlayCommand extends BaseCommand{
     constructor() {
-        super("play", ["p"], "Enqueue Youtube Video/Playlist/Track from given URL search results", "CONNECT", "music", true, "<Youtube URL/Keywords>", "https://www.youtube.com/watch?v=-aB6MQU8l1s -- will enqueue the song");
+        super("play", ["p"], "Enqueue Youtube Video/Playlist/Track from given URL search results", "CONNECT", "music", true, "<Youtube URL/Keywords>", "https://www.youtube.com/watch?v=6bnaBnd4kyU -- will enqueue the song \`#Aqua Iro Palette - Minato Aqua\`");
     }
 
     async run (para){
@@ -27,47 +27,51 @@ module.exports = class PlayCommand extends BaseCommand{
         const initQueue = player.queue.length;
         //console.log(query);
         
-        // if the queury is a youtube video link
-        if(ytdl.validateURL(query)) {  
-            // Get the song info
-            await ytdl.getBasicInfo(query).then(async trackInfo => {
-                const track = {
-                    id: trackInfo.player_response.videoDetails.videoId,
-                    url: trackInfo.videoDetails.video_url,
-                    title: trackInfo.player_response.videoDetails.title,
-                    duration: trackInfo.player_response.videoDetails.lengthSeconds,
-                    requester: message.author,
-                };
-                //console.log(trackInfo);
-                await player.queue.push(track);
-                channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued track \`${track.title}\` ٩(ˊᗜˋ*)و`);
-            }).catch((err) => message.channel.send(`**${author.username}**-sama, \`${err}\``));   
-        }
-        // if the queury is a youtube playlist link
-        else if ( ytpl.validateID(query) ){
-            await ytpl(query, { limit: Infinity }).then(async playlist =>{
-                const oldLenght = player.queue.length || 0; // old queue length before the playlist
-                //console.log(playlist);
-
-                playlist.items.forEach(async trackInfo => {
+        // if the given queuery is a url
+        if(query.startsWith("https://")){
+            // if the queury is a youtube video link
+            if(ytdl.validateURL(query)) {  
+                // Get the song info
+                await ytdl.getBasicInfo(query).then(async trackInfo => {
+                    const track = {
+                        id: trackInfo.player_response.videoDetails.videoId,
+                        url: trackInfo.videoDetails.video_url,
+                        title: trackInfo.player_response.videoDetails.title,
+                        duration: trackInfo.player_response.videoDetails.lengthSeconds*1000,
+                        requester: message.author,
+                    };
                     //console.log(trackInfo);
-                    if(trackInfo.duration){
-                        const track = {
-                            id: trackInfo.id,
-                            url: trackInfo.url,
-                            title: trackInfo.title,
-                            duration: convertInput(trackInfo.duration),
-                            requester: message.author,
+                    await player.queue.push(track);
+                    channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued track \`${track.title}\` ٩(ˊᗜˋ*)و`);
+                }).catch((err) => message.channel.send(`**${author.username}**-sama, \`${err}\``));   
+            } // video link
+            
+            // if the queury is a youtube playlist link
+            else if (ytpl.validateID(query)){
+                await ytpl(query, { limit: Infinity }).then(async playlist =>{
+                    const oldLenght = player.queue.length || 0; // old queue length before the playlist
+                    //console.log(playlist);
+    
+                    playlist.items.forEach(async trackInfo => {
+                        //console.log(trackInfo);
+                        if(trackInfo.duration){
+                            const track = {
+                                id: trackInfo.id,
+                                url: trackInfo.url,
+                                title: trackInfo.title,
+                                duration: convertInput(trackInfo.duration),
+                                requester: message.author,
+                            }
+                            await player.queue.push(track);
                         }
-                        await player.queue.push(track);
-                    }
-                });
-
-                await channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued \`${player.queue.length - oldLenght}\` track(s) from the playlist \`${playlist.title}\` ٩(ˊᗜˋ*)و`);
-            })
-            .catch((err) => {
-                console.log(err);
-                message.channel.send(`**${author.username}**-sama, \`${err}\``)});
+                    });
+    
+                    await channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued \`${player.queue.length - oldLenght}\` track(s) from the playlist \`${playlist.title}\` ٩(ˊᗜˋ*)و`);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    message.channel.send(`**${author.username}**-sama, \`${err}\``)});
+            } // playlist link
         }
         // else try searching youtube with the given argument
         else{
@@ -86,7 +90,7 @@ module.exports = class PlayCommand extends BaseCommand{
                     .setTitle(`Please enter the \`track number\` that you would like ${bot.user.username} to queue, or \`0\` to cancel ヽ (o´∀\`) ﾉ ♪ ♬`)
                     .setDescription(tracksInfo)
                     .setImage("https://media1.tenor.com/images/85e6b8577e925a9037d03a796588e7ed/tenor.gif?itemid=15925240")
-                    .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
+                    .setFooter("FREEDOM SMILE (^)o(^)b");
                 await message.channel.send(`**${author.username}**-sama, this embed will time out in 24 seconds`, embed)
                     .then(async (msg) => {
                         // allow the author to select a track fron the search results within the allowed time of 24s
@@ -141,7 +145,7 @@ module.exports = class PlayCommand extends BaseCommand{
 }; // end of module.exports
 
 async function playing(bot, player){
-    let track = player.queue[0];
+    const track = player.queue[0];
     // checks if the queue is empty
     if (!track) {
         // repeat the queue if queueRepeat is set to true
@@ -160,17 +164,15 @@ async function playing(bot, player){
             return;
         }
     } // end of if the queue is empty
-            
-    // else the queue is not empty, setup the neccessary events for the dispatcher
-    let ytdlOptions = { filter: "audio", formatFallback: "filtered"/*, quality: "highestaudio", highWaterMark: 1 << 25 */ };
-    let dispatcherOptions = { volume: player.volume ? player.volume : 1 };
-    if(track.duration > 600){
-        ytdlOptions.begin = track.seek ? track.seek*1000 : 0;
+    const ytdlOptions = { filter: "audio", formatFallback: "filtered", quality: "highestaudio"/* , highWaterMark: 1 << 25 */ }
+    const dispatcherOptions = { volume: player.volume || 1 }
+    
+    if(track.fast){
+        ytdlOptions.begin = track.seek || 0;
     }
     else{
-        dispatcherOptions.seek = track.seek ? track.seek : 0;
+        dispatcherOptions.seek = track.seek/1000 || 0;
     }
-    
     // VoiceBroadcast events
     const dispatcher = await player.connection.play(ytdl(track.url, ytdlOptions), dispatcherOptions)
         .on("error", async (err) =>{
@@ -179,24 +181,23 @@ async function playing(bot, player){
 
         .on("start", async () =>{
             // now playing embed constructing and sending
-            player.seeking = false;
+            track.seek = null;
+            track.fast = null;
             const embed = await musicEmbed(bot, player, track);
             // send the embed to inform about the now playing track
             player.sentMessage = await player.textChannel.send(embed).catch(console.error);
         })
-        
         .on("finish", async () =>{
             await dispatcher.destroy();
         })
         .once("close", async () => {
             // loop status checks
-            if(!player.seeking) {
+            if(!track.seek){
                 await bot.votingSystem.delete(player.id);
                 if(player.trackRepeat) { await player.queue.splice(1, 0, player.queue[0]); }
                 else if(player.queueRepeat) { await player.loopqueue.push(player.queue[0]); }
-                if(player.queue[0]) { player.queue[0].seek = 0; }
             }
-
+            
             await player.queue.shift();
             await playing(bot, player);
             await player.sentMessage.delete().catch(console.error); // try catch in case the message got deleted manually

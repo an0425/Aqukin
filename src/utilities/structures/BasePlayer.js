@@ -50,7 +50,7 @@ module.exports = class BasePlayer{
         }
         
         // VoiceBroadcast events
-        const dispatcher = this.connection.play(ytdl(track.url, ytdlOptions), dispatcherOptions)
+        await this.connection.play(ytdl(track.url, ytdlOptions), dispatcherOptions)
             .on("error", async (err) =>{
                 await this.textChannel.send(`**${this.queue[0].requester.username}**-sama, \`${err}\` has occured when ${bot.user.username} was trying to play track \`${track.title}\` 。 ゜ ゜ (´Ｏ\`) ゜ ゜。`);
             })

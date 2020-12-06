@@ -10,13 +10,13 @@ async function musicEmbed(bot, player, track){
         .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
         .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
         .setTitle("⚓ Now Playing ~ (˘ ▽ ˘ ~) ⚓")
-        .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
+        .setFooter("FREEDOM SMILE (^)o(^)b");
 
     // lavalink
     if(bot.music.lavalink){
         embed.addFields({ name: "Title", value: `[${track.title}](${track.uri})` },
                    { name: "🔞Volume", value: `${Math.floor(player.volume)}`, inline: true },
-                   { name: "Track Length", value: formatLength(track.duration, false, bot.music.lavalink), inline: true },
+                   { name: "Track Length", value: formatLength(track.duration, false, true), inline: true },
                    { name: "Queue Size", value: player.queue.size + 1, inline: true },
                    { name: "⏸️Paused", value: convertBoolean(player.paused), inline: true },
                    { name: "Track Looped", value: convertBoolean(player.trackRepeat), inline: true },
@@ -55,7 +55,7 @@ async function marketEmbed(bot, message, stocks){
                    { name: "Economy Role", value: `${user.econrole}`, inline: true },
                    { name: "Market", value: `${description}` },)
         .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
-        .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
+        .setFooter("FREEDOM SMILE (^)o(^)b");
     return embed;
 } // end of marketEmbed(...)
 

@@ -33,7 +33,7 @@ module.exports = class HelpCommand extends BaseCommand{
                            { name: "Description", value: command.description },
                            { name: "Detailed Guide", value: `[Wiki](https://github.com/DeaLoux/Aqukin/wiki)`})
                 .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
-                .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
+                .setFooter("FREEDOM SMILE (^)o(^)b");
             channel.send(`**${author.username}**-sama, here's the info of the \`${command.name}\` command`, cmdInfoEmbed); // send out the embed
         } // end of if
         
@@ -61,7 +61,7 @@ module.exports = class HelpCommand extends BaseCommand{
                            { name: "Ultility commands", value: utilsCmds },)
                            //{ name: "Economy commands", value: econCmds },
                 .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
-                .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
+                .setFooter("FREEDOM SMILE (^)o(^)b");
 
             if(message.member.hasPermission("ADMINISTRATOR")){
                 const settings = await bot.settings.get(message.guild.id);

@@ -4,7 +4,7 @@ const { convertInput, formatLength } = require("../../utilities/functions");
 
 module.exports = class MoveCommand extends BaseCommand{
     constructor() {
-        super("move", ["m", "mv", "to", "time"], "Move the audio player to a specified timestamp in the current track by its requester/admin", "CONNECT", "music", true, "<hh:mm:ss>", "02:32 -- will move the current track to the position of **2 minutes and 32 seconds**");
+        super("move", ["mv", "to", "time"], "Move the audio player to a specified timestamp in the current track by its requester/admin.\n\nFast moving can be toggle by adding \`-f\` to the command.\n\nFast moving \`requires\` the track to be \`1080p or higher\` and is \`not recommended\` unless the track are lengthy such as [endurance streams](https://www.youtube.com/watch?v=YW-6KawBCvM).", "CONNECT", "music", true, "<hh:mm:ss> [-f]", "02:32 -- will move the current track to the position of **2 minutes and 32 seconds**");
     }
     
     async run(para){
@@ -25,20 +25,18 @@ module.exports = class MoveCommand extends BaseCommand{
         
         // try to move to the given timestamp, inform the author if fail
         try{
-            player.seeking = true;
+            // inform the author if success
             await player.queue.splice(1, 0, player.queue[0]);
+            player.queue[1].fast = para.args[1] == "-f";
             player.queue[1].seek = timestamp;
             await player.connection.dispatcher.end();
-            // inform the author if success
-            await message.channel.send(`**${author.username}**-sama, ${para.bot.user.username} will now move the current track to position \`${formatLength(timestamp, player.seeking)}\``);
+            message.channel.send(`**${author.username}**-sama, ${para.bot.user.username} will now move the current track to position \`${formatLength(timestamp, true)}\``);
         } catch(err) {
             console.log(err);
-            player.connection.moving = false;
-            message.channel.send(`**${author.username}**-sama, an error has occured while trying to move the track ☆ ｏ (＞ ＜ ；) ○, ${bot.user.username} has informed **${bot.author.username}**-sama`);
+            message.channel.send(`**${author.username}**-sama, an error has occured while trying to move the track ☆ ｏ (＞ ＜ ；) ○, ${para.bot.user.username} has informed **${para.bot.author.username}**-sama`);
         } 
     } // end of run
 }; // end of module.exports 
-
 
 
     

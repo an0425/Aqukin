@@ -33,7 +33,7 @@ async function ytNotify(para){
                 .setTitle(title)
                 .addFields({name: "Channel", value: `[${chSearchR.snippet.title}](https://www.youtube.com/channel/${chSearchR.snippet.channelId})`})
                 .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
-                .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
+                .setFooter("FREEDOM SMILE (^)o(^)b");
             return message.channel.send(`**${message.author.username}**-sama`, videoEmbed);
     } // end of switch case
     livestatus(chSearchR); // display the embed
@@ -78,7 +78,7 @@ async function ytNotify(para){
                     .addFields({name: "Channel", value: `[${chSearchR.snippet.title}](https://www.youtube.com/channel/${chSearchR.snippet.channelId})`},
                                {name: "Stream Title", value: `[${video.snippet.title}](https://www.youtube.com/watch?v=${video.id.videoId})`})
                     .setImage(`${video.snippet.thumbnails.high.url}`)
-                    .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
+                    .setFooter("FREEDOM SMILE (^)o(^)b");
                 // send the embed
                 message.channel.send(`**${message.author.username}**-sama`, videoEmbed);
             }); // end of forEach loop

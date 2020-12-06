@@ -6,7 +6,7 @@ const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class PlayCommand extends BaseCommand{
     constructor() {
-        super("play", ["p"], "Enqueue Youtube Video/Playlist/Track from given URL search results", "CONNECT", "music", true, "<Youtube URL/Keywords>", "https://www.youtube.com/watch?v=-aB6MQU8l1s -- will enqueue the song");
+        super("play", ["p"], "Enqueue Youtube Video/Playlist/Track from given URL search results", "CONNECT", "music", true, "<Youtube URL/Keywords>", "https://www.youtube.com/watch?v=6bnaBnd4kyU -- will enqueue the song \`#Aqua Iro Palette - Minato Aqua\`");
     }
     async run (para){
         // shortcut variables
@@ -40,20 +40,20 @@ module.exports = class PlayCommand extends BaseCommand{
         else if(searchResults.loadType === "PLAYLIST_LOADED") {
             //console.log(searchResults.tracks);
             await searchResults.tracks.forEach(track => player.queue.add(track));
-            message.channel.send(`**${author.username}**-sama, Aqukin has enqueued \`${searchResults.tracks.length}\` tracks from the playlist \`${searchResults.playlist.name}\`| total length \`${formatLength(searchResults.playlist.duration, false, bot.music.lavalink)}\``);
+            message.channel.send(`**${author.username}**-sama, Aqukin has enqueued \`${searchResults.tracks.length}\` tracks from the playlist \`${searchResults.playlist.name}\`| total length \`${formatLength(searchResults.playlist.duration, false)}\``);
         }
 
         else if(searchResults.loadType === "SEARCH_RESULT") {
             let i = 0;
                 const tracks = await searchResults.tracks.slice(0, 7);
-                const tracksInfo = await tracks.map(r => `${++i}) [${r.title}](${r.uri}) | length \`${formatLength(r.duration, false, bot.music.lavalink)}\``).join("\n\n"); // get the tracks info
+                const tracksInfo = await tracks.map(r => `${++i}) [${r.title}](${r.uri}) | length \`${formatLength(r.duration, false)}\``).join("\n\n"); // get the tracks info
                 // embed the result(s)
                 const embed = new MessageEmbed()
                     .setColor(0x1DE2FE)
                     .setTitle(`Please enter the \`track number\` that you would like ${bot.user.username} to queue, or \`0\` to cancel`)
                     .setDescription(tracksInfo)
                     .setImage("https://media1.tenor.com/images/85e6b8577e925a9037d03a796588e7ed/tenor.gif?itemid=15925240")
-                    .setFooter("Vive La Résistance le Hololive~");
+                    .setFooter("FREEDOM SMILE (^)o(^)b");
   
                 /* Allow the author to select a track fron the search results within the allowed time of 24s */
                 await message.channel.send(`**${author.username}**-sama, this embed will time out in 24 seconds`, embed)

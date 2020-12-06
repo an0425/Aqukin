@@ -25,7 +25,7 @@ function formatLength(value, seeking, lavalink){
     
     // Checks if the value is a valid number
     if(!isNaN(value)) {
-        value = parseInt(value, 10);
+        value = parseInt(value, 10)/1000;
 
         // Checks if the value is equal to 0
         if(value === 0){
@@ -33,8 +33,6 @@ function formatLength(value, seeking, lavalink){
         }
         // Else the value is greater than 0
         else{
-            if(lavalink) value = value/1000;
-
             if (value >= 60){
                 minutes = (value - value%60)/60;
                 if (minutes >= 60){
@@ -61,7 +59,7 @@ function formatLength(value, seeking, lavalink){
 }
 
 // This function convert video length from seconds format to minutes
-function convertInput(value, lavalink){
+function convertInput(value){
     let total;
     let hours = 0;
     let minutes = 0;
@@ -87,7 +85,7 @@ function convertInput(value, lavalink){
         }
     }
     
-    total = lavalink ? (hours + minutes + seconds)*1000 : hours + minutes + seconds;
+    total = (hours + minutes + seconds)*1000;
     total = (total < 0 || isNaN(total)) ? 0 : total;
     return total;
 }

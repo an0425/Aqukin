@@ -36,7 +36,7 @@ module.exports = class UsernfoCommand extends BaseCommand{
                            { name: "Version", value: `${process.env.npm_package_version}`, inline: true },
                            { name: "Date Created", value: user.createdAt.toLocaleDateString(), inline: true }, )
                 .setImage("https://media1.tenor.com/images/8bb13d9fa4311f314a2d419c9d2d6c37/tenor.gif?itemid=16917426")
-                .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
+                .setFooter("FREEDOM SMILE (^)o(^)b");
         } // end of if the author has tagged Aqukin
         
         else{
@@ -64,7 +64,7 @@ module.exports = class UsernfoCommand extends BaseCommand{
                            { name: "Date Joined", value: member.joinedAt.toLocaleDateString() },
                            { name: "Role(s)", value: memberRoles })
                 .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
-                .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
+                .setFooter("FREEDOM SMILE (^)o(^)b");
         }
         message.channel.send(`**${message.author.username}**-sama, this is`, embed);
     } // end of run

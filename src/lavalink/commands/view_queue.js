@@ -15,11 +15,17 @@ module.exports = class ViewQueueCommand extends BaseCommand {
         let currentPage = 0; // default current page to the first page
         const embeds = await generateQueueEmbed(player.queue, para.bot.media, para.bot.music.lavalink);
         const queueEmbed = await message.channel.send(`Current Page -> ${currentPage+1}/${embeds.length}`, embeds[currentPage]);
-        await queueEmbed.react("⬅️");
-        await queueEmbed.react("➡️");
+        if(embeds.length > 1){
+            await queueEmbed.react("⏮️");
+            await queueEmbed.react("⏪");
+            await queueEmbed.react("⬅️");
+            await queueEmbed.react("➡️");
+            await queueEmbed.react("⏩");
+            await queueEmbed.react("⏭️");
+        }
         await queueEmbed.react('❌');
 
-        const filter = (reaction, user) => ["⬅️", "➡️", "❌"].includes(reaction.emoji.name) && (message.author.id === user.id); // author's reactions filter
+        const filter = (reaction, user) => ["⏮️","⏪","⬅️", "➡️", "⏩", "⏭️", "❌"].includes(reaction.emoji.name) && (message.author.id === user.id); // author's reactions filter
         const collector = queueEmbed.createReactionCollector(filter); // a collector for collecting the author's reactions
 
         collector.on("collect", async (reaction) => {
@@ -47,10 +53,9 @@ module.exports = class ViewQueueCommand extends BaseCommand {
                     }
                     break;
         
-                // a default case for other reactions, which will stop the collector and end the method
+                // a default case for X reaction, which will stop the collector and end the method
                 default:
                     collector.stop();
-                    //console.log('Stopped collector..');
                     await queueEmbed.delete();
                     break;
             } // end of switch case
@@ -80,7 +85,7 @@ async function generateQueueEmbed(queue, media, lavalink) {
                 .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
                 .setDescription(`⚓ **Currently playing** ▶️\n [${queue.current.title}](${queue.current.uri}) | \`${formatLength(queue.current.duration, false, lavalink)}\` | requested by **${queue.current.requester.username}**-sama\n\n⚓ **Next in queue** ⏭️\n${info}`)
                 .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
-                .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
+                .setFooter("FREEDOM SMILE (^)o(^)b");
             embeds.push(embed); // pushing embeds (for transition between pages)
         } // end of for loop
     }
@@ -91,7 +96,7 @@ async function generateQueueEmbed(queue, media, lavalink) {
             .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
             .setDescription(`⚓ **Currently playing** ▶️\n [${queue.current.title}](${queue.current.uri}) | \`${formatLength(queue.current.duration, false, lavalink)}\` | requested by **${queue.current.requester.username}**-sama\n\n⚓ **Next in queue** ⏭️\n${"Currently no track is next in queueヾ (= `ω´ =) ノ”"}`)
             .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
-            .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
+            .setFooter("FREEDOM SMILE (^)o(^)b");
         embeds.push(embed);
     }
     

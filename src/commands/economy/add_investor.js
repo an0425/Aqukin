@@ -47,7 +47,7 @@ module.exports = class AddInvestorCommand extends BaseCommand{
                        { name: "Economy Role", value: `${user.econrole}`, inline: true },
                        { name: `Command list, <> is mandatory [] is optional`, value: description })
             .setImage("https://media1.tenor.com/images/efe08c14a1ac2fb7d1d1773126f9b969/tenor.gif?itemid=16404461")
-            .setFooter("Vive La Résistance le Hololive~");
+            .setFooter("FREEDOM SMILE (^)o(^)b");
         message.channel.send(`**${message.author.username}**-sama, ${reply} will now join the economy game as a new investor`, embed);
     } // end of run
 }; // end of module.exports */

@@ -11,7 +11,7 @@ module.exports = class BaquafinaCommand extends BaseCommand{
             .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
             .setTitle("Atashi~ PURE (* ¯︶¯ *)")
             .setImage(baquafina[Math.floor(Math.random() * Math.floor(baquafina.length))])
-            .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
+            .setFooter("FREEDOM SMILE (^)o(^)b");
         para.message.channel.send(embed);
     } // end of run
 }; // end of module.exports
