@@ -16,6 +16,7 @@ Yozora Mel
 https://pbs.twimg.com/media/EiHytAEVoAAtObj?format=jpg&name=large
 https://pbs.twimg.com/media/EnxWyC6VkAAbpqN?format=jpg&name=large
 https://pbs.twimg.com/media/EnYuCboXEAEuB2n?format=jpg&name=large
+https://pbs.twimg.com/media/EhDn_RAVgAAsOMG?format=jpg&name=large
 
 Natsuiro Matsuri
 https://pbs.twimg.com/media/EYXvj1tVcAAqjwd?format=jpg&name=medium
@@ -99,6 +100,7 @@ https://pbs.twimg.com/media/Ei-xeV7UYAAinuh?format=jpg&name=4096x4096
 https://pbs.twimg.com/media/EoMv1g6VQAA31Jc?format=jpg&name=4096x4096
 https://pbs.twimg.com/media/EhDjWw4VkAA2tJ7?format=jpg&name=900x900
 https://pbs.twimg.com/media/Em0hcwDVkAE8bL0?format=jpg&name=4096x4096
+https://pbs.twimg.com/media/EpzSRS5VgAEbExq?format=jpg&name=4096x4096
 
 Usada Pekora
 https://pbs.twimg.com/media/Eirq65cX0AYgOey?format=jpg&name=4096x4096
@@ -149,6 +151,7 @@ https://pbs.twimg.com/media/Eig5ITAVkAENrAV?format=jpg&name=4096x4096
 https://pbs.twimg.com/media/EkNJYhVVkAA03dh?format=jpg&name=medium
 https://pbs.twimg.com/media/Ekw4y7yVgAAMQBq?format=jpg&name=medium
 https://pbs.twimg.com/media/EeLUiqFU0AI-eYn?format=png&name=900x900
+https://pbs.twimg.com/media/EpL_tAIVoAIqsLs?format=jpg&name=large
 
 Amane Kanata
 https://pbs.twimg.com/media/EjosPFAU0AAa-_x?format=jpg&name=large
@@ -219,3 +222,4 @@ https://pbs.twimg.com/media/Eolw0tKU8AAMvBE?format=jpg&name=large
 Collab
 https://pbs.twimg.com/media/Emtyd1sVQAEgj1x?format=jpg&name=large
 https://pbs.twimg.com/media/EpH57-3UYAAfoLl?format=jpg&name=large
+https://pbs.twimg.com/media/EoizV1QU0AAGitn?format=jpg&name=large
