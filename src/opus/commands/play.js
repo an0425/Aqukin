@@ -80,11 +80,11 @@ module.exports = class PlayCommand extends BaseCommand{
                 if(tracks.length === 0) {
                     channel.send(`**${author.username}**-sama, ${bot.user.username} can't find any tracks with the given keywords (｡T ω T｡)`, para.ridingAqua);
                     return; 
-                }                
-                
+                }
+                                
                 // embed the result(s)
                 let i = 0;
-                const tracksInfo = await tracks.map(r => `${++i}) [${r.title}](${r.link}) | length \`${r.duration}\``).join("\n\n"); // get the tracks info
+                const tracksInfo = await tracks.map(r => `${++i}) [${r.title}](${r.url}) | length \`${r.duration}\``).join("\n\n"); // get the tracks info
                 const embed = new MessageEmbed()
                     .setColor(bot.media.embedColour[Math.floor(Math.random() * Math.floor(bot.media.embedColour.length))])
                     .setTitle(`Please enter the \`track number\` that you would like ${bot.user.username} to queue, or \`0\` to cancel ヽ (o´∀\`) ﾉ ♪ ♬`)
@@ -104,13 +104,12 @@ module.exports = class PlayCommand extends BaseCommand{
                                 if(entry > 0){
                                     const trackInfo = tracks[entry-1];
                                     const track = {
-                                        id: ytdl.getURLVideoID(trackInfo.link),
-                                        url: trackInfo.link,
+                                        id: trackInfo.id,
+                                        url: trackInfo.url,
                                         title: trackInfo.title,
                                         duration: convertInput(trackInfo.duration),
                                         requester: message.author,
                                     }
-                                    //console.log(trackInfo, track);
                                     await player.queue.push(track);
                                     message.channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued track \`${tracks[entry-1].title}\` ٩(ˊᗜˋ*)و`); // inform the author
                                 }

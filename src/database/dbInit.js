@@ -1,7 +1,7 @@
 /* This module initialize the database */
 require("dotenv").config();
 const Sequelize = require("sequelize");
-const { registerMediaFiles } = require("../utilities/handlers");
+//const { registerMediaFiles } = require("../utilities/handlers");
 
 const sequelize = process.env.PROJECT_DOMAIN ? 
  	new Sequelize(process.env.DATABASE_URL, {
@@ -20,7 +20,7 @@ const sequelize = process.env.PROJECT_DOMAIN ?
 require("../database/models/users")(sequelize, Sequelize.DataTypes);
 require("../database/models/guilds")(sequelize, Sequelize.DataTypes);
 require("../database/models/user_stocks")(sequelize, Sequelize.DataTypes);
-const Media = require("../database/models/media")(sequelize, Sequelize.DataTypes);
+//const Media = require("../database/models/media")(sequelize, Sequelize.DataTypes);
 const StockMarket = require("../database/models/stock_market")(sequelize, Sequelize.DataTypes);
 
 const force = process.argv.includes("--force") || process.argv.includes("-f"); // force sync
@@ -37,10 +37,12 @@ sequelize.sync({ force }).then(async () => {
 	]; 
 	await Promise.all(shop); */
 
+	/* media
 	const [media] = await Media.findOrCreate({ where: { id: 1 } });
 	
 	await registerMediaFiles(media, "../utilities/media");
 	await media.save();
+	*/
 
 	console.log("Database synced");
 	sequelize.close();

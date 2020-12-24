@@ -2,7 +2,7 @@
 require("dotenv").config();
 const { Collection } = require("discord.js");
 const BaseEvent = require("../utilities/structures/BaseEvent");
-const { Users, Guilds, Media } = require("../database/dbObjects");
+const { Users, Guilds/*, Media */ } = require("../database/dbObjects");
 
 module.exports = class ReadyEvent extends BaseEvent {
 	constructor() { super("ready"); }
@@ -23,6 +23,7 @@ module.exports = class ReadyEvent extends BaseEvent {
 			});
 		});
 
+		/*
 		await Media.findOne({ where: { id: 1 } }).then(media => {
 			bot.media = {
 				gifs: media.gifs,
@@ -33,7 +34,7 @@ module.exports = class ReadyEvent extends BaseEvent {
 				activities: media.activities,
 				embedColour: [ 0xBC06C4, 0x1DE2FE ]
 			}
-		});
+		}); */
 
 		// activities
 		const { activities } = bot.media;
