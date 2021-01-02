@@ -15,27 +15,27 @@ async function musicEmbed(bot, player, track){
     // lavalink
     if(bot.music.lavalink){
         embed.addFields({ name: "Title", value: `[${track.title}](${track.uri})` },
-                   { name: "🔞Volume", value: `${Math.floor(player.volume)}`, inline: true },
+                   { name: "Volume", value: `${Math.floor(player.volume)}`, inline: true },
                    { name: "Track Length", value: formatLength(track.duration, false, true), inline: true },
                    { name: "Queue Size", value: player.queue.size + 1, inline: true },
-                   { name: "⏸️Paused", value: convertBoolean(player.paused), inline: true },
+                   { name: "Paused", value: convertBoolean(player.paused), inline: true },
                    { name: "Track Looped", value: convertBoolean(player.trackRepeat), inline: true },
                    { name: "Queue Looped", value: convertBoolean(player.queueRepeat), inline: true },
                    { name: "Requested by", value: `**${track.requester.username}**-sama, nanodesu~`, inline: true })
-            .setImage(`https://img.youtube.com/vi/${track.identifier}/0.jpg`)
+            .setImage(`https://i.ytimg.com/vi/${track.identifier}/maxresdefault.jpg`)
     }
 
     // opus
     else{
         embed.addFields({ name: "Title", value: `[${track.title}](${track.url})` },
-                   { name: "🔞Volume", value: `${Math.floor(player.connection.dispatcher.volume*100)}`, inline: true },
+                   { name: "Volume", value: `${Math.floor(player.connection.dispatcher.volume*100)}`, inline: true },
                    { name: "Track Length", value: formatLength(track.duration), inline: true },
                    { name: "Queue Size", value: player.queueRepeat ? `${player.queue.length} (${player.queue.length + player.loopqueue.length})` : `${player.queue.length}`, inline: true },
-                   { name: "⏸️Paused", value: convertBoolean(player.connection.dispatcher.paused), inline: true },
+                   { name: "Paused", value: convertBoolean(player.connection.dispatcher.paused), inline: true },
                    { name: "Track Looped", value: convertBoolean(player.trackRepeat), inline: true },
                    { name: "Queue Looped", value: convertBoolean(player.queueRepeat), inline: true },
                    { name: "Requested by", value: `**${track.requester.username}**-sama, nanodesu~`, inline: true })
-            .setImage(`https://img.youtube.com/vi/${track.id}/0.jpg`)
+            .setImage(`https://i.ytimg.com/vi/${track.id}/maxresdefault.jpg`)
     }
     return embed;
 } // end of musicEmbed(...)
