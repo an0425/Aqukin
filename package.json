@@ -24,9 +24,9 @@
     "http": "0.0.1-security",
     "pg": "^8.5.1",
     "sequelize": "^6.3.5",
-    "ytdl-core": "^4.3.1",
+    "ytdl-core": "^4.4.0",
     "ytpl": "^2.0.4",
-    "ytsr": "^2.0.2"
+    "ytsr": "^3.2.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
