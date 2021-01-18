@@ -91,7 +91,7 @@ async function commandCheck(bot, message, command, args, settings, prefix, enabl
                 }
 
                 // checks if the player is moving, opus only
-                if(!bot.music.lavalink && player.seeking && command.name !== "disconnect"){
+                if(!bot.music.lavalink && player.queue[0].seek && command.name !== "disconnect"){
                     message.channel.send(`**${message.author.username}**-sama, ${bot.user.username} is still in the process of moving, please refrain from using any music commands in the mean time (╯︵╰,)`, ridingAqua);
                     return;
                 }

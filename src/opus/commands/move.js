@@ -4,7 +4,7 @@ const { convertInput, formatLength } = require("../../utilities/functions");
 
 module.exports = class MoveCommand extends BaseCommand{
     constructor() {
-        super("move", ["mv", "to", "time"], "Move the audio player to a specified timestamp in the current track by its requester/admin.\n\nFast moving can be toggle by adding \`-f\` to the command.\n\nFast moving \`requires\` the track to be \`1080p or higher\` and is \`not recommended\` unless the track are lengthy such as [endurance streams](https://www.youtube.com/watch?v=YW-6KawBCvM).", "CONNECT", "music", true, "<hh:mm:ss> [-f]", "02:32 -- will move the current track to the position of **2 minutes and 32 seconds**");
+        super("move", ["mv", "to", "time"], "Move the audio player to a specified timestamp in the current track by its requester/admin.\n\nMoving \`requires\` the track to be \`1080p or higher\`\n\nIn case of \`not working\` or moving \`older/lower res\` videos, try \`forced move\`, which is \`slower\` but \`guaranteed success\`. Please note that \`music commands\` will be \`disabled\` during the forced moving process.\n\nForced move can be toggle by adding \`-f\` to the end of the command.", "CONNECT", "music", true, "<hh:mm:ss> [-f]", "02:32 -- will move the current track to the position of **2 minutes and 32 seconds**");
     }
     
     async run(para){
@@ -27,10 +27,10 @@ module.exports = class MoveCommand extends BaseCommand{
         try{
             // inform the author if success
             await player.queue.splice(1, 0, player.queue[0]);
-            player.queue[1].fast = para.args[1] == "-f";
+            player.queue[1].force = para.args[1] == "-f";
             player.queue[1].seek = timestamp;
             await player.connection.dispatcher.end();
-            message.channel.send(`**${author.username}**-sama, ${para.bot.user.username} will now move the current track to position \`${formatLength(timestamp, true)}\``);
+            message.channel.send(`**${author.username}**-sama, ${para.bot.user.username} will now ${player.queue[1].force ? "\`force move\`" : "move"} the current track to position \`${formatLength(timestamp, true)}\``);
         } catch(err) {
             console.log(err);
             message.channel.send(`**${author.username}**-sama, an error has occured while trying to move the track ☆ ｏ (＞ ＜ ；) ○, ${para.bot.user.username} has informed **${para.bot.author.username}**-sama`);

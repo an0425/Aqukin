@@ -166,11 +166,15 @@ async function playing(bot, player){
     const ytdlOptions = { filter: "audio", formatFallback: "filtered", quality: "highestaudio"/* , highWaterMark: 1 << 25 */ }
     const dispatcherOptions = { volume: player.volume || 1 }
     
-    if(track.fast){
-        ytdlOptions.begin = track.seek || 0;
+    if(track.force){
+        dispatcherOptions.seek = track.seek/1000 || 0;
     }
     else{
-        dispatcherOptions.seek = track.seek/1000 || 0;
+        ytdlOptions.begin = track.seek || 0;
+        if(track.seek){
+            player.textChannel.send(`If the track is playing from start, try \`forced move\` by adding \`-f\` to the end of the command.`)
+                    .then(msg => msg.delete({ timeout: 5200 })).catch(console.error);
+        }   
     }
     // VoiceBroadcast events
     const dispatcher = await player.connection.play(ytdl(track.url, ytdlOptions), dispatcherOptions)
