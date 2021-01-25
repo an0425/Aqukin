@@ -13,28 +13,29 @@ async function musicEmbed(bot, player, track){
         .setFooter("FREEDOM SMILE (^)o(^)b");
 
     // lavalink
+    // "🎧 📢 ▶️ ⏭️ ⏸️ 🔁 🔄 💞"
     if(bot.music.lavalink){
-        embed.addFields({ name: "🎧Title", value: `[${track.title}](${track.uri})` },
-                   { name: "📢Volume", value: `${Math.floor(player.volume)}`, inline: true },
-                   { name: "▶️Length", value: formatLength(track.duration, false, true), inline: true },
-                   { name: "⏭️Queue Size", value: player.queue.size + 1, inline: true },
-                   { name: "⏸️Paused", value: convertBoolean(player.paused), inline: true },
-                   { name: "🔁Looped", value: convertBoolean(player.trackRepeat), inline: true },
-                   { name: "🔄Queue Looped", value: convertBoolean(player.queueRepeat), inline: true },
-                   { name: "💞Requested by", value: `**${track.requester.username}**-sama, nanodesu~`, inline: true })
+        embed.addFields({ name: "Title", value: `[${track.title}](${track.uri})` },
+                   { name: "Volume", value: `${Math.floor(player.volume)}`, inline: true },
+                   { name: "Length", value: formatLength(track.duration, false, true), inline: true },
+                   { name: "Queue Size", value: player.queue.size + 1, inline: true },
+                   { name: "Paused", value: convertBoolean(player.paused), inline: true },
+                   { name: "Looped", value: convertBoolean(player.trackRepeat), inline: true },
+                   { name: "Queue Looped", value: convertBoolean(player.queueRepeat), inline: true },
+                   { name: "Requested by", value: `**${track.requester.username}**-sama, nanodesu~`, inline: true })
             .setImage(`https://i.ytimg.com/vi/${track.identifier}/maxresdefault.jpg`)
     }
 
     // opus
     else{
-        embed.addFields({ name: "🎧Title", value: `[${track.title}](${track.url})` },
-                   { name: "📢Volume", value: `${Math.floor(player.connection.dispatcher.volume*100)}`, inline: true },
-                   { name: "▶️Length", value: formatLength(track.duration), inline: true },
-                   { name: "⏭️Queue Size", value: player.queueRepeat ? `${player.queue.length} (${player.queue.length + player.loopqueue.length})` : `${player.queue.length}`, inline: true },
-                   { name: "⏸️Paused", value: convertBoolean(player.connection.dispatcher.paused), inline: true },
-                   { name: "🔁Looped", value: convertBoolean(player.trackRepeat), inline: true },
-                   { name: "🔄Queue Looped", value: convertBoolean(player.queueRepeat), inline: true },
-                   { name: "💞Requested by", value: `**${track.requester.username}**-sama, nanodesu~`, inline: true })
+        embed.addFields({ name: "Title", value: `[${track.title}](${track.url})` },
+                   { name: "Volume", value: `${Math.floor(player.connection.dispatcher.volume*100)}`, inline: true },
+                   { name: "Length", value: formatLength(track.duration), inline: true },
+                   { name: "Queue Size", value: player.queueRepeat ? `${player.queue.length} (${player.queue.length + player.loopqueue.length})` : `${player.queue.length}`, inline: true },
+                   { name: "Paused", value: convertBoolean(player.connection.dispatcher.paused), inline: true },
+                   { name: "Looped", value: convertBoolean(player.trackRepeat), inline: true },
+                   { name: "Queue Looped", value: convertBoolean(player.queueRepeat), inline: true },
+                   { name: "Requested by", value: `**${track.requester.username}**-sama, nanodesu~`, inline: true })
             .setImage(`https://i.ytimg.com/vi/${track.id}/maxresdefault.jpg`)
     }
     return embed;

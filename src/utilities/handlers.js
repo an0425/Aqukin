@@ -53,30 +53,9 @@ async function registerMediaFiles(media, dir = ""){
 
         if(file.endsWith(".txt")){
             await fs.readFile(`${filePath}/${file}`, "utf-8").then(text => {
-                const arr = text.split("\n");
-                if(file.startsWith("thumbnails")){
-                    media.thumbnails = arr.filter(str => str.startsWith("https://"));
-                }
-
-                else if(file.startsWith("gifs")){
-                    media.gifs = arr.filter(str => str.startsWith("https://"));
-                }
-
-                else if(file.startsWith("activities")){
-                    media.activities = arr;
-                }
-
-                else if(file.startsWith("baquafina")){
-                    media.baquafina = arr.filter(str => str.startsWith("https://"));
-                }
-
-                else if(file.startsWith("baqua")){
-                    media.baqua = arr.filter(str => str.startsWith("https://"));
-                }
-    
-                else if(file.startsWith("dogeza")){
-                    media.dogeza = arr.filter(str => str.startsWith("https://"));
-                } 
+                const fileName = file.split(".")[0];
+                
+                media[fileName] = fileName === "activities" ? text.split("\n") : text.split("\n").filter(str => str.startsWith("https://"));;
             });
         } // end of if the file is a .txt file 
     } // end of for loop

@@ -14,7 +14,7 @@ For the list of commands or more info on setting Aqukin up, please refer to the 
 This branch can either play music by using Discord built-in [Opus Engine](https://discordjs.guide/voice/#quick-example) or [Lavalink Engine](https://github.com/Frederikam/Lavalink) with the help of the wrapper client [Erela.js](https://projects.solaris.codes/erelajs/docs/gettingstarted.html#documentation-guides)
 
 # [License](https://github.com/DeaLoux/Aqukin/blob/master/LICENSE)
-- `Character Copyright` (c) 2017-2020 [Cover corp](https://cover-corp.com/)
+- `Character Copyright` (c) 2017-2021 [COVER Corp.](https://cover-corp.com/)
 - `Background Copyright` (c) [Gaou-sensei](https://twitter.com/umaiyo_puyoman)
 - `Software Copyright` (c) 2020 Minh Duc Le / DeaLoux
 - `Aqukin` is licensed under the [MIT License](https://github.com/DeaLoux/Aqukin/blob/master/LICENSE)
