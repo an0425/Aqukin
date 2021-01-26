@@ -33,16 +33,12 @@ module.exports = class PlayCommand extends BaseCommand{
             if(ytdl.validateURL(query)) {  
                 // Get the song info
                 await ytdl.getBasicInfo(query).then(async trackInfo => {
-                    const track = {
-                        id: trackInfo.player_response.videoDetails.videoId,
-                        url: trackInfo.videoDetails.video_url,
-                        title: trackInfo.player_response.videoDetails.title,
-                        duration: trackInfo.player_response.videoDetails.lengthSeconds*1000,
-                        requester: message.author,
-                    };
                     //console.log(trackInfo);
-                    await player.queue.push(track);
-                    channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued track \`${track.title}\` ٩(ˊᗜˋ*)و`);
+                    const { videoId, title, lengthSeconds } = trackInfo.player_response.videoDetails;
+
+                    await player.queue.push(new Track(videoId, trackInfo.videoDetails.video_url, title, lengthSeconds*1000, message.author));
+
+                    channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued track \`${title}\` ٩(ˊᗜˋ*)و`);
                 }).catch((err) => message.channel.send(`**${author.username}**-sama, \`${err}\``));   
             } // video link
             
@@ -54,15 +50,9 @@ module.exports = class PlayCommand extends BaseCommand{
     
                     playlist.items.forEach(async trackInfo => {
                         //console.log(trackInfo);
-                        if(trackInfo.duration){
-                            const track = {
-                                id: trackInfo.id,
-                                url: trackInfo.url,
-                                title: trackInfo.title,
-                                duration: convertInput(trackInfo.duration),
-                                requester: message.author,
-                            }
-                            await player.queue.push(track);
+                        if(trackInfo.duration)
+                        {
+                            await player.queue.push(new Track(trackInfo.id, trackInfo.url, trackInfo.title, convertInput(trackInfo.duration), message.author));
                         }
                     });
     
@@ -103,15 +93,10 @@ module.exports = class PlayCommand extends BaseCommand{
                                 
                                 if(entry > 0){
                                     const trackInfo = tracks[entry-1];
-                                    const track = {
-                                        id: trackInfo.id,
-                                        url: trackInfo.url,
-                                        title: trackInfo.title,
-                                        duration: convertInput(trackInfo.duration),
-                                        requester: message.author,
-                                    }
-                                    await player.queue.push(track);
-                                    message.channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued track \`${tracks[entry-1].title}\` ٩(ˊᗜˋ*)و`); // inform the author
+
+                                    await player.queue.push(new Track(trackInfo.id, trackInfo.url, trackInfo.title, convertInput(trackInfo.duration), message.author));
+
+                                    message.channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued track \`${trackInfo.title}\` ٩(ˊᗜˋ*)و`); // inform the author
                                 }
 
                                 response.first().delete().catch(err => console.log(err)); // delete the user respond
@@ -142,6 +127,16 @@ module.exports = class PlayCommand extends BaseCommand{
         }
     } // end of run
 }; // end of module.exports
+
+class Track{
+    constructor (id, url, title, duration, requester){
+        this.id = id;
+        this.url = url;
+        this.title = title;
+        this.duration = duration;
+        this.requester = requester;
+    }
+}
 
 async function playing(bot, player){
     const track = player.queue[0];
@@ -178,11 +173,11 @@ async function playing(bot, player){
     }
     // VoiceBroadcast events
     const dispatcher = await player.connection.play(ytdl(track.url, ytdlOptions), dispatcherOptions)
-        .on("error", async (err) =>{
+        .once("error", async (err) =>{
             await player.textChannel.send(`**${player.queue[0].requester.username}**-sama, \`${err}\` has occured when ${bot.user.username} was trying to play track \`${track.title}\` 。 ゜ ゜ (´Ｏ\`) ゜ ゜。`);
         })
 
-        .on("start", async () =>{
+        .once("start", async () =>{
             // now playing embed constructing and sending
             track.seek = null;
             track.fast = null;
@@ -190,7 +185,7 @@ async function playing(bot, player){
             // send the embed to inform about the now playing track
             player.sentMessage = await player.textChannel.send(embed).catch(console.error);
         })
-        .on("finish", async () =>{
+        .once("finish", async () =>{
             await dispatcher.destroy();
         })
         .once("close", async () => {
@@ -207,7 +202,7 @@ async function playing(bot, player){
         });
 
     // VoiceConnection events
-    player.connection.on("error", async (err) =>{
+    player.connection.once("error", async (err) =>{
         await player.textChannel.send(`**${author.username}**-sama, \`${err}\` 。 ゜ ゜ (´Ｏ\`) ゜ ゜。`);
         await bot.music.delete(player.id);
     })
