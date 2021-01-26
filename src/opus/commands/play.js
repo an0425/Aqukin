@@ -121,6 +121,19 @@ module.exports = class PlayCommand extends BaseCommand{
             }); 
         }
 
+        // VoiceConnection events
+        player.connection.once("error", async (err) =>{
+            await player.textChannel.send(`**${author.username}**-sama, \`${err}\` has happen to ${bot.user.username} voice connection 。 ゜ ゜ (´Ｏ\`) ゜ ゜。`);
+            await bot.music.delete(player.id);
+        })
+
+        .once("disconnect", async () =>{
+            await player.queue.splice(0);
+            if(player.connection.dispatcher){ await player.connection.dispatcher.end(); }
+            await bot.votingSystem.delete(player.id);
+            await bot.music.delete(player.id);
+        });
+
         // update the currently playing embed if it exists
         if(player.sentMessage && player.queue.length > initQueue){
             player.updateEmbed(bot);
@@ -200,18 +213,5 @@ async function playing(bot, player){
             await playing(bot, player);
             await player.sentMessage.delete().catch(console.error); // try catch in case the message got deleted manually
         });
-
-    // VoiceConnection events
-    player.connection.once("error", async (err) =>{
-        await player.textChannel.send(`**${author.username}**-sama, \`${err}\` 。 ゜ ゜ (´Ｏ\`) ゜ ゜。`);
-        await bot.music.delete(player.id);
-    })
-
-    .once("disconnect", async () =>{
-        await player.queue.splice(0);
-        if(player.connection.dispatcher){ await player.connection.dispatcher.end(); }
-        await bot.votingSystem.delete(player.id);
-        await bot.music.delete(player.id);
-    });
 } // end of playing(...) function 
 
