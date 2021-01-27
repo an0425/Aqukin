@@ -112,27 +112,16 @@ module.exports = class PlayCommand extends BaseCommand{
 
         if(!player.connection && player.queue.length > 0) {
             await bot.music.set(message.guild.id, player); 
-            player.connection = await voiceChannel.join();
+            await player.initPlayer(voiceChannel, bot, author.username);
+
             //await player.play(bot, ytdl);
+
             await playing(bot, player).catch (err => {
                 console.log(err);
                 message.channel.send(`**${author.username}**-sama, \`${err}\``);   
                 bot.music.delete(message.guild.id);
             }); 
         }
-
-        // VoiceConnection events
-        player.connection.once("error", async (err) =>{
-            await player.textChannel.send(`**${author.username}**-sama, \`${err}\` has happen to ${bot.user.username} voice connection 。 ゜ ゜ (´Ｏ\`) ゜ ゜。`);
-            await bot.music.delete(player.id);
-        })
-
-        .once("disconnect", async () =>{
-            await player.queue.splice(0);
-            if(player.connection.dispatcher){ await player.connection.dispatcher.end(); }
-            await bot.votingSystem.delete(player.id);
-            await bot.music.delete(player.id);
-        });
 
         // update the currently playing embed if it exists
         if(player.sentMessage && player.queue.length > initQueue){
@@ -152,14 +141,15 @@ class Track{
 }
 
 async function playing(bot, player){
-    const track = player.queue[0];
+    let track = player.queue[0];
+
     // checks if the queue is empty
     if (!track) {
         // repeat the queue if queueRepeat is set to true
         if(player.queueRepeat){
             player.queue = await player.queue.concat(player.loopqueue);
-            await player.loopqueue.splice(0);
             track = player.queue[0];
+            await player.loopqueue.splice(0);
         }
         // else terminate the player
         else{
@@ -171,6 +161,7 @@ async function playing(bot, player){
             return;
         }
     } // end of if the queue is empty
+    
     const ytdlOptions = { filter: "audio", formatFallback: "filtered", quality: "highestaudio"/* , highWaterMark: 1 << 25 */ }
     const dispatcherOptions = { volume: player.volume || 1 }
     
@@ -184,6 +175,7 @@ async function playing(bot, player){
                     .then(msg => msg.delete({ timeout: 5200 })).catch(console.error);
         }   
     }
+
     // VoiceBroadcast events
     const dispatcher = await player.connection.play(ytdl(track.url, ytdlOptions), dispatcherOptions)
         .once("error", async (err) =>{
@@ -212,6 +204,6 @@ async function playing(bot, player){
             await player.queue.shift();
             await playing(bot, player);
             await player.sentMessage.delete().catch(console.error); // try catch in case the message got deleted manually
-        });
+        }); 
 } // end of playing(...) function 
 

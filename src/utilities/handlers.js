@@ -61,14 +61,14 @@ async function registerMediaFiles(media, dir = ""){
     } // end of for loop
 } // end of registerMediaFiles(...) function
 
-// Music Events handlers
+// Lavalink Music Events handlers
 async function LavalinkMusicEvents(bot, dir = ""){
     const filePath = path.join(__dirname, dir);
     //console.log(filePath)
     const files = await fs.readdir(filePath);
     for(const file of files){
         const stat = await fs.lstat(path.join(filePath, file));
-        if(stat.isDirectory()) registerMusicEvents(bot, path.join(dir, file));
+        if(stat.isDirectory()) LavalinkMusicEvents(bot, path.join(dir, file));
 
         if(file.endsWith(".js")){
             const Event = require(path.join(filePath, file));
