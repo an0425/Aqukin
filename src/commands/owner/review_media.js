@@ -1,4 +1,4 @@
-/* This module allow the OWNER to view all the media files */
+/* This module allow the OWNER to view all the media files 
 const { MessageEmbed } = require("discord.js");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
@@ -89,4 +89,4 @@ async function generateMediaEmbed(media) {
     } // end of for loop
 
     return embeds;
-} // end of gerenateQueueEmbed(queue) helper function
+} // end of gerenateQueueEmbed(queue) helper function */

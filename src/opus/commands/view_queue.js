@@ -65,7 +65,7 @@ module.exports = class ViewQueueCommand extends BaseCommand {
 
 /* This function is for generating an embed with the queue information */
 async function generateQueueEmbed(queue, media) {
-    const { thumbnails, gifs, embedColour } = media;
+    const { embedColour } = media;
     const embeds = [];
     let k = 8;
     let info;
@@ -84,9 +84,9 @@ async function generateQueueEmbed(queue, media) {
         if(i==0 || !info.startsWith("Currently")){
             const embed = new MessageEmbed()
                 .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
-                .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
+                .setThumbnail(await media.getMedia("thumbnails"))
                 .setDescription(`⚓ Currently playing ▶️\n [${queue[0].title}](${queue[0].url}) | \`${formatLength(queue[0].duration)}\` | requested by **${queue[0].requester.username}**-sama\n\n⚓ Next in queue ⏭️\n${info}`)
-                .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
+                .setImage(await media.getMedia("gifs"))
                 .setFooter("FREEDOM SMILE (^)o(^)b");
             
             embeds.push(embed); // pushing embeds (for transition between pages)

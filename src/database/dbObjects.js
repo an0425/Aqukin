@@ -17,7 +17,7 @@ const sequelize = process.env.PROJECT_DOMAIN ?
 	});
 
 const Users = require("../database/models/users")(sequelize, Sequelize.DataTypes);
-//const Media = require("../database/models/media")(sequelize, Sequelize.DataTypes);
+const Media = require("../database/models/media")(sequelize, Sequelize.DataTypes);
 const Guilds = require("../database/models/guilds")(sequelize, Sequelize.DataTypes);
 const StockMarket = require("../database/models/stock_market")(sequelize, Sequelize.DataTypes);
 const UserStocks = require("../database/models/user_stocks")(sequelize, Sequelize.DataTypes);
@@ -40,4 +40,4 @@ Users.prototype.getStocks = function() {
 	});
 };
 
-module.exports = { Users, Guilds, StockMarket, UserStocks/*, Media */ };
+module.exports = { Users, Guilds, StockMarket, UserStocks, Media };

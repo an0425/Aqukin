@@ -10,7 +10,7 @@ module.exports = class HelpCommand extends BaseCommand{
         // shortcut variables
         const { message, bot } = para;
         const { author, channel } = message;
-        const { thumbnails, gifs, embedColour } = bot.media;
+        const { embedColour } = bot.media;
         
         if(para.args.length){ // if the author has asked for help with a specific command
             const commandName = para.args[0].toLowerCase();
@@ -23,7 +23,7 @@ module.exports = class HelpCommand extends BaseCommand{
             // construct the embed
             const cmdInfoEmbed = new MessageEmbed()
                 .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
-                .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
+                .setThumbnail(await bot.media.getMedia("thumbnails"))
                 .setTitle(`[] is optional, <> is mandatory`)
                 .addFields({ name: "Prefix", value: `\`${para.prefix}\``, inline: true },
                            { name: "Name", value: command.name, inline: true },
@@ -32,7 +32,7 @@ module.exports = class HelpCommand extends BaseCommand{
                            { name: "Usage Example", value: `${para.prefix}${command.name} ${command.usageEx}` },
                            { name: "Description", value: command.description },
                            { name: "Detailed Guide", value: `[Wiki](https://github.com/DeaLoux/Aqukin/wiki)`})
-                .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
+                .setImage(await bot.media.getMedia("gifs"))
                 .setFooter("FREEDOM SMILE (^)o(^)b");
             channel.send(`**${author.username}**-sama, here's the info of the \`${command.name}\` command`, cmdInfoEmbed); // send out the embed
         } // end of if
@@ -53,14 +53,14 @@ module.exports = class HelpCommand extends BaseCommand{
             // construct the embed
             const helpEmbed = new MessageEmbed()
                 .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
-                .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
+                .setThumbnail(await bot.media.getMedia("thumbnails"))
                 .setTitle(`You can try \`${para.prefix}help [command name]\` to get info on a specific command ☆ ⌒ (≧ ▽ °)`)
                 .addFields({ name: "Current Prefix", value: `\`${para.prefix}\``, inline: true }, 
                            { name: "Detailed Guide", value: `[Wiki](https://github.com/DeaLoux/Aqukin/wiki)`, inline: true },
                            { name: "Music commands", value: musicCmds }, 
                            { name: "Ultility commands", value: utilsCmds },)
                            //{ name: "Economy commands", value: econCmds },
-                .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
+                .setImage(await bot.media.getMedia("gifs"))
                 .setFooter("FREEDOM SMILE (^)o(^)b");
 
             if(message.member.hasPermission("ADMINISTRATOR")){

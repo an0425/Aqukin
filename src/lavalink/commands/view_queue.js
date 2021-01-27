@@ -65,7 +65,7 @@ module.exports = class ViewQueueCommand extends BaseCommand {
 
 /* This function is for generating an embed with the queue information */
 async function generateQueueEmbed(queue, media, lavalink) {
-    const { thumbnails, gifs, embedColour } = media;
+    const { embedColour } = media;
     const embeds = [];
 
     if(queue.length > 0){
@@ -82,9 +82,9 @@ async function generateQueueEmbed(queue, media, lavalink) {
             // construct the embed(s)
             const embed = new MessageEmbed()
                 .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
-                .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
+                .setThumbnail(await media.getMedia("thumbnails"))
                 .setDescription(`⚓ **Currently playing** ▶️\n [${queue.current.title}](${queue.current.uri}) | \`${formatLength(queue.current.duration, false, lavalink)}\` | requested by **${queue.current.requester.username}**-sama\n\n⚓ **Next in queue** ⏭️\n${info}`)
-                .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
+                .setImage(await media.getMedia("gifs"))
                 .setFooter("FREEDOM SMILE (^)o(^)b");
             embeds.push(embed); // pushing embeds (for transition between pages)
         } // end of for loop
@@ -93,9 +93,9 @@ async function generateQueueEmbed(queue, media, lavalink) {
     else{
         const embed = new MessageEmbed()
             .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
-            .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
+            .setThumbnail(await media.getMedia("thumbnails"))
             .setDescription(`⚓ **Currently playing** ▶️\n [${queue.current.title}](${queue.current.uri}) | \`${formatLength(queue.current.duration, false, lavalink)}\` | requested by **${queue.current.requester.username}**-sama\n\n⚓ **Next in queue** ⏭️\n${"Currently no track is next in queueヾ (= `ω´ =) ノ”"}`)
-            .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
+            .setImage(await media.getMedia("gifs"))
             .setFooter("FREEDOM SMILE (^)o(^)b");
         embeds.push(embed);
     }

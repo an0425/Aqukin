@@ -3,12 +3,12 @@ const { convertBoolean, formatLength } = require("../utilities/functions");
 const { MessageEmbed } = require("discord.js");
 
 async function musicEmbed(bot, player, track){
-    const { thumbnails, embedColour } = bot.media;
+    const { embedColour } = bot.media;
    
     // construct the embeds     
     const embed = new MessageEmbed()
         .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
-        .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
+        .setThumbnail(await bot.media.getMedia("thumbnails"))
         .setTitle("⚓ Now Playing ~ (˘ ▽ ˘ ~) ⚓")
         .setFooter("FREEDOM SMILE (^)o(^)b");
 
@@ -47,15 +47,15 @@ async function marketEmbed(bot, message, stocks){
     stocks.forEach(stock => description += `\nThe **${stock.name}**\n\`Current stock price\` -- $${stock.cost}\n\`Available share(s)\` -- ${stock.market_share}\n`);
 
     // construct the embed
-    const { thumbnails, gifs, embedColour } = bot.media;
+    const { embedColour } = bot.media;
     const embed = new MessageEmbed()
         .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
-        .setThumbnail(thumbnails[Math.floor(Math.random() * Math.floor(thumbnails.length))])
+        .setThumbnail(await bot.media.getMedia("thumbnails"))
         .setTitle(`${message.guild.name} Stock Market Σ (° ロ °)`)
         .addFields({ name: "Your Balance", value: `$${bot.currency.getBalance(message.author.id)}`, inline: true },
                    { name: "Economy Role", value: `${user.econrole}`, inline: true },
                    { name: "Market", value: `${description}` },)
-        .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
+        .setImage(await bot.media.getMedia("gifs"))
         .setFooter("FREEDOM SMILE (^)o(^)b");
     return embed;
 } // end of marketEmbed(...)

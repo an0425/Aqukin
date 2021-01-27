@@ -25,7 +25,7 @@ module.exports = class GuildCreateEvent extends BaseEvent {
             .addFields({ name: "Current Prefix", value: `\`${newGuild.prefix}\`` },
                        { name: "Description", value: description })
             .setImage("https://media1.tenor.com/images/c0e9bb7fbe7ae685ca2c7aa214e82cdc/tenor.gif?itemid=17166292")
-            .setFooter("Vive La Résistance le Hololive ٩(｡•ω•｡*)و");
+            .setFooter("FREEDOM SMILE (^)o(^)b");
 
         guild.channels.create(`Hololive House`, { 
                 reason: `User guide channel`,

@@ -1,8 +1,8 @@
 /* This module exports buffer memories property functions */
-const { Users, Guilds } = require("../database/dbObjects");
+const { Users, Guilds, Media } = require("../database/dbObjects");
 
 // This function defines all the property functions of bot.settings
-async function settings(bot){
+module.exports = async function initProperties(bot){
     // set the prefix and other values
     Reflect.defineProperty(bot.settings, "setPrefix", {
         value: async function setPrefix(id, prefix, reply, react) {
@@ -27,11 +27,16 @@ async function settings(bot){
             return guild.save();
         },
     });
-}
 
+    // get a random element from the specified media array
+    Reflect.defineProperty(bot.media, "getMedia", {
+        value: async function getMedia(mediaType) {
+            const media = await Media.findOne({ where: { id: 1 } });
+            return media[mediaType][Math.floor(Math.random() * Math.floor(media[mediaType].length))]; 
+        },
+    });
 
-// This function defines all the property functions of bot.currency
-function currency(bot){
+    /* currency properties
     // add balance
     Reflect.defineProperty(bot.currency, "add", {
         value: async function add(id, amount) {
@@ -52,7 +57,5 @@ function currency(bot){
             const user = bot.currency.get(id);
             return user ? user.balance : 0;
         },
-    });
+    }); */
 }
-
-module.exports = { settings, currency };

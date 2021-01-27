@@ -111,10 +111,8 @@ module.exports = class PlayCommand extends BaseCommand{
         } // end of else the given is keyword
 
         if(!player.connection && player.queue.length > 0) {
-            await bot.music.set(message.guild.id, player); 
             await player.initPlayer(voiceChannel, bot, author.username);
-
-            //await player.play(bot, ytdl);
+            await bot.music.set(message.guild.id, player); 
 
             await playing(bot, player).catch (err => {
                 console.log(err);

@@ -18,7 +18,7 @@ module.exports = class UsernfoCommand extends BaseCommand{
 
         // checks if the user has tagged the bot
         let embed;
-        const { gifs, embedColour } = bot.media;
+        const { embedColour } = bot.media;
         if(user.id === bot.user.id){
             const aquaCh = "https://www.youtube.com/channel/UC1opHUrw8rvnsadT-iGp7Cg";
             const aquaTw = "https://twitter.com/minatoaqua";
@@ -63,7 +63,7 @@ module.exports = class UsernfoCommand extends BaseCommand{
                            { name: "Nickname", value: nickname, inline: true },
                            { name: "Date Joined", value: member.joinedAt.toLocaleDateString() },
                            { name: "Role(s)", value: memberRoles })
-                .setImage(gifs[Math.floor(Math.random() * Math.floor(gifs.length))])
+                .setImage(await bot.media.getMedia("gifs"))
                 .setFooter("FREEDOM SMILE (^)o(^)b");
         }
         message.channel.send(`**${message.author.username}**-sama, this is`, embed);
