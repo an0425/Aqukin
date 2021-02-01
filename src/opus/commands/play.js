@@ -89,17 +89,17 @@ module.exports = class PlayCommand extends BaseCommand{
                         // await the user respond within 24s
                         await message.channel.awaitMessages(filter, { max: 1, time: 24000, errors: ["time"] })
                             .then(async (response) => {
-                                const entry = await response.first().content;
+                                // delete & capture the author's response
+                                await response.first().delete().then(async (entry) => {
+                                    if(entry.content > 0){
+                                        const trackInfo = tracks[entry.content-1];
+    
+                                        await player.queue.push(new Track(trackInfo.id, trackInfo.url, trackInfo.title, convertInput(trackInfo.duration), message.author));
+    
+                                        message.channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued track \`${trackInfo.title}\` ٩(ˊᗜˋ*)و`); // inform the author
+                                    }
+                                }).catch(err => console.log(err)); // capture & delete the author's respond
                                 
-                                if(entry > 0){
-                                    const trackInfo = tracks[entry-1];
-
-                                    await player.queue.push(new Track(trackInfo.id, trackInfo.url, trackInfo.title, convertInput(trackInfo.duration), message.author));
-
-                                    message.channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued track \`${trackInfo.title}\` ٩(ˊᗜˋ*)و`); // inform the author
-                                }
-
-                                response.first().delete().catch(err => console.log(err)); // delete the user respond
                             }).catch(console.error);
                         
                             msg.delete(); // delete the search results embed 
