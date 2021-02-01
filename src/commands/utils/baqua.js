@@ -9,7 +9,7 @@ module.exports = class BaquaCommand extends BaseCommand{
         const { embedColour } = para.bot.media;
         const embed = new MessageEmbed()
             .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
-            .setTitle("Atashi~ TENSAI (‾́ ◡ ‾́)")
+            //.setTitle("Atashi~ TENSAI (‾́ ◡ ‾́)")
             .setImage(await para.bot.media.getMedia("baqua"))
             .setFooter("FREEDOM SMILE (^)o(^)b");
         para.message.channel.send(embed);

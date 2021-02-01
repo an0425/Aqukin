@@ -15,13 +15,14 @@ module.exports = class SendEmojiCommand extends BaseCommand{
         }
 
         // send the message as the user
+        /*
         const botMem = message.guild.member(user);
         const oldDisplayName = botMem.displayName;
         
-        await botMem.setNickname(await message.guild.member(message.author).displayName);
+        await botMem.setNickname(await message.guild.member(message.author).displayName);*/
         message.channel.send(`<${emoji.identifier}>`).then(msg => {
             message.delete();
-            botMem.setNickname(oldDisplayName);
+            //botMem.setNickname(oldDisplayName);
         });
     } // end of run
 }; // end of module.exports
