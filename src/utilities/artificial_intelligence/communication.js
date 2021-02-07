@@ -1,16 +1,17 @@
 /* This module handles the bot's communicating ability */
 
 // This function handles the bot's random reacting ability
-async function react(message, bot){
-    const { emojis } = await bot.settings.get(message.guild.id);
+async function react(message, bot, settings){
+    if(Math.random() <= 0.2){
+        const emoji = message.guild.emojis.cache.randomKey();
+    
+        if(!emoji){
+            settings.react = !settings.react;
+            await settings.save();
+            return message.channel.send(`Dear masters of **${message.guild.name}**, ${bot.user.username} will now \`disable\` the \`reaction module\` as there're \`no emojis left\``);
+        }
 
-    if(emojis.length === 0){
-        await bot.settings.toggleReact(message.guild.id);
-        return message.channel.send(`Dear masters of **${message.guild.name}**, ${bot.user.username} will now disable the reaction module as there is no custom emojis left`);
-    }
-
-    if(Math.random() <= 0.2) {
-        message.react(emojis[Math.floor(Math.random() * Math.floor(emojis.length))]);
+        message.react(emoji);
     }
 } // end of react(...) function
 

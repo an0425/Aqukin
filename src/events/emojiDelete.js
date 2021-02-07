@@ -1,4 +1,4 @@
-/* this module represents the "emojiDelete" event */
+/* this module represents the "emojiDelete" event 
 const BaseEvent = require("../utilities/structures/BaseEvent");
 
 module.exports = class EmojiDeleteEvent extends BaseEvent {
@@ -15,3 +15,4 @@ module.exports = class EmojiDeleteEvent extends BaseEvent {
         }
     } // end of run
 } // end of module.exports
+*/

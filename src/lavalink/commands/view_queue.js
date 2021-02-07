@@ -81,7 +81,7 @@ async function generateQueueEmbed(queue, media, lavalink) {
         
             // construct the embed(s)
             const embed = new MessageEmbed()
-                .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
+                .setColor(embedColour.random())
                 .setThumbnail(await media.getMedia("thumbnails"))
                 .setDescription(`⚓ **Currently playing** ▶️\n [${queue.current.title}](${queue.current.uri}) | \`${formatLength(queue.current.duration, false, lavalink)}\` | requested by **${queue.current.requester.username}**-sama\n\n⚓ **Next in queue** ⏭️\n${info}`)
                 .setImage(await media.getMedia("gifs"))
@@ -92,7 +92,7 @@ async function generateQueueEmbed(queue, media, lavalink) {
 
     else{
         const embed = new MessageEmbed()
-            .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
+            .setColor(embedColour.random())
             .setThumbnail(await media.getMedia("thumbnails"))
             .setDescription(`⚓ **Currently playing** ▶️\n [${queue.current.title}](${queue.current.uri}) | \`${formatLength(queue.current.duration, false, lavalink)}\` | requested by **${queue.current.requester.username}**-sama\n\n⚓ **Next in queue** ⏭️\n${"Currently no track is next in queueヾ (= `ω´ =) ノ”"}`)
             .setImage(await media.getMedia("gifs"))

@@ -7,7 +7,7 @@ async function musicEmbed(bot, player, track){
    
     // construct the embeds     
     const embed = new MessageEmbed()
-        .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
+        .setColor(embedColour.random())
         .setThumbnail(await bot.media.getMedia("thumbnails"))
         .setTitle("⚓ Now Playing ~ (˘ ▽ ˘ ~) ⚓")
         .setFooter("FREEDOM SMILE (^)o(^)b");
@@ -49,7 +49,7 @@ async function marketEmbed(bot, message, stocks){
     // construct the embed
     const { embedColour } = bot.media;
     const embed = new MessageEmbed()
-        .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
+        .setColor(embedColour.random())
         .setThumbnail(await bot.media.getMedia("thumbnails"))
         .setTitle(`${message.guild.name} Stock Market Σ (° ロ °)`)
         .addFields({ name: "Your Balance", value: `$${bot.currency.getBalance(message.author.id)}`, inline: true },

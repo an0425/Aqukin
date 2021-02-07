@@ -9,7 +9,7 @@ module.exports = class DogezaCommand extends BaseCommand{
         const { author, channel } = para.message;
         const { embedColour } = para.bot.media;
         const embed = new MessageEmbed()
-            .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
+            .setColor(embedColour.random())
             .setTitle(`Oose no mama ni, **${author.username}**-sama`)
             .setImage(await para.bot.media.getMedia("dogeza"))
             .setFooter("FREEDOM SMILE (^)o(^)b");

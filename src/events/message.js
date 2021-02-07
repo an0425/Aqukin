@@ -12,13 +12,12 @@ module.exports = class MessageEvent extends BaseEvent {
         if (message.author.bot || message.channel.type === "dm") { return; }
 
         // get the prefix
-        let settings = await bot.settings.get(message.guild.id) || await bot.settings.setPrefix(message.guild.id, process.env.PREFIX, 0, 0);
+        let settings = await bot.settings.get(message.guild.id) || await bot.settings.setPrefix(message.guild.id, process.env.PREFIX, 0);
 
         // checks for command
         typeCheck(bot, message, settings.prefix, bot.mentionCmd.tag).then(async (iscmd) => {
             if(!iscmd){ // checks if the message is not a command
-                const args = message.content.trim().split(/ +/g);
-                if(settings.react) { await react(message, bot); }
+                if(settings.react) { await react(message, bot, settings); }
                 return;
             } // end of if the message is not a command
 

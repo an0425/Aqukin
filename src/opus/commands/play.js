@@ -76,7 +76,7 @@ module.exports = class PlayCommand extends BaseCommand{
                 let i = 0;
                 const tracksInfo = await tracks.map(r => `${++i}) [${r.title}](${r.url}) | length \`${r.duration}\``).join("\n\n"); // get the tracks info
                 const embed = new MessageEmbed()
-                    .setColor(bot.media.embedColour[Math.floor(Math.random() * Math.floor(bot.media.embedColour.length))])
+                    .setColor(bot.media.embedColour.random())
                     .setTitle(`Please enter the \`track number\` that you would like ${bot.user.username} to queue, or \`0\` to cancel ヽ (o´∀\`) ﾉ ♪ ♬`)
                     .setDescription(tracksInfo)
                     .setImage("https://media1.tenor.com/images/85e6b8577e925a9037d03a796588e7ed/tenor.gif?itemid=15925240")

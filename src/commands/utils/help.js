@@ -22,7 +22,7 @@ module.exports = class HelpCommand extends BaseCommand{
 
             // construct the embed
             const cmdInfoEmbed = new MessageEmbed()
-                .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
+                .setColor(embedColour.random())
                 .setThumbnail(await bot.media.getMedia("thumbnails"))
                 .setTitle(`[] is optional, <> is mandatory`)
                 .addFields({ name: "Prefix", value: `\`${para.prefix}\``, inline: true },
@@ -52,7 +52,7 @@ module.exports = class HelpCommand extends BaseCommand{
             
             // construct the embed
             const helpEmbed = new MessageEmbed()
-                .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
+                .setColor(embedColour.random())
                 .setThumbnail(await bot.media.getMedia("thumbnails"))
                 .setTitle(`You can try \`${para.prefix}help [command name]\` to get info on a specific command ☆ ⌒ (≧ ▽ °)`)
                 .addFields({ name: "Current Prefix", value: `\`${para.prefix}\``, inline: true }, 

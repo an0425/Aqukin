@@ -3,9 +3,14 @@ const { Users, Guilds, Media } = require("../database/dbObjects");
 
 // This function defines all the property functions of bot.settings
 module.exports = async function initProperties(bot){
+    // define random function for array
+    Array.prototype.random = function () {
+        return this[Math.floor((Math.random()*this.length))];
+    }
+      
     // set the prefix and other values
     Reflect.defineProperty(bot.settings, "setPrefix", {
-        value: async function setPrefix(id, prefix, reply, react) {
+        value: async function setPrefix(id, prefix, defaultBool) {
             const guild = bot.settings.get(id);
             if (guild) {
                 guild.prefix = prefix;
@@ -13,7 +18,7 @@ module.exports = async function initProperties(bot){
                 guild.react = react;
                 return guild.save();
             }
-            const newGuild = await Guilds.create({ guild_id: id, prefix: this.prefix, reply: this.reply, react: this.reply });
+            const newGuild = await Guilds.create({ guild_id: id, prefix: this.prefix, reply: defaultBool, react: defaultBool });
             bot.settings.set(id, newGuild);
             return newGuild;
         },
@@ -32,7 +37,7 @@ module.exports = async function initProperties(bot){
     Reflect.defineProperty(bot.media, "getMedia", {
         value: async function getMedia(mediaType) {
             const media = await Media.findOne({ where: { id: 1 } });
-            return media[mediaType][Math.floor(Math.random() * Math.floor(media[mediaType].length))]; 
+            return media[mediaType].random(); 
         },
     });
 

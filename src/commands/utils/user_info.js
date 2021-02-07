@@ -25,8 +25,8 @@ module.exports = class UsernfoCommand extends BaseCommand{
             const aThumbnails = ["https://media1.tenor.com/images/6ea2ecbe506ba7a51bc4a83bd5f16ae7/tenor.gif?itemid=17126194", 
                                  "https://media1.tenor.com/images/61eb394cd2c8f2effd2c0347b58545b9/tenor.gif?itemid=16289275"];
             embed = new MessageEmbed()
-                .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
-                .setThumbnail(aThumbnails[Math.floor(Math.random() * Math.floor(aThumbnails.length))])
+                .setColor(embedColour.random())
+                .setThumbnail(aThumbnails.random())
                 .setTitle(`⚓ ${user.username} information (⁄ ⁄> ⁄ ▽ ⁄ <⁄ ⁄) ⚓`)
                 .addFields({ name: "Nickname", value: "Baqua\nOnion\nIQ-3", inline: true },
                            { name: "Minato Aqua Channel", value: `[Aqua Ch. 湊あくあ](${aquaCh})`, inline: true },
@@ -56,7 +56,7 @@ module.exports = class UsernfoCommand extends BaseCommand{
             // construct the embed
             
             embed = new MessageEmbed()
-                .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
+                .setColor(embedColour.random())
                 .setThumbnail(member.user.displayAvatarURL({format: "png", dynamic: true, size: 2048}))
                 .setTitle(`${title} information ｡ ﾟ (ﾟ ^ ∀ ^ ﾟ) ﾟ｡`)
                 .addFields({ name: "Tag", value: member.user.tag, inline: true },

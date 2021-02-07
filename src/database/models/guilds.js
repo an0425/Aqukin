@@ -22,15 +22,11 @@ module.exports = (sequelize, DataTypes) => {
 		react: {
 			type: DataTypes.BOOLEAN,
 			defaultValue: '0',
-		},
+		}, 
 
 		artfeed: {
 			type: DataTypes.BOOLEAN,
 			defaultValue: '0',
-		},
-
-		emojis: {
-			type: DataTypes.ARRAY(DataTypes.STRING)
 		},
 
 		patreon: {

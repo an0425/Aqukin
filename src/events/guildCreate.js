@@ -7,7 +7,7 @@ module.exports = class GuildCreateEvent extends BaseEvent {
     constructor() { super("guildCreate"); }
     
     async run(bot, guild){
-        const newGuild = await bot.settings.setPrefix(guild.id, process.env.PREFIX, 0, 0);
+        const newGuild = await bot.settings.setPrefix(guild.id, process.env.PREFIX, 0);
         await bot.settings.set(guild.id, newGuild);
 
         // construct the embed
@@ -16,8 +16,8 @@ module.exports = class GuildCreateEvent extends BaseEvent {
                             For the list of **commands**, try \`${newGuild.prefix}help\`.\n
                             You can always change the **current prefix** with the command \`configureprefix\` or \`cp\` for short.\n
                             You can also **mention ${name}** for **commands** instead of using the prefix, for example \`@${name} h\` should give you the list of commands.\n
-                            For a more detailed guide, please prefer to the [Wiki](https://github.com/DeaLoux/Aqukin/wiki).\n
-                            If you need more help or considering support, join us at the [Onion Squad](https://www.youtube.com/watch?v=-aB6MQU8l1s).`;
+                            For a more detailed guide, please prefer to the [Wiki](https://github.com/DeaLoux/Aqukin/wiki).\n`;
+                            //If you need more help or considering support, join us at the [Onion Squad](https://www.youtube.com/watch?v=-aB6MQU8l1s).
         const embed = new MessageEmbed()
             .setColor(0x1DE2FE)
             .setThumbnail("https://media1.tenor.com/images/6833382be660b108e6947fe3f6f7ad4b/tenor.gif?itemid=16161314")

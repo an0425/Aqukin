@@ -19,10 +19,12 @@ const sequelize = process.env.PROJECT_DOMAIN ?
 const Users = require("../database/models/users")(sequelize, Sequelize.DataTypes);
 const Media = require("../database/models/media")(sequelize, Sequelize.DataTypes);
 const Guilds = require("../database/models/guilds")(sequelize, Sequelize.DataTypes);
+//const Emojis = require("../database/models/emojis")(sequelize, Sequelize.DataTypes);
 const StockMarket = require("../database/models/stock_market")(sequelize, Sequelize.DataTypes);
 const UserStocks = require("../database/models/user_stocks")(sequelize, Sequelize.DataTypes);
 
 UserStocks.belongsTo(StockMarket, { foreignKey: "stock_id", as: "stock" });
+//Emojis.belongsTo(Guilds, { foreignKey: "guild_id", as: "emojis" });
 
 /** Users functions */
 Users.prototype.addStock = async function(stock, amount) {

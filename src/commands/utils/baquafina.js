@@ -14,7 +14,7 @@ module.exports = class BaquafinaCommand extends BaseCommand{
 
         const { embedColour } = para.bot.media;
         const embed = new MessageEmbed()
-            .setColor(embedColour[Math.floor(Math.random() * Math.floor(embedColour.length))])
+            .setColor(embedColour.random())
             //.setTitle("Atashi~ PURE (* ¯︶¯ *)")
             .setImage(await para.bot.media.getMedia("baquafina"))
             .setFooter("FREEDOM SMILE (^)o(^)b");
