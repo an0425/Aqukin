@@ -1,4 +1,4 @@
-/* This module allow the admin of a guild to set a text channel as the announcement channel */
+/* This module allow the admin of a guild to set a text channel as the announcement channel 
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class SetChannelCommand extends BaseCommand{
@@ -24,5 +24,5 @@ module.exports = class SetChannelCommand extends BaseCommand{
             message.channel.send(`**${message.author.username}**-sama, ${bot.user.username} has set \`${channel.name}\` as the annoucement channel (* ≧ ω ≦ *)`);
         }
     } // end of run
-}; // end of module.exports
+}; // end of module.exports */
 

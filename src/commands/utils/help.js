@@ -65,7 +65,8 @@ module.exports = class HelpCommand extends BaseCommand{
 
             if(message.member.hasPermission("ADMINISTRATOR")){
                 const settings = await bot.settings.get(message.guild.id);
-                const channel = await message.channel.guild.channels.cache.has(settings.announcement_ch) ? message.channel.guild.channels.cache.get(settings.announcement_ch).name : "No channel is set aru";
+                const TBA = "TBA";
+                //const channel = await message.channel.guild.channels.cache.has(settings.announcement_ch) ? message.channel.guild.channels.cache.get(settings.announcement_ch).name : "No channel is set aru";
                 const settingsCmds = await bot.commands
                     .filter(cmd => cmd.tag === "settings")
                     .map(cmd => `\`${cmd.name}\``).join(" ");
@@ -74,9 +75,9 @@ module.exports = class HelpCommand extends BaseCommand{
                     { name: "Settings commands (Admin/Owner only)", value: settingsCmds },
                     { name: "**Current Settings**", value: `Message Reply - \`${convertBoolean(settings.reply)}\`
                                                             Message React - \`${convertBoolean(settings.react)}\`
-                                                            Twitter Fanarts - \`${convertBoolean(settings.artfeed)}\`
+                                                            Twitter Fanarts - \`${/*convertBoolean(settings.artfeed)*/ TBA}\`
                                                             Default Message Number (cleanmessage) - \`${settings.default_msg_num}\`
-                                                            Announcement channel - \`${channel}\``},
+                                                            Announcement channel - \`${/*channel*/ TBA}\``},
                 );
             }
             

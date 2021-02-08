@@ -1,4 +1,4 @@
-/* This module toggles the bot's ability to randomly post twitter fan art feeds */
+/* This module toggles the bot's ability to randomly post twitter fan art feeds 
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class ToggleTwitterArtCommand extends BaseCommand{
@@ -33,5 +33,5 @@ module.exports = class ToggleTwitterArtCommand extends BaseCommand{
             message.channel.send(`**${message.author.username}**-sama, ${reply} \nTo set a new announcement channel use the \`setchannel\` command. For the command list try the \`help\` command`);
         }
     } // end of run
-}; // end of module.exports
+}; // end of module.exports */
 
