@@ -23,7 +23,7 @@ async function musicEmbed(bot, player, track){
                    { name: "Looped", value: convertBoolean(player.trackRepeat), inline: true },
                    { name: "Queue Looped", value: convertBoolean(player.queueRepeat), inline: true },
                    { name: "Requested by", value: `**${track.requester.username}**-sama, nanodesu~`, inline: true })
-            .setImage(`https://i.ytimg.com/vi/${track.identifier}/maxresdefault.jpg`)
+            .setImage(`https://i.ytimg.com/vi/${track.identifier}/hqdefault.jpg`)
     }
 
     // opus
@@ -36,7 +36,7 @@ async function musicEmbed(bot, player, track){
                    { name: "Looped", value: convertBoolean(player.trackRepeat), inline: true },
                    { name: "Queue Looped", value: convertBoolean(player.queueRepeat), inline: true },
                    { name: "Requested by", value: `**${track.requester.username}**-sama, nanodesu~`, inline: true })
-            .setImage(`https://i.ytimg.com/vi/${track.id}/maxresdefault.jpg`)
+            .setImage(`https://i.ytimg.com/vi/${track.id}/hqdefault.jpg`)
     }
     return embed;
 } // end of musicEmbed(...)
