@@ -10,7 +10,9 @@ const sequelize = process.env.PROJECT_DOMAIN ?
 		port: process.env.PORT,
 		host: process.env.PROJECT_DOMAIN,
 		logging: false,
-		ssl: true
+		dialectOptions: {
+            ssl: true
+        },
 	}) :
 	new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
 		host: "localhost",
