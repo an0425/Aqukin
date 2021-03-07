@@ -10,7 +10,10 @@ const sequelize = process.env.PROJECT_DOMAIN ?
 		host: process.env.PROJECT_DOMAIN,
 		logging: false,
 		dialectOptions: {
-            ssl: true
+            ssl: {
+				require: true,
+				rejectUnauthorized: false
+			}
         },
 	}) :
 	new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
