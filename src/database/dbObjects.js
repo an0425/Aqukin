@@ -8,7 +8,8 @@ const sequelize = process.env.PROJECT_DOMAIN ?
 		protocol: "postgres",
 		port: process.env.PORT,
 		host: process.env.PROJECT_DOMAIN,
-		logging: false
+		logging: false,
+		ssl: true
 	}) :
 	new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
 		host: "localhost",
