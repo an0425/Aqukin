@@ -98,7 +98,7 @@ module.exports = class PlayCommand extends BaseCommand{
     
                                         message.channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued track \`${trackInfo.title}\` ٩(ˊᗜˋ*)و`); // inform the author
                                     }
-                                }).catch(err => console.log(err)); // capture & delete the author's respond
+                                }).catch(console.error); // capture & delete the author's respond
                                 
                             }).catch(console.error);
                         
