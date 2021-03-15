@@ -1,6 +1,6 @@
 /* Main module for Aqukin */
 require("dotenv").config();
-const { alive } = require("../utilities/alive");
+const { alive, aliveHeroku } = require("../utilities/alive");
 const { Client, Collection } = require("discord.js");
 const initProperties  = require("../database/properties");
 const { registerCommands, registerEvents, consoleChatter } = require("../utilities/handlers");
@@ -35,8 +35,9 @@ bot.settings = new Collection();
 	//await consoleChatter(bot);
 
 	await bot.login(process.env.BOT_TOKEN); // connect the bot to the Discord server
-	//if(process.env.PROJECT_DOMAIN) { await aliveHeroku(bot); }
-	await alive(bot);
+	if(process.env.PROJECT_DOMAIN) { await aliveHeroku(bot); }
+	else
+		await alive(bot);
 
 	process.on("warning", e => console.warn(e.stack)) // debug
 })();
