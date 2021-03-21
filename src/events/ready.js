@@ -13,6 +13,7 @@ module.exports = class ReadyEvent extends BaseEvent {
 
 		bot.antispam = {
 			trackingList : new Collection(),
+			deltaList : new Collection()
 		} 
 
 		//bot.musicQueue = new Collection();

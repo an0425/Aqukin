@@ -6,10 +6,64 @@ const ridingAqua = { files: ["https://media1.tenor.com/images/e6578328df71dbd6b4
 // This function checks if the user is spamming commands
 async function spamCheck(bot, message){
     // shortcut variables
-    const { trackingList } = bot.antispam;
+    const { trackingList, deltaList } = bot.antispam;
     const { author } = message;
+    const deltaMinThreshold = 10000;
     const minThreshold = 1500;
     const blockTime = 120000;
+
+    // check for automated spamming
+    if(!deltaList.has(author.id)){
+        let deltaMsg = {
+            lastMsgTime : message.createdTimestamp,
+            deltas : [],
+            lastDeltaStd : 0
+        }
+
+        deltaMsg.fn = setTimeout(() => { 
+            deltaList.delete(author.id); 
+        }, deltaMinThreshold); 
+        await deltaList.set(author.id, deltaMsg);
+    }
+
+    else{
+        const deltaMsg = await deltaList.get(author.id);
+        
+        if(deltaMsg.automatedSpamming)
+            return true;
+
+        else if(deltaMsg.lastDeltaStd < 80){
+            clearTimeout(deltaMsg.fn);
+
+            if(deltaMsg.deltas.length < 4){
+                //console.log(`old ${deltaMsg.lastDeltaStd}`);
+
+                await deltaMsg.deltas.push(message.createdTimestamp - deltaMsg.lastMsgTime);
+                deltaMsg.lastMsgTime = message.createdTimestamp;
+    
+                deltaMsg.lastDeltaStd = await deltaMsg.deltas.standardDeviation();
+
+                //console.log(`new ${deltaMsg.lastDeltaStd}`);
+    
+                deltaMsg.fn = setTimeout(() => { 
+                    deltaList.delete(author.id); 
+                }, deltaMinThreshold); 
+            }
+
+            else if(!deltaMsg.automatedSpamming){                
+                deltaMsg.automatedSpamming = true;
+
+                const deltaBlockTime = blockTime * 30;
+                message.channel.send(`**${author.username}**-sama, ${bot.user.username} will now see you as a bot and won't take anymore commands from you for \`${formatLength(deltaBlockTime)}\``, ridingAqua);
+                
+                deltaMsg.fn = setTimeout(() => { 
+                    deltaList.delete(author.id); 
+                }, deltaBlockTime); 
+            }
+
+            await deltaList.set(author.id, deltaMsg);
+        }
+    }
 
     // checks if the user has not called to bot recently, add to the list if so
     if(!trackingList.has(author.id)){
