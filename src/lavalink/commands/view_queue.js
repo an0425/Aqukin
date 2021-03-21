@@ -11,46 +11,58 @@ module.exports = class ViewQueueCommand extends BaseCommand {
     async run (para) {
         // shortcut variables
         const { message, player } = para;
-    
+
+        let step = 7;
         let currentPage = 0; // default current page to the first page
-        const embeds = await generateQueueEmbed(player.queue, para.bot.media, para.bot.music.lavalink);
-        const queueEmbed = await message.channel.send(`Current Page -> ${currentPage+1}/${embeds.length}`, embeds[currentPage]);
-        if(embeds.length > 1){
-            await queueEmbed.react("⏮️");
-            await queueEmbed.react("⏪");
-            await queueEmbed.react("⬅️");
-            await queueEmbed.react("➡️");
-            await queueEmbed.react("⏩");
-            await queueEmbed.react("⏭️");
-        }
+        const queueEmbed = await message.channel.send(`Current Page -> ${currentPage+1}/${Math.ceil(player.queue.length/step) || 1}`, await generateQueueEmbed(currentPage, step, player.queue, para.bot.media, para.bot.music.lavalink));
+        await queueEmbed.react("⏮️");
+        await queueEmbed.react("⏪");
+        await queueEmbed.react("⬅️");
+        await queueEmbed.react("➡️");
+        await queueEmbed.react("⏩");
+        await queueEmbed.react("⏭️");
         await queueEmbed.react('❌');
 
         const filter = (reaction, user) => ["⏮️","⏪","⬅️", "➡️", "⏩", "⏭️", "❌"].includes(reaction.emoji.name) && (message.author.id === user.id); // author's reactions filter
         const collector = queueEmbed.createReactionCollector(filter); // a collector for collecting the author's reactions
 
         collector.on("collect", async (reaction) => {
+            // not working
+            if(para.player.state == "DISCONNECTED"){
+                collector.stop();
+                return await queueEmbed.delete();
+            }
+            
             const { name } = reaction.emoji;
             switch(name){
                 case "➡️":
                 case "⏩":
                 case "⏭️":
-                    if (currentPage < embeds.length-1) { // checks if the current page is not the last page
+                    if (currentPage < Math.ceil(player.queue.length/step)-1) { // checks if the current page is not the last page
                         if(name == "➡️") { currentPage++; }
-                        else if(name == "⏩") { currentPage = currentPage+5 < embeds.length-1 ? currentPage+5 : embeds.length-1; }
-                        else { currentPage = embeds.length-1; }
-                        queueEmbed.edit(`Current Page -> ${currentPage+1}/${embeds.length}`, embeds[currentPage]);
+                        else if(name == "⏩") { currentPage = currentPage+5 < Math.ceil(player.queue.length/step)-1 ? currentPage+5 : Math.ceil(player.queue.length/step)-1; }
+                        else { currentPage = Math.ceil(player.queue.length/step)-1; }
                     }
+                    else
+                        currentPage = 0;
+
+                    queueEmbed.edit(`Current Page -> ${currentPage+1}/${Math.ceil(player.queue.length/step) || 1}`, await generateQueueEmbed(currentPage, step, player.queue, para.bot.media, para.bot.music.lavalink));
                     break;
         
                 case "⬅️":
                 case "⏪":
                 case "⏮️":
-                    if (currentPage !== 0) { // checks if the current page is not the first page
+                    if(currentPage > Math.ceil(player.queue.length/step)-1)
+                        currentPage = Math.ceil(player.queue.length/step)-1;
+
+                    else if (currentPage !== 0) { // checks if the current page is not the first page
                         if(name == "⬅️") { currentPage--; }
                         else if(name == "⏪") { currentPage = currentPage-5 > 0 ? currentPage-5 : 0; }
                         else { currentPage = 0; }
-                        queueEmbed.edit(`Current Page ${currentPage+1}/${embeds.length}`, embeds[currentPage]);
+                        
                     }
+
+                    queueEmbed.edit(`Current Page ${currentPage+1}/${Math.ceil(player.queue.length/step) || 1}`, await generateQueueEmbed(currentPage, step, player.queue, para.bot.media, para.bot.music.lavalink));
                     break;
         
                 // a default case for X reaction, which will stop the collector and end the method
@@ -64,41 +76,36 @@ module.exports = class ViewQueueCommand extends BaseCommand {
 } // end of module.exports 
 
 /* This function is for generating an embed with the queue information */
-async function generateQueueEmbed(queue, media, lavalink) {
+async function generateQueueEmbed(i, step, queue, media, lavalink) {
     const { embedColour } = media;
-    const embeds = [];
+    let embed;
 
     if(queue.length > 0){
-        let k = 7;
-
-        // for loop going through all the tracks in the queue
-        for(let i = 0; i < queue.length; i += 7) { 
-            const next = queue.slice(i, k);
-            // checks if there's anything next in queue
-            let j = i;
-            k += 7;
-            let info = next.map(track => `${++j}) [${track.title}](${track.uri}) | \`${formatLength(track.duration, false, lavalink)}\` | requested by **${track.requester.username}**-sama`).join("\n\n");
+        let start = step*i;
+        let end = start+step;
+        end = end > queue.length ? queue.length : end;
+    
+        const next = queue.slice(start, end);
+        // checks if there's anything next in queue
+        let j = start+1;
+        let info = next.map(track => `${++j}) [${track.title}](${track.uri}) | \`${formatLength(track.duration, false, lavalink)}\` | requested by **${track.requester.username}**-sama`).join("\n\n");
         
-            // construct the embed(s)
-            const embed = new MessageEmbed()
-                .setColor(embedColour.random())
-                .setThumbnail(await media.getMedia("thumbnails"))
-                .setDescription(`⚓ **Currently playing** ▶️\n [${queue.current.title}](${queue.current.uri}) | \`${formatLength(queue.current.duration, false, lavalink)}\` | requested by **${queue.current.requester.username}**-sama\n\n⚓ **Next in queue** ⏭️\n${info}`)
-                .setImage(await media.getMedia("gifs"))
-                .setFooter("FREEDOM SMILE (^)o(^)b");
-            embeds.push(embed); // pushing embeds (for transition between pages)
-        } // end of for loop
+        // construct the embed
+        embed = new MessageEmbed()
+            .setColor(embedColour.random())
+            .setThumbnail(await media.getMedia("thumbnails"))
+            .setDescription(`⚓ **Currently playing** ▶️\n [${queue.current.title}](${queue.current.uri}) | \`${formatLength(queue.current.duration, false, lavalink)}\` | requested by **${queue.current.requester.username}**-sama\n\n⚓ **Next in queue** ⏭️\n${info}`)
+            .setImage(await media.getMedia("gifs"))
+            .setFooter("FREEDOM SMILE (^)o(^)b");    
     }
 
     else{
-        const embed = new MessageEmbed()
+        embed = new MessageEmbed()
             .setColor(embedColour.random())
             .setThumbnail(await media.getMedia("thumbnails"))
             .setDescription(`⚓ **Currently playing** ▶️\n [${queue.current.title}](${queue.current.uri}) | \`${formatLength(queue.current.duration, false, lavalink)}\` | requested by **${queue.current.requester.username}**-sama\n\n⚓ **Next in queue** ⏭️\n${"Currently no track is next in queueヾ (= `ω´ =) ノ”"}`)
             .setImage(await media.getMedia("gifs"))
             .setFooter("FREEDOM SMILE (^)o(^)b");
-        embeds.push(embed);
     }
-    
-    return embeds;
+    return embed;
 } // end of gerenateQueueEmbed(queue) helper function

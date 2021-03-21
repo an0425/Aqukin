@@ -1,17 +1,59 @@
 /* This module handles all the checking for the "message" event */
 const { reply } = require("../utilities/artificial_intelligence/communication");
+const { formatLength } = require("../utilities/functions");
 const ridingAqua = { files: ["https://media1.tenor.com/images/e6578328df71dbd6b44318553e06eda8/tenor.gif?itemid=17267168"] };
 
 // This function checks if the user is spamming commands
 async function spamCheck(bot, message){
     // shortcut variables
-    const { antispam } = bot;
+    const { trackingList } = bot.antispam;
     const { author } = message;
+    const minThreshold = 1500;
+    const blockTime = 120000;
 
     // checks if the user has not called to bot recently, add to the list if so
-    if(!antispam.has(author.id)){
-        antispam.add(author.id);
-        setTimeout(() => { antispam.delete(author.id); }, 1500); 
+    if(!trackingList.has(author.id)){
+        let userData = {
+            warned : 0,
+            blocked : false,
+        }
+        userData.fn = setTimeout(() => { 
+            trackingList.delete(author.id); 
+        }, minThreshold); 
+
+        trackingList.set( author.id, userData );
+        return false;
+    }
+    
+    else{
+        const userData = trackingList.get(author.id);
+        // warn
+        if(userData.warned < 3){
+            clearTimeout(userData.fn);
+            
+            message.channel.send(`**${message.author.username}**-sama, you are rushing ${bot.user.username} hard, please be patient ＼(º □ º l|l)/`);
+            userData.warned++;
+            
+            userData.fn = setTimeout(() => { 
+                trackingList.delete(author.id); 
+            }, minThreshold); 
+
+            trackingList.set( author.id, userData );
+        }
+        // block
+        else if(!userData.blocked){
+            clearTimeout(userData.fn);
+                
+            message.channel.send(`**${author.username}**-sama, ${bot.user.username} won't take anymore commands from you for \`${formatLength(blockTime)}\``, ridingAqua);
+            userData.blocked = true;
+
+            userData.fn = setTimeout(() => { 
+                trackingList.delete(author.id); 
+            }, blockTime); 
+
+            trackingList.set( author.id, userData );
+        }
+        return true;
     }
 } // end of spamCheck(...) function
 

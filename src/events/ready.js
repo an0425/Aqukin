@@ -10,6 +10,12 @@ module.exports = class ReadyEvent extends BaseEvent {
 	async run (bot){
 		// bot variables
 		bot.votingSystem = new Collection();
+
+		bot.antispam = {
+			trackingList : new Collection(),
+		} 
+
+		//bot.musicQueue = new Collection();
 			
 		// database variables
 		/*

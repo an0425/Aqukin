@@ -22,10 +22,9 @@ module.exports = class MessageEvent extends BaseEvent {
             } // end of if the message is not a command
 
             /* anti spam */
-            if(bot.antispam.has(message.author.id)) { 
-                return message.channel.send(`**${message.author.username}**-sama, you are rushing ${bot.user.username} hard, please be patient ＼(º □ º l|l)/`, { files: ["https://media1.tenor.com/images/9d81ec7c2abd005d8da208d2f56e89df/tenor.gif?itemid=17267165"] });
+            if(await spamCheck(bot, message)) { 
+                return;
             }
-            await spamCheck(bot, message);
 
             // else continue with the code
             let args = bot.mentionCmd.mentioned.get(message.guild.id) ? message.content.slice(bot.mentionCmd.tag.length).trim().split(/ +/g) : message.content.slice(settings.prefix.length).trim().split(/ +/g);

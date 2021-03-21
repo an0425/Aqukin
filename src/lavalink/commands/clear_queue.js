@@ -12,14 +12,14 @@ module.exports = class ClearQueueCommand extends BaseCommand {
         const author = message.author.username;
 
         // checks if the current queue is empty, if so return a message to inform the author
-        if(player.queue.size <= 1) { return message.channel.send(`**${author}**-sama, no need to clear the queue as there is no track upcoming ╮ (︶︿︶) ╭`); }
+        if(player.queue.size === 0) { return message.channel.send(`**${author}**-sama, no need to clear the queue as there is no track upcoming ╮ (︶︿︶) ╭`); }
 
         // voting system
         const voteReached = await voteConstruct(para.bot, message, player, para.command);
         if(!voteReached) { return; }
 
         try {
-            await player.queue.remove(1, player.queue.size-1);
+            await player.queue.splice(0, player.queue.length);
             message.channel.send(`**${author}**-sama, ${para.bot.user.username} has cleared the queue (っ ˘ω˘ς)`);
             
             // Update the currently playing embed

@@ -7,7 +7,7 @@ const { registerCommands, registerEvents, consoleChatter } = require("../utiliti
 
 // variables
 const bot = new Client();
-bot.antispam = new Set();
+
 bot.mentionCmd = {
 	tag: process.env.TAG,
 	mentioned: new Collection()
