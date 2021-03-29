@@ -3,7 +3,7 @@ const { voteConstruct } = require("../../utilities/voting_system");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class ResumeCommand extends BaseCommand{
-    constructor() { super("resume", ["r", "continue"], "Resume the audio player", "CONNECT", "music", false, "", "-- will resume the audio player if paused"); }
+    constructor() { super("resume", ["rs", "continue"], "Resume the audio player", "CONNECT", "music", false, "", "-- will resume the audio player if paused"); }
 
     async run(para){
         // shortcut variables

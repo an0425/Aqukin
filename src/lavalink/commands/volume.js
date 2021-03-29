@@ -5,7 +5,7 @@ const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class VolumeCommand extends BaseCommand{
     constructor() {
-        super("setvolume", ["v", "sv", "volume"], "Set the audio player's volume by percentage (maximum 400)", "ADMINISTRATOR", "music", true, "[percentage]", "150 -- will set the volume to 150% of the default volume");
+        super("setvolume", ["sv", "volume"], "Set the audio player's volume by percentage (maximum 400)", "ADMINISTRATOR", "music", true, "[percentage]", "150 -- will set the volume to 150% of the default volume");
     }
     
     async run(para){

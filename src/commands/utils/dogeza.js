@@ -3,7 +3,7 @@ const { MessageEmbed } = require("discord.js");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class DogezaCommand extends BaseCommand{
-    constructor() {super("dogeza", ["d"], "Display randomly one of Minato Aqua dogeza pictures", "SEND_MESSAGES", "utility", false, "", "-- will display a dogeza picture")}
+    constructor() {super("dogeza", ["dgz"], "Display randomly one of Minato Aqua dogeza pictures", "SEND_MESSAGES", "utility", false, "", "-- will display a dogeza picture")}
 
     async run(para) {
         const { author, channel } = para.message;

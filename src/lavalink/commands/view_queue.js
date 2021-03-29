@@ -5,14 +5,14 @@ const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class ViewQueueCommand extends BaseCommand {
     constructor () {
-        super("viewqueue", ["q", "vq", "queue"], "View the audio player's queue", "CONNECT", "music", false, "", "-- will display the queue");
+        super("viewqueue", ["vq", "queue"], "View the audio player's queue", "CONNECT", "music", false, "", "-- will display the queue");
     }
     
     async run (para) {
         // shortcut variables
         const { message, player } = para;
+        const step = 7;
 
-        let step = 7;
         let currentPage = 0; // default current page to the first page
         const queueEmbed = await message.channel.send(`Current Page -> ${currentPage+1}/${Math.ceil(player.queue.length/step) || 1}`, await generateQueueEmbed(currentPage, step, player.queue, para.bot.media, para.bot.music.lavalink));
         await queueEmbed.react("⏮️");
@@ -28,32 +28,33 @@ module.exports = class ViewQueueCommand extends BaseCommand {
 
         collector.on("collect", async (reaction) => {
             // not working
-            if(para.player.state == "DISCONNECTED"){
+            if(player.state == "DISCONNECTED"){
                 collector.stop();
                 return await queueEmbed.delete();
             }
-            
+
+            const queueLength = Math.ceil(player.queue.length/step);
             const { name } = reaction.emoji;
             switch(name){
                 case "➡️":
                 case "⏩":
                 case "⏭️":
-                    if (currentPage < Math.ceil(player.queue.length/step)-1) { // checks if the current page is not the last page
+                    if (currentPage < queueLength-1) { // checks if the current page is not the last page
                         if(name == "➡️") { currentPage++; }
-                        else if(name == "⏩") { currentPage = currentPage+5 < Math.ceil(player.queue.length/step)-1 ? currentPage+5 : Math.ceil(player.queue.length/step)-1; }
+                        else if(name == "⏩") { currentPage = currentPage+5 < queueLength-1 ? currentPage+5 : queueLength-1; }
                         else { currentPage = Math.ceil(player.queue.length/step)-1; }
                     }
                     else
                         currentPage = 0;
 
-                    queueEmbed.edit(`Current Page -> ${currentPage+1}/${Math.ceil(player.queue.length/step) || 1}`, await generateQueueEmbed(currentPage, step, player.queue, para.bot.media, para.bot.music.lavalink));
+                    queueEmbed.edit(`Current Page -> ${currentPage+1}/${queueLength || 1}`, await generateQueueEmbed(currentPage, step, player.queue, para.bot.media, para.bot.music.lavalink));
                     break;
         
                 case "⬅️":
                 case "⏪":
                 case "⏮️":
-                    if(currentPage > Math.ceil(player.queue.length/step)-1)
-                        currentPage = Math.ceil(player.queue.length/step)-1;
+                    if(currentPage > queueLength-1)
+                        currentPage = queueLength-1;
 
                     else if (currentPage !== 0) { // checks if the current page is not the first page
                         if(name == "⬅️") { currentPage--; }
@@ -62,7 +63,7 @@ module.exports = class ViewQueueCommand extends BaseCommand {
                         
                     }
 
-                    queueEmbed.edit(`Current Page ${currentPage+1}/${Math.ceil(player.queue.length/step) || 1}`, await generateQueueEmbed(currentPage, step, player.queue, para.bot.media, para.bot.music.lavalink));
+                    queueEmbed.edit(`Current Page ${currentPage+1}/${queueLength || 1}`, await generateQueueEmbed(currentPage, step, player.queue, para.bot.media, para.bot.music.lavalink));
                     break;
         
                 // a default case for X reaction, which will stop the collector and end the method

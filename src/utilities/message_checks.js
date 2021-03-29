@@ -65,7 +65,7 @@ async function spamCheck(bot, message){
         }
     }
 
-    // checks if the user has not called to bot recently, add to the list if so
+    // checks for manual spamming
     if(!trackingList.has(author.id)){
         let userData = {
             warned : 0,
@@ -128,9 +128,18 @@ async function commandCheck(bot, message, command, args, settings, prefix, enabl
     if (!command) {
         //console.log(message.content, args);
         if(enableReply) { 
+            /* anti spam */
+            if(await spamCheck(bot, message)) { 
+                return;
+            }
             await reply(message, args, prefix, bot.mentionCmd.tag); 
         }
         return; 
+    }
+
+    /* anti spam */
+    if(await spamCheck(bot, message)) { 
+        return;
     }
 
     await args.shift();

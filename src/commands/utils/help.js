@@ -4,7 +4,7 @@ const BaseCommand = require("../../utilities/structures/BaseCommand");
 const { convertBoolean } = require("../../utilities/functions");
 
 module.exports = class HelpCommand extends BaseCommand{
-    constructor() {super("help", ["h"], "Provide info about commands", "SEND_MESSAGES", "utility", false, "[command name/alias]", "move -- will show info about the move command")}
+    constructor() {super("help", ["hm", "helpme"], "Provide info about commands", "SEND_MESSAGES", "utility", false, "[command name/alias]", "move -- will show info about the move command")}
     
     async run(para) {
         // shortcut variables

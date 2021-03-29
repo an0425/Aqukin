@@ -3,7 +3,7 @@ const { voteConstruct } = require("../../utilities/voting_system");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
 
 module.exports = class SkipCommand extends BaseCommand{
-    constructor() { super("skip", ["s", "n", "nxt", "next"], "Skip the current track", "CONNECT", "music", false, "", "-- will skip the current track"); }
+    constructor() { super("skip", ["s", "next"], "Skip the current track", "CONNECT", "music", false, "", "-- will skip the current track"); }
     
     async run (para) {
         // shortcut variables

@@ -2,7 +2,7 @@
 require("dotenv").config();
 const BaseEvent = require("../utilities/structures/BaseEvent");
 const { react } = require("../utilities/artificial_intelligence/communication");
-const { spamCheck, typeCheck, commandCheck } = require("../utilities/message_checks");
+const { typeCheck, commandCheck } = require("../utilities/message_checks");
 
 module.exports = class MessageEvent extends BaseEvent {
     constructor() { super("message"); }
@@ -20,11 +20,6 @@ module.exports = class MessageEvent extends BaseEvent {
                 if(settings.react) { await react(message, bot, settings); }
                 return;
             } // end of if the message is not a command
-
-            /* anti spam */
-            if(await spamCheck(bot, message)) { 
-                return;
-            }
 
             // else continue with the code
             let args = bot.mentionCmd.mentioned.get(message.guild.id) ? message.content.slice(bot.mentionCmd.tag.length).trim().split(/ +/g) : message.content.slice(settings.prefix.length).trim().split(/ +/g);
