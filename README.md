@@ -6,7 +6,7 @@
   <img src="https://github.com/DeaLoux/Aqukin/blob/master/src/utilities/media/background.png">
 </p>
 
-[Invite Me](https://discordapp.com/api/oauth2/authorize?client_id=702620458130079750&permissions=813165680&scope=bot)
+[Invite Aqukin](https://discordapp.com/api/oauth2/authorize?client_id=702620458130079750&permissions=813165680&scope=bot)
 
 Your diamond ninja combat baka maid, a bot that was created based on a Virtual Youtuber known as [Minato Aqua](https://www.youtube.com/channel/UC1opHUrw8rvnsadT-iGp7Cg)
 
