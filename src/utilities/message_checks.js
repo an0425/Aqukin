@@ -1,5 +1,5 @@
 /* This module handles all the checking for the "message" event */
-const { reply } = require("../utilities/artificial_intelligence/communication");
+const { reply } = require("../utilities/interactive/communication");
 const { formatLength } = require("../utilities/functions");
 const ridingAqua = { files: ["https://media1.tenor.com/images/e6578328df71dbd6b44318553e06eda8/tenor.gif?itemid=17267168"] };
 

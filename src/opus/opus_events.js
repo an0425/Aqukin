@@ -1,4 +1,4 @@
-/* This module exports utilities functions */
+/* This module exports utilities functions 
 const { VoiceConnection, StreamDispatcher } = require("discord.js");
 const BasePlayer = require("../utilities/structures/BasePlayer");
 
@@ -51,4 +51,4 @@ async function VB_events(bot){
     })
 }
 
-module.exports = { VC_events, VB_events };
+module.exports = { VC_events, VB_events }; */

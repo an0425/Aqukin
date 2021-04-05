@@ -1,4 +1,4 @@
-/* this module represents the "guildMemberAdd" event */
+/* this module represents the "guildMemberAdd" event 
 const BaseEvent = require("../utilities/structures/BaseEvent");
 
 module.exports = class GuildMemberAddEvent extends BaseEvent {
@@ -13,4 +13,4 @@ module.exports = class GuildMemberAddEvent extends BaseEvent {
         channel.send(`Konaqua~ **${member.displayName}**-sama, a pleasure to meet you ☆ *: .｡. o (≧ ▽ ≦) o .｡.: * ☆\nI am serving as a seigi no mikata, dai tenshi, tensai maid in this server.\nPlease wait for ${bot.author}-sama to specify your role(s) and of course please also take good care of me ☆ ⌒ (ゝ 。∂)`,
             {files: ["https://media1.tenor.com/images/367692b626d8cc547ac0de3d3b795c5d/tenor.gif?itemid=16729158"]});
     } // end of run
-} // end of module.exports
+} // end of module.exports */

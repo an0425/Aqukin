@@ -1,7 +1,7 @@
 /* this module represents the "message" event */
 require("dotenv").config();
 const BaseEvent = require("../utilities/structures/BaseEvent");
-const { react } = require("../utilities/artificial_intelligence/communication");
+const { react } = require("../utilities/interactive/communication");
 const { typeCheck, commandCheck } = require("../utilities/message_checks");
 
 module.exports = class MessageEvent extends BaseEvent {

@@ -36,8 +36,7 @@ bot.settings = new Collection();
 
 	await bot.login(process.env.BOT_TOKEN); // connect the bot to the Discord server
 	if(process.env.PROJECT_DOMAIN) { await aliveHeroku(bot); }
-	else
-		await alive(bot);
+	else { await alive(bot); }
 
 	process.on("warning", e => console.warn(e.stack)) // debug
 })();
