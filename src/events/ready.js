@@ -6,7 +6,7 @@ const { Guilds/*, Users */ } = require("../database/dbObjects");
 
 module.exports = class ReadyEvent extends BaseEvent {
 	constructor() { super("ready"); }
-	
+
 	async run (bot){
 		// bot variables
 		bot.votingSystem = new Collection();
@@ -15,8 +15,6 @@ module.exports = class ReadyEvent extends BaseEvent {
 			trackingList : new Collection(),
 			deltaList : new Collection()
 		} 
-
-		//bot.musicQueue = new Collection();
 			
 		// database variables
 		/*

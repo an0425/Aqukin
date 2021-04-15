@@ -9,6 +9,7 @@ const { registerCommands, registerEvents, LavalinkMusicEvents, consoleChatter } 
 
 // variables
 const bot = new Client();
+
 bot.mentionCmd = {
 	tag: process.env.TAG,
 	mentioned: new Collection()
