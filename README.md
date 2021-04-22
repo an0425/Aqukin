@@ -1,14 +1,12 @@
 [![Dependencies](https://img.shields.io/david/DeaLoux/Aqukin)](https://david-dm.org/DeaLoux/Aqukin)
 [![License](https://badgen.net/github/license/DeaLoux/Aqukin)](https://github.com/DeaLoux/Aqukin/blob/master/LICENSE)
 
-# Aqukin
+# [Invite Aqukin](https://discordapp.com/api/oauth2/authorize?client_id=702620458130079750&permissions=813165680&scope=bot)
+Your diamond ninja combat baka maid, a bot that was created based on a Virtual Youtuber known as [Minato Aqua](https://www.youtube.com/channel/UC1opHUrw8rvnsadT-iGp7Cg)
+
 <p align="center">
   <img src="https://github.com/DeaLoux/Aqukin/blob/master/src/utilities/media/background.png">
 </p>
-
-[Invite Aqukin](https://discordapp.com/api/oauth2/authorize?client_id=702620458130079750&permissions=813165680&scope=bot)
-
-Your diamond ninja combat baka maid, a bot that was created based on a Virtual Youtuber known as [Minato Aqua](https://www.youtube.com/channel/UC1opHUrw8rvnsadT-iGp7Cg)
 
 # Description
 For the list of commands or more info on setting Aqukin up, please refer to the [Wiki pages](https://github.com/DeaLoux/Aqukin/wiki)
