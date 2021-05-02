@@ -1,7 +1,6 @@
 /* This module handles all the checking for the "message" event */
 const { reply } = require("../utilities/interactive/communication");
 const { formatLength } = require("../utilities/functions");
-const ridingAqua = { files: ["https://media1.tenor.com/images/e6578328df71dbd6b44318553e06eda8/tenor.gif?itemid=17267168"] };
 
 // This function checks if the user is spamming commands
 async function spamCheck(bot, message){
@@ -54,7 +53,7 @@ async function spamCheck(bot, message){
                 deltaMsg.automatedSpamming = true;
 
                 const deltaBlockTime = blockTime * 30;
-                message.channel.send(`**${author.username}**-sama, ${bot.user.username} will now see you as a bot and won't take anymore commands from you for \`${formatLength(deltaBlockTime)}\``, ridingAqua);
+                message.channel.send(`**${author.username}**-sama, ${bot.user.username} will now see you as a bot and won't take anymore commands from you for \`${formatLength(deltaBlockTime)}\``, bot.media.slappingAqua);
                 
                 deltaMsg.fn = setTimeout(() => { 
                     deltaList.delete(author.id); 
@@ -98,7 +97,7 @@ async function spamCheck(bot, message){
         else if(!userData.blocked){
             clearTimeout(userData.fn);
                 
-            message.channel.send(`**${author.username}**-sama, ${bot.user.username} won't take anymore commands from you for \`${formatLength(blockTime)}\``, ridingAqua);
+            message.channel.send(`**${author.username}**-sama, ${bot.user.username} won't take anymore commands from you for \`${formatLength(blockTime)}\``, bot.media.slappingAqua);
             userData.blocked = true;
 
             userData.fn = setTimeout(() => { 
@@ -150,7 +149,7 @@ async function commandCheck(bot, message, command, args, settings, prefix, enabl
 
     // checks if the author has the permission to use the command, if not return a message to inform them
     if (!message.member.hasPermission(command.permission) && message.author.id !== owner.id) {
-        message.channel.send(`I'm sorry **${message.author.username}**-sama, but it seems like you don't have the permission to use this command (っ ´ω\`) ﾉ (╥ω╥)`, ridingAqua);
+        message.channel.send(`I'm sorry **${message.author.username}**-sama, but it seems like you don't have the permission to use this command (っ ´ω\`) ﾉ (╥ω╥)`, bot.media.ridingAqua);
         return;
     }
 
@@ -171,7 +170,6 @@ async function commandCheck(bot, message, command, args, settings, prefix, enabl
         message: message,
         args: args,
         prefix: prefix,
-        ridingAqua: ridingAqua
     }
 
     // Switch case for different command types checking
@@ -183,7 +181,7 @@ async function commandCheck(bot, message, command, args, settings, prefix, enabl
            
             // checks if the author is in a voice channel, if not return a message to inform them
             if(!channel) { 
-                message.channel.send(`**${message.author.username}**-sama, you need to be in a voice channel to use this command (－‸ლ)`, ridingAqua);
+                message.channel.send(`**${message.author.username}**-sama, you need to be in a voice channel to use this command (－‸ლ)`, bot.media.ridingAqua);
                 return; 
             }
             
@@ -191,20 +189,20 @@ async function commandCheck(bot, message, command, args, settings, prefix, enabl
             if (player) { 
                 // checks if the bot in a voice channel and the author is also in that voice channel, if not return a message to inform them
                 if((bot.music.lavalink ? player.voiceChannel : player.connection.channel.id) !== channel.id){
-                    message.channel.send(`**${message.author.username}**-sama, you need to be in the same voice channel with ${bot.user.username} to use this command (╯ ° □ °) ╯ ┻━━┻`, ridingAqua);
+                    message.channel.send(`**${message.author.username}**-sama, you need to be in the same voice channel with ${bot.user.username} to use this command (╯ ° □ °) ╯ ┻━━┻`, bot.media.ridingAqua);
                     return;    
                 }
 
                 // checks if the player is moving, opus only
                 if(!bot.music.lavalink && player.queue[0].seek && command.name !== "disconnect"){
-                    message.channel.send(`**${message.author.username}**-sama, ${bot.user.username} is still in the process of moving, please refrain from using any music commands in the mean time (╯︵╰,)`, ridingAqua);
+                    message.channel.send(`**${message.author.username}**-sama, ${bot.user.username} is still in the process of moving, please refrain from using any music commands in the mean time (╯︵╰,)`, bot.media.ridingAqua);
                     return;
                 }
             }
 
             // else no player is spawned yet thus checks if the command is play 
             else if(command.name !== "play") { 
-                message.channel.send(`**${message.author.username}**-sama, ${bot.user.username} is not currently streaming any audio (oT-T) 尸`, ridingAqua);
+                message.channel.send(`**${message.author.username}**-sama, ${bot.user.username} is not currently streaming any audio (oT-T) 尸`, bot.media.ridingAqua);
                 return;
             }
             

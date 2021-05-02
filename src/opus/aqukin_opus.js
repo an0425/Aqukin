@@ -15,7 +15,11 @@ bot.mentionCmd = {
 bot.commands = new Collection(); // bot commands
 
 // database variables
-bot.media = { embedColour: [ 0xBC06C4, 0x1DE2FE ] };
+bot.media = { 
+	embedColour: [ 0xBC06C4, 0x1DE2FE ],
+	slappingAqua : { files: ["https://media1.tenor.com/images/9d81ec7c2abd005d8da208d2f56e89df/tenor.gif?itemid=17267165"] },
+	ridingAqua : { files: ["https://media1.tenor.com/images/e6578328df71dbd6b44318553e06eda8/tenor.gif?itemid=17267168"] }
+};
 bot.settings = new Collection();
 
 // variable will need to be ported to database later on
