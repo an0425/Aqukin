@@ -11,7 +11,7 @@ Your diamond ninja combat baka maid, a bot that was created based on a Virtual Y
 # Description
 For the list of commands or more info on setting Aqukin up, please refer to the [Wiki pages](https://github.com/DeaLoux/Aqukin/wiki)
 
-This branch can either play music by using Discord built-in [Opus Engine](https://discordjs.guide/voice/#quick-example) or [Lavalink Engine](https://github.com/Frederikam/Lavalink) with the help of the wrapper client [Erela.js](https://solaris.codes/projects/erelajs/docs/gettingstarted.html)
+This branch can either play music by using Discord built-in [Opus Engine](https://discordjs.guide/voice/#quick-example) or [Lavalink Engine](https://ci.fredboat.com/project.html?projectId=Lavalink) with the help of the wrapper client [Erela.js](https://solaris.codes/projects/erelajs/docs/gettingstarted.html)
 
 # [License](https://github.com/DeaLoux/Aqukin/blob/master/LICENSE)
 - `Character Copyright` (c) 2017-2021 [COVER Corp.](https://cover-corp.com/)
