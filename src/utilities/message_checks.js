@@ -1,15 +1,15 @@
 /* This module handles all the checking for the "message" event */
 const { reply } = require("../utilities/interactive/communication");
 const { formatLength } = require("../utilities/functions");
+const deltaMinThreshold = 10000;
+const minThreshold = 1500;
+const blockTime = 120000;
 
 // This function checks if the user is spamming commands
 async function spamCheck(bot, message){
     // shortcut variables
     const { trackingList, deltaList } = bot.antispam;
     const { author } = message;
-    const deltaMinThreshold = 10000;
-    const minThreshold = 1500;
-    const blockTime = 120000;
 
     // check for automated spamming
     if(!deltaList.has(author.id)){
@@ -64,7 +64,7 @@ async function spamCheck(bot, message){
         }
     }
 
-    // checks for manual spamming
+    // check for manual spamming
     if(!trackingList.has(author.id)){
         let userData = {
             warned : 0,
