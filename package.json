@@ -3,6 +3,9 @@
   "version": "1.12.1",
   "description": "Your diamond ninja combat baka maid, a bot that was created based on a Virtual Youtuber known as **Minato Aqua**",
   "main": "aqukin.js",
+  "engines": {
+    "node": "12.x"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lavalink": "java -jar Lavalink.jar",
