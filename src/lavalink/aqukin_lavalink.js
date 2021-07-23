@@ -2,7 +2,7 @@
 require("dotenv").config();
 const { Manager } = require("erela.js");
 //const { Shoukaku } = require('shoukaku');
-const { alive, aliveHeroku } = require("../utilities/alive");
+const { aliveLavalink, aliveHerokuLavalink } = require("../utilities/alive");
 const { Client, Collection } = require("discord.js");
 const initProperties = require("../database/properties");
 const { registerCommands, registerEvents, LavalinkMusicEvents, consoleChatter } = require("../utilities/handlers");
@@ -56,8 +56,8 @@ bot.settings = new Collection();
 
 	await bot.login(process.env.BOT_TOKEN); // connect the bot to the Discord server
 	bot.music.init(bot.user.id);
-	if(process.env.PROJECT_DOMAIN) { await aliveHeroku(bot); }
-	else { await alive(bot); }
+	if(process.env.PROJECT_DOMAIN) { await aliveHerokuLavalink(bot); }
+	else { await aliveLavalink(bot); }
 
 	process.on("warning", e => console.warn(e.stack)) // debug
 })();
