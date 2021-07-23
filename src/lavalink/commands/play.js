@@ -40,13 +40,13 @@ module.exports = class PlayCommand extends BaseCommand{
             case "PLAYLIST_LOADED":
                 //console.log(searchResults.tracks);
                 await searchResults.tracks.forEach(track => player.queue.add(track));
-                message.channel.send(`**${author.username}**-sama, Aqukin has enqueued \`${searchResults.tracks.length}\` tracks from the playlist \`${searchResults.playlist.name}\`| total length \`${formatLength(searchResults.playlist.duration, false)}\``);
+                message.channel.send(`**${author.username}**-sama, Aqukin has enqueued \`${searchResults.tracks.length}\` tracks from the playlist \`${searchResults.playlist.name}\`| total length \`${formatLength(searchResults.playlist.duration, false, true)}\``);
                 break;
 
             case "SEARCH_RESULT":
                 let i = 0;
                 const tracks = await searchResults.tracks.slice(0, 7);
-                const tracksInfo = await tracks.map(r => `${++i}) [${r.title}](${r.uri}) | length \`${formatLength(r.duration, false)}\``).join("\n\n"); // get the tracks info
+                const tracksInfo = await tracks.map(r => `${++i}) [${r.title}](${r.uri}) | length \`${formatLength(r.duration, false, true)}\``).join("\n\n"); // get the tracks info
                 // embed the result(s)
                 const embed = new MessageEmbed()
                     .setColor(bot.media.embedColour.random())
