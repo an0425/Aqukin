@@ -9,7 +9,7 @@ module.exports = class MoveCommand extends BaseCommand{
     
     async run(para){
         // shortcut variables
-        const { message, player } = para;
+        const { message, player, bot } = para;
         const author = message.author;
 
         // checks if the author has administrative permission or have requested the track, if so continue, if not return a message to inform them
