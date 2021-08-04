@@ -28,7 +28,7 @@ module.exports = class MoveCommand extends BaseCommand{
         try{
             await player.seek(timestamp);
             // inform the author if success
-            await message.channel.send(`**${author.username}**-sama, ${para.bot.user.username} will now move the current track to position \`${formatLength(timestamp, false)}\``);
+            await message.channel.send(`**${author.username}**-sama, ${bot.user.username} will now move the current track to position \`${formatLength(timestamp, true)}\``);
         } catch(err) {
             console.log(err);
             message.channel.send(`**${author.username}**-sama, an error has occured while trying to move the track ☆ ｏ (＞ ＜ ；) ○, ${bot.user.username} has informed **${bot.author.username}**-sama`);

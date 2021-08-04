@@ -9,7 +9,7 @@ module.exports = class MoveCommand extends BaseCommand{
     
     async run(para){
         // shortcut variables
-        const { message, player } = para;
+        const { message, player, bot } = para;
         const author = message.author;
 
         // checks if the author has administrative permission or have requested the track, if so continue, if not return a message to inform them
@@ -30,10 +30,10 @@ module.exports = class MoveCommand extends BaseCommand{
             player.queue[1].force = para.args[1] == "-f";
             player.queue[1].seek = timestamp;
             await player.connection.dispatcher.end();
-            message.channel.send(`**${author.username}**-sama, ${para.bot.user.username} will now ${player.queue[1].force ? "\`force move\`" : "move"} the current track to position \`${formatLength(timestamp, true)}\``);
+            message.channel.send(`**${author.username}**-sama, ${bot.user.username} will now ${player.queue[1].force ? "\`force move\`" : "move"} the current track to position \`${formatLength(timestamp, true)}\``);
         } catch(err) {
             console.log(err);
-            message.channel.send(`**${author.username}**-sama, an error has occured while trying to move the track ☆ ｏ (＞ ＜ ；) ○, ${para.bot.user.username} has informed **${para.bot.author.username}**-sama`);
+            message.channel.send(`**${author.username}**-sama, an error has occured while trying to move the track ☆ ｏ (＞ ＜ ；) ○, ${bot.user.username} has informed **${bot.author.username}**-sama`);
         } 
     } // end of run
 }; // end of module.exports 
