@@ -57,7 +57,7 @@ bot.settings = new Collection();
 	await bot.login(process.env.BOT_TOKEN); // connect the bot to the Discord server
 	bot.music.init(bot.user.id);
 	if(process.env.PROJECT_DOMAIN) { await aliveHerokuLavalink(bot); }
-	else { await aliveLavalink(bot); }
+	// else { await aliveLavalink(bot); }
 
 	process.on("warning", e => console.warn(e.stack)) // debug
 })();
