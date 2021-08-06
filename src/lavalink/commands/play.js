@@ -29,8 +29,9 @@ module.exports = class PlayCommand extends BaseCommand{
             await player.connect();
         }
 
-        const results = await getTracksL(bot, searchResults, channel, author, para.ridingAqua);
-        await results.forEach(track => { player.queue.add(track); });
+        await getTracksL(bot, searchResults, channel, author, para.ridingAqua).then(async results => {
+            await results.forEach(track => { player.queue.add(track); });
+        });
 
         if (!player.playing && !player.paused && !player.queue.size)
             player.play().catch(console.error);
