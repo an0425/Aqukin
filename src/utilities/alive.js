@@ -18,7 +18,8 @@ async function pingOpus(bot){
 
 async function pingLavalink(bot){
 	bot.music.players.forEach(async player => {
-		const members = await player.voiceChannel.members.filter(m => !m.user.bot);
+		const channel = await bot.channels.cache.get(player.voiceChannel);
+		const members = channel.members.filter(m => !m.user.bot);
 		if(members.size === 0){
 			try{
 				await player.disconnect(); 
