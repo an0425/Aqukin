@@ -30,7 +30,7 @@ module.exports = class PlayCommand extends BaseCommand{
         }
 
         await getTracksL(bot, searchResults, channel, author, para.ridingAqua).then(async results => {
-            await results.forEach(track => { await player.queue.add(track); });
+            await results.forEach(track => { player.queue.add(track); });
         });
 
         if (!player.playing && !player.paused && !player.queue.size)
