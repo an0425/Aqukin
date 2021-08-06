@@ -207,7 +207,7 @@ class Track{
 }
 
 async function getTracksL(bot, searchResults, channel, author, ridingAqua){
-    let result;
+    let result = [];
 
     // a case for single link song
     switch(searchResults.loadType){
