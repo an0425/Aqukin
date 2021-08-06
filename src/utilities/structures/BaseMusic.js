@@ -258,9 +258,8 @@ async function getTracksL(bot, searchResults, channel, author, ridingAqua){
 
             default:
                 return channel.send(`**${author.username}**-sama, ${bot.user.username} can't find any tracks with the given keywords, please also note that Aqukin will not queue Youtube Audio Mix or Stream`, ridingAqua);
-
-        return result;
     }
+    return result;
 }
 
 module.exports = { BaseOpus, getTracksL }
