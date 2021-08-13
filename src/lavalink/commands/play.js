@@ -1,6 +1,6 @@
 /* This module allows the author to enqueue Youtube URL/Playlist/Tracks from search results to Aqukin audio streaming */
-const { musicEmbed } = require("../../utilities/embed_constructor");
 const BaseCommand = require("../../utilities/structures/BaseCommand");
+const { musicEmbed } = require("../../utilities/embed_constructor");
 const { getTracksL } = require("../../utilities/structures/BaseMusic");
 
 module.exports = class PlayCommand extends BaseCommand{

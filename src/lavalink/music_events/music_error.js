@@ -5,7 +5,7 @@ module.exports = class MusicErrorEvent extends BaseEvent {
 constructor () {super("trackError");}
 
     async run (bot, player, track, payload) {
-        console.log(message);
+        console.log(payload);
         if(player.queue.size === 0) {
             player.destroy();
         }

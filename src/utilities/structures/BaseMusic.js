@@ -42,87 +42,86 @@ class BaseOpus{
     // search for track(s) with the given arguments
     async getTracks(bot, query, channel, author, ridingAqua){
         let result = [];
-                // if the given queuery is a url
-                if(query.startsWith("https://")){
-                    // if the queury is a youtube video link
-                    if(ytdl.validateURL(query)) {  
-                        // Get the song info
-                        await ytdl.getBasicInfo(query).then(async trackInfo => {
-                            //console.log(trackInfo);
-                            const { videoId, title, lengthSeconds } = trackInfo.player_response.videoDetails;
+        // if the given queuery is a url
+        if(query.startsWith("https://")){
+            // if the queury is a youtube video link
+            if(ytdl.validateURL(query)) {  
+                // Get the song info
+                await ytdl.getBasicInfo(query).then(async trackInfo => {
+                    //console.log(trackInfo);
+                    const { videoId, title, lengthSeconds } = trackInfo.player_response.videoDetails;
         
-                            result.push(new Track(videoId, trackInfo.videoDetails.video_url, title, lengthSeconds*1000, author));
+                    result.push(new Track(videoId, trackInfo.videoDetails.video_url, title, lengthSeconds*1000, author));
         
-                            channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued track \`${title}\` ٩(ˊᗜˋ*)و`);
-                        }).catch((err) => channel.send(`**${author.username}**-sama, \`${err}\``));   
-                    } // video link
+                    channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued track \`${title}\` ٩(ˊᗜˋ*)و`);
+                }).catch((err) => channel.send(`**${author.username}**-sama, \`${err}\``));  
+            } // video link
                     
-                    // if the queury is a youtube playlist link
-                    else if (ytpl.validateID(query)){
-                        await ytpl(query, { limit: Infinity }).then(async playlist =>{
-                            //console.log(playlist);
+            // if the queury is a youtube playlist link
+            else if (ytpl.validateID(query)){
+                await ytpl(query, { limit: Infinity }).then(async playlist =>{
+                    //console.log(playlist);
             
-                            playlist.items.forEach(async trackInfo => {
-                                //console.log(trackInfo);
-                                if(trackInfo.duration)
-                                {
-                                    result.push(new Track(trackInfo.id, trackInfo.url, trackInfo.title, convertInput(trackInfo.duration), author));
-                                }
-                            });
-            
-                            await channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued \`${result.length}\` track(s) from the playlist \`${playlist.title}\` ٩(ˊᗜˋ*)و`);
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                            channel.send(`**${author.username}**-sama, \`${err}\``)});
-                    } // playlist link
-                }
-                // else try searching youtube with the given argument
-                else{
-                    await ytsr(query, { limit:7 }).then(async results => {
-                        const tracks = results.items.filter(i => i.type === "video");
-                        if(tracks.length === 0) {
-                            channel.send(`**${author.username}**-sama, ${bot.user.username} can't find any tracks with the given keywords (｡T ω T｡)`, ridingAqua);
-                            return; 
+                    playlist.items.forEach(async trackInfo => {
+                        //console.log(trackInfo);
+                        if(trackInfo.duration)
+                        {
+                            result.push(new Track(trackInfo.id, trackInfo.url, trackInfo.title, convertInput(trackInfo.duration), author));
                         }
-                                        
-                        // embed the result(s)
-                        let i = 0;
-                        const tracksInfo = await tracks.map(r => `${++i}) [${r.title}](${r.url}) | length \`${r.duration}\``).join("\n\n"); // get the tracks info
-                        const embed = new MessageEmbed()
-                            .setColor(bot.media.embedColour.random())
-                            .setTitle(`Please enter the \`track number\` that you would like ${bot.user.username} to queue, or \`0\` to cancel ヽ (o´∀\`) ﾉ ♪ ♬`)
-                            .setDescription(tracksInfo)
-                            .setImage("https://media1.tenor.com/images/85e6b8577e925a9037d03a796588e7ed/tenor.gif?itemid=15925240")
-                            .setFooter("FREEDOM SMILE (^)o(^)b");
-                        await channel.send(`**${author.username}**-sama, this embed will time out in 24 seconds`, embed)
-                            .then(async (msg) => {
-                                // allow the author to select a track fron the search results within the allowed time of 24s
-                                const filter = m => (author.id === m.author.id) && (m.content >= 0 && m.content <= tracks.length);
-        
-                                // await the user respond within 24s
-                                await channel.awaitMessages(filter, { max: 1, time: 24000, errors: ["time"] })
-                                    .then(async (response) => {
-                                        // delete & capture the author's response
-                                        await response.first().delete().then(async (entry) => {
-                                            if(entry.content > 0){
-                                                const trackInfo = tracks[entry.content-1];
-            
-                                                result.push(new Track(trackInfo.id, trackInfo.url, trackInfo.title, convertInput(trackInfo.duration), author));
-            
-                                                channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued track \`${trackInfo.title}\` ٩(ˊᗜˋ*)و`); // inform the author
-                                            }
-                                        }).catch(console.error); // capture & delete the author's respond
-                                        
-                                    }).catch(console.error);
-                                
-                                    msg.delete(); // delete the search results embed 
-                            }).catch(console.error);
-                    }).catch((err) => {
-                        channel.send(`**${author.username}**-sama, \`${err}\``, ridingAqua); 
-                        console.log("An error has occured while enqueuing", err);
                     });
-                } // end of else the given is keyword
+            
+                    await channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued \`${result.length}\` track(s) from the playlist \`${playlist.title}\` ٩(ˊᗜˋ*)و`);
+                }).catch((err) => {
+                    console.log(err);
+                    channel.send(`**${author.username}**-sama, \`${err}\``)}); 
+                } // playlist link
+        }
+        // else try searching youtube with the given argument
+        else{
+            await ytsr(query, { limit:7 }).then(async results => {
+                const tracks = results.items.filter(i => i.type === "video");
+                if(tracks.length === 0) {
+                    channel.send(`**${author.username}**-sama, ${bot.user.username} can't find any tracks with the given keywords (｡T ω T｡)`, ridingAqua);
+                    return; 
+                }
+                                        
+                // embed the result(s)
+                let i = 0;
+                const tracksInfo = await tracks.map(r => `${++i}) [${r.title}](${r.url}) | length \`${r.duration}\``).join("\n\n"); // get the tracks info
+                const embed = new MessageEmbed()
+                    .setColor(bot.media.embedColour.random())
+                    .setTitle(`Please enter the \`track number\` that you would like ${bot.user.username} to queue, or \`0\` to cancel ヽ (o´∀\`) ﾉ ♪ ♬`)
+                    .setDescription(tracksInfo)
+                    .setImage("https://media1.tenor.com/images/85e6b8577e925a9037d03a796588e7ed/tenor.gif?itemid=15925240")
+                    .setFooter("FREEDOM SMILE (^)o(^)b");
+                await channel.send(`**${author.username}**-sama, this embed will time out in 24 seconds`, embed)
+                    .then(async (msg) => {
+                        // allow the author to select a track fron the search results within the allowed time of 24s
+                        const filter = m => (author.id === m.author.id) && (m.content >= 0 && m.content <= tracks.length);
+        
+                        // await the user respond within 24s
+                        await channel.awaitMessages(filter, { max: 1, time: 24000, errors: ["time"] })
+                            .then(async (response) => {
+                                // delete & capture the author's response
+                                await response.first().delete().then(async (entry) => {
+                                    if(entry.content > 0){
+                                        const trackInfo = tracks[entry.content-1];
+            
+                                        result.push(new Track(trackInfo.id, trackInfo.url, trackInfo.title, convertInput(trackInfo.duration), author));
+            
+                                        channel.send(`**${author.username}**-sama, ${bot.user.username} has enqueued track \`${trackInfo.title}\` ٩(ˊᗜˋ*)و`); // inform the author
+                                    }
+                                }).catch(console.error); // capture & delete the author's respond
+                                        
+                            }).catch(console.error);
+                                
+                            msg.delete(); // delete the search results embed 
+                    }).catch(console.error);
+            }).catch((err) => {
+                channel.send(`**${author.username}**-sama, \`${err}\``, ridingAqua); 
+                console.log("An error has occured while enqueuing", err);
+            });
+        } // end of else the given is keyword
 
         return result;
     }
@@ -136,7 +135,7 @@ class BaseOpus{
             if(this.queueRepeat){
                 this.queue.push(...this.loopqueue);
                 track = this.queue[0];
-                await this.loopqueue.splice(0);
+                this.loopqueue.splice(0);
             }
             // else terminate the player
             else{
@@ -184,8 +183,8 @@ class BaseOpus{
                 // loop status checks
                 if(!track.seek){
                     await bot.votingSystem.delete(this.id);
-                    if(this.trackRepeat) { await this.queue.splice(1, 0, this.queue[0]); }
-                    else if(this.queueRepeat) { await this.loopqueue.push(this.queue[0]); }
+                    if(this.trackRepeat) { this.queue.splice(1, 0, this.queue[0]); }
+                    else if(this.queueRepeat) { this.loopqueue.push(this.queue[0]); }
                 }
                 
                 await this.queue.shift();
